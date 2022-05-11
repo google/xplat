@@ -1,1 +1,0 @@
-rule com.google.j2cl.** com.google.apps.xplat.kmpbench.java.@1
