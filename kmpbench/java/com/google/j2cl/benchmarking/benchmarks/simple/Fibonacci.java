@@ -12,13 +12,17 @@ public class Fibonacci extends AbstractBenchmark {
    * providing a trivial case for the benchmark framework.
    */
   static int fib(int n) {
-    if (n < 0) {
-      throw new IllegalArgumentException();
+    switch (n) {
+      case 0:
+        return 0;
+      case 1:
+        return 1;
+      default:
+        if (n < 0) {
+          throw new IllegalArgumentException();
+        }
+        return fib(n - 1) + fib(n - 2);
     }
-    if (n <= 1) {
-      return n;
-    }
-    return fib(n - 1) + fib(n - 2);
   }
 
   @Override
