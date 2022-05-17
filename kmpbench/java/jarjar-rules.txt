@@ -1,1 +1,1 @@
-rule com.google.j2cl.benchmarking.** com.google.apps.xplat.kmpbench.java.@1
+rule com.google.j2cl.** com.google.apps.xplat.kmpbench.java.@1

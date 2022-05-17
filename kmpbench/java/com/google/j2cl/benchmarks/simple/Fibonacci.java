@@ -1,4 +1,4 @@
-package com.google.j2cl.benchmarking.benchmarks.simple;
+package com.google.j2cl.benchmarks.simple;
 
 import com.google.j2cl.benchmarking.framework.AbstractBenchmark;
 

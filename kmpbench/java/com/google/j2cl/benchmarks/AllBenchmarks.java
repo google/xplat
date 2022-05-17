@@ -1,7 +1,8 @@
-package com.google.j2cl.benchmarking.benchmarks;
+package com.google.j2cl.benchmarks;
 
-import com.google.j2cl.benchmarking.benchmarks.simple.Fibonacci;
 import com.google.j2cl.benchmarking.framework.AbstractBenchmark;
+import com.google.j2cl.benchmarks.octane.RayTraceBenchmark;
+import com.google.j2cl.benchmarks.simple.Fibonacci;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,7 +12,8 @@ public final class AllBenchmarks {
   public static final Map<String, AbstractBenchmark> map = new LinkedHashMap<>();
 
   static {
-    map.put("Fibonacci", new Fibonacci());
+    map.put("fibonacci", new Fibonacci());
+    map.put("raytrace", new RayTraceBenchmark());
   }
 
   private AllBenchmarks() {}
