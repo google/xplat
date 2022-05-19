@@ -47,10 +47,4 @@ abstract class AbstractBenchmark() {
 
   /** Called one time after the benchmark is executed. */
   open fun tearDownOneTime() {}
-
-  companion object {
-    init {
-      CollectionUtilizer.dependOnAllCollections()
-    }
-  }
 }

@@ -21,9 +21,6 @@ package com.google.j2cl.benchmarking.framework;
  * <p>If you want to write a benchmark you will need to extend from this class.
  */
 public abstract class AbstractBenchmark {
-  static {
-    CollectionUtilizer.dependOnAllCollections();
-  }
 
   /**
    * Run is called repeatedly by the benchmark framework.

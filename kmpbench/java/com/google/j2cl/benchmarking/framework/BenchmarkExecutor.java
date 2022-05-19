@@ -25,6 +25,10 @@ import jsinterop.annotations.JsType;
 
 /** The BenchmarkExecutor executes benchmarks and measures their performance. */
 public final class BenchmarkExecutor {
+  static {
+    CollectionUtilizer.dependOnAllCollections();
+  }
+
   public static BenchmarkResult execute(AbstractBenchmark benchmark) {
     // Run the benchmark with 10 warm-up rounds of 1 second each and then with 20 measurement rounds
     // of 1 second each.

@@ -15,52 +15,19 @@
  */
 package com.google.j2cl.benchmarking.framework
 
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.LinkedHashMap
-import java.util.LinkedList
-
 // This is a Kotlin port of the corresponding J2cl Java class in
 // google3/third_party/java_src/j2cl/benchmarking/java/com/google/j2cl/benchmarking/framework/
 
 /** Ensures multiple versions of the collections are alive to prevent special case optimizations. */
 object CollectionUtilizer {
   fun dependOnAllCollections() {
-    utilizeMap(HashMap())
-    utilizeMap(LinkedHashMap())
-    utilizeList(ArrayList())
-    utilizeList(LinkedList())
-    utilizeList(
-      object : ArrayList<String>() {
-        var _size = 0
+    utilizeMap(mutableMapOf<String, String>())
+    utilizeList(mutableListOf<String>())
 
-        override fun add(element: String): Boolean {
-          _size++
-          return super.add(element)
-        }
+    // TODO(b/230841155): Some of the more complex utilization code that doesn't translate 1:1 to
+    //   native Kotlin was removed here. Before spending effort, clarify with J2cl benchmark owners
+    //   why it was considered necessary
 
-        override fun get(index: Int) = super.get(index)
-
-        override val size
-          get() = _size
-      }
-    )
-
-    utilizeList(
-      object : LinkedList<String>() {
-        var _size = 0
-
-        override fun add(element: String): Boolean {
-          _size++
-          return super.add(element)
-        }
-
-        override fun get(index: Int) = super.get(index)
-
-        override val size
-          get() = _size
-      }
-    )
   }
 
   private fun utilizeMap(map: MutableMap<String, String>) {
