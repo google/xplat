@@ -24,11 +24,11 @@ public abstract class AbstractBenchmark {
 
   /**
    * Run is called repeatedly by the benchmark framework.
-   * <p>
-   * In general a benchmark should return an object that has been calculated in
-   * the benchmark, so that it will be impossible for GWT / JavaScript engines to
-   * precalculate results of a benchmark. The returned object will be stored by the
-   * benchmark system.
+   *
+   * <p>In general a benchmark should return an object that has been calculated in the benchmark, so
+   * that it will be impossible for GWT / JavaScript engines to precalculate results of a benchmark.
+   * The returned object will be stored by the benchmark system.
+   *
    * @return the object that should be stored by the benchmark system.
    */
   public abstract Object run();
