@@ -15,29 +15,21 @@
  */
 package com.google.apps.xplat.kmpbench.app.jvm
 
-import com.google.j2cl.benchmarking.framework.BenchmarkExecutor
-import com.google.j2cl.benchmarks.AllBenchmarks
+import com.google.apps.xplat.kmpbench.combination.BenchmarkManager
+import com.google.apps.xplat.kmpbench.java.benchmarking.framework.BenchmarkExecutor
+import com.google.apps.xplat.kmpbench.java.benchmarks.AllBenchmarks
 
 fun main() {
-  val javaMap = com.google.apps.xplat.kmpbench.java.benchmarks.AllBenchmarks.map
-  val kotlinMap = AllBenchmarks.map
-  val allKeys = kotlinMap.keys + javaMap.keys
+  val javaBenchmarks =
+    AllBenchmarks.map.mapValues { entry ->
+      { BenchmarkExecutor.execute(entry.value!!).averageThroughput }
+    }
+  val manager = BenchmarkManager(javaBenchmarks)
 
-  for (name in allKeys) {
-    val javaBenchmark = javaMap[name]
-    val javaResult =
-      if (javaBenchmark == null) null
-      else
-        com.google.apps.xplat.kmpbench.java.benchmarking.framework.BenchmarkExecutor.execute(
-            javaBenchmark
-          )
-          .averageThroughput
-
-    val kotlinBenchmark = kotlinMap[name]
-    val kotlinResult =
-      if (kotlinBenchmark == null) null
-      else BenchmarkExecutor.execute(kotlinBenchmark).getAverageThroughput()
-
+  for (benchmark in manager.benchmarks) {
+    val name = benchmark.name
+    val kotlinResult = benchmark.kotlinBenchmark()
+    val javaResult = benchmark.javaBenchmark()
     println("Benchmark $name Kotlin result: $kotlinResult; Java result: $javaResult")
   }
 }
