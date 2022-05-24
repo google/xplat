@@ -92,16 +92,11 @@ object BenchmarkExecutor {
     println(s)
   }
 
-  // TODO(b/230841155): For native, this causes a warning that the variable can't be changed after
-  //   initialization.
-  private fun useResult(o: Any?) {
-    Global.__benchmarking_result = o
-  }
+  // TODO(b/230841155): Figure out a way to "use" the result so kotlin won't try to optimize
+  //   the call away...
+  private fun useResult(o: Any?) {}
 
-  private object Global {
-    init {
-      CollectionUtilizer.dependOnAllCollections()
-    }
-    var __benchmarking_result: Any? = null
+  init {
+    CollectionUtilizer.dependOnAllCollections()
   }
 }
