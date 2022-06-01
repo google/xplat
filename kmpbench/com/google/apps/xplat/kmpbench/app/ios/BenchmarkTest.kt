@@ -10,7 +10,7 @@ class BenchmarkTest {
   // Kotlin performance must be at least expectedPerformance * javaPerformance to pass test.
   val expectedPerformance = 0.2
   val benchmarkManager = createIosBenchmarkManager()
-  val disabled = setOf("raytrace") // Crashes before Kotlin 1.6
+  val disabled = setOf<String>()
 
   @Test
   fun testBenchmarks() {
@@ -24,16 +24,18 @@ class BenchmarkTest {
       }
       val kotlinResult = benchmark.kotlinBenchmark()
       val javaResult = benchmark.javaBenchmark()
+      val relative = kotlinResult / javaResult
 
       if (kotlinResult == BenchmarkManager.UNAVAILABLE_RESULT ||
           javaResult == BenchmarkManager.UNAVAILABLE_RESULT
       ) {
         ok = false
       } else {
-        ok = ok && kotlinResult > javaResult * expectedPerformance
+        ok = ok && relative >= expectedPerformance
       }
 
-      val message = "Benchmark $name Kotlin result: $kotlinResult; Java result: $javaResult\n"
+      val message = 
+          "Benchmark $name (ops/s) Kotlin: $kotlinResult; Java: $javaResult; Relative: $relative\n"
       println(message)
       results.append(message)
     }
