@@ -27,6 +27,7 @@ import java.util.List;
  * side-effects from constructors. We've kept it this way to avoid deviating too much from the
  * original implementation.
  */
+@SuppressWarnings("CheckReturnValue")
 public class DeltaBlue {
   static Planner planner;
 

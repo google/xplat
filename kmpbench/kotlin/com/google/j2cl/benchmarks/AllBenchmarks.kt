@@ -16,9 +16,15 @@
 
 package com.google.j2cl.benchmarks
 
+import com.google.j2cl.benchmarks.octane.NavierStokesBenchmark
 import com.google.j2cl.benchmarks.octane.RayTraceBenchmark
 import com.google.j2cl.benchmarks.simple.Fibonacci
 
 object AllBenchmarks {
-  val map = mapOf("fibonacci" to Fibonacci(), "raytrace" to RayTraceBenchmark())
+  val map =
+    mapOf(
+      "fibonacci" to Fibonacci(),
+      "navierstokes" to NavierStokesBenchmark(),
+      "raytrace" to RayTraceBenchmark()
+    )
 }
