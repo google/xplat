@@ -43,7 +43,7 @@ import java.io.IOException;
  */
 public final class ConfigGenerator {
 
-  public static final String PERFGATE_BENCHMARK_ID = "(to be aquired)";
+  public static final String PERFGATE_BENCHMARK_ID = "6643097937903616";
   public static final ImmutableList<String> PLATFORMS = ImmutableList.of("j2objc", "kt");
 
   public static void main(String[] args) throws IOException {
