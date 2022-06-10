@@ -19,6 +19,7 @@ package com.google.apps.xplat.kmpbench.app.ios
 import com.google.apps.xplat.kmpbench.combination.BenchmarkManager
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import third_party.java_src.xplat.kmpbench.com.google.apps.xplat.kmpbench.app.ios_PerfgateLogger.PerfgateLogger
 
 class BenchmarkTest {
 
@@ -27,6 +28,7 @@ class BenchmarkTest {
   val expectedPerformance = 0.2
   val benchmarkManager = createIosBenchmarkManager()
   val disabled = setOf<String>()
+  val logger = PerfgateLogger()
 
   @Test
   fun testBenchmarks() {
@@ -38,6 +40,7 @@ class BenchmarkTest {
       if (disabled.contains(name)) {
         continue
       }
+
       val kotlinResult = benchmark.kotlinBenchmark()
       val javaResult = benchmark.javaBenchmark()
       val relative = kotlinResult / javaResult
@@ -49,6 +52,8 @@ class BenchmarkTest {
       } else {
         ok = ok && relative >= expectedPerformance
       }
+
+      logger.logPerformance(name, kotlinResult, javaResult)
 
       val message =
         "Benchmark $name (ops/s) Kotlin: $kotlinResult; Java: $javaResult; Relative: $relative\n"
