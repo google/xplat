@@ -13,7 +13,7 @@
   return self;
 }
 
-- (void)logPerformance:(NSString *)name:(double)kt:(double)j2objc {
+- (void)logPerformance:(NSString *)name kt:(double)kt j2objc:(double)j2objc {
   _logger.testName = name;
   [_logger log:[PSTEntryBuilder builderWithBlock:^(PSTEntryBuilder *builder) {
              [builder add:@"kt" doubleValue:kt];
