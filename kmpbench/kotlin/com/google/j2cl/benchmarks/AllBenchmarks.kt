@@ -18,6 +18,7 @@ package com.google.j2cl.benchmarks
 
 import com.google.j2cl.benchmarks.octane.NavierStokesBenchmark
 import com.google.j2cl.benchmarks.octane.RayTraceBenchmark
+import com.google.j2cl.benchmarks.octane.RichardsBenchmark
 import com.google.j2cl.benchmarks.simple.Fibonacci
 
 object AllBenchmarks {
@@ -25,6 +26,7 @@ object AllBenchmarks {
     mapOf(
       "fibonacci" to Fibonacci(),
       "navierstokes" to NavierStokesBenchmark(),
-      "raytrace" to RayTraceBenchmark()
+      "raytrace" to RayTraceBenchmark(),
+      "richards" to RichardsBenchmark(),
     )
 }

@@ -19,6 +19,7 @@ package com.google.j2cl.benchmarks;
 import com.google.j2cl.benchmarking.framework.AbstractBenchmark;
 import com.google.j2cl.benchmarks.octane.NavierStokesBenchmark;
 import com.google.j2cl.benchmarks.octane.RayTraceBenchmark;
+import com.google.j2cl.benchmarks.octane.RichardsBenchmark;
 import com.google.j2cl.benchmarks.simple.Fibonacci;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public final class AllBenchmarks {
     map.put("fibonacci", new Fibonacci());
     map.put("navierstokes", new NavierStokesBenchmark());
     map.put("raytrace", new RayTraceBenchmark());
+    map.put("richards", new RichardsBenchmark());
   }
 
   private AllBenchmarks() {}
