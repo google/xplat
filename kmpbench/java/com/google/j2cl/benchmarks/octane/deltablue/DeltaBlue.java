@@ -107,13 +107,17 @@ public class DeltaBlue {
 
     change(scale, 5);
     for (int i = 0; i < n - 1; i++) {
-      if (dests.get(i).value != i * 5 + 1000) {
+      // TODO(b/238402058): Temp variable works around nullness issue.
+      Variable var = dests.get(i);
+      if (var.value != i * 5 + 1000) {
         throw new AssertionError("Projection 3 failed");
       }
     }
     change(offset, 2000);
     for (int i = 0; i < n - 1; i++) {
-      if (dests.get(i).value != i * 5 + 2000) {
+      // TODO(b/238402058): Temp variable works around nullness issue.
+      Variable var = dests.get(i);
+      if (var.value != i * 5 + 2000) {
         throw new AssertionError("Projection 4 failed");
       }
     }

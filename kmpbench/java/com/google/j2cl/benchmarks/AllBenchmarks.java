@@ -17,6 +17,7 @@
 package com.google.j2cl.benchmarks;
 
 import com.google.j2cl.benchmarking.framework.AbstractBenchmark;
+import com.google.j2cl.benchmarks.octane.DeltaBlueBenchmark;
 import com.google.j2cl.benchmarks.octane.NavierStokesBenchmark;
 import com.google.j2cl.benchmarks.octane.RayTraceBenchmark;
 import com.google.j2cl.benchmarks.octane.RichardsBenchmark;
@@ -30,6 +31,7 @@ public final class AllBenchmarks {
   public static final Map<String, AbstractBenchmark> map = new LinkedHashMap<>();
 
   static {
+    map.put("deltablue", new DeltaBlueBenchmark());
     map.put("fibonacci", new Fibonacci());
     map.put("navierstokes", new NavierStokesBenchmark());
     map.put("raytrace", new RayTraceBenchmark());

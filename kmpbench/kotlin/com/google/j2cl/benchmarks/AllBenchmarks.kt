@@ -16,6 +16,7 @@
 
 package com.google.j2cl.benchmarks
 
+import com.google.j2cl.benchmarks.octane.DeltaBlueBenchmark
 import com.google.j2cl.benchmarks.octane.NavierStokesBenchmark
 import com.google.j2cl.benchmarks.octane.RayTraceBenchmark
 import com.google.j2cl.benchmarks.octane.RichardsBenchmark
@@ -24,6 +25,7 @@ import com.google.j2cl.benchmarks.simple.Fibonacci
 object AllBenchmarks {
   val map =
     mapOf(
+      "deltablue" to DeltaBlueBenchmark(),
       "fibonacci" to Fibonacci(),
       "navierstokes" to NavierStokesBenchmark(),
       "raytrace" to RayTraceBenchmark(),
