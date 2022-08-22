@@ -18,8 +18,31 @@ package kotlin.jvm
 import java.lang.Class
 import kotlin.reflect.KClass
 
-private val classMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
+private val objectClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
+private val primitiveClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
 
 // TODO(b/227166206): Add synchronization to make it thread-safe.
-val <T : Any> KClass<T>.java: Class<T>
-  get() = classMap.getOrPut(this) { Class<T>(this) } as Class<T>
+val <T : Any> KClass<T>.javaObjectType: Class<T>
+  get() = objectClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = false) } as Class<T>
+
+// TODO(b/227166206): Add synchronization to make it thread-safe.
+val <T : Any> KClass<T>.javaPrimitiveType: Class<T>?
+  get() =
+    if (hasJavaPrimitiveType)
+      primitiveClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = true) } as Class<T>
+    else null
+
+private val KClass<*>.hasJavaPrimitiveType: Boolean
+  get() =
+    when (this) {
+      Boolean::class,
+      Char::class,
+      Byte::class,
+      Short::class,
+      Int::class,
+      Long::class,
+      Float::class,
+      Double::class,
+      Unit::class -> true
+      else -> false
+    }

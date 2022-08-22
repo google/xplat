@@ -15,12 +15,18 @@
  */
 package javaemul.lang
 
+import java.lang.Class
+import kotlin.jvm.javaPrimitiveType
+
 /**
  * Pseudo-constructor for emulated java.lang.Byte.
  *
  * See regular JRE API documentation for other methods in this file.
  */
 operator fun Byte.Companion.invoke(b: Byte): Byte = b
+
+val Byte.Companion.TYPE: Class<Byte>
+  get() = Byte::class.javaPrimitiveType!!
 
 fun Byte.Companion.valueOf(b: Byte): Byte = b
 

@@ -15,12 +15,18 @@
  */
 package javaemul.lang
 
+import java.lang.Class
+import kotlin.jvm.javaPrimitiveType
+
 /**
  * Pseudo-constructor for emulated java.lang.Short.
  *
  * See regular JRE API documentation for other methods in this file.
  */
 operator fun Short.Companion.invoke(s: Short): Short = s
+
+val Short.Companion.TYPE: Class<Short>
+  get() = Short::class.javaPrimitiveType!!
 
 fun Short.Companion.valueOf(s: Short): Short = s
 

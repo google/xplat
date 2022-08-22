@@ -15,12 +15,18 @@
  */
 package javaemul.lang
 
+import java.lang.Class
+import kotlin.jvm.javaPrimitiveType
+
 /**
  * Pseudo-constructor for emulated java.lang.Float.
  *
  * See regular JRE API documentation for other methods in this file.
  */
 operator fun Float.Companion.invoke(f: Float): Float = f
+
+val Float.Companion.TYPE: Class<Float>
+  get() = Float::class.javaPrimitiveType!!
 
 fun Float.Companion.valueOf(f: Float): Float = f
 

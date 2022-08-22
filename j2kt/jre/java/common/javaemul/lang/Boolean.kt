@@ -15,6 +15,9 @@
  */
 package javaemul.lang
 
+import java.lang.Class
+import kotlin.jvm.javaPrimitiveType
+
 /**
  * Pseudo-constructor for emulated java.lang.Boolean.
  *
@@ -27,6 +30,9 @@ val Boolean.Companion.TRUE: Boolean
 
 val Boolean.Companion.FALSE: Boolean
   inline get() = false
+
+val Boolean.Companion.TYPE: Class<Boolean>
+  get() = Boolean::class.javaPrimitiveType!!
 
 fun Boolean.Companion.valueOf(b: Boolean): Boolean = b
 

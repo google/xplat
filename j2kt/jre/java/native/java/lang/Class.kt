@@ -21,15 +21,14 @@ import kotlin.reflect.KClass
  * Implementation of java.lang.Class used in Kotlin Native. The constructor and the `kClass`
  * property are not accessible in Java.
  */
-class Class<T>(val kClass: KClass<*>) {
+class Class<T>(private val kClass: KClass<*>, private val isPrimitive0: Boolean) {
   fun getName() = kClass.qualifiedName
   fun getCanonicalName() = kClass.qualifiedName
   fun getSimpleName() = kClass.simpleName
+  fun isPrimitive() = isPrimitive0
   fun isArray() = arrayKClassSet.contains(kClass)
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()
-  override fun equals(other: Any?) = other is Class<*> && kClass == other.kClass
-  override fun hashCode() = kClass.hashCode()
   override fun toString() = kClass.toString()
 }
 

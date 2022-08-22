@@ -15,12 +15,18 @@
  */
 package javaemul.lang
 
+import java.lang.Class
+import kotlin.jvm.javaPrimitiveType
+
 /**
  * Pseudo-constructor for emulated java.lang.Character.
  *
  * See regular JRE API documentation for other methods in this file.
  */
 operator fun Char.Companion.invoke(c: Char): Char = c
+
+val Char.Companion.TYPE: Class<Char>
+  get() = Char::class.javaPrimitiveType!!
 
 // TODO(b/233944334): Duplicate method for JVM.
 val Char.Companion.MIN_SUPPLEMENTARY_CODE_POINT: Int

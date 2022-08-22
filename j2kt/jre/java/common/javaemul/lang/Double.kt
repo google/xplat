@@ -15,12 +15,18 @@
  */
 package javaemul.lang
 
+import java.lang.Class
+import kotlin.jvm.javaPrimitiveType
+
 /**
  * Pseudo-constructor for emulated java.lang.Double.
  *
  * See regular JRE API documentation for other methods in this file.
  */
 operator fun Double.Companion.invoke(d: Double): Double = d
+
+val Double.Companion.TYPE: Class<Double>
+  get() = Double::class.javaPrimitiveType!!
 
 fun Double.Companion.valueOf(d: Double): Double = d
 

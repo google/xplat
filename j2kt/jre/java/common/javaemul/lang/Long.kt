@@ -15,6 +15,8 @@
  */
 package javaemul.lang
 
+import java.lang.Class
+import kotlin.jvm.javaPrimitiveType
 import kotlin.math.sign
 
 /**
@@ -23,6 +25,9 @@ import kotlin.math.sign
  * See regular JRE API documentation for other methods in this file.
  */
 operator fun Long.Companion.invoke(l: Long): Long = l
+
+val Long.Companion.TYPE: Class<Long>
+  get() = Long::class.javaPrimitiveType!!
 
 fun Long.Companion.valueOf(l: Long): Long = l
 
