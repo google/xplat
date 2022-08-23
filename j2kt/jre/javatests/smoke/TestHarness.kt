@@ -18,17 +18,18 @@ package smoke
 import kotlin.test.Test
 
 class TestHarness {
-  @Test fun testMath() = Math.testMath();
-  @Test fun testPrimitives() = Primitives.testPrimitives();
-  @Test fun testString() = Strings.testString();
-  @Test fun testStringBuilder() = Strings.testStringBuilder();
-  @Test fun testJavaEmul() = Strings.testJavaEmul();
-  @Test fun testReflectArray() = ReflectArray.testReflectArray();
-  @Test fun testRegex() = Regex.testRegex();
-  @Test fun testSystemTime() = LangSystem.testSystemTime();
-  @Test fun testArrayCopy() = LangSystem.testArrayCopy();
-  @Test fun testHashCode() = LangSystem.testHashCode();
-  @Test fun testRandom() = RandomNumbers.testRandom();
-  @Test fun testArrays() = Array.testArrays();
-  @Test fun testCollections() = Collections.testCollections();
+  @Test fun testMath() = Math.testMath()
+  @Test fun testPrimitives() = Primitives.testPrimitives()
+  @Test fun testString() = Strings.testString()
+  @Test fun testStringBuilder() = Strings.testStringBuilder()
+  @Test fun testJavaEmul() = Strings.testJavaEmul()
+  @Test fun testReflectArray() = ReflectArray.testReflectArray()
+  @Test fun testRegex() = Regex.testRegex()
+  @Test fun testSystemTime() = LangSystem.testSystemTime()
+  @Test fun testArrayCopy() = LangSystem.testArrayCopy()
+  @Test fun testHashCode() = LangSystem.testHashCode()
+  @Test fun testRandom() = RandomNumbers.testRandom()
+  @Test fun testArrays() = Array.testArrays()
+  @Test fun testCollections() = Collections.testCollections()
+  @Test fun testLogging() = Logging.testLogging()
 }

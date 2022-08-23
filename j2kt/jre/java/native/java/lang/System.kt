@@ -19,7 +19,7 @@ import kotlin.native.identityHashCode
 import kotlin.system.getTimeMillis
 import kotlin.system.getTimeNanos
 
-// TODO(b/224765929): Avoid this hack for InternalPreconditions.java.
+// TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
 object System {
   fun getProperty(name: String?): String? =
     when (name) {
@@ -28,6 +28,8 @@ object System {
       "jre.checks.numeric",
       "jre.checks.type" -> "AUTO"
       "jre.checks.checkLevel" -> "NORMAL"
+      "jre.logging.logLevel" -> "INFO"
+      "jre.logging.simpleConsoleHandler" -> "ENABLED"
       else -> null
     }
 
