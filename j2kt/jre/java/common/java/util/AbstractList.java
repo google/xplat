@@ -22,7 +22,9 @@ import jsinterop.annotations.JsNonNull;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html">the official
  * Java API doc</a> for details.
  */
-@KtNative("kotlin.collections.AbstractMutableList")
+@KtNative(
+    value = "kotlin.collections.AbstractMutableList",
+    bridgeWith = "javaemul.lang.JavaAbstractList")
 public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> {
 
   protected transient int modCount;

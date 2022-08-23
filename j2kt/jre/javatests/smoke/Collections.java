@@ -19,7 +19,10 @@ import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertFalse;
 import static smoke.Asserts.assertTrue;
 
+import java.util.AbstractList;
 import java.util.AbstractMap;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,6 +35,8 @@ public class Collections {
   public static void testCollections() {
     testJavaMapSignatures();
     testAbstractMapSubclass_bridgedOverridesAreCalled();
+    testToArrayNativeList();
+    testToArrayPolymorphism();
   }
 
   private static void testJavaMapSignatures() {
@@ -151,5 +156,99 @@ public class Collections {
 
     assertEquals(null, map.remove((Object) 8));
     assertEquals(2, testMap.removeCalls);
+  }
+
+  private static void testToArrayNativeList() {
+    Collection<String> stringCollection = Arrays.asList("Hello", "World");
+    String[] stringArray1 = new String[1];
+    String[] stringArray2 = new String[2];
+    String[] stringArray3 = new String[3];
+
+    Object[] toArrayResult = stringCollection.toArray();
+    assertEquals(new Object[] {"Hello", "World"}, toArrayResult);
+    assertEquals(Object[].class, toArrayResult.getClass());
+
+    String[] toStringArrayResult = stringCollection.toArray(stringArray1);
+    assertTrue(toStringArrayResult != stringArray1);
+    assertEquals(new String[] {"Hello", "World"}, toStringArrayResult);
+    assertEquals(stringArray1.getClass(), toStringArrayResult.getClass());
+
+    assertTrue(stringArray2 == stringCollection.toArray(stringArray2));
+    assertEquals(new String[] {"Hello", "World"}, stringArray2);
+
+    stringArray3[2] = "unmodified"; // We expect this to get nulled by toArray.
+    assertTrue(stringArray3 == stringCollection.toArray(stringArray3));
+    assertEquals(new String[] {"Hello", "World", null}, stringArray3);
+  }
+
+  private static class TestList<E> extends AbstractList<E> {
+
+    private final E theElement;
+    public int toArrayCalls = 0;
+    public int toArrayTypedCalls = 0;
+
+    public TestList(E theElement) {
+      this.theElement = theElement;
+    }
+
+    @Override
+    public E get(int index) {
+      return theElement;
+    }
+
+    @Override
+    public int size() {
+      return 1;
+    }
+
+    @Override
+    public void add(int index, @JsNonNull E element) {
+      throw new UnsupportedOperationException("TODO there should be a bridge");
+    }
+
+    @Override
+    public @JsNonNull E set(int index, @JsNonNull E element) {
+      throw new UnsupportedOperationException("TODO there should be a bridge");
+    }
+
+    @Override
+    public @JsNonNull E remove(int index) {
+      throw new UnsupportedOperationException("TODO there should be a bridge");
+    }
+
+    @Override
+    public Object[] toArray() {
+      toArrayCalls++;
+      int savedToArrayTypedCalls = toArrayTypedCalls;
+      try {
+        return super.toArray();
+      } finally {
+        // Restore number of toArray(T[] a) calls, to ignore potential calls from super.toArray().
+        toArrayTypedCalls = savedToArrayTypedCalls;
+      }
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+      toArrayTypedCalls++;
+      return super.toArray(a);
+    }
+  }
+
+  private static void testToArrayPolymorphism() {
+    TestList<String> testList = new TestList<>("content");
+
+    Object[] untypedResult = testList.toArray();
+    assertEquals(Object[].class, untypedResult.getClass());
+    assertTrue(Arrays.equals(new Object[] {"content"}, untypedResult));
+    assertEquals(1, testList.toArrayCalls);
+
+    String[] typedResult = testList.toArray(new String[0]);
+    assertEquals(1, testList.toArrayTypedCalls);
+    // Note: new String[0].getClass() on JVM will result in String[].class on Kotlin JVM at runtime.
+    // Whereas String[].class would result in Object[].class (there is no Kotlin syntax for
+    // String[].class).
+    assertEquals(new String[0].getClass(), typedResult.getClass());
+    assertTrue(Arrays.equals(new String[] {"content"}, typedResult));
   }
 }

@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import javaemul.internal.annotations.KtProperty;
@@ -24,7 +25,9 @@ import jsinterop.annotations.JsNonNull;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html">the official
  * Java API doc</a> for details.
  */
-@KtNative("kotlin.collections.MutableCollection")
+@KtNative(
+    value = "kotlin.collections.MutableCollection",
+    bridgeWith = "javaemul.lang.JavaCollection")
 public interface Collection<E> extends Iterable<E> {
 
   @KtPropagateNullability
@@ -59,14 +62,15 @@ public interface Collection<E> extends Iterable<E> {
   @KtProperty
   int size();
 
-  // TODO(b/238297828, b/237983521): Implement toArray. Stub is here to allow transpilation (though
-  // not Kotlin compilation) of its callers.
-  default Object[] toArray() {
+  @KtName("java_toArray")
+  @KtPropagateNullability
+  default Object @JsNonNull [] toArray() {
     return null;
   }
 
-  // TODO(b/238297828, b/237983521): Implement toArray.
-  default <T> T[] toArray(T[] a) {
+  @KtName("java_toArray")
+  @KtPropagateNullability
+  default <T> T @JsNonNull [] toArray(T[] a) {
     return null;
   }
 }
