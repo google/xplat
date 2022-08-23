@@ -15,6 +15,8 @@
  */
 package java.lang
 
+import kotlin.jvm.javaObjectType
+import kotlin.jvm.javaPrimitiveType
 import kotlin.reflect.KClass
 
 /**
@@ -26,21 +28,22 @@ class Class<T>(private val kClass: KClass<*>, private val isPrimitive0: Boolean)
   fun getCanonicalName() = kClass.qualifiedName
   fun getSimpleName() = kClass.simpleName
   fun isPrimitive() = isPrimitive0
-  fun isArray() = arrayKClassSet.contains(kClass)
+  fun isArray() = getComponentType() != null
+  fun getComponentType(): Class<*>? = arrayComponentTypeMap[kClass]
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()
   override fun toString() = kClass.toString()
 }
 
-private val arrayKClassSet =
-  setOf<KClass<*>>(
-    ByteArray::class,
-    ShortArray::class,
-    IntArray::class,
-    LongArray::class,
-    FloatArray::class,
-    DoubleArray::class,
-    BooleanArray::class,
-    CharArray::class,
-    Array::class
+private val arrayComponentTypeMap =
+  mapOf<KClass<*>, Class<*>>(
+    ByteArray::class to Byte::class.javaPrimitiveType!!,
+    ShortArray::class to Short::class.javaPrimitiveType!!,
+    IntArray::class to Int::class.javaPrimitiveType!!,
+    LongArray::class to Long::class.javaPrimitiveType!!,
+    FloatArray::class to Float::class.javaPrimitiveType!!,
+    DoubleArray::class to Double::class.javaPrimitiveType!!,
+    BooleanArray::class to Boolean::class.javaPrimitiveType!!,
+    CharArray::class to Char::class.javaPrimitiveType!!,
+    Array::class to Any::class.javaObjectType,
   )

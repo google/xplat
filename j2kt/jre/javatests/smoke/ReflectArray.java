@@ -16,15 +16,48 @@
 package smoke;
 
 import static smoke.Asserts.assertEquals;
+import static smoke.Asserts.assertFalse;
+import static smoke.Asserts.assertTrue;
 
 import java.lang.reflect.Array;
 
 public class ReflectArray {
 
-  static void testReflect() {
+  static void testReflectArray() {
+    testGetLength();
+    testNewInstance();
+  }
+
+  private static void testGetLength() {
     assertEquals(0, Array.getLength(new byte[0]));
     assertEquals(1, Array.getLength(new boolean[1]));
     assertEquals(2, Array.getLength(new String[2]));
     assertEquals(3, Array.getLength(new int[3]));
+  }
+
+  private static void testNewInstance() {
+    Object testArray = Array.newInstance(String.class, 5);
+    assertEquals(5, ((Object[]) testArray).length);
+    assertEquals(
+        new String[0].getClass().getComponentType(), testArray.getClass().getComponentType());
+    assertEquals(new String[5], (String[]) testArray);
+
+    assertTrue(Array.newInstance(byte.class, 1) instanceof byte[]);
+    assertTrue(Array.newInstance(short.class, 1) instanceof short[]);
+    assertTrue(Array.newInstance(char.class, 1) instanceof char[]);
+    assertTrue(Array.newInstance(int.class, 1) instanceof int[]);
+    assertTrue(Array.newInstance(long.class, 1) instanceof long[]);
+    assertTrue(Array.newInstance(float.class, 1) instanceof float[]);
+    assertTrue(Array.newInstance(double.class, 1) instanceof double[]);
+    assertTrue(Array.newInstance(boolean.class, 1) instanceof boolean[]);
+
+    assertTrue(Array.newInstance(Byte.class, 1) instanceof Object[]);
+    assertTrue(Array.newInstance(Short.class, 1) instanceof Object[]);
+    assertTrue(Array.newInstance(Character.class, 1) instanceof Object[]);
+    assertTrue(Array.newInstance(Integer.class, 1) instanceof Object[]);
+    assertTrue(Array.newInstance(Long.class, 1) instanceof Object[]);
+    assertTrue(Array.newInstance(Float.class, 1) instanceof Object[]);
+    assertTrue(Array.newInstance(Double.class, 1) instanceof Object[]);
+    assertTrue(Array.newInstance(Boolean.class, 1) instanceof Object[]);
   }
 }

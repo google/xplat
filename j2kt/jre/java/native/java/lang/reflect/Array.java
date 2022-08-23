@@ -407,7 +407,37 @@ public final class Array {
 
   // Not implemented:
   // public static Object newInstance(Class<?> componentType, int... dimensions)
-  // public static Object newInstance(Class<?> componentType, int length)
+
+  public static Object newInstance(Class<?> componentType, int length) {
+    if (componentType == null) {
+      throw new NullPointerException();
+    }
+    if (componentType == void.class) {
+      throw new IllegalArgumentException();
+    }
+    if (length < 0) {
+      throw new NegativeArraySizeException();
+    }
+    if (componentType == byte.class) {
+      return new byte[length];
+    } else if (componentType == short.class) {
+      return new short[length];
+    } else if (componentType == int.class) {
+      return new int[length];
+    } else if (componentType == long.class) {
+      return new long[length];
+    } else if (componentType == double.class) {
+      return new double[length];
+    } else if (componentType == float.class) {
+      return new float[length];
+    } else if (componentType == char.class) {
+      return new char[length];
+    } else if (componentType == boolean.class) {
+      return new boolean[length];
+    } else {
+      return new Object[length];
+    }
+  }
 
   private Array() {
   }

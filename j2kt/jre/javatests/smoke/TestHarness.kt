@@ -23,7 +23,7 @@ class TestHarness {
   @Test fun testString() = Strings.testString();
   @Test fun testStringBuilder() = Strings.testStringBuilder();
   @Test fun testJavaEmul() = Strings.testJavaEmul();
-  @Test fun testReflect() = ReflectArray.testReflect();
+  @Test fun testReflectArray() = ReflectArray.testReflectArray();
   @Test fun testRegex() = Regex.testRegex();
   @Test fun testSystemTime() = LangSystem.testSystemTime();
   @Test fun testArrayCopy() = LangSystem.testArrayCopy();
