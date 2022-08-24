@@ -19,6 +19,8 @@
 
 package java.io;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Wraps an existing {@link InputStream} and performs some transformation on
  * the input data while it is being read. Transformations can be anything from a
@@ -31,22 +33,19 @@ package java.io;
  */
 public class FilterInputStream extends InputStream {
 
-    /**
-     * The source input stream that is filtered.
-     */
-    protected volatile InputStream in;
+  /** The source input stream that is filtered. */
+  protected volatile @Nullable InputStream in;
 
-    /**
-     * Constructs a new {@code FilterInputStream} with the specified input
-     * stream as source.
-     *
-     * <p><strong>Warning:</strong> passing a null source creates an invalid
-     * {@code FilterInputStream}, that fails on every method that is not
-     * overridden. Subclasses should check for null in their constructors.
-     *
-     * @param in the input stream to filter reads on.
-     */
-    protected FilterInputStream(InputStream in) {
+  /**
+   * Constructs a new {@code FilterInputStream} with the specified input stream as source.
+   *
+   * <p><strong>Warning:</strong> passing a null source creates an invalid {@code
+   * FilterInputStream}, that fails on every method that is not overridden. Subclasses should check
+   * for null in their constructors.
+   *
+   * @param in the input stream to filter reads on.
+   */
+  protected FilterInputStream(@Nullable InputStream in) {
         this.in = in;
     }
 

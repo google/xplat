@@ -15,6 +15,8 @@
  */
 package java.io;
 
+import org.jspecify.nullness.Nullable;
+
 /** Emulation of the corresponding JRE-Class */
 public class IOException extends Exception {
 
@@ -22,15 +24,15 @@ public class IOException extends Exception {
     super();
   }
 
-  public IOException(String message) {
+  public IOException(@Nullable String message) {
     super(message);
   }
 
-  public IOException(String message, Throwable cause) {
+  public IOException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 
-  public IOException(Throwable cause) {
+  public IOException(@Nullable Throwable cause) {
     super(cause);
   }
 }

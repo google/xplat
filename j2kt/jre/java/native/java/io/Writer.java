@@ -18,6 +18,7 @@ package java.io;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.util.Objects;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/io/Writer.html">the official Java API
@@ -66,12 +67,12 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
     return this;
   }
 
-  public Writer append(CharSequence csq) throws IOException {
+  public Writer append(@Nullable CharSequence csq) throws IOException {
     write(Objects.toString(csq));
     return this;
   }
 
-  public Writer append(CharSequence csq, int start, int end) throws IOException {
+  public Writer append(@Nullable CharSequence csq, int start, int end) throws IOException {
     if (csq == null) {
       csq = "null";
     }

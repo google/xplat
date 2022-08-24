@@ -19,6 +19,8 @@
 
 package java.io;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Wraps an existing {@link OutputStream} and performs some transformation on
  * the output data while it is being written. Transformations can be anything
@@ -31,19 +33,15 @@ package java.io;
  */
 public class FilterOutputStream extends OutputStream {
 
-    /**
-     * The target output stream for this filter stream.
-     */
-    protected OutputStream out;
+  /** The target output stream for this filter stream. */
+  @Nullable protected OutputStream out;
 
-    /**
-     * Constructs a new {@code FilterOutputStream} with {@code out} as its
-     * target stream.
-     *
-     * @param out
-     *            the target stream that this stream writes to.
-     */
-    public FilterOutputStream(OutputStream out) {
+  /**
+   * Constructs a new {@code FilterOutputStream} with {@code out} as its target stream.
+   *
+   * @param out the target stream that this stream writes to.
+   */
+  public FilterOutputStream(@Nullable OutputStream out) {
         this.out = out;
     }
 

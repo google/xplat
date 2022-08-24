@@ -39,6 +39,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 import java.io.Serializable;
 import javaemul.internal.NativeRegExp;
 import javaemul.internal.Platform;
+import org.jspecify.nullness.Nullable;
 
 /**
  * This class represents immutable arbitrary precision decimal numbers. Each
@@ -1536,17 +1537,16 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns {@code true} if {@code x} is a {@code BigDecimal} instance and if
-   * this instance is equal to this big decimal. Two big decimals are equal if
-   * their unscaled value and their scale is equal. For example, 1.0
-   * (10*10^(-1)) is not equal to 1.00 (100*10^(-2)). Similarly, zero instances
-   * are not equal if their scale differs.
+   * Returns {@code true} if {@code x} is a {@code BigDecimal} instance and if this instance is
+   * equal to this big decimal. Two big decimals are equal if their unscaled value and their scale
+   * is equal. For example, 1.0 (10*10^(-1)) is not equal to 1.00 (100*10^(-2)). Similarly, zero
+   * instances are not equal if their scale differs.
    *
    * @param x object to be compared with {@code this}.
    * @return true if {@code x} is a {@code BigDecimal} and {@code this == x}.
    */
   @Override
-  public boolean equals(Object x) {
+  public boolean equals(@Nullable Object x) {
     if (this == x) {
       return true;
     }

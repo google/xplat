@@ -15,6 +15,8 @@
  */
 package java.io;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/io/PrintStream.html">the official Java
  * API doc</a> for details.
@@ -56,11 +58,11 @@ public class PrintStream extends FilterOutputStream {
     print(String.valueOf(x));
   }
 
-  public void print(Object x) {
+  public void print(@Nullable Object x) {
     print(String.valueOf(x));
   }
 
-  public void print(String s) {
+  public void print(@Nullable String s) {
     if (out == null) {
       setError();
       return;
@@ -109,11 +111,11 @@ public class PrintStream extends FilterOutputStream {
     println(String.valueOf(x));
   }
 
-  public void println(Object x) {
+  public void println(@Nullable Object x) {
     println(String.valueOf(x));
   }
 
-  public void println(String s) {
+  public void println(@Nullable String s) {
     print(s);
     newline();
   }

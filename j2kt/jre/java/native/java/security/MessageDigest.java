@@ -206,7 +206,7 @@ public abstract class MessageDigest extends MessageDigestSpi {
       }
     }
 
-    private byte buffer[];
+    private byte[] buffer = new byte[0];
 
     // TODO(jat): consider doing away with long math
     private long counter;
@@ -215,9 +215,9 @@ public abstract class MessageDigest extends MessageDigestSpi {
 
     private int remainder;
 
-    private int state[];
+    private int[] state = new int[0];
 
-    private int x[];
+    private int[] x = new int[0];
 
     public Md5Digest() {
       super("MD5");

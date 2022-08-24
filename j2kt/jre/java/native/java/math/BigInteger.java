@@ -40,6 +40,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 import java.io.Serializable;
 import java.util.Random;
 import javaemul.internal.LongUtils;
+import org.jspecify.nullness.Nullable;
 
 /**
  * This class represents immutable integer numbers of arbitrary length. Large
@@ -714,15 +715,14 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
   }
 
   /**
-   * Returns {@code true} if {@code x} is a BigInteger instance and if this
-   * instance is equal to this {@code BigInteger}.
+   * Returns {@code true} if {@code x} is a BigInteger instance and if this instance is equal to
+   * this {@code BigInteger}.
    *
    * @param x object to be compared with {@code this}.
-   * @return true if {@code x} is a BigInteger and {@code this == x}, {@code
-   *         false} otherwise.
+   * @return true if {@code x} is a BigInteger and {@code this == x}, {@code false} otherwise.
    */
   @Override
-  public boolean equals(Object x) {
+  public boolean equals(@Nullable Object x) {
     if (this == x) {
       return true;
     }

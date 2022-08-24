@@ -15,12 +15,14 @@
  */
 package java.nio.charset;
 
+import org.jspecify.nullness.Nullable;
+
 /** Partial emulation of the corresponding JRE-Class */
 public class Charset {
 
   private String canonicalName;
 
-  protected Charset(String canonicalName, String[] aliases) {
+  protected Charset(String canonicalName, String @Nullable [] aliases) {
     this.canonicalName = canonicalName;
   }
 

@@ -38,6 +38,7 @@ import static javaemul.internal.InternalPreconditions.checkCriticalArgument;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Immutable objects describing settings such as rounding mode and digit
@@ -218,15 +219,15 @@ public final class MathContext implements Serializable {
   /* Public Methods */
 
   /**
-   * Returns true if x is a {@code MathContext} with the same precision setting
-   * and the same rounding mode as this {@code MathContext} instance.
+   * Returns true if x is a {@code MathContext} with the same precision setting and the same
+   * rounding mode as this {@code MathContext} instance.
    *
    * @param x object to be compared.
-   * @return {@code true} if this {@code MathContext} instance is equal to the
-   *         {@code x} argument; {@code false} otherwise.
+   * @return {@code true} if this {@code MathContext} instance is equal to the {@code x} argument;
+   *     {@code false} otherwise.
    */
   @Override
-  public boolean equals(Object x) {
+  public boolean equals(@Nullable Object x) {
     return ((x instanceof MathContext)
         && (((MathContext) x).getPrecision() == precision)
         && (((MathContext) x).getRoundingMode() == roundingMode));

@@ -17,6 +17,7 @@ package java.util.regex;
 
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /** JRE Matcher stub; see Matcher.kt for the actual wrapper. */
 @KtNative("java.util.regex.Matcher")
@@ -48,9 +49,9 @@ public class Matcher {
 
   public native String group();
 
-  public native String group(int gorup);
+  public native @Nullable String group(int group);
 
-  public native String group(String name);
+  public native @Nullable String group(String name);
 
   public native int groupCount();
 

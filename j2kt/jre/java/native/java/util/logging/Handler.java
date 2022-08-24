@@ -16,15 +16,17 @@
 
 package java.util.logging;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  *  An emulation of the java.util.logging.Handler class. See 
  *  <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/Handler.html"> 
  *  The Java API doc for details</a>
  */
 public abstract class Handler {
-  private Formatter formatter;
-  private Level level;
-  
+  private @Nullable Formatter formatter;
+  private @Nullable Level level;
+
   public abstract void close(); 
   public abstract void flush(); 
   

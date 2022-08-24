@@ -19,6 +19,7 @@ package java.util.logging;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import org.jspecify.nullness.Nullable;
 
 /**
  *  An emulation of the java.util.logging.LogManager class. See
@@ -27,7 +28,7 @@ import java.util.HashMap;
  */
 public class LogManager {
 
-  private static LogManager singleton;
+  private static @Nullable LogManager singleton;
 
   public static LogManager getLogManager() {
     if (singleton == null) {

@@ -19,6 +19,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.nio.charset.Charset;
 import javaemul.internal.EmulatedCharset;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/io/OutputStreamWriter.html">the
@@ -49,7 +50,7 @@ public class OutputStreamWriter extends Writer {
     out.flush();
   }
 
-  public String getEncoding() {
+  public @Nullable String getEncoding() {
     return charset.name();
   }
 

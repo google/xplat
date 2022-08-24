@@ -17,6 +17,7 @@
 package java.util.logging;
 
 import java.io.Serializable;
+import org.jspecify.nullness.Nullable;
 
 /**
  *  An emulation of the java.util.logging.LogRecord class. See
@@ -24,13 +25,13 @@ import java.io.Serializable;
  *  The Java API doc for details</a>
  */
 public class LogRecord implements Serializable {
-  private Level level;
+  private Level level = Level.OFF;
   private String loggerName = "";
-  private String msg;
-  private Throwable thrown = null;
+  private @Nullable String msg;
+  private @Nullable Throwable thrown = null;
   private long millis;
-  
-  public LogRecord(Level level, String msg) {
+
+  public LogRecord(Level level, @Nullable String msg) {
     this.level = level;
     this.msg = msg;
     millis = System.currentTimeMillis();
@@ -43,32 +44,32 @@ public class LogRecord implements Serializable {
   public Level getLevel() {
     return level;
   }
-  
-  public String getLoggerName() {
+
+  public @Nullable String getLoggerName() {
     return loggerName;
   }
-  
-  public String getMessage() {
+
+  public @Nullable String getMessage() {
     return msg;
   }
   
   public long getMillis() {
     return millis;
   }
-  
-  public Throwable getThrown() {
+
+  public @Nullable Throwable getThrown() {
     return thrown;
   }
   
   public void setLevel(Level newLevel) {
     level = newLevel;
   }
-  
-  public void setLoggerName(String newName) {
+
+  public void setLoggerName(@Nullable String newName) {
     loggerName = newName;
   }
-  
-  public void setMessage(String newMessage) {
+
+  public void setMessage(@Nullable String newMessage) {
     msg = newMessage;
   }
   
@@ -76,7 +77,7 @@ public class LogRecord implements Serializable {
     millis = newMillis;
   }
 
-  public void setThrown(Throwable newThrown) {
+  public void setThrown(@Nullable Throwable newThrown) {
     thrown = newThrown;
   }
 

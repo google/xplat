@@ -15,6 +15,8 @@
  */
 package java.sql;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * An implementation of java.sql.Timestame. Derived from
  * http://java.sun.com/j2se/1.5.0/docs/api/java/sql/Timestamp.html. This is
@@ -121,13 +123,13 @@ public class Timestamp extends java.util.Date {
   }
 
   @Override
-  public boolean equals(Object ts) {
+  public boolean equals(@Nullable Object ts) {
     // Timestamps can't be compared to java.util.Date
     // This is known to not be symmetric, which follows the JRE.
     return (ts instanceof Timestamp) && equals((Timestamp) ts);
   }
 
-  public boolean equals(Timestamp ts) {
+  public boolean equals(@Nullable Timestamp ts) {
     return ts != null && getTime() == ts.getTime() && getNanos() == ts.getNanos();
   }
 

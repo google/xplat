@@ -18,6 +18,7 @@ package java.util.logging;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import org.jspecify.nullness.Nullable;
 
 /**
  *  An emulation of the java.util.logging.Logger class. See
@@ -64,10 +65,10 @@ public class Logger {
     return LogManager.getLogManager().ensureLogger(name);
   }
 
-  private List<Handler> handlers;
-  private Level level;
-  private String name;
-  private Logger parent;  // Should never be null except in the RootLogger
+  private List<Handler> handlers = new ArrayList<Handler>();
+  private @Nullable Level level;
+  private @Nullable String name;
+  private @Nullable Logger parent; // Should never be null except in the RootLogger
   private boolean useParentHandlers;
 
   protected Logger(String name, @SuppressWarnings("unused") String resourceName) {
@@ -77,7 +78,6 @@ public class Logger {
 
     this.name = name;
     this.useParentHandlers = true;
-    handlers = new ArrayList<Handler>();
   }
 
   public void addHandler(Handler handler) {
@@ -87,98 +87,98 @@ public class Logger {
     handlers.add(handler);
   }
 
-  public void config(String msg) {
+  public void config(@Nullable String msg) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.CONFIG, msg);
   }
 
-  public void config(Supplier<String> msgSupplier) {
+  public void config(Supplier<@Nullable String> msgSupplier) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.CONFIG, msgSupplier);
   }
 
-  public void fine(String msg) {
+  public void fine(@Nullable String msg) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.FINE, msg);
   }
 
-  public void fine(Supplier<String> msgSupplier) {
+  public void fine(Supplier<@Nullable String> msgSupplier) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.FINE, msgSupplier);
   }
 
-  public void finer(String msg) {
+  public void finer(@Nullable String msg) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.FINER, msg);
   }
 
-  public void finer(Supplier<String> msgSupplier) {
+  public void finer(Supplier<@Nullable String> msgSupplier) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.FINER, msgSupplier);
   }
 
-  public void finest(String msg) {
+  public void finest(@Nullable String msg) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.FINEST, msg);
   }
 
-  public void finest(Supplier<String> msgSupplier) {
+  public void finest(Supplier<@Nullable String> msgSupplier) {
     if (!ALL_ENABLED) {
       return;
     }
     log(Level.FINEST, msgSupplier);
   }
 
-  public void info(String msg) {
+  public void info(@Nullable String msg) {
     if (!INFO_ENABLED) {
       return;
     }
     log(Level.INFO, msg);
   }
 
-  public void info(Supplier<String> msgSupplier) {
+  public void info(Supplier<@Nullable String> msgSupplier) {
     if (!INFO_ENABLED) {
       return;
     }
     log(Level.INFO, msgSupplier);
   }
 
-  public void warning(String msg) {
+  public void warning(@Nullable String msg) {
     if (!WARNING_ENABLED) {
       return;
     }
     log(Level.WARNING, msg);
   }
 
-  public void warning(Supplier<String> msgSupplier) {
+  public void warning(Supplier<@Nullable String> msgSupplier) {
     if (!WARNING_ENABLED) {
       return;
     }
     log(Level.WARNING, msgSupplier);
   }
 
-  public void severe(String msg) {
+  public void severe(@Nullable String msg) {
     if (!SEVERE_ENABLED) {
       return;
     }
     log(Level.SEVERE, msg);
   }
 
-  public void severe(Supplier<String> msgSupplier) {
+  public void severe(Supplier<@Nullable String> msgSupplier) {
     if (!SEVERE_ENABLED) {
       return;
     }
@@ -193,15 +193,15 @@ public class Logger {
     return handlers.toArray(new Handler[handlers.size()]);
   }
 
-  public Level getLevel() {
+  public @Nullable Level getLevel() {
     return LOGGING_OFF ? null : level;
   }
 
-  public String getName() {
+  public @Nullable String getName() {
     return LOGGING_OFF ? null : name;
   }
 
-  public Logger getParent() {
+  public @Nullable Logger getParent() {
     return LOGGING_OFF ? null : parent;
   }
 
@@ -223,21 +223,21 @@ public class Logger {
     }
   }
 
-  public void log(Level level, String msg) {
+  public void log(Level level, @Nullable String msg) {
     log(level, msg, null);
   }
 
-  public void log(Level level, Supplier<String> msgSupplier) {
+  public void log(Level level, Supplier<@Nullable String> msgSupplier) {
     log(level, null, msgSupplier);
   }
 
-  public void log(Level level, String msg, Throwable thrown) {
+  public void log(Level level, @Nullable String msg, @Nullable Throwable thrown) {
     if (isLoggable(level)) {
       actuallyLog(level, msg, thrown);
     }
   }
 
-  public void log(Level level, Throwable thrown, Supplier<String> msgSupplier) {
+  public void log(Level level, @Nullable Throwable thrown, Supplier<@Nullable String> msgSupplier) {
     if (isLoggable(level)) {
       actuallyLog(level, msgSupplier.get(), thrown);
     }
@@ -249,14 +249,14 @@ public class Logger {
     }
   }
 
-  public void removeHandler(Handler handler) {
+  public void removeHandler(@Nullable Handler handler) {
     if (LOGGING_OFF) {
       return;
     }
     handlers.remove(handler);
   }
 
-  public void setLevel(Level newLevel) {
+  public void setLevel(@Nullable Level newLevel) {
     if (LOGGING_OFF) {
       return;
     }
@@ -295,7 +295,7 @@ public class Logger {
     return Level.INFO;
   }
 
-  private void actuallyLog(Level level, String msg, Throwable thrown) {
+  private void actuallyLog(Level level, @Nullable String msg, @Nullable Throwable thrown) {
     LogRecord record = new LogRecord(level, msg);
     record.setThrown(thrown);
     record.setLoggerName(getName());
