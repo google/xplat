@@ -38,6 +38,7 @@ import java.util.function.LongUnaryOperator;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
 import javaemul.internal.ArrayHelper;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/LongStream.html">
@@ -226,7 +227,8 @@ public interface LongStream extends BaseStream<Long, LongStream> {
 
   Stream<Long> boxed();
 
-  <R> R collect(Supplier<R> supplier, ObjLongConsumer<R> accumulator, BiConsumer<R, R> combiner);
+  <R extends @Nullable Object> R collect(
+      Supplier<R> supplier, ObjLongConsumer<R> accumulator, BiConsumer<R, R> combiner);
 
   long count();
 
@@ -255,7 +257,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
 
   IntStream mapToInt(LongToIntFunction mapper);
 
-  <U> Stream<U> mapToObj(LongFunction<? extends U> mapper);
+  <U extends @Nullable Object> Stream<U> mapToObj(LongFunction<? extends U> mapper);
 
   OptionalLong max();
 

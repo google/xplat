@@ -37,20 +37,21 @@ import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.function.UnaryOperator;
 import javaemul.internal.ArrayHelper;
+import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">the official
+ * Java API doc</a> for details.
  *
  * @param <T> the type of data being streamed
  */
-public interface Stream<T> extends BaseStream<T, Stream<T>> {
+public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream<T>> {
 
   /**
    * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.Builder.html">
    * the official Java API doc</a> for details.
    */
-  interface Builder<T> extends Consumer<T> {
+  interface Builder<T extends @Nullable Object> extends Consumer<T> {
     @Override
     void accept(T t);
 
@@ -62,7 +63,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
     Stream<T> build();
   }
 
-  static <T> Stream.Builder<T> builder() {
+  static <T extends @Nullable Object> Stream.Builder<T> builder() {
     return new Builder<T>() {
       private Object[] items = new Object[0];
 
@@ -83,7 +84,8 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
     };
   }
 
-  static <T> Stream<T> concat(Stream<? extends T> a, Stream<? extends T> b) {
+  static <T extends @Nullable Object> Stream<T> concat(
+      Stream<? extends T> a, Stream<? extends T> b) {
     // This is nearly the same as flatMap, but inlined, wrapped around a single spliterator of
     // these two objects, and without close() called as the stream progresses. Instead, close is
     // invoked as part of the resulting stream's own onClose, so that either can fail without
@@ -133,11 +135,11 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
     return result.onClose(a::close).onClose(b::close);
   }
 
-  static <T> Stream<T> empty() {
+  static <T extends @Nullable Object> Stream<T> empty() {
     return new StreamImpl.Empty<T>(null);
   }
 
-  static <T> Stream<T> generate(Supplier<T> s) {
+  static <T extends @Nullable Object> Stream<T> generate(Supplier<T> s) {
     AbstractSpliterator<T> spliterator =
         new Spliterators.AbstractSpliterator<T>(
             Long.MAX_VALUE, Spliterator.IMMUTABLE | Spliterator.ORDERED) {
@@ -150,7 +152,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
     return StreamSupport.stream(spliterator, false);
   }
 
-  static <T> Stream<T> iterate(T seed, UnaryOperator<T> f) {
+  static <T extends @Nullable Object> Stream<T> iterate(T seed, UnaryOperator<T> f) {
     AbstractSpliterator<T> spliterator =
         new Spliterators.AbstractSpliterator<T>(
             Long.MAX_VALUE, Spliterator.IMMUTABLE | Spliterator.ORDERED) {
@@ -166,13 +168,13 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
     return StreamSupport.stream(spliterator, false);
   }
 
-  static <T> Stream<T> of(T t) {
+  static <T extends @Nullable Object> Stream<T> of(T t) {
     // TODO consider a splittable that returns only a single value, either for use here or in the
     //      singleton collection types
     return Collections.singleton(t).stream();
   }
 
-  static <T> Stream<T> of(T... values) {
+  static <T extends @Nullable Object> Stream<T> of(T... values) {
     return Arrays.stream(values);
   }
 
@@ -180,9 +182,10 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
 
   boolean anyMatch(Predicate<? super T> predicate);
 
-  <R, A> R collect(Collector<? super T, A, R> collector);
+  <R extends @Nullable Object, A extends @Nullable Object> R collect(
+      Collector<? super T, A, R> collector);
 
-  <R> R collect(
+  <R extends @Nullable Object> R collect(
       Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner);
 
   long count();
@@ -195,7 +198,8 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
 
   Optional<T> findFirst();
 
-  <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
+  <R extends @Nullable Object> Stream<R> flatMap(
+      Function<? super T, ? extends Stream<? extends R>> mapper);
 
   DoubleStream flatMapToDouble(Function<? super T, ? extends DoubleStream> mapper);
 
@@ -209,7 +213,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
 
   Stream<T> limit(long maxSize);
 
-  <R> Stream<R> map(Function<? super T, ? extends R> mapper);
+  <R extends @Nullable Object> Stream<R> map(Function<? super T, ? extends R> mapper);
 
   DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper);
 
@@ -229,7 +233,8 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
 
   T reduce(T identity, BinaryOperator<T> accumulator);
 
-  <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
+  <U extends @Nullable Object> U reduce(
+      U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
 
   Stream<T> skip(long n);
 
@@ -237,7 +242,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
 
   Stream<T> sorted(Comparator<? super T> comparator);
 
-  Object[] toArray();
+  @Nullable Object[] toArray();
 
-  <A> A[] toArray(IntFunction<A[]> generator);
+  <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator);
 }

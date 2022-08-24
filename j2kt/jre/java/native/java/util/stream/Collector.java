@@ -22,16 +22,18 @@ import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.jspecify.nullness.Nullable;
 
 /**
- * See <a
- * href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html">the
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html">the
  * official Java API doc</a> for details.
+ *
  * @param <T> the type of data to be collected
  * @param <A> the type of accumulator used to track results
  * @param <R> the final output data type
  */
-public interface Collector<T,A,R> {
+public interface Collector<
+    T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> {
 
   /**
    * See <a
@@ -40,12 +42,13 @@ public interface Collector<T,A,R> {
    */
   enum Characteristics { CONCURRENT, IDENTITY_FINISH, UNORDERED }
 
-  static <T, A, R> Collector<T, A, R> of(
-      Supplier<A> supplier,
-      BiConsumer<A, T> accumulator,
-      BinaryOperator<A> combiner,
-      Function<A, R> finisher,
-      Characteristics... characteristics) {
+  static <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+      Collector<T, A, R> of(
+          Supplier<A> supplier,
+          BiConsumer<A, T> accumulator,
+          BinaryOperator<A> combiner,
+          Function<A, R> finisher,
+          Characteristics... characteristics) {
     checkNotNull(supplier);
     checkNotNull(accumulator);
     checkNotNull(combiner);
@@ -54,7 +57,7 @@ public interface Collector<T,A,R> {
     return new CollectorImpl<>(supplier, accumulator, combiner, finisher, characteristics);
   }
 
-  static <T, R> Collector<T, R, R> of(
+  static <T extends @Nullable Object, R extends @Nullable Object> Collector<T, R, R> of(
       Supplier<R> supplier,
       BiConsumer<R, T> accumulator,
       BinaryOperator<R> combiner,

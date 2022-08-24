@@ -17,6 +17,7 @@ package java.util.stream;
 
 import java.util.Spliterator;
 import java.util.function.Supplier;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/StreamSupport.html">
@@ -71,11 +72,12 @@ public final class StreamSupport {
             });
   }
 
-  public static <T> Stream<T> stream(Spliterator<T> spliterator, boolean parallel) {
+  public static <T extends @Nullable Object> Stream<T> stream(
+      Spliterator<T> spliterator, boolean parallel) {
     return new StreamImpl<T>(null, spliterator);
   }
 
-  public static <T> Stream<T> stream(
+  public static <T extends @Nullable Object> Stream<T> stream(
       Supplier<? extends Spliterator<T>> supplier, int characteristics, final boolean parallel) {
     // TODO this is somewhat convoluted, and would be better served by a lazy singleton spliterator
     return Stream.of(supplier)

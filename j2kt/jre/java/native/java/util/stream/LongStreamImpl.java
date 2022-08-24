@@ -42,6 +42,7 @@ import java.util.function.LongUnaryOperator;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
 import javaemul.internal.ArrayHelper;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Main implementation of LongStream, wrapping a single spliterator, and an optional parent stream.
@@ -69,7 +70,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
     }
 
     @Override
-    public <U> Stream<U> mapToObj(LongFunction<? extends U> mapper) {
+    public <U extends @Nullable Object> Stream<U> mapToObj(LongFunction<? extends U> mapper) {
       throwIfTerminated();
       return new StreamImpl.Empty<U>(this);
     }
@@ -153,7 +154,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
     }
 
     @Override
-    public <R> R collect(
+    public <R extends @Nullable Object> R collect(
         Supplier<R> supplier, ObjLongConsumer<R> accumulator, BiConsumer<R, R> combiner) {
       terminate();
       return supplier.get();
@@ -300,7 +301,8 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
    *
    * @param <T> the type of data in the object spliterator
    */
-  private static final class MapToObjSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
+  private static final class MapToObjSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractSpliterator<T> {
     private final LongFunction<? extends T> map;
     private final Spliterator.OfLong original;
 
@@ -535,7 +537,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
   }
 
   @Override
-  public <R> R collect(
+  public <R extends @Nullable Object> R collect(
       Supplier<R> supplier, ObjLongConsumer<R> accumulator, BiConsumer<R, R> combiner) {
     terminate();
     final R acc = supplier.get();

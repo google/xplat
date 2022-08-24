@@ -42,6 +42,7 @@ import java.util.function.LongConsumer;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import javaemul.internal.ArrayHelper;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Main implementation of IntStream, wrapping a single spliterator, and an optional parent stream.
@@ -69,7 +70,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
     }
 
     @Override
-    public <U> Stream<U> mapToObj(IntFunction<? extends U> mapper) {
+    public <U extends @Nullable Object> Stream<U> mapToObj(IntFunction<? extends U> mapper) {
       throwIfTerminated();
       return new StreamImpl.Empty<U>(this);
     }
@@ -155,7 +156,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
     }
 
     @Override
-    public <R> R collect(
+    public <R extends @Nullable Object> R collect(
         Supplier<R> supplier, ObjIntConsumer<R> accumulator, BiConsumer<R, R> combiner) {
       terminate();
       return supplier.get();
@@ -308,7 +309,8 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
    *
    * @param <T> the type of data in the object spliterator
    */
-  private static final class MapToObjSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
+  private static final class MapToObjSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractSpliterator<T> {
     private final IntFunction<? extends T> map;
     private final Spliterator.OfInt original;
 
@@ -593,7 +595,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
   }
 
   @Override
-  public <R> R collect(
+  public <R extends @Nullable Object> R collect(
       Supplier<R> supplier, final ObjIntConsumer<R> accumulator, BiConsumer<R, R> combiner) {
     terminate();
     final R acc = supplier.get();
@@ -658,7 +660,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
   }
 
   @Override
-  public <U> Stream<U> mapToObj(IntFunction<? extends U> mapper) {
+  public <U extends @Nullable Object> Stream<U> mapToObj(IntFunction<? extends U> mapper) {
     throwIfTerminated();
     return new StreamImpl<U>(this, new MapToObjSpliterator<U>(mapper, spliterator));
   }

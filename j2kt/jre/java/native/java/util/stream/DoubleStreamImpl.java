@@ -40,6 +40,7 @@ import java.util.function.LongConsumer;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.Supplier;
 import javaemul.internal.ArrayHelper;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Main implementation of DoubleStream, wrapping a single spliterator, and an optional parent
@@ -68,7 +69,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
     }
 
     @Override
-    public <U> Stream<U> mapToObj(DoubleFunction<? extends U> mapper) {
+    public <U extends @Nullable Object> Stream<U> mapToObj(DoubleFunction<? extends U> mapper) {
       throwIfTerminated();
       return new StreamImpl.Empty<U>(this);
     }
@@ -154,7 +155,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
     }
 
     @Override
-    public <R> R collect(
+    public <R extends @Nullable Object> R collect(
         Supplier<R> supplier, ObjDoubleConsumer<R> accumulator, BiConsumer<R, R> combiner) {
       terminate();
       return supplier.get();
@@ -295,7 +296,8 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
    *
    * @param <T> the type of Object in the spliterator
    */
-  private static final class MapToObjSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
+  private static final class MapToObjSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractSpliterator<T> {
     private final DoubleFunction<? extends T> map;
     private final Spliterator.OfDouble original;
 
@@ -531,7 +533,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
   }
 
   @Override
-  public <R> R collect(
+  public <R extends @Nullable Object> R collect(
       Supplier<R> supplier, ObjDoubleConsumer<R> accumulator, BiConsumer<R, R> combiner) {
     terminate();
     final R acc = supplier.get();
@@ -648,7 +650,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
   }
 
   @Override
-  public <U> Stream<U> mapToObj(DoubleFunction<? extends U> mapper) {
+  public <U extends @Nullable Object> Stream<U> mapToObj(DoubleFunction<? extends U> mapper) {
     throwIfTerminated();
     return new StreamImpl<U>(this, new MapToObjSpliterator<U>(mapper, spliterator));
   }

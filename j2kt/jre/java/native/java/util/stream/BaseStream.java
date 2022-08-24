@@ -18,15 +18,17 @@ package java.util.stream;
 
 import java.util.Iterator;
 import java.util.Spliterator;
+import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/BaseStream.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/BaseStream.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> the contents of the stream
  * @param <S> the type of stream implementing this interface
  */
-public interface BaseStream<T, S extends BaseStream<T, S>> extends AutoCloseable {
+public interface BaseStream<T extends @Nullable Object, S extends BaseStream<T, S>>
+    extends AutoCloseable {
   Iterator<T> iterator();
 
   Spliterator<T> spliterator();

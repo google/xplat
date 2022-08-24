@@ -21,11 +21,12 @@ import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.jspecify.nullness.Nullable;
 
-/**
- * Simple internal implementation of a collector, holding each of the functions in a field.
- */
-final class CollectorImpl<T, A, R> implements Collector<T, A, R> {
+/** Simple internal implementation of a collector, holding each of the functions in a field. */
+final class CollectorImpl<
+        T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
+    implements Collector<T, A, R> {
   private final Supplier<A> supplier;
   private final BiConsumer<A, T> accumulator;
   private final Set<Characteristics> characteristics;

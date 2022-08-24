@@ -35,6 +35,7 @@ import java.util.function.DoubleUnaryOperator;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.Supplier;
 import javaemul.internal.ArrayHelper;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/DoubleStream.html">
@@ -180,7 +181,8 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
 
   Stream<Double> boxed();
 
-  <R> R collect(Supplier<R> supplier, ObjDoubleConsumer<R> accumulator, BiConsumer<R, R> combiner);
+  <R extends @Nullable Object> R collect(
+      Supplier<R> supplier, ObjDoubleConsumer<R> accumulator, BiConsumer<R, R> combiner);
 
   long count();
 
@@ -209,7 +211,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
 
   LongStream mapToLong(DoubleToLongFunction mapper);
 
-  <U> Stream<U> mapToObj(DoubleFunction<? extends U> mapper);
+  <U extends @Nullable Object> Stream<U> mapToObj(DoubleFunction<? extends U> mapper);
 
   OptionalDouble max();
 

@@ -38,6 +38,7 @@ import java.util.function.IntUnaryOperator;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import javaemul.internal.ArrayHelper;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html">
@@ -230,7 +231,8 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
 
   Stream<Integer> boxed();
 
-  <R> R collect(Supplier<R> supplier, ObjIntConsumer<R> accumulator, BiConsumer<R, R> combiner);
+  <R extends @Nullable Object> R collect(
+      Supplier<R> supplier, ObjIntConsumer<R> accumulator, BiConsumer<R, R> combiner);
 
   long count();
 
@@ -259,7 +261,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
 
   LongStream mapToLong(IntToLongFunction mapper);
 
-  <U> Stream<U> mapToObj(IntFunction<? extends U> mapper);
+  <U extends @Nullable Object> Stream<U> mapToObj(IntFunction<? extends U> mapper);
 
   OptionalInt max();
 

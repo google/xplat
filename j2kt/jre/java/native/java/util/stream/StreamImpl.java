@@ -45,16 +45,15 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import org.jspecify.nullness.Nullable;
 
-/**
- * Main implementation of Stream, wrapping a single spliterator and an optional parent stream.
- */
-final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements Stream<T> {
+/** Main implementation of Stream, wrapping a single spliterator and an optional parent stream. */
+final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<StreamImpl<T>>
+    implements Stream<T> {
 
-  /**
-   * Represents an empty stream, doing nothing for all methods.
-   */
-  static class Empty<T> extends TerminatableStream<Empty<T>> implements Stream<T> {
+  /** Represents an empty stream, doing nothing for all methods. */
+  static class Empty<T extends @Nullable Object> extends TerminatableStream<Empty<T>>
+      implements Stream<T> {
 
     public Empty(TerminatableStream<?> previous) {
       super(previous);
@@ -67,7 +66,7 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
     }
 
     @Override
-    public <R> Stream<R> map(Function<? super T, ? extends R> mapper) {
+    public <R extends @Nullable Object> Stream<R> map(Function<? super T, ? extends R> mapper) {
       throwIfTerminated();
       return (Stream) this;
     }
@@ -91,7 +90,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
     }
 
     @Override
-    public <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper) {
+    public <R extends @Nullable Object> Stream<R> flatMap(
+        Function<? super T, ? extends Stream<? extends R>> mapper) {
       throwIfTerminated();
       return (Stream) this;
     }
@@ -171,7 +171,7 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
     }
 
     @Override
-    public <A> A[] toArray(IntFunction<A[]> generator) {
+    public <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator) {
       terminate();
       return generator.apply(0);
     }
@@ -189,21 +189,22 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
     }
 
     @Override
-    public <U> U reduce(
+    public <U extends @Nullable Object> U reduce(
         U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner) {
       terminate();
       return identity;
     }
 
     @Override
-    public <R> R collect(
+    public <R extends @Nullable Object> R collect(
         Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner) {
       terminate();
       return supplier.get();
     }
 
     @Override
-    public <R, A> R collect(Collector<? super T, A, R> collector) {
+    public <R extends @Nullable Object, A extends @Nullable Object> R collect(
+        Collector<? super T, A, R> collector) {
       terminate();
       return collector.finisher().apply(collector.supplier().get());
     }
@@ -299,7 +300,9 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
    * @param <U> the input type
    * @param <T> the output type
    */
-  private static final class MapToObjSpliterator<U, T> extends Spliterators.AbstractSpliterator<T> {
+  private static final class MapToObjSpliterator<
+          U extends @Nullable Object, T extends @Nullable Object>
+      extends Spliterators.AbstractSpliterator<T> {
     private final Function<? super U, ? extends T> map;
     private final Spliterator<U> original;
 
@@ -323,7 +326,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
    *
    * @param <T> the input type
    */
-  private static final class MapToIntSpliterator<T> extends Spliterators.AbstractIntSpliterator {
+  private static final class MapToIntSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractIntSpliterator {
     private final ToIntFunction<? super T> map;
     private final Spliterator<T> original;
 
@@ -347,7 +351,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
    *
    * @param <T> the input type
    */
-  private static final class MapToLongSpliterator<T> extends Spliterators.AbstractLongSpliterator {
+  private static final class MapToLongSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractLongSpliterator {
     private final ToLongFunction<? super T> map;
     private final Spliterator<T> original;
 
@@ -371,7 +376,7 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
    *
    * @param <T> the input type
    */
-  private static final class MapToDoubleSpliterator<T>
+  private static final class MapToDoubleSpliterator<T extends @Nullable Object>
       extends Spliterators.AbstractDoubleSpliterator {
     private final ToDoubleFunction<? super T> map;
     private final Spliterator<T> original;
@@ -396,7 +401,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
    *
    * @param <T> the type of data to iterate over
    */
-  private static final class FilterSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
+  private static final class FilterSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractSpliterator<T> {
     private final Predicate<? super T> filter;
     private final Spliterator<T> original;
 
@@ -475,7 +481,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
    *
    * @param <T> the type of data to iterate over
    */
-  private static final class LimitSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
+  private static final class LimitSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractSpliterator<T> {
     private final long limit;
     private final Spliterator<T> original;
     private int position = 0;
@@ -506,10 +513,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
     }
   }
 
-  /**
-   * Value holder for various stream operations.
-   */
-  private static final class ValueConsumer<T> implements Consumer<T> {
+  /** Value holder for various stream operations. */
+  private static final class ValueConsumer<T extends @Nullable Object> implements Consumer<T> {
     T value;
 
     @Override
@@ -559,18 +564,18 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
   }
 
   @Override
-  public Object[] toArray() {
+  public @Nullable Object[] toArray() {
     return toArray(Object[]::new);
   }
 
   @Override
-  public <A> A[] toArray(IntFunction<A[]> generator) {
+  public <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator) {
     List<T> collected = collect(Collectors.toList());
     return collected.toArray(generator.apply(collected.size()));
   }
 
   @Override
-  public <R> R collect(
+  public <R extends @Nullable Object> R collect(
       Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner) {
     return collect(
         Collector.of(
@@ -583,7 +588,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
   }
 
   @Override
-  public <R, A> R collect(final Collector<? super T, A, R> collector) {
+  public <R extends @Nullable Object, A extends @Nullable Object> R collect(
+      final Collector<? super T, A, R> collector) {
     return collector
         .finisher()
         .apply(
@@ -655,7 +661,7 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
 
   // combiner is ignored, since we don't parallelize
   @Override
-  public <U> U reduce(
+  public <U extends @Nullable Object> U reduce(
       U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner) {
     terminate();
     final ValueConsumer<U> consumer = new ValueConsumer<U>();
@@ -676,7 +682,7 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
   }
 
   @Override
-  public <R> Stream<R> map(Function<? super T, ? extends R> mapper) {
+  public <R extends @Nullable Object> Stream<R> map(Function<? super T, ? extends R> mapper) {
     throwIfTerminated();
     return new StreamImpl<>(this, new MapToObjSpliterator<>(mapper, spliterator));
   }
@@ -700,7 +706,8 @@ final class StreamImpl<T> extends TerminatableStream<StreamImpl<T>> implements S
   }
 
   @Override
-  public <R> Stream<R> flatMap(final Function<? super T, ? extends Stream<? extends R>> mapper) {
+  public <R extends @Nullable Object> Stream<R> flatMap(
+      final Function<? super T, ? extends Stream<? extends R>> mapper) {
     throwIfTerminated();
     final Spliterator<? extends Stream<? extends R>> spliteratorOfStreams =
         new MapToObjSpliterator<>(mapper, spliterator);
