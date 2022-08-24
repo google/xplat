@@ -21,6 +21,7 @@ import java.io.Serializable;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.text.StringBuilder")
 public final class StringBuilder implements Appendable, CharSequence, Serializable {
@@ -44,20 +45,20 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
 
   public native StringBuilder append(double d);
 
-  public native StringBuilder append(Object obj);
+  public native StringBuilder append(@Nullable Object obj);
 
-  public native StringBuilder append(String str);
+  public native StringBuilder append(@Nullable String str);
 
   // TODO(b/224969395): Add once StringBuffer is available
-  // public native StringBuilder append(StringBuffer sb);
+  // public native StringBuilder append(@Nullable StringBuffer sb);
 
   public native StringBuilder append(char[] chars);
 
   public native StringBuilder append(char[] str, int offset, int len);
 
-  public native StringBuilder append(CharSequence csq);
+  public native StringBuilder append(@Nullable CharSequence csq);
 
-  public native StringBuilder append(CharSequence csq, int start, int end);
+  public native StringBuilder append(@Nullable CharSequence csq, int start, int end);
 
   public native StringBuilder appendCodePoint(int codePoint);
 
@@ -83,17 +84,17 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
 
   public native StringBuilder insert(int offset, double d);
 
-  public native StringBuilder insert(int offset, Object obj);
+  public native StringBuilder insert(int offset, @Nullable Object obj);
 
-  public native StringBuilder insert(int offset, String str);
+  public native StringBuilder insert(int offset, @Nullable String str);
 
   public native StringBuilder insert(int offset, char @JsNonNull [] ch);
 
   public native StringBuilder insert(int offset, char @JsNonNull [] str, int strOffset, int strLen);
 
-  public native StringBuilder insert(int offset, CharSequence s);
+  public native StringBuilder insert(int offset, @Nullable CharSequence s);
 
-  public native StringBuilder insert(int offset, CharSequence s, int start, int end);
+  public native StringBuilder insert(int offset, @Nullable CharSequence s, int start, int end);
 
   public native int indexOf(String str);
 

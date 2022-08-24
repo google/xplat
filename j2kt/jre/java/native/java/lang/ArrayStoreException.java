@@ -15,6 +15,8 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/ArrayStoreException.html">the
@@ -25,8 +27,7 @@ public class ArrayStoreException extends RuntimeException {
   public ArrayStoreException() {
   }
 
-  public ArrayStoreException(String message) {
+  public ArrayStoreException(@Nullable String message) {
     super(message);
   }
-
 }

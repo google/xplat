@@ -18,11 +18,12 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.ArithmeticException")
 public class ArithmeticException extends RuntimeException {
 
   public ArithmeticException() {}
 
-  public ArithmeticException(String detailMessage) {}
+  public ArithmeticException(@Nullable String detailMessage) {}
 }

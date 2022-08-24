@@ -18,11 +18,12 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.ClassCastException")
 public class ClassCastException extends RuntimeException {
 
   public ClassCastException() {}
 
-  public ClassCastException(String detailMessage) {}
+  public ClassCastException(@Nullable String detailMessage) {}
 }

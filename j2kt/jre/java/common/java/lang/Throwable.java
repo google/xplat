@@ -20,31 +20,32 @@ package java.lang;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Throwable")
 public class Throwable {
 
   public Throwable() {}
 
-  public Throwable(String detailMessage) {}
+  public Throwable(@Nullable String detailMessage) {}
 
-  public Throwable(String detailMessage, Throwable cause) {}
+  public Throwable(@Nullable String detailMessage, @Nullable Throwable cause) {}
 
-  public Throwable(Throwable cause) {}
+  public Throwable(@Nullable Throwable cause) {}
 
   // TODO(b/222269323): Find out if we need to support this.
-  // protected Throwable(String detailMessage, Throwable cause, boolean enableSuppression, boolean
-  // writableStackTrace) {}
+  // protected Throwable(@Nullable String detailMessage, @Nullable Throwable cause,
+  //     boolean enableSuppression, boolean writableStackTrace) {}
 
   // J2KT: Disabled
   // public native Throwable fillInStackTrace();
 
   @KtProperty
-  public native String getMessage();
+  public native @Nullable String getMessage();
 
   // TODO(b/222269323): Property does not exist in Kotlin/is not final in Java -> needs review.
   @KtProperty
-  public native String getLocalizedMessage();
+  public native @Nullable String getLocalizedMessage();
 
   @KtProperty
   public native StackTraceElement[] getStackTrace();
@@ -67,10 +68,10 @@ public class Throwable {
   public native String toString();
 
   // J2KT: Disabled.
-  // public native Throwable initCause(Throwable throwable);
+  // public native Throwable initCause(@Nullable Throwable throwable);
 
   @KtProperty
-  public native Throwable getCause();
+  public native @Nullable Throwable getCause();
 
   public final native void addSuppressed(@JsNonNull Throwable throwable);
 

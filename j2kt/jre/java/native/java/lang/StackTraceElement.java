@@ -17,6 +17,7 @@ package java.lang;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Included for hosted mode source compatibility. Partially implemented
@@ -25,19 +26,19 @@ import java.util.Objects;
  */
 public final class StackTraceElement implements Serializable {
 
-  private String className;
+  private String className = "";
 
-  private String fileName;
+  private @Nullable String fileName;
 
   private int lineNumber;
 
-  private String methodName;
+  private String methodName = "";
 
   public StackTraceElement() {
   }
 
-  public StackTraceElement(String className, String methodName,
-      String fileName, int lineNumber) {
+  public StackTraceElement(
+      String className, String methodName, @Nullable String fileName, int lineNumber) {
     assert className != null;
     assert methodName != null;
     this.className = className;
@@ -50,7 +51,7 @@ public final class StackTraceElement implements Serializable {
     return className;
   }
 
-  public String getFileName() {
+  public @Nullable String getFileName() {
     return fileName;
   }
 
@@ -63,7 +64,7 @@ public final class StackTraceElement implements Serializable {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (other instanceof StackTraceElement) {
       StackTraceElement st = (StackTraceElement) other;
       return lineNumber == st.lineNumber

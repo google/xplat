@@ -20,6 +20,7 @@ package java.lang;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Int")
 public final class Integer extends Number implements Comparable<Integer> {
@@ -50,16 +51,17 @@ public final class Integer extends Number implements Comparable<Integer> {
   public native double doubleValue();
 
   @Override
-  public native boolean equals(Object o);
+  public native boolean equals(@Nullable Object o);
 
   @Override
   public native float floatValue();
 
-  public static native Integer getInteger(String string);
+  public static native @Nullable Integer getInteger(@Nullable String string);
 
-  public static native Integer getInteger(String string, int defaultValue);
+  public static native Integer getInteger(@Nullable String string, int defaultValue);
 
-  public static native Integer getInteger(String string, Integer defaultValue);
+  public static native @Nullable Integer getInteger(
+      @Nullable String string, @Nullable Integer defaultValue);
 
   @Override
   public native int hashCode();

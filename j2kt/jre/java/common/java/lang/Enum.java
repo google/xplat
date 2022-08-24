@@ -19,6 +19,7 @@ package java.lang;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Enum")
 public abstract class Enum<E extends @JsNonNull Enum<E>> implements Comparable<E> {
@@ -35,7 +36,7 @@ public abstract class Enum<E extends @JsNonNull Enum<E>> implements Comparable<E
   public native String toString();
 
   @Override
-  public final native boolean equals(Object other);
+  public final native boolean equals(@Nullable Object other);
 
   @Override
   public final native int hashCode();

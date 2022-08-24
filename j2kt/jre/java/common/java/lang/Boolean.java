@@ -18,6 +18,7 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java Boolean should implement Serializable. Kotlin Boolean doesn't.
 @KtNative("kotlin.Boolean")
@@ -29,14 +30,14 @@ public final class Boolean implements Comparable<Boolean> {
 
   public static /* final */ Boolean FALSE;
 
-  public Boolean(String string) {}
+  public Boolean(@Nullable String string) {}
 
   public Boolean(boolean value) {}
 
   public native boolean booleanValue();
 
   @Override
-  public native boolean equals(Object o);
+  public native boolean equals(@Nullable Object o);
 
   public native int compareTo(Boolean that);
 
@@ -49,13 +50,13 @@ public final class Boolean implements Comparable<Boolean> {
   public native String toString();
 
   // J2KT: Removed for now
-  // public native static boolean getBoolean(String string);
+  // public native static boolean getBoolean(@Nullable String string);
 
-  public static native boolean parseBoolean(String s);
+  public static native boolean parseBoolean(@Nullable String s);
 
   public static native String toString(boolean value);
 
-  public static native Boolean valueOf(String string);
+  public static native Boolean valueOf(@Nullable String string);
 
   public static native Boolean valueOf(boolean b);
 

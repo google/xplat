@@ -18,15 +18,16 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.IllegalArgumentException")
 public class IllegalArgumentException extends RuntimeException {
 
   public IllegalArgumentException() {}
 
-  public IllegalArgumentException(String detailMessage) {}
+  public IllegalArgumentException(@Nullable String detailMessage) {}
 
-  public IllegalArgumentException(String message, Throwable cause) {}
+  public IllegalArgumentException(@Nullable String message, @Nullable Throwable cause) {}
 
-  public IllegalArgumentException(Throwable cause) {}
+  public IllegalArgumentException(@Nullable Throwable cause) {}
 }

@@ -17,6 +17,7 @@ package java.lang;
 
 import java.io.PrintStream;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 /** General-purpose low-level utility methods. */
 @KtNative("java.lang.System")
@@ -27,7 +28,7 @@ public final class System {
 
   public static native long nanoTime();
 
-  public static native int identityHashCode(Object o);
+  public static native int identityHashCode(@Nullable Object o);
 
   public static PrintStream err;
 
@@ -41,7 +42,7 @@ public final class System {
   public static native void gc();
 
   /** Added for source compatibility */
-  public static native String getProperty(String key);
+  public static native @Nullable String getProperty(String key);
 
-  public static native String getProperty(String key, String def);
+  public static native @Nullable String getProperty(String key, @Nullable String def);
 }

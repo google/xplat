@@ -18,11 +18,12 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.NullPointerException")
 public class NullPointerException extends RuntimeException {
 
   public NullPointerException() {}
 
-  public NullPointerException(String detailMessage) {}
+  public NullPointerException(@Nullable String detailMessage) {}
 }

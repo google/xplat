@@ -18,6 +18,7 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a
@@ -29,9 +30,10 @@ public class UnsupportedOperationException extends RuntimeException {
 
   public UnsupportedOperationException() {}
 
-  public UnsupportedOperationException(String detailMessage) {}
+  public UnsupportedOperationException(@Nullable String detailMessage) {}
 
-  public UnsupportedOperationException(String detailMessage, Throwable throwable) {}
+  public UnsupportedOperationException(
+      @Nullable String detailMessage, @Nullable Throwable throwable) {}
 
-  public UnsupportedOperationException(Throwable throwable) {}
+  public UnsupportedOperationException(@Nullable Throwable throwable) {}
 }

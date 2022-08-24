@@ -15,6 +15,8 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/CloneNotSupportedException.html">
@@ -25,8 +27,7 @@ public class CloneNotSupportedException extends Exception {
   public CloneNotSupportedException() {
   }
 
-  public CloneNotSupportedException(String msg) {
+  public CloneNotSupportedException(@Nullable String msg) {
     super(msg);
   }
 }
-

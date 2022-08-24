@@ -15,6 +15,8 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Indicates that an objet was in an invalid state during an attempted
  * operation.
@@ -24,15 +26,15 @@ public class IllegalStateException extends RuntimeException {
   public IllegalStateException() {
   }
 
-  public IllegalStateException(String s) {
+  public IllegalStateException(@Nullable String s) {
     super(s);
   }
 
-  public IllegalStateException(String message, Throwable cause) {
+  public IllegalStateException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 
-  public IllegalStateException(Throwable cause) {
+  public IllegalStateException(@Nullable Throwable cause) {
     super(cause);
   }
 

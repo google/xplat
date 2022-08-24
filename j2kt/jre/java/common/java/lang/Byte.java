@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Byte")
 public final class Byte extends Number implements Comparable<Byte> {
@@ -49,7 +50,7 @@ public final class Byte extends Number implements Comparable<Byte> {
   public native double doubleValue();
 
   @Override
-  public native boolean equals(Object object);
+  public native boolean equals(@Nullable Object object);
 
   @Override
   public native float floatValue();

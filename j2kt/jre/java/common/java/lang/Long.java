@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Long")
 public final class Long extends Number implements Comparable<Long> {
@@ -49,16 +50,16 @@ public final class Long extends Number implements Comparable<Long> {
   public native double doubleValue();
 
   @Override
-  public native boolean equals(Object o);
+  public native boolean equals(@Nullable Object o);
 
   @Override
   public native float floatValue();
 
-  public static native Long getLong(String string);
+  public static native @Nullable Long getLong(@Nullable String string);
 
-  public static native Long getLong(String string, long defaultValue);
+  public static native Long getLong(@Nullable String string, long defaultValue);
 
-  public static native Long getLong(String string, Long defaultValue);
+  public static native @Nullable Long getLong(@Nullable String string, @Nullable Long defaultValue);
 
   @Override
   public native int hashCode();

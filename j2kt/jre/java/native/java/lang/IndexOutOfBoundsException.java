@@ -15,6 +15,8 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/IndexOutOfBoundsException.html">the
@@ -25,7 +27,7 @@ public class IndexOutOfBoundsException extends RuntimeException {
   public IndexOutOfBoundsException() {
   }
 
-  public IndexOutOfBoundsException(String message) {
+  public IndexOutOfBoundsException(@Nullable String message) {
     super(message);
   }
 }

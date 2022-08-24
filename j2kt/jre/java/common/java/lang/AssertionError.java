@@ -18,13 +18,16 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.AssertionError")
 public class AssertionError extends Error {
 
   public AssertionError() {}
 
-  public AssertionError(Object detailMessage) {}
+  public AssertionError(@Nullable Object detailMessage) {}
+
+  public AssertionError(@Nullable String message, @Nullable Throwable cause) {}
 
   public AssertionError(boolean detailMessage) {}
 

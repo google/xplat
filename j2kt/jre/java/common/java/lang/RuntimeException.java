@@ -18,15 +18,16 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.RuntimeException")
 public class RuntimeException extends Exception {
 
   public RuntimeException() {}
 
-  public RuntimeException(String detailMessage) {}
+  public RuntimeException(@Nullable String detailMessage) {}
 
-  public RuntimeException(String detailMessage, Throwable throwable) {}
+  public RuntimeException(@Nullable String detailMessage, @Nullable Throwable throwable) {}
 
-  public RuntimeException(Throwable throwable) {}
+  public RuntimeException(@Nullable Throwable throwable) {}
 }

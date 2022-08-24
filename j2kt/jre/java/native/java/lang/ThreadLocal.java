@@ -19,15 +19,16 @@
 package java.lang;
 
 import java.util.function.Supplier;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Provides an implementation of {@link java.lang.ThreadLocal} for GWT.
  *
  * @param <T> value type.
  */
-public class ThreadLocal<T> {
+public class ThreadLocal<T extends @Nullable Object> {
 
-  private T value;
+  private @Nullable T value;
 
   public T get() {
     return value;
@@ -41,7 +42,8 @@ public class ThreadLocal<T> {
     value = null;
   }
 
-  public static <S> ThreadLocal<S> withInitial(Supplier<? extends S> supplier) {
+  public static <S extends @Nullable Object> ThreadLocal<S> withInitial(
+      Supplier<? extends S> supplier) {
     ThreadLocal<S> threadLocal = new ThreadLocal<>();
     threadLocal.set(supplier.get());
     return threadLocal;

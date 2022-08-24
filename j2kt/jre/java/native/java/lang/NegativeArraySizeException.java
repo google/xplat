@@ -15,6 +15,8 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/NegativeArraySizeException.html">the
@@ -25,7 +27,7 @@ public class NegativeArraySizeException extends RuntimeException {
   public NegativeArraySizeException() {
   }
 
-  public NegativeArraySizeException(String message) {
+  public NegativeArraySizeException(@Nullable String message) {
     super(message);
   }
 

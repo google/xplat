@@ -18,15 +18,16 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Error")
 public class Error extends Throwable {
 
   public Error() {}
 
-  public Error(String detailMessage) {}
+  public Error(@Nullable String detailMessage) {}
 
-  public Error(String detailMessage, Throwable throwable) {}
+  public Error(@Nullable String detailMessage, @Nullable Throwable cause) {}
 
-  public Error(Throwable throwable) {}
+  public Error(@Nullable Throwable cause) {}
 }

@@ -20,6 +20,7 @@ import java.io.IOException;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.text.Appendable")
 public interface Appendable {
@@ -30,9 +31,9 @@ public interface Appendable {
 
   @KtPropagateNullability
   @JsNonNull
-  Appendable append(CharSequence csq) throws IOException;
+  Appendable append(@Nullable CharSequence csq) throws IOException;
 
   @KtPropagateNullability
   @JsNonNull
-  Appendable append(CharSequence csq, int start, int end) throws IOException;
+  Appendable append(@Nullable CharSequence csq, int start, int end) throws IOException;
 }

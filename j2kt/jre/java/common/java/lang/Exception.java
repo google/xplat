@@ -18,14 +18,15 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Exception")
 public class Exception extends Throwable {
   public Exception() {}
 
-  public Exception(String detailMessage) {}
+  public Exception(@Nullable String detailMessage) {}
 
-  public Exception(String detailMessage, Throwable throwable) {}
+  public Exception(@Nullable String detailMessage, @Nullable Throwable throwable) {}
 
-  public Exception(Throwable throwable) {}
+  public Exception(@Nullable Throwable throwable) {}
 }

@@ -22,13 +22,14 @@ import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">the official Java
  * API doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableIterable", bridgeWith = "javaemul.lang.JavaIterable")
-public interface Iterable<T> {
+public interface Iterable<T extends @Nullable Object> {
 
   @KtPropagateNullability
   @JsNonNull

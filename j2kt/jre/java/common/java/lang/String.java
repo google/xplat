@@ -25,6 +25,7 @@ import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java String should implement Serializable. Kotlin String doesn't.
 @KtNative("kotlin.String")
@@ -83,9 +84,9 @@ public final class String implements Comparable<String>, CharSequence {
   public native boolean endsWith(String suffix);
 
   @Override
-  public native boolean equals(Object object);
+  public native boolean equals(@Nullable Object object);
 
-  public native boolean equalsIgnoreCase(String string);
+  public native boolean equalsIgnoreCase(@Nullable String string);
 
   @Deprecated
   public native void getBytes(int start, int end, byte[] data, int index);
@@ -172,7 +173,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public static native String valueOf(long value);
 
-  public static native String valueOf(Object value);
+  public static native String valueOf(@Nullable Object value);
 
   public static native String valueOf(boolean value);
 

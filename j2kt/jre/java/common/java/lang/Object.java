@@ -35,6 +35,7 @@ package java.lang;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Any")
 public class Object {
@@ -43,7 +44,8 @@ public class Object {
   // TODO(b/222269323): Decide what to do with clone(). This does not exist in kotlin.Any.
   // protected native Object clone() throws CloneNotSupportedException;
 
-  public native boolean equals(Object o);
+  @KtPropagateNullability
+  public native boolean equals(@Nullable Object o);
 
   public final native Class<?> getClass();
 

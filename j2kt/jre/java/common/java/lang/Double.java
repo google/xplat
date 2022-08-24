@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Double")
 public final class Double extends Number implements Comparable<Double> {
@@ -61,7 +62,7 @@ public final class Double extends Number implements Comparable<Double> {
   public native double doubleValue();
 
   @Override
-  public native boolean equals(Object object);
+  public native boolean equals(@Nullable Object object);
 
   @Override
   public native float floatValue();

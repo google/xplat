@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java Character should implement Serializable. Kotlin Char doesn't.
 @KtNative("kotlin.Char")
@@ -213,7 +214,7 @@ public final class Character implements Comparable<Character> {
   public static native int digit(int codePoint, int radix);
 
   @Override
-  public native boolean equals(Object object);
+  public native boolean equals(@Nullable Object object);
 
   public static native char forDigit(int digit, int radix);
 

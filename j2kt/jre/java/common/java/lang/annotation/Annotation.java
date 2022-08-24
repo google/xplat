@@ -20,6 +20,7 @@ package java.lang.annotation;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Annotation")
 public interface Annotation {
@@ -27,7 +28,7 @@ public interface Annotation {
   @KtName("annotationClass")
   Class<? extends Annotation> annotationType();
 
-  boolean equals(Object obj);
+  boolean equals(@Nullable Object obj);
 
   int hashCode();
 

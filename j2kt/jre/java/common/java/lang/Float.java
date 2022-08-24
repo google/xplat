@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Float")
 public final class Float extends Number implements Comparable<Float> {
@@ -59,7 +60,7 @@ public final class Float extends Number implements Comparable<Float> {
   public native double doubleValue();
 
   @Override
-  public native boolean equals(Object object);
+  public native boolean equals(@Nullable Object object);
 
   public static native int floatToIntBits(float value);
 

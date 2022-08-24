@@ -18,6 +18,8 @@
 
 package java.lang;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Minimal emulation of {@link java.lang.InterruptedException}, that should
  * only be used in method signatures.
@@ -25,7 +27,7 @@ package java.lang;
 public class InterruptedException extends Exception {
   public InterruptedException() { }
 
-  public InterruptedException(String message) {
+  public InterruptedException(@Nullable String message) {
     super(message);
   }
 }

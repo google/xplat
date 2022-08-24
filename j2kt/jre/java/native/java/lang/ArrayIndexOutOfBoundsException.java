@@ -15,6 +15,8 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * NOTE: in GWT this will never be thrown for normal array accesses, only for
  * explicit throws.
@@ -34,8 +36,7 @@ public class ArrayIndexOutOfBoundsException extends IndexOutOfBoundsException {
     super("Array index " + index + " out of range");
   }
 
-  public ArrayIndexOutOfBoundsException(String msg) {
+  public ArrayIndexOutOfBoundsException(@Nullable String msg) {
     super(msg);
   }
 }
-
