@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import jsinterop.annotations.JsNonNull;
+
 /**
  * A set known to be in ascending order. <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/SortedSet.html">[Sun
@@ -36,15 +38,9 @@ public interface SortedSet<E> extends Set<E> {
 
   SortedSet<E> tailSet(E fromElement);
 
+  // TODO (b/237650063): Add implementation after Spliterators is implemented
   @Override
-  default Spliterator<E> spliterator() {
-    return new Spliterators.IteratorSpliterator<E>(this,
-        Spliterator.DISTINCT | Spliterator.ORDERED | Spliterator.SORTED) {
-
-      @Override
-      public Comparator<? super E> getComparator() {
-        return SortedSet.this.comparator();
-      }
-    };
+  default @JsNonNull Spliterator<E> spliterator() {
+    return null;
   }
 }
