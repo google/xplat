@@ -24,12 +24,13 @@ import jsinterop.annotations.JsNonNull;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">the official Java API
  * doc</a> for details.
  */
-@KtNative("kotlin.collections.MutableList")
+@KtNative(value = "kotlin.collections.MutableList", bridgeWith = "javaemul.lang.JavaList")
 public interface List<E> extends Collection<E> {
 
   @KtPropagateNullability
   void add(int index, @JsNonNull E element);
 
+  @KtName("java_addAll")
   @KtPropagateNullability
   boolean addAll(int index, @JsNonNull Collection<E> c);
 

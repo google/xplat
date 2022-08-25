@@ -22,13 +22,15 @@ import jsinterop.annotations.JsNonNull;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractCollection.html">the
  * official Java API doc</a> for details.
  */
-@KtNative("kotlin.collections.AbstractMutableCollection")
+@KtNative(
+    value = "kotlin.collections.AbstractMutableCollection",
+    bridgeWith = "javaemul.lang.JavaAbstractCollection")
 public abstract class AbstractCollection<E> implements Collection<E> {
 
   protected AbstractCollection() {}
 
   @Override
-  public abstract boolean add(@JsNonNull E o);
+  public abstract boolean add(@JsNonNull E e);
 
   @Override
   public native boolean addAll(@JsNonNull Collection<E> c);
@@ -46,7 +48,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
   public native boolean isEmpty();
 
   @Override
-  public native boolean remove(@JsNonNull E e);
+  public native boolean remove(@JsNonNull E o);
 
   @Override
   public native boolean removeAll(@JsNonNull Collection<E> c);

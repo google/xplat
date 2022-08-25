@@ -25,6 +25,9 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 
   override fun remove(key: K): V? = java_remove(key)
 
+  // TODO(b/243046587): Rewrite to handle case in which t is not mutable
+  override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
+
   abstract fun java_containsKey(key: Any?): Boolean
 
   abstract fun java_containsValue(value: Any?): Boolean
@@ -32,6 +35,8 @@ interface JavaMap<K, V> : MutableMap<K, V> {
   abstract fun java_get(key: Any?): V?
 
   abstract fun java_remove(key: Any?): V?
+
+  abstract fun java_putAll(t: MutableMap<out K?, V>)
 }
 
 // Note: No need to check for the runtime type below. The bridge interface is

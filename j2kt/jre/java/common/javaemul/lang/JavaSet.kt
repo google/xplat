@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Google Inc.
+ * Copyright 2022 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,13 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package java.util;
+package javaemul.lang
 
-import javaemul.internal.annotations.KtNative;
+interface JavaSet<E> : MutableSet<E>, JavaCollection<E> {
+  override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 
-/**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html">the official Java API
- * doc</a> for details.
- */
-@KtNative(value = "kotlin.collections.MutableSet", bridgeWith = "javaemul.lang.JavaSet")
-public interface Set<E> extends Collection<E> {}
+  override fun containsAll(c: Collection<E>): Boolean = super<JavaCollection>.containsAll(c)
+
+  override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
+
+  override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
+}

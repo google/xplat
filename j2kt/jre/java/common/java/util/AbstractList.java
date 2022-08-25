@@ -35,7 +35,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
   public native boolean add(@JsNonNull E obj);
 
   @Override
-  public abstract void add(int index, @JsNonNull E element);
+  public native void add(int index, @JsNonNull E element);
 
   @Override
   public native boolean addAll(int index, @JsNonNull Collection<E> c);
@@ -56,7 +56,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
   public native @JsNonNull ListIterator<E> listIterator(int from);
 
   @Override
-  public abstract E remove(int index);
+  public native E remove(int index);
 
   @Override
   public native boolean removeAll(@JsNonNull Collection<E> c);
@@ -67,7 +67,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
   public native boolean retainAll(@JsNonNull Collection<E> c);
 
   @Override
-  public abstract @JsNonNull E set(int index, E o);
+  public native @JsNonNull E set(int index, E o);
 
   @Override
   public native @JsNonNull List<E> subList(int fromIndex, int toIndex);

@@ -94,6 +94,7 @@ public interface Map<K, V> {
   @KtPropagateNullability
   V put(@JsNonNull K key, @JsNonNull V value);
 
+  @KtName("java_putAll")
   @KtPropagateNullability
   void putAll(@JsNonNull Map<? extends K, V> t);
 

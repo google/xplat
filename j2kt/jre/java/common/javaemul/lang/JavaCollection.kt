@@ -19,10 +19,43 @@ import java.lang.reflect.Array as JavaLangReflectArray
 import kotlin.jvm.javaObjectType
 
 /** Bridge class for java.util.Collection. */
-interface JavaCollection<E> : MutableCollection<E> {
+interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
+  // TODO(b/243046587): Rewrite to handle case in which c is not mutable
+  override fun addAll(c: Collection<E>): Boolean = java_addAll(c as MutableCollection<E>)
+
+  override fun containsAll(c: Collection<E>): Boolean = java_containsAll(c as MutableCollection<E>)
+
+  override fun removeAll(c: Collection<E>): Boolean = java_removeAll(c as MutableCollection<E>)
+
+  override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c as MutableCollection<E>)
+
+  abstract fun java_addAll(c: MutableCollection<E>): Boolean
+
+  abstract fun java_containsAll(c: MutableCollection<E>): Boolean
+
+  abstract fun java_removeAll(c: MutableCollection<E>): Boolean
+
+  abstract fun java_retainAll(c: MutableCollection<E>): Boolean
+
   fun java_toArray(): Array<Any?> = default_toArray()
 
   fun <T> java_toArray(a: Array<T?>?): Array<T?> = default_toArray(a)
+}
+
+fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean {
+  if (this is JavaCollection) return java_addAll(c) else return addAll(c)
+}
+
+fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<out E>): Boolean {
+  if (this is JavaCollection) return java_containsAll(c) else return containsAll(c)
+}
+
+fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<out E>): Boolean {
+  if (this is JavaCollection) return removeAll(c) else return containsAll(c)
+}
+
+fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<out E>): Boolean {
+  if (this is JavaCollection) return java_retainAll(c) else return containsAll(c)
 }
 
 fun MutableCollection<*>.java_toArray(): Array<Any?> =
