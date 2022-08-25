@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/StringJoiner.html">
  * the official Java API doc</a> for details.
@@ -25,7 +27,7 @@ public final class StringJoiner {
   private final String prefix;
   private final String suffix;
 
-  private StringBuilder builder;
+  private @Nullable StringBuilder builder;
   private String emptyValue;
 
   public StringJoiner(CharSequence delimiter) {
@@ -39,7 +41,7 @@ public final class StringJoiner {
     this.emptyValue = this.prefix + this.suffix;
   }
 
-  public StringJoiner add(CharSequence newElement) {
+  public StringJoiner add(@Nullable CharSequence newElement) {
     initBuilderOrAddDelimiter();
     builder.append(newElement);
     return this;

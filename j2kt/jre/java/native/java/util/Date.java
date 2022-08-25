@@ -16,9 +16,9 @@
 package java.util;
 
 import java.io.Serializable;
-
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Represents a date and time.
@@ -116,7 +116,7 @@ public class Date implements Cloneable, Comparable<Date>, Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return ((obj instanceof Date) && (getTime() == ((Date) obj).getTime()));
   }
 

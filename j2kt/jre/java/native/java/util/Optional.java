@@ -15,14 +15,15 @@
  */
 package java.util;
 
+import static javaemul.internal.InternalPreconditions.checkCriticalElement;
+import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
+import static javaemul.internal.InternalPreconditions.checkNotNull;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import static javaemul.internal.InternalPreconditions.checkCriticalElement;
-import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
-import static javaemul.internal.InternalPreconditions.checkNotNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html">
@@ -41,13 +42,13 @@ public final class Optional<T> {
     return new Optional<>(checkCriticalNotNull(value));
   }
 
-  public static <T> Optional<T> ofNullable(T value) {
+  public static <T> Optional<T> ofNullable(@Nullable T value) {
     return value == null ? empty() : of(value);
   }
 
   private static final Optional<?> EMPTY = new Optional<>(null);
 
-  private final T ref;
+  private final @Nullable T ref;
 
   private Optional(T ref) {
     this.ref = ref;
@@ -80,7 +81,7 @@ public final class Optional<T> {
     return empty();
   }
 
-  public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
+  public <U> Optional<U> map(Function<? super T, ? extends @Nullable U> mapper) {
     checkNotNull(mapper);
     if (isPresent()) {
       return ofNullable(mapper.apply(ref));
@@ -96,7 +97,7 @@ public final class Optional<T> {
     return empty();
   }
 
-  public T orElse(T other) {
+  public @Nullable T orElse(@Nullable T other) {
     return isPresent() ? ref : other;
   }
 
@@ -112,7 +113,7 @@ public final class Optional<T> {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }

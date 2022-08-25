@@ -19,14 +19,15 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html">the official
+ * Java API doc</a> for details.
  *
  * @param <T> the type of elements returned by Spliterator.
  */
-public interface Spliterator<T> {
+public interface Spliterator<T extends @Nullable Object> {
 
   int DISTINCT = 0x00000001;
 
@@ -52,7 +53,7 @@ public interface Spliterator<T> {
     while (tryAdvance(consumer)) { }
   }
 
-  default Comparator<? super T> getComparator() {
+  default @Nullable Comparator<? super T> getComparator() {
     throw new IllegalStateException();
   }
 
@@ -66,7 +67,7 @@ public interface Spliterator<T> {
 
   boolean tryAdvance(Consumer<? super T> consumer);
 
-  Spliterator<T> trySplit();
+  @Nullable Spliterator<T> trySplit();
 
   /**
    * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.OfPrimitive.html">
@@ -76,12 +77,14 @@ public interface Spliterator<T> {
    * @param <C> the type of primitive Consumer.
    * @param <S> the type of primitive Spliterator.
    */
-  interface OfPrimitive<T, C, S extends OfPrimitive<T, C, S>> extends Spliterator<T> {
+  interface OfPrimitive<
+          T extends @Nullable Object, C extends @Nullable Object, S extends OfPrimitive<T, C, S>>
+      extends Spliterator<T> {
 
     boolean tryAdvance(C consumer);
 
     @Override
-    S trySplit();
+    @Nullable S trySplit();
 
     default void forEachRemaining(C consumer) {
       while (tryAdvance(consumer)) { }

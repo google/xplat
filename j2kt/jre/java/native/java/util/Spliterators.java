@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterators.html">
@@ -52,7 +53,7 @@ public final class Spliterators {
       return sizeEstimate;
     }
 
-    public S trySplit() {
+    public @Nullable S trySplit() {
       // see javadoc for java.util.Spliterator
       return null;
     }
@@ -248,7 +249,7 @@ public final class Spliterators {
       return false;
     }
 
-    public S trySplit() {
+    public @Nullable S trySplit() {
       return null;
     }
 
@@ -467,7 +468,7 @@ public final class Spliterators {
     }
 
     @Override
-    public Spliterator<T> trySplit() {
+    public @Nullable Spliterator<T> trySplit() {
       // see javadoc for java.util.Spliterator
       return null;
     }
@@ -626,7 +627,7 @@ public final class Spliterators {
       return false;
     }
 
-    public S trySplit() {
+    public @Nullable S trySplit() {
       // see javadoc for java.util.Spliterator
       return null;
     }

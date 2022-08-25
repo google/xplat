@@ -25,6 +25,7 @@ import java.util.function.IntToLongFunction;
 import java.util.function.IntUnaryOperator;
 import java.util.function.LongBinaryOperator;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Utility methods related to native arrays. See <a
@@ -34,7 +35,7 @@ import javaemul.internal.annotations.KtNative;
 @KtNative("java.util.Arrays") // Reimplemented in Kotlin, not transpiled.
 public class Arrays {
 
-  public static native <T> List<T> asList(T... array);
+  public static native <T extends @Nullable Object> List<T> asList(T... array);
 
   public static native int binarySearch(byte[] sortedArray, int fromIndex, int toIndex, byte key);
 
@@ -62,18 +63,23 @@ public class Arrays {
   public static native int binarySearch(long[] sortedArray, long key);
 
   public static native int binarySearch(
-      Object[] sortedArray, int fromIndex, int toIndex, Object key);
+      @Nullable Object[] sortedArray, int fromIndex, int toIndex, @Nullable Object key);
 
-  public static native int binarySearch(Object[] sortedArray, Object key);
+  public static native int binarySearch(@Nullable Object[] sortedArray, @Nullable Object key);
 
   public static native int binarySearch(short[] sortedArray, int fromIndex, int toIndex, short key);
 
   public static native int binarySearch(short[] sortedArray, short key);
 
-  public static native <T> int binarySearch(
-      T[] sortedArray, int fromIndex, int toIndex, T key, Comparator<? super T> comparator);
+  public static native <T extends @Nullable Object> int binarySearch(
+      T[] sortedArray,
+      int fromIndex,
+      int toIndex,
+      T key,
+      @Nullable Comparator<? super T> comparator);
 
-  public static native <T> int binarySearch(T[] sortedArray, T key, Comparator<? super T> c);
+  public static native <T extends @Nullable Object> int binarySearch(
+      T[] sortedArray, T key, @Nullable Comparator<? super T> c);
 
   public static native boolean[] copyOf(boolean[] original, int newLength);
 
@@ -91,7 +97,7 @@ public class Arrays {
 
   public static native short[] copyOf(short[] original, int newLength);
 
-  public static native <T> T[] copyOf(T[] original, int newLength);
+  public static native <T> @Nullable T[] copyOf(@Nullable T[] original, int newLength);
 
   public static native boolean[] copyOfRange(boolean[] original, int from, int to);
 
@@ -109,31 +115,33 @@ public class Arrays {
 
   public static native short[] copyOfRange(short[] original, int from, int to);
 
-  public static native <T> T[] copyOfRange(T[] original, int from, int to);
+  public static native <T> @Nullable T[] copyOfRange(@Nullable T[] original, int from, int to);
 
-  public static native boolean deepEquals(Object[] a1, Object[] a2);
+  public static native boolean deepEquals(
+      @Nullable Object @Nullable [] a1, @Nullable Object @Nullable [] a2);
 
-  public static native int deepHashCode(Object[] a);
+  public static native int deepHashCode(@Nullable Object @Nullable [] a);
 
-  public static native String deepToString(Object[] a);
+  public static native String deepToString(@Nullable Object @Nullable [] a);
 
-  public static native boolean equals(boolean[] array1, boolean[] array2);
+  public static native boolean equals(boolean @Nullable [] array1, boolean @Nullable [] array2);
 
-  public static native boolean equals(byte[] array1, byte[] array2);
+  public static native boolean equals(byte @Nullable [] array1, byte @Nullable [] array2);
 
-  public static native boolean equals(char[] array1, char[] array2);
+  public static native boolean equals(char @Nullable [] array1, char @Nullable [] array2);
 
-  public static native boolean equals(double[] array1, double[] array2);
+  public static native boolean equals(double @Nullable [] array1, double @Nullable [] array2);
 
-  public static native boolean equals(float[] array1, float[] array2);
+  public static native boolean equals(float @Nullable [] array1, float @Nullable [] array2);
 
-  public static native boolean equals(int[] array1, int[] array2);
+  public static native boolean equals(int @Nullable [] array1, int @Nullable [] array2);
 
-  public static native boolean equals(long[] array1, long[] array2);
+  public static native boolean equals(long @Nullable [] array1, long @Nullable [] array2);
 
-  public static native boolean equals(Object[] array1, Object[] array2);
+  public static native boolean equals(
+      @Nullable Object @Nullable [] array1, @Nullable Object @Nullable [] array2);
 
-  public static native boolean equals(short[] array1, short[] array2);
+  public static native boolean equals(short @Nullable [] array1, short @Nullable [] array2);
 
   public static native void fill(boolean[] a, boolean val);
 
@@ -163,31 +171,32 @@ public class Arrays {
 
   public static native void fill(long[] a, int fromIndex, int toIndex, long val);
 
-  public static native void fill(Object[] a, int fromIndex, int toIndex, Object val);
+  public static native void fill(
+      @Nullable Object[] a, int fromIndex, int toIndex, @Nullable Object val);
 
-  public static native void fill(Object[] a, Object val);
+  public static native void fill(@Nullable Object[] a, @Nullable Object val);
 
   public static native void fill(short[] a, short val);
 
   public static native void fill(short[] a, int fromIndex, int toIndex, short val);
 
-  public static native int hashCode(boolean[] a);
+  public static native int hashCode(boolean @Nullable [] a);
 
-  public static native int hashCode(byte[] a);
+  public static native int hashCode(byte @Nullable [] a);
 
-  public static native int hashCode(char[] a);
+  public static native int hashCode(char @Nullable [] a);
 
-  public static native int hashCode(double[] a);
+  public static native int hashCode(double @Nullable [] a);
 
-  public static native int hashCode(float[] a);
+  public static native int hashCode(float @Nullable [] a);
 
-  public static native int hashCode(int[] a);
+  public static native int hashCode(int @Nullable [] a);
 
-  public static native int hashCode(long[] a);
+  public static native int hashCode(long @Nullable [] a);
 
-  public static native int hashCode(Object[] a);
+  public static native int hashCode(@Nullable Object @Nullable [] a);
 
-  public static native int hashCode(short[] a);
+  public static native int hashCode(short @Nullable [] a);
 
   public static native void parallelPrefix(double[] array, DoubleBinaryOperator op);
 
@@ -204,12 +213,14 @@ public class Arrays {
   public static native void parallelPrefix(
       long[] array, int fromIndex, int toIndex, LongBinaryOperator op);
 
-  public static native <T> void parallelPrefix(T[] array, BinaryOperator<T> op);
+  public static native <T extends @Nullable Object> void parallelPrefix(
+      T[] array, BinaryOperator<T> op);
 
-  public static native <T> void parallelPrefix(
+  public static native <T extends @Nullable Object> void parallelPrefix(
       T[] array, int fromIndex, int toIndex, BinaryOperator<T> op);
 
-  public static native <T> void setAll(T[] array, IntFunction<? extends T> generator);
+  public static native <T extends @Nullable Object> void setAll(
+      T[] array, IntFunction<? extends T> generator);
 
   public static native void setAll(double[] array, IntToDoubleFunction generator);
 
@@ -217,7 +228,8 @@ public class Arrays {
 
   public static native void setAll(long[] array, IntToLongFunction generator);
 
-  public static native <T> void parallelSetAll(T[] array, IntFunction<? extends T> generator);
+  public static native <T extends @Nullable Object> void parallelSetAll(
+      T[] array, IntFunction<? extends T> generator);
 
   public static native void parallelSetAll(double[] array, IntToDoubleFunction generator);
 
@@ -257,9 +269,11 @@ public class Arrays {
 
   public static native void sort(short[] array, int fromIndex, int toIndex);
 
-  public static native <T> void sort(T[] x, Comparator<? super T> c);
+  public static native <T extends @Nullable Object> void sort(
+      T[] x, @Nullable Comparator<? super T> c);
 
-  public static native <T> void sort(T[] x, int fromIndex, int toIndex, Comparator<? super T> c);
+  public static native <T extends @Nullable Object> void sort(
+      T[] x, int fromIndex, int toIndex, @Nullable Comparator<? super T> c);
 
   public static native void parallelSort(byte[] array);
 
@@ -291,31 +305,32 @@ public class Arrays {
 
   public static native <T extends Comparable<? super T>> void parallelSort(T[] array);
 
-  public static native <T> void parallelSort(T[] array, Comparator<? super T> c);
+  public static native <T extends @Nullable Object> void parallelSort(
+      T[] array, @Nullable Comparator<? super T> c);
 
   public static native <T extends Comparable<? super T>> void parallelSort(
       T[] array, int fromIndex, int toIndex);
 
-  public static native <T> void parallelSort(
-      T[] array, int fromIndex, int toIndex, Comparator<? super T> c);
+  public static native <T extends @Nullable Object> void parallelSort(
+      T[] array, int fromIndex, int toIndex, @Nullable Comparator<? super T> c);
 
-  public static native String toString(boolean[] a);
+  public static native String toString(boolean @Nullable [] a);
 
-  public static native String toString(byte[] a);
+  public static native String toString(byte @Nullable [] a);
 
-  public static native String toString(char[] a);
+  public static native String toString(char @Nullable [] a);
 
-  public static native String toString(double[] a);
+  public static native String toString(double @Nullable [] a);
 
-  public static native String toString(float[] a);
+  public static native String toString(float @Nullable [] a);
 
-  public static native String toString(int[] a);
+  public static native String toString(int @Nullable [] a);
 
-  public static native String toString(long[] a);
+  public static native String toString(long @Nullable [] a);
 
-  public static native String toString(Object[] x);
+  public static native String toString(@Nullable Object @Nullable [] x);
 
-  public static native String toString(short[] a);
+  public static native String toString(short @Nullable [] a);
 
   private Arrays() { }
 }

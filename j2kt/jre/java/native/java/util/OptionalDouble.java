@@ -15,11 +15,12 @@
  */
 package java.util;
 
+import static javaemul.internal.InternalPreconditions.checkCriticalElement;
+
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-
-import static javaemul.internal.InternalPreconditions.checkCriticalElement;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/OptionalDouble.html">
@@ -81,7 +82,7 @@ public final class OptionalDouble {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }

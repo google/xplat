@@ -20,6 +20,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An interface used a basis for implementing custom ordering. <a
@@ -29,7 +30,7 @@ import javaemul.internal.annotations.KtNative;
  */
 @KtNative("kotlin.Comparator")
 @FunctionalInterface
-public interface Comparator<T> {
+public interface Comparator<T extends @Nullable Object> {
 
   int compare(T a, T b);
 
@@ -41,7 +42,7 @@ public interface Comparator<T> {
     return null;
   }
 
-  default <U> Comparator<T> thenComparing(
+  default <U extends @Nullable Object> Comparator<T> thenComparing(
       Function<? super T, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
     return null;
   }
@@ -63,25 +64,28 @@ public interface Comparator<T> {
     return null;
   }
 
-  static <T, U> Comparator<T> comparing(
+  static <T extends @Nullable Object, U extends @Nullable Object> Comparator<T> comparing(
       Function<? super T, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
     return null;
   }
 
-  static <T, U extends Comparable<? super U>> Comparator<T> comparing(
+  static <T extends @Nullable Object, U extends Comparable<? super U>> Comparator<T> comparing(
       Function<? super T, ? extends U> keyExtractor) {
     return null;
   }
 
-  static <T> Comparator<T> comparingDouble(ToDoubleFunction<? super T> keyExtractor) {
+  static <T extends @Nullable Object> Comparator<T> comparingDouble(
+      ToDoubleFunction<? super T> keyExtractor) {
     return null;
   }
 
-  static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor) {
+  static <T extends @Nullable Object> Comparator<T> comparingInt(
+      ToIntFunction<? super T> keyExtractor) {
     return null;
   }
 
-  static <T> Comparator<T> comparingLong(ToLongFunction<? super T> keyExtractor) {
+  static <T extends @Nullable Object> Comparator<T> comparingLong(
+      ToLongFunction<? super T> keyExtractor) {
     return null;
   }
 
@@ -89,11 +93,13 @@ public interface Comparator<T> {
     return null;
   }
 
-  static <T> Comparator<T> nullsFirst(Comparator<? super T> comparator) {
+  static <T extends @Nullable Object> Comparator<@Nullable T> nullsFirst(
+      Comparator<? super T> comparator) {
     return null;
   }
 
-  static <T> Comparator<T> nullsLast(Comparator<? super T> comparator) {
+  static <T extends @Nullable Object> Comparator<@Nullable T> nullsLast(
+      Comparator<? super T> comparator) {
     return null;
   }
 
