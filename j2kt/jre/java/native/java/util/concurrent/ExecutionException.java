@@ -18,21 +18,23 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of ExecutionException.
  */
 public class ExecutionException extends Exception {
   protected ExecutionException() { }
 
-  protected ExecutionException(String message) {
+  protected ExecutionException(@Nullable String message) {
     super(message);
   }
 
-  public ExecutionException(String message, Throwable cause) {
+  public ExecutionException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 
-  public ExecutionException(Throwable cause) {
+  public ExecutionException(@Nullable Throwable cause) {
     super(cause);
   }
 }

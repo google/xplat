@@ -16,12 +16,14 @@
 
 package java.util.concurrent.atomic;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * GWT emulation of AtomicReference.
  *
  * @param <V> The type of object referred to by this reference
  */
-public class AtomicReference<V> {
+public class AtomicReference<V extends @Nullable Object> {
 
   private V value;
 

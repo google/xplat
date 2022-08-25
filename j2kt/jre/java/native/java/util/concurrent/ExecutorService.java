@@ -20,6 +20,7 @@ package java.util.concurrent;
 
 import java.util.Collection;
 import java.util.List;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Emulation of ExecutorService.
@@ -39,25 +40,26 @@ public interface ExecutorService extends Executor {
   // @GwtIncompatible("blocking")
   // boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
 
-  <T> Future<T> submit(Callable<T> task);
+  <T extends @Nullable Object> Future<T> submit(Callable<T> task);
 
-  <T> Future<T> submit(Runnable task, T result);
+  <T extends @Nullable Object> Future<T> submit(Runnable task, T result);
 
   Future<?> submit(Runnable task);
 
   // Even though invokeAll and invokeAy methods below are blocking, they actually block on execution
   // of the task that is provided hence could be emulated by directly executing them.
 
-  <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+  <T extends @Nullable Object> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
       throws InterruptedException;
 
-  <T> List<Future<T>> invokeAll(
+  <T extends @Nullable Object> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException;
 
-  <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+  <T extends @Nullable Object> T invokeAny(Collection<? extends Callable<T>> tasks)
       throws InterruptedException, ExecutionException;
 
-  <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+  <T extends @Nullable Object> T invokeAny(
+      Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException;
 }

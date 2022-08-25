@@ -22,13 +22,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.jspecify.nullness.Nullable;
 
 /**
  * GWT emulated version of {@link AtomicReferenceArray}.
  *
  * @param <V> the element type.
  */
-public class AtomicReferenceArray<V> {
+public class AtomicReferenceArray<V extends @Nullable Object> {
 
   private final List<V> values;
 

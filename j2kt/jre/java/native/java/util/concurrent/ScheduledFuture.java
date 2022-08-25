@@ -12,10 +12,11 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of ScheduleFuture.
  *
  * @param <V> value type returned by the future.
  */
-public interface ScheduledFuture<V> extends Delayed, Future<V> {
-}
+public interface ScheduledFuture<V extends @Nullable Object> extends Delayed, Future<V> {}

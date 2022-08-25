@@ -18,6 +18,8 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of Future. Since GWT environment is single threaded, attempting to block on the future
  * by calling {@link #get()} or {@link #get(long, TimeUnit)} when the it is not yet done is
@@ -26,7 +28,7 @@ package java.util.concurrent;
  *
  * @param <V> value type returned by the future.
  */
-public interface Future<V> {
+public interface Future<V extends @Nullable Object> {
    boolean cancel(boolean mayInterruptIfRunning);
 
    boolean isCancelled();

@@ -18,11 +18,13 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of Callable.
  *
  * @param <V> result of call
  */
-public interface Callable<V> {
+public interface Callable<V extends @Nullable Object> {
   V call() throws Exception;
 }

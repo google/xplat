@@ -18,9 +18,11 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of RunnableFuture.
  *
  * @param <V> value type returned by the future.
  */
-public interface RunnableFuture<V> extends Runnable, Future<V> { }
+public interface RunnableFuture<V extends @Nullable Object> extends Runnable, Future<V> {}

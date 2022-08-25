@@ -12,36 +12,38 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of executors.
  */
 public class Executors {
 
-  public static <T> Callable<T> callable(Runnable task, T result) {
+  public static <T extends @Nullable Object> Callable<T> callable(Runnable task, T result) {
     if (task == null) {
       throw new NullPointerException();
     }
     return new RunnableAdapter<T>(task, result);
   }
 
-  public static Callable<Object> callable(Runnable task) {
+  public static Callable<@Nullable Object> callable(Runnable task) {
     if (task == null) {
       throw new NullPointerException();
     }
-    return new RunnableAdapter<Object>(task, null);
+    return new RunnableAdapter<@Nullable Object>(task, null);
   }
 
-  private static final class RunnableAdapter<T> implements Callable<T> {
+  private static final class RunnableAdapter<T> implements Callable<@Nullable T> {
 
     final Runnable task;
     final T result;
 
-    RunnableAdapter(Runnable task, T result) {
+    RunnableAdapter(Runnable task, @Nullable T result) {
       this.task = task;
       this.result = result;
     }
 
-    public T call() {
+    public @Nullable T call() {
       task.run();
       return result;
     }

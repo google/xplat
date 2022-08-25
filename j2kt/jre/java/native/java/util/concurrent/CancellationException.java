@@ -18,6 +18,8 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of CancellationException.
  */
@@ -25,7 +27,7 @@ public class CancellationException extends IllegalStateException {
 
   public CancellationException() { }
 
-  public CancellationException(String message) {
+  public CancellationException(@Nullable String message) {
     super(message);
   }
 }

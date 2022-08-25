@@ -18,13 +18,15 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Emulation of TimeoutException.
  */
 public class TimeoutException extends Exception {
   public TimeoutException() { }
 
-  public TimeoutException(String message) {
+  public TimeoutException(@Nullable String message) {
     super(message);
   }
 }
