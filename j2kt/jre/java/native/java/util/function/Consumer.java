@@ -17,14 +17,16 @@ package java.util.function;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the argument
  */
 @FunctionalInterface
-public interface Consumer<T> {
+public interface Consumer<T extends @Nullable Object> {
 
   void accept(T t);
 

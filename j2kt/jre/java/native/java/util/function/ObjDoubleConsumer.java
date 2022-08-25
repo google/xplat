@@ -15,14 +15,17 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ObjDoubleConsumer.html">
- * the official Java API doc</a> for details.
+ * See <a
+ * href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ObjDoubleConsumer.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the object argument
  */
 @FunctionalInterface
-public interface ObjDoubleConsumer<T> {
+public interface ObjDoubleConsumer<T extends @Nullable Object> {
 
   void accept(T t, double value);
 }

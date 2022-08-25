@@ -15,6 +15,8 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToIntBiFunction.html">
  * the official Java API doc</a> for details.
@@ -23,7 +25,7 @@ package java.util.function;
  * @param <U> type of the second argument
  */
 @FunctionalInterface
-public interface ToIntBiFunction<T, U> {
+public interface ToIntBiFunction<T extends @Nullable Object, U extends @Nullable Object> {
 
   int applyAsInt(T t, U u);
 }

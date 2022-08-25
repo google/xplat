@@ -15,14 +15,16 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToIntFunction.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToIntFunction.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the argument
  */
 @FunctionalInterface
-public interface ToIntFunction<T> {
+public interface ToIntFunction<T extends @Nullable Object> {
 
   int applyAsInt(T value);
 }

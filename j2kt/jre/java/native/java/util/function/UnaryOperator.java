@@ -15,16 +15,18 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/UnaryOperator.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of both argument and return value
  */
 @FunctionalInterface
-public interface UnaryOperator<T> extends Function<T, T> {
+public interface UnaryOperator<T extends @Nullable Object> extends Function<T, T> {
 
-  static <T> UnaryOperator<T> identity() {
+  static <T extends @Nullable Object> UnaryOperator<T> identity() {
     return t -> t;
   }
 }

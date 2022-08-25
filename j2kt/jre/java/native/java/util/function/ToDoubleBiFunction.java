@@ -15,15 +15,18 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToDoubleBiFunction.html">
- * the official Java API doc</a> for details.
+ * See <a
+ * href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToDoubleBiFunction.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the first argument
  * @param <U> type of the second argument
  */
 @FunctionalInterface
-public interface ToDoubleBiFunction<T, U> {
+public interface ToDoubleBiFunction<T extends @Nullable Object, U extends @Nullable Object> {
 
   double applyAsDouble(T t, U u);
 }

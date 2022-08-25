@@ -15,9 +15,10 @@
  */
 package java.util.function;
 
-import java.util.Comparator;
-
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
+
+import java.util.Comparator;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BinaryOperator.html">
@@ -26,14 +27,14 @@ import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
  * @param <T> type of both operands and the result
  */
 @FunctionalInterface
-public interface BinaryOperator<T> extends BiFunction<T, T, T> {
+public interface BinaryOperator<T extends @Nullable Object> extends BiFunction<T, T, T> {
 
-  static <T> BinaryOperator<T> maxBy(Comparator<? super T> comparator) {
+  static <T extends @Nullable Object> BinaryOperator<T> maxBy(Comparator<? super T> comparator) {
     checkCriticalNotNull(comparator);
     return (t, u) -> comparator.compare(t, u) <= 0 ? u : t;
   }
 
-  static <T> BinaryOperator<T> minBy(Comparator<? super T> comparator) {
+  static <T extends @Nullable Object> BinaryOperator<T> minBy(Comparator<? super T> comparator) {
     checkCriticalNotNull(comparator);
     return (t, u) -> comparator.compare(t, u) <= 0 ? t : u;
   }

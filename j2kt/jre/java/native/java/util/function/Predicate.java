@@ -15,20 +15,21 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import java.util.Objects;
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the argument
  */
 @FunctionalInterface
-public interface Predicate<T> {
+public interface Predicate<T extends @Nullable Object> {
 
-  static <T> Predicate<T> isEqual(Object targetRef) {
+  static <T extends @Nullable Object> Predicate<T> isEqual(Object targetRef) {
     return targetRef == null ? Objects::isNull : targetRef::equals;
   }
 

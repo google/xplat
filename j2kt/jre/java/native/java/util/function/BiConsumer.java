@@ -17,15 +17,17 @@ package java.util.function;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiConsumer.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiConsumer.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the first argument
  * @param <U> type of the second argument
  */
 @FunctionalInterface
-public interface BiConsumer<T, U> {
+public interface BiConsumer<T extends @Nullable Object, U extends @Nullable Object> {
 
   void accept(T t, U u);
 

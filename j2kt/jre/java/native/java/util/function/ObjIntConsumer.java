@@ -15,6 +15,8 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ObjIntConsumer.html">
  * the official Java API doc</a> for details.
@@ -22,7 +24,7 @@ package java.util.function;
  * @param <T> type of the object argument
  */
 @FunctionalInterface
-public interface ObjIntConsumer<T> {
+public interface ObjIntConsumer<T extends @Nullable Object> {
 
   void accept(T t, int value);
 }

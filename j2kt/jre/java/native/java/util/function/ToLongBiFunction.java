@@ -15,6 +15,8 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToLongBiFunction.html">
  * the official Java API doc</a> for details.
@@ -23,7 +25,7 @@ package java.util.function;
  * @param <U> type of the second argument
  */
 @FunctionalInterface
-public interface ToLongBiFunction<T, U> {
+public interface ToLongBiFunction<T extends @Nullable Object, U extends @Nullable Object> {
 
   long applyAsLong(T t, U u);
 }

@@ -15,6 +15,8 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/ToLongFunction.html">
  * the official Java API doc</a> for details.
@@ -22,7 +24,7 @@ package java.util.function;
  * @param <T> type of the argument
  */
 @FunctionalInterface
-public interface ToLongFunction<T> {
+public interface ToLongFunction<T extends @Nullable Object> {
 
   long applyAsLong(T value);
 }
