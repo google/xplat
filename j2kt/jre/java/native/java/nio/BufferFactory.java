@@ -21,23 +21,23 @@ package java.nio;
 final class BufferFactory {
 
   public static ByteBuffer newByteBuffer(byte[] array) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteHeapByteBuffer(array);
   }
 
   public static ByteBuffer newByteBuffer(int capacity) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteHeapByteBuffer(capacity);
   }
 
   public static CharBuffer newCharBuffer(char[] array) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteCharArrayBuffer(array);
   }
 
   public static CharBuffer newCharBuffer(CharSequence chseq) {
-    throw new UnsupportedOperationException();
+    return new CharSequenceAdapter(chseq);
   }
 
   public static CharBuffer newCharBuffer(int capacity) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteCharArrayBuffer(capacity);
   }
 
   public static ByteBuffer newDirectByteBuffer(int capacity) {
@@ -45,42 +45,42 @@ final class BufferFactory {
   }
 
   public static DoubleBuffer newDoubleBuffer(double[] array) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteDoubleArrayBuffer(array);
   }
 
   public static DoubleBuffer newDoubleBuffer(int capacity) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteDoubleArrayBuffer(capacity);
   }
 
   public static FloatBuffer newFloatBuffer(float[] array) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteFloatArrayBuffer(array);
   }
 
   public static FloatBuffer newFloatBuffer(int capacity) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteFloatArrayBuffer(capacity);
   }
 
   public static IntBuffer newIntBuffer(int capacity) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteIntArrayBuffer(capacity);
   }
 
   public static IntBuffer newIntBuffer(int[] array) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteIntArrayBuffer(array);
   }
 
   public static LongBuffer newLongBuffer(int capacity) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteLongArrayBuffer(capacity);
   }
 
   public static LongBuffer newLongBuffer(long[] array) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteLongArrayBuffer(array);
   }
 
   public static ShortBuffer newShortBuffer(int capacity) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteShortArrayBuffer(capacity);
   }
 
   public static ShortBuffer newShortBuffer(short[] array) {
-    throw new UnsupportedOperationException();
+    return new ReadWriteShortArrayBuffer(array);
   }
 }
