@@ -16,6 +16,8 @@
 package smoke;
 
 import static smoke.Asserts.assertEquals;
+import static smoke.Asserts.assertFalse;
+import static smoke.Asserts.assertTrue;
 import static smoke.Asserts.fail;
 
 import java.io.UnsupportedEncodingException;
@@ -92,6 +94,9 @@ public class Strings {
     } catch (UnsupportedEncodingException e) {
       // This is expected.
     }
+
+    assertTrue("ABC".equalsIgnoreCase("abc"));
+    assertFalse("ABCD".equalsIgnoreCase("abc"));
 
     assertEquals(AEBC, "ÄBC".getBytes());
     assertEquals(AEBC, "ÄBC".getBytes("UTF-8"));

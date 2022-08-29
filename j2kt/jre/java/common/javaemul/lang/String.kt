@@ -95,6 +95,8 @@ fun String.Companion.copyValueOf(data: CharArray?, offset: Int, count: Int): Str
   return String(data, offset, count)
 }
 
+fun String.equalsIgnoreCase(str: String?) = this.equals(str, ignoreCase = true)
+
 internal fun String.Companion.fromCodePoint(codePoint: Int): String {
   if (codePoint >= Char.MIN_SUPPLEMENTARY_CODE_POINT) {
     val chars = CharArray(2)
