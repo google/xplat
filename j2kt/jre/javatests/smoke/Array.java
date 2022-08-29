@@ -44,23 +44,62 @@ public class Array {
     }
   }
 
+  static byte b1 = 1, b2 = 2, b3 = 3, b4 = 4;
+  static short s1 = 1, s2 = 2, s3 = 3, s4 = 4;
+  static ExampleObject obj1 = new ExampleObject(1);
+  static ExampleObject obj2 = new ExampleObject(2);
+  static ExampleObject obj3 = new ExampleObject(3);
+  static ExampleObject obj4 = new ExampleObject(4);
+
+  static byte[] byteArray1 = {b1, b2, b3, b4};
+  static char[] charArray1 = {'a', 'b', 'c', 'd'};
+  static double[] doubleArray1 = {1, 2, 3, 4};
+  static float[] floatArray1 = {1F, 2F, 3F, 4F};
+  static int[] intArray1 = {1, 2, 3, 4};
+  static long[] longArray1 = {1L, 2L, 3L, 4L};
+  static short[] shortArray1 = {s1, s2, s3, s4};
+  static ExampleObject[] objArray1 = {obj1, obj2, obj3, obj4};
+
+  static boolean[] boolArray2 = {true, false, true, false};
+  static byte[] byteArray2 = {b4, b3, b1, b2};
+  static char[] charArray2 = {'d', 'c', 'a', 'b'};
+  static double[] doubleArray2 = {4, 3, 1, 2};
+  static float[] floatArray2 = {4F, 3F, 1F, 2F};
+  static int[] intArray2 = {4, 3, 1, 2};
+  static long[] longArray2 = {4L, 3L, 1L, 2L};
+  static short[] shortArray2 = {s4, s3, s1, s2};
+  static ExampleObject[] objArray2 = {obj4, obj3, obj1, obj2};
+
+  static boolean[] boolArray3 = {true, false, true, false};
+  static byte[] byteArray3 = {b4, b3, b1, b2};
+  static char[] charArray3 = {'d', 'c', 'a', 'b'};
+  static double[] doubleArray3 = {4, 3, 1, 2};
+  static float[] floatArray3 = {4F, 3F, 1F, 2F};
+  static int[] intArray3 = {4, 3, 1, 2};
+  static long[] longArray3 = {4L, 3L, 1L, 2L};
+  static short[] shortArray3 = {s4, s3, s1, s2};
+  static ExampleObject[] objArray3 = {obj4, obj3, obj1, obj2};
+
   static void testArrays() {
-    byte b1 = 1, b2 = 2, b3 = 3, b4 = 4;
-    short s1 = 1, s2 = 2, s3 = 3, s4 = 4;
-    ExampleObject obj1 = new ExampleObject(1);
-    ExampleObject obj2 = new ExampleObject(2);
-    ExampleObject obj3 = new ExampleObject(3);
-    ExampleObject obj4 = new ExampleObject(4);
+    testAsList();
+    testBinarySearch();
+    testCopyOf();
+    testCopyOfRange();
+    testEquals();
+    testDeepEquals();
+    testDeepToString();
+    testDeepHashCode();
+    testHashCode();
+    testFill();
+    testToString();
+    testParallelPrefix();
+    testSetAll();
+    testParallelSetAll();
+    testSort();
+    testParallelSort();
+  }
 
-    byte[] byteArray1 = {b1, b2, b3, b4};
-    char[] charArray1 = {'a', 'b', 'c', 'd'};
-    double[] doubleArray1 = {1, 2, 3, 4};
-    float[] floatArray1 = {1F, 2F, 3F, 4F};
-    int[] intArray1 = {1, 2, 3, 4};
-    long[] longArray1 = {1L, 2L, 3L, 4L};
-    short[] shortArray1 = {s1, s2, s3, s4};
-    ExampleObject[] objArray1 = {obj1, obj2, obj3, obj4};
-
+  private static void testAsList() {
     Integer[] integerArray = {1, 2, 3, 4};
     List<Integer> intList1 = Arrays.asList(integerArray);
     assertEquals((Integer) 1, intList1.get(0));
@@ -75,7 +114,9 @@ public class Array {
     assertEquals((Integer) 4, intList3.get(3));
 
     // TODO(b/239034072): Add tests for set on lists after varargs are fixed
+  }
 
+  private static void testBinarySearch() {
     assertEquals(2, Arrays.binarySearch(byteArray1, b3));
     assertEquals(-3, Arrays.binarySearch(byteArray1, 0, 2, b3));
 
@@ -106,17 +147,9 @@ public class Array {
     assertEquals(-3, Arrays.binarySearch(objArrayAlias, 0, 2, obj3, new ExampleObjectComparator()));
 
     assertEquals(2, Arrays.binarySearch(objArrayAlias, obj3, null));
+  }
 
-    boolean[] boolArray2 = {true, false, true, false};
-    byte[] byteArray2 = {b4, b3, b1, b2};
-    char[] charArray2 = {'d', 'c', 'a', 'b'};
-    double[] doubleArray2 = {4, 3, 1, 2};
-    float[] floatArray2 = {4F, 3F, 1F, 2F};
-    int[] intArray2 = {4, 3, 1, 2};
-    long[] longArray2 = {4L, 3L, 1L, 2L};
-    short[] shortArray2 = {s4, s3, s1, s2};
-    ExampleObject[] objArray2 = {obj4, obj3, obj1, obj2};
-
+  private static void testCopyOf() {
     boolean[] boolCopy = Arrays.copyOf(boolArray2, 3);
     assertEquals(3, boolCopy.length);
     assertEquals(true, boolCopy[0]);
@@ -161,6 +194,18 @@ public class Array {
     assertEquals(3, objCopy.length);
     assertEquals(objCopy[0], obj4);
     assertEquals(objCopy[2], obj1);
+  }
+
+  private static void testCopyOfRange() {
+    char[] charCopy;
+    long[] longCopy;
+    ExampleObject[] objCopy;
+    short[] shortCopy;
+    byte[] byteCopy;
+    double[] doubleCopy;
+    int[] intCopy;
+    float[] floatCopy;
+    boolean[] boolCopy;
 
     boolCopy = Arrays.copyOfRange(boolArray2, 0, 3);
     assertEquals(3, boolCopy.length);
@@ -206,17 +251,9 @@ public class Array {
     assertEquals(3, objCopy.length);
     assertEquals(obj4, objCopy[0]);
     assertEquals(obj1, objCopy[2]);
+  }
 
-    boolean[] boolArray3 = {true, false, true, false};
-    byte[] byteArray3 = {b4, b3, b1, b2};
-    char[] charArray3 = {'d', 'c', 'a', 'b'};
-    double[] doubleArray3 = {4, 3, 1, 2};
-    float[] floatArray3 = {4F, 3F, 1F, 2F};
-    int[] intArray3 = {4, 3, 1, 2};
-    long[] longArray3 = {4L, 3L, 1L, 2L};
-    short[] shortArray3 = {s4, s3, s1, s2};
-    ExampleObject[] objArray3 = {obj4, obj3, obj1, obj2};
-
+  private static void testEquals() {
     assertTrue(Arrays.equals(boolArray2, boolArray3));
     assertTrue(Arrays.equals(byteArray2, byteArray3));
     assertTrue(Arrays.equals(charArray2, charArray3));
@@ -226,14 +263,22 @@ public class Array {
     assertTrue(Arrays.equals(longArray2, longArray3));
     assertTrue(Arrays.equals(shortArray2, shortArray3));
     assertTrue(Arrays.equals(objArray2, objArray3));
+  }
 
+  private static void testDeepEquals() {
     assertTrue(Arrays.deepEquals(objArray2, objArray3));
     assertFalse(Arrays.deepEquals(objArray1, objArray2));
+  }
 
+  private static void testDeepToString() {
     assertEquals(Arrays.deepToString(objArray2), Arrays.deepToString(objArray3));
+  }
 
+  private static void testDeepHashCode() {
     assertEquals(Arrays.deepHashCode(objArray2), Arrays.deepHashCode(objArray3));
+  }
 
+  private static void testHashCode() {
     assertEquals(Arrays.hashCode(boolArray2), Arrays.hashCode(boolArray3));
     assertEquals(Arrays.hashCode(byteArray2), Arrays.hashCode(byteArray3));
     assertEquals(Arrays.hashCode(charArray2), Arrays.hashCode(charArray3));
@@ -243,7 +288,9 @@ public class Array {
     assertEquals(Arrays.hashCode(longArray2), Arrays.hashCode(longArray3));
     assertEquals(Arrays.hashCode(shortArray2), Arrays.hashCode(shortArray3));
     assertEquals(Arrays.hashCode(objArray2), Arrays.hashCode(objArray3));
+  }
 
+  private static void testFill() {
     boolean[] boolFillArr1 = {true, false, true, false};
     Arrays.fill(boolFillArr1, true);
     assertEquals(true, boolFillArr1[0]);
@@ -333,7 +380,9 @@ public class Array {
     Arrays.fill(objFillArr2, 0, 2, obj1);
     assertEquals(obj1, objFillArr2[0]);
     assertEquals(obj2, objFillArr2[3]);
+  }
 
+  private static void testToString() {
     assertEquals("[true, false, true, false]", Arrays.toString(boolArray2));
     assertEquals("[4, 3, 1, 2]", Arrays.toString(byteArray2));
     assertEquals("[d, c, a, b]", Arrays.toString(charArray2));
@@ -347,7 +396,9 @@ public class Array {
     assertEquals("[4, 3, 1, 2]", Arrays.toString(longArray2));
     assertEquals("[4, 3, 1, 2]", Arrays.toString(shortArray2));
     assertEquals(Arrays.toString(objArray2), Arrays.toString(objArray3));
+  }
 
+  private static void testParallelPrefix() {
     double[] doublePrefixArr1 = {1, 2, 3, 4};
     double[] doublePrefixArr2 = {1, 2, 3, 4};
     Arrays.parallelPrefix(
@@ -423,7 +474,9 @@ public class Array {
         });
     assertEquals("a", strPrefixArr2[0]);
     assertEquals("bcd", strPrefixArr2[3]);
+  }
 
+  private static void testSetAll() {
     int[] intArray4 = {1, 2, 3, 4};
     Arrays.setAll(
         intArray4,
@@ -459,7 +512,9 @@ public class Array {
         });
     assertEquals("5", strArray4[0]);
     assertEquals("3", strArray4[3]);
+  }
 
+  private static void testParallelSetAll() {
     int[] intArray5 = {1, 2, 3, 4};
     Arrays.parallelSetAll(
         intArray5,
@@ -495,7 +550,9 @@ public class Array {
         });
     assertEquals("5", strArray5[0]);
     assertEquals("3", strArray5[3]);
+  }
 
+  private static void testSort() {
     byte[] byteUnsortedArr1 = {b4, b3, b1, b2};
     Arrays.sort(byteUnsortedArr1, 1, 3);
     assertEquals(b4, byteUnsortedArr1[0]);
@@ -551,7 +608,9 @@ public class Array {
     Arrays.sort(shortUnsortedArr1);
     assertEquals(s1, shortUnsortedArr1[0]);
     assertEquals(s4, shortUnsortedArr1[3]);
+  }
 
+  private static void testParallelSort() {
     ExampleObject[] objUnsortedArr1 = {obj4, obj3, obj1, obj2};
     Arrays.parallelSort(objUnsortedArr1, 1, 3, new ExampleObjectComparator());
     assertEquals(obj4, objUnsortedArr1[0]);
