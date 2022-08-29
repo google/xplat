@@ -423,47 +423,38 @@ object Arrays {
   }
 
   fun toString(a: Array<*>?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: BooleanArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: ByteArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: CharArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: DoubleArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: FloatArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: IntArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: LongArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
   fun toString(a: ShortArray?): String {
-    requireNotNull(a)
     return a.contentToString()
   }
 
@@ -686,11 +677,13 @@ object Arrays {
     array.sort(fromIndex, toIndex)
   }
 
-  fun <T> sort(x: Array<T>, c: Comparator<in T>) {
+  fun <T> sort(x: Array<T>, c: Comparator<in T>?) {
+    val c = Comparators.nullToNaturalOrder(c)
     x.sortWith(c)
   }
 
-  fun <T> sort(x: Array<T>, fromIndex: Int, toIndex: Int, c: Comparator<in T>) {
+  fun <T> sort(x: Array<T>, fromIndex: Int, toIndex: Int, c: Comparator<in T>?) {
+    val c = Comparators.nullToNaturalOrder(c)
     x.sortWith(c, fromIndex, toIndex)
   }
 
@@ -769,8 +762,9 @@ object Arrays {
     array.sort()
   }
 
-  fun <T> parallelSort(array: Array<T>?, c: Comparator<in T>) {
+  fun <T> parallelSort(array: Array<T>?, c: Comparator<in T>?) {
     requireNotNull(array)
+    val c = Comparators.nullToNaturalOrder(c)
     array.sortWith(c)
   }
 
@@ -779,8 +773,9 @@ object Arrays {
     array.sort(fromIndex, toIndex)
   }
 
-  fun <T> parallelSort(array: Array<T>?, fromIndex: Int, toIndex: Int, c: Comparator<in T>) {
+  fun <T> parallelSort(array: Array<T>?, fromIndex: Int, toIndex: Int, c: Comparator<in T>?) {
     requireNotNull(array)
+    val c = Comparators.nullToNaturalOrder(c)
     array.sortWith(c, fromIndex, toIndex)
   }
 }
