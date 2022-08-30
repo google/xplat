@@ -16,6 +16,7 @@
 package smoke;
 
 import jsinterop.annotations.JsFunction;
+import org.jspecify.nullness.Nullable;
 
 public class Asserts extends AssertsBase {
 
@@ -27,24 +28,24 @@ public class Asserts extends AssertsBase {
     assertTrue(message, !condition);
   }
 
-  public static void assertNull(Object object) {
+  public static void assertNull(@Nullable Object object) {
     assertSame(null, object);
   }
 
-  public static void assertNotNull(Object object) {
+  public static void assertNotNull(@Nullable Object object) {
     assertNotSame(null, object);
   }
 
-  public static void assertEquals(Object expected, Object actual) {
+  public static void assertEquals(@Nullable Object expected, @Nullable Object actual) {
     assertEquals(getEqualsDefaultFailureMessage(expected, actual), expected, actual);
   }
 
   public static void assertEquals(
-      String message, Object expected, Object actual) {
+      String message, @Nullable Object expected, @Nullable Object actual) {
     assertTrue(message, expected == null ? actual == null : expected.equals(actual));
   }
 
-  public static void assertEquals(Object[] expected, Object[] actual) {
+  public static void assertEquals(@Nullable Object[] expected, @Nullable Object[] actual) {
     assertEquals(
         getFailureMessage(expected, actual, "should have the same length as"),
         expected.length,
@@ -102,20 +103,20 @@ public class Asserts extends AssertsBase {
     fail("Actual: " + actual);
   }
 
-  public static void assertNotEquals(Object expected, Object actual) {
+  public static void assertNotEquals(@Nullable Object expected, @Nullable Object actual) {
     assertNotEquals(getNotEqualsDefaultFailureMessage(expected, actual), expected, actual);
   }
 
   public static void assertNotEquals(
-      String message, Object expected, Object actual) {
+      String message, @Nullable Object expected, @Nullable Object actual) {
     assertFalse(message, expected == null ? actual == null : expected.equals(actual));
   }
 
-  public static void assertSame(Object expected, Object actual) {
+  public static void assertSame(@Nullable Object expected, @Nullable Object actual) {
     assertTrue(getFailureMessage(expected, actual, "should be the same as"), expected == actual);
   }
 
-  public static void assertNotSame(Object expected, Object actual) {
+  public static void assertNotSame(@Nullable Object expected, @Nullable Object actual) {
     assertFalse(
         getFailureMessage(expected, actual, "should not be the same as"), expected == actual);
   }
@@ -140,11 +141,13 @@ public class Asserts extends AssertsBase {
         expectedType == actual.getClass());
   }
 
-  private static String getEqualsDefaultFailureMessage(Object expected, Object actual) {
+  private static String getEqualsDefaultFailureMessage(
+      @Nullable Object expected, @Nullable Object actual) {
     return getFailureMessage(expected, actual, "should be equal to");
   }
 
-  private static String getNotEqualsDefaultFailureMessage(Object expected, Object actual) {
+  private static String getNotEqualsDefaultFailureMessage(
+      @Nullable Object expected, @Nullable Object actual) {
     return getFailureMessage(expected, actual, "should not be equal to");
   }
 

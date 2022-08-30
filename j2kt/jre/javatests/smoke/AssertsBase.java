@@ -15,6 +15,7 @@
  */
 package smoke;
 
+import org.jspecify.nullness.Nullable;
 import smoke.Asserts.JsRunnable;
 
 /**
@@ -89,7 +90,7 @@ public class AssertsBase {
     fail("Should have thrown " + exceptionClass);
   }
 
-  static String getFailureMessage(Object expected, Object actual, String msg) {
+  static String getFailureMessage(@Nullable Object expected, @Nullable Object actual, String msg) {
     String expectedString = expected == null ? null : expected.toString();
     String actualString = actual == null ? null : actual.toString();
     return "<" + actualString + "> " + msg + " <" + expectedString + ">";
