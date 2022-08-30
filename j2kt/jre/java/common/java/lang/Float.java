@@ -55,6 +55,7 @@ public final class Float extends Number implements Comparable<Float> {
   @Override
   public native int compareTo(Float object);
 
+  @KtName("toInt_toByte")
   @Override
   public native byte byteValue();
 
@@ -93,6 +94,7 @@ public final class Float extends Number implements Comparable<Float> {
 
   public static native float parseFloat(@JsNonNull String string) throws NumberFormatException;
 
+  @KtName("toInt_toShort")
   @Override
   public native short shortValue();
 

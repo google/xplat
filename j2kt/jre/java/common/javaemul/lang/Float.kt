@@ -47,3 +47,7 @@ fun Float.Companion.isInfinite(f: Float): Boolean = f.isInfinite()
 fun Float.Companion.floatToIntBits(f: Float): Int = f.toBits()
 
 fun Float.Companion.floatToRawIntBits(f: Float): Int = f.toRawBits()
+
+inline fun Float.toInt_toByte() = toInt().toByte()
+
+inline fun Float.toInt_toShort() = toInt().toShort()

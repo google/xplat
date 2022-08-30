@@ -47,3 +47,7 @@ fun Double.Companion.isInfinite(d: Double): Boolean = d.isInfinite()
 fun Double.Companion.doubleToLongBits(value: Double): Long = value.toBits()
 
 fun Double.Companion.doubleToRawLongBits(value: Double): Long = value.toRawBits()
+
+inline fun Double.toInt_toByte() = toInt().toByte()
+
+inline fun Double.toInt_toShort() = toInt().toShort()

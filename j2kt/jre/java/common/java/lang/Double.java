@@ -53,6 +53,7 @@ public final class Double extends Number implements Comparable<Double> {
   @Override
   public native int compareTo(Double object);
 
+  @KtName("toInt_toByte")
   @Override
   public native byte byteValue();
 
@@ -91,6 +92,7 @@ public final class Double extends Number implements Comparable<Double> {
 
   public static native double parseDouble(String string) throws NumberFormatException;
 
+  @KtName("toInt_toShort")
   @Override
   public native short shortValue();
 
