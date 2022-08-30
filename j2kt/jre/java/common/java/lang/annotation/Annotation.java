@@ -28,9 +28,12 @@ public interface Annotation {
   @KtName("annotationClass")
   Class<? extends Annotation> annotationType();
 
+  @Override
   boolean equals(@Nullable Object obj);
 
+  @Override
   int hashCode();
 
+  @Override
   String toString();
 }

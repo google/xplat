@@ -43,6 +43,7 @@ public abstract class Enum<E extends @JsNonNull Enum<E>> implements Comparable<E
 
   protected final native Object clone() throws CloneNotSupportedException;
 
+  @Override
   public final native int compareTo(E o);
 
   public final native Class<E> getDeclaringClass();

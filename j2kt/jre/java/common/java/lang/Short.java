@@ -40,6 +40,7 @@ public final class Short extends Number implements Comparable<Short> {
   @Override
   public native byte byteValue();
 
+  @Override
   public native int compareTo(Short object);
 
   public static native int compare(short lhs, short rhs);

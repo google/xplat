@@ -162,6 +162,7 @@ public final class Character implements Comparable<Character> {
   @KtName("toChar")
   public native char charValue();
 
+  @Override
   public native int compareTo(Character c);
 
   public static native int compare(char lhs, char rhs);

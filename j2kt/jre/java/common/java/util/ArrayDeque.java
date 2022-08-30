@@ -97,6 +97,7 @@ public class ArrayDeque<E> extends AbstractList<E> {
   @KtName("removeAt")
   public native @JsNonNull E remove(int index);
 
+  @Override
   public native boolean remove(@JsNonNull E e);
 
   public native @JsNonNull E removeFirst();

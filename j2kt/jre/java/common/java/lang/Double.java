@@ -49,6 +49,7 @@ public final class Double extends Number implements Comparable<Double> {
 
   public Double(String string) throws NumberFormatException {}
 
+  @Override
   public native int compareTo(Double object);
 
   @Override

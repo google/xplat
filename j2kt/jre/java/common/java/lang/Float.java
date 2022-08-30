@@ -51,6 +51,7 @@ public final class Float extends Number implements Comparable<Float> {
 
   public Float(String string) throws NumberFormatException {}
 
+  @Override
   public native int compareTo(Float object);
 
   @Override

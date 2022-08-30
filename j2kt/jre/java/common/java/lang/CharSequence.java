@@ -32,5 +32,6 @@ public interface CharSequence {
 
   CharSequence subSequence(int start, int end);
 
+  @Override
   String toString();
 }

@@ -40,6 +40,7 @@ public final class Byte extends Number implements Comparable<Byte> {
   @Override
   public native byte byteValue();
 
+  @Override
   public native int compareTo(Byte object);
 
   public static native int compare(byte lhs, byte rhs);

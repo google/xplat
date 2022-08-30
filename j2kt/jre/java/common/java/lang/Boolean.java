@@ -39,6 +39,7 @@ public final class Boolean implements Comparable<Boolean> {
   @Override
   public native boolean equals(@Nullable Object o);
 
+  @Override
   public native int compareTo(Boolean that);
 
   public static native int compare(boolean lhs, boolean rhs);

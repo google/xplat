@@ -71,6 +71,7 @@ public final class String implements Comparable<String>, CharSequence {
   @Override
   public native char charAt(int index);
 
+  @Override
   public native int compareTo(String string);
 
   public native int compareToIgnoreCase(@JsNonNull String string);
@@ -123,6 +124,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native int lastIndexOf(@JsNonNull String subString, int start);
 
+  @Override
   @KtProperty
   public native int length();
 

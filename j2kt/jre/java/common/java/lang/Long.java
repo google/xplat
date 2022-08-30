@@ -40,6 +40,7 @@ public final class Long extends Number implements Comparable<Long> {
   @Override
   public native byte byteValue();
 
+  @Override
   public native int compareTo(Long object);
 
   public static native int compare(long lhs, long rhs);

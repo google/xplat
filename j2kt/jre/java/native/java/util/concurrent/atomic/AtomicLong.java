@@ -91,18 +91,22 @@ public class AtomicLong extends Number implements java.io.Serializable {
     return Long.toString(value);
   }
 
+  @Override
   public int intValue() {
     return (int) value;
   }
 
+  @Override
   public long longValue() {
     return value;
   }
 
+  @Override
   public float floatValue() {
     return (float) value;
   }
 
+  @Override
   public double doubleValue() {
     return (double) value;
   }

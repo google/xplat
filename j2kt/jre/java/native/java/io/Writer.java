@@ -30,8 +30,10 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
 
   protected Writer(Object lock) {}
 
+  @Override
   public abstract void close() throws IOException;
 
+  @Override
   public abstract void flush() throws IOException;
 
   public void write(char[] buf) throws IOException {
@@ -62,16 +64,19 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
     write(buf, 0, buf.length);
   }
 
+  @Override
   public Writer append(char c) throws IOException {
     write(c);
     return this;
   }
 
+  @Override
   public Writer append(@Nullable CharSequence csq) throws IOException {
     write(Objects.toString(csq));
     return this;
   }
 
+  @Override
   public Writer append(@Nullable CharSequence csq, int start, int end) throws IOException {
     if (csq == null) {
       csq = "null";

@@ -48,6 +48,7 @@ public interface Collection<E> extends Iterable<E> {
 
   boolean isEmpty();
 
+  @Override
   @KtPropagateNullability
   @JsNonNull
   Iterator<E> iterator();

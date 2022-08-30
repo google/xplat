@@ -41,6 +41,7 @@ public final class Integer extends Number implements Comparable<Integer> {
   @Override
   public native byte byteValue();
 
+  @Override
   public native int compareTo(@JsNonNull Integer object);
 
   public static native int compare(int lhs, int rhs);

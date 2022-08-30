@@ -49,6 +49,7 @@ public class Pattern {
 
   public native String[] split(CharSequence input, int limit);
 
+  @Override
   public native String toString();
 
   private Pattern() {}

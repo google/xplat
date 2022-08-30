@@ -83,6 +83,7 @@ public class Matcher {
 
   public native String replaceFirst(String replacement);
 
+  @Override
   public native String toString();
 
   public native Matcher usePattern(@JsNonNull Pattern newPattern);
