@@ -70,11 +70,15 @@ public class Strings {
     assertEquals("hello", strArray1[1]);
     assertEquals("hello", strArray1[2]);
 
+    assertEquals(str1, new String(str1));
+    assertFalse(str1 == new String(str1));
+
     String str2 = "hello1hello2hello";
     String[] strArray2 = str2.split("[12]", 2);
     assertEquals(2, strArray2.length);
     assertEquals("hello", strArray2[0]);
     assertEquals("hello2hello", strArray2[1]);
+
 
     assertEquals("ÄBC", new String(AEBC));
     assertEquals("ÄBC", new String(AEBC, "UTF-8"));

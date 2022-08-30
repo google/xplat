@@ -59,7 +59,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public String(char[] data, int offset, int charCount) {}
 
-  public String(String toCopy) {}
+  public String(@JsNonNull String toCopy) {}
 
   // TODO(b/224969395): Add once StringBuffer is available
   // public String(StringBuffer stringBuffer) {}

@@ -75,6 +75,8 @@ operator fun String.Companion.invoke(
   }
 }
 
+operator fun String.Companion.invoke(s: String) = s + ""
+
 fun String.Companion.valueOf(c: Char): String = c.toString()
 
 fun String.Companion.valueOf(a: Any?): String = a.toString()
