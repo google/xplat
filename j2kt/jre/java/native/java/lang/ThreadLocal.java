@@ -30,7 +30,7 @@ public class ThreadLocal<T extends @Nullable Object> {
 
   private @Nullable T value;
 
-  public T get() {
+  public @Nullable T get() {
     return value;
   }
 

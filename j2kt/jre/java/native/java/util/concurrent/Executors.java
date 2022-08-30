@@ -33,18 +33,18 @@ public class Executors {
     return new RunnableAdapter<@Nullable Object>(task, null);
   }
 
-  private static final class RunnableAdapter<T> implements Callable<@Nullable T> {
+  private static final class RunnableAdapter<T extends @Nullable Object> implements Callable<T> {
 
     final Runnable task;
     final T result;
 
-    RunnableAdapter(Runnable task, @Nullable T result) {
+    RunnableAdapter(Runnable task, T result) {
       this.task = task;
       this.result = result;
     }
 
     @Override
-    public @Nullable T call() {
+    public T call() {
       task.run();
       return result;
     }

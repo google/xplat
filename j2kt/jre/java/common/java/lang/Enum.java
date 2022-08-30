@@ -48,5 +48,6 @@ public abstract class Enum<E extends @JsNonNull Enum<E>> implements Comparable<E
 
   public final native Class<E> getDeclaringClass();
 
-  public static native <T extends @JsNonNull Enum<T>> T valueOf(Class<T> enumType, String name);
+  public static native <T extends @JsNonNull Enum<T>> T valueOf(
+      Class<@JsNonNull T> enumType, String name);
 }

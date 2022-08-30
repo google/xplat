@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 @SuppressWarnings("CollectionIncompatibleType")  // To test runtime behavior for incompatible types
 public class Collections {
@@ -105,7 +106,7 @@ public class Collections {
     }
 
     @Override
-    public V get(Object key) {
+    public @Nullable V get(Object key) {
       getCalls++;
       return super.get(key);
     }
@@ -123,7 +124,7 @@ public class Collections {
     }
 
     @Override
-    public V remove(Object key) {
+    public @Nullable V remove(Object key) {
       removeCalls++;
       return super.remove(key);
     }

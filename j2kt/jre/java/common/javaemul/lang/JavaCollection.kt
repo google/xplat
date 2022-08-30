@@ -39,7 +39,7 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun java_toArray(): Array<Any?> = default_toArray()
 
-  fun <T> java_toArray(a: Array<T?>?): Array<T?> = default_toArray(a)
+  fun <T> java_toArray(a: Array<T>?): Array<T> = default_toArray(a)
 }
 
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean {
@@ -69,21 +69,20 @@ private fun MutableCollection<*>.default_toArray(): Array<Any?> {
   return default_toArray(emptyArray)
 }
 
-private fun <T> MutableCollection<*>.default_toArray(a: Array<T?>?): Array<T?> {
+private fun <T> MutableCollection<*>.default_toArray(a: Array<T>?): Array<T> {
   a!!
   if (this.size > a.size) {
     return default_toArray(
-      JavaLangReflectArray.newInstance(a::class.javaObjectType.getComponentType(), size)
-        as Array<T?>
+      JavaLangReflectArray.newInstance(a::class.javaObjectType.getComponentType(), size) as Array<T>
     )
   } else {
     val iterator = iterator()
     var index = 0
     while (iterator.hasNext()) {
-      a[index++] = iterator.next() as T?
+      a[index++] = iterator.next() as T
     }
     if (index < a.size) {
-      a[index] = null
+      a[index] = null as T
     }
     return a
   }
