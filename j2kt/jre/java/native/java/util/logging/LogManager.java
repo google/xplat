@@ -52,7 +52,7 @@ public class LogManager {
     return true;
   }
 
-  public Logger getLogger(String name) {
+  public @Nullable Logger getLogger(String name) {
     return loggerMap.get(name);
   }
 

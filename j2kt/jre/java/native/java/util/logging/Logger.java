@@ -71,7 +71,8 @@ public class Logger {
   private @Nullable Logger parent; // Should never be null except in the RootLogger
   private boolean useParentHandlers;
 
-  protected Logger(String name, @SuppressWarnings("unused") String resourceName) {
+  protected Logger(
+      @Nullable String name, @SuppressWarnings("unused") @Nullable String resourceName) {
     if (LOGGING_OFF) {
       return;
     }
