@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Double")
@@ -47,7 +48,7 @@ public final class Double extends Number implements Comparable<Double> {
 
   public Double(double value) {}
 
-  public Double(String string) throws NumberFormatException {}
+  public Double(@JsNonNull String string) throws NumberFormatException {}
 
   @Override
   public native int compareTo(Double object);
@@ -98,7 +99,7 @@ public final class Double extends Number implements Comparable<Double> {
 
   public static native String toString(double d);
 
-  public static native Double valueOf(String string) throws NumberFormatException;
+  public static native Double valueOf(@JsNonNull String string) throws NumberFormatException;
 
   public static native int compare(double double1, double double2);
 

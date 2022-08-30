@@ -46,7 +46,7 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public static native int compare(int lhs, int rhs);
 
-  public static native Integer decode(String string) throws NumberFormatException;
+  public static native Integer decode(@JsNonNull String string) throws NumberFormatException;
 
   @Override
   public native double doubleValue();

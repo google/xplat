@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Short")
@@ -33,7 +34,7 @@ public final class Short extends Number implements Comparable<Short> {
 
   public static /* final */ Class<Short> TYPE;
 
-  public Short(String string) throws NumberFormatException {}
+  public Short(@JsNonNull String string) throws NumberFormatException {}
 
   public Short(short value) {}
 
@@ -45,7 +46,7 @@ public final class Short extends Number implements Comparable<Short> {
 
   public static native int compare(short lhs, short rhs);
 
-  public static native Short decode(String string) throws NumberFormatException;
+  public static native Short decode(@JsNonNull String string) throws NumberFormatException;
 
   @Override
   public native double doubleValue();
@@ -65,9 +66,10 @@ public final class Short extends Number implements Comparable<Short> {
   @Override
   public native long longValue();
 
-  public static native short parseShort(String string) throws NumberFormatException;
+  public static native short parseShort(@JsNonNull String string) throws NumberFormatException;
 
-  public static native short parseShort(String string, int radix) throws NumberFormatException;
+  public static native short parseShort(@JsNonNull String string, int radix)
+      throws NumberFormatException;
 
   @Override
   public native short shortValue();
@@ -77,9 +79,10 @@ public final class Short extends Number implements Comparable<Short> {
 
   public static native String toString(short value);
 
-  public static native Short valueOf(String string) throws NumberFormatException;
+  public static native Short valueOf(@JsNonNull String string) throws NumberFormatException;
 
-  public static native Short valueOf(String string, int radix) throws NumberFormatException;
+  public static native Short valueOf(@JsNonNull String string, int radix)
+      throws NumberFormatException;
 
   public static native short reverseBytes(short s);
 
