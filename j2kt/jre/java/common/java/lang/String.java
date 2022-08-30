@@ -184,6 +184,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native boolean contentEquals(CharSequence cs);
 
+  @KtName("java_matches")
   public native boolean matches(String regularExpression);
 
   public native String replaceAll(String regularExpression, String replacement);

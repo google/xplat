@@ -98,6 +98,8 @@ public class Strings {
     assertTrue("ABC".equalsIgnoreCase("abc"));
     assertFalse("ABCD".equalsIgnoreCase("abc"));
 
+    assertTrue("---ABC---".matches(".*ABC.*"));
+
     assertEquals(AEBC, "ÄBC".getBytes());
     assertEquals(AEBC, "ÄBC".getBytes("UTF-8"));
     assertEquals(AEBC, "ÄBC".getBytes(StandardCharsets.UTF_8));

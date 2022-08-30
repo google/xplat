@@ -158,6 +158,8 @@ fun String.lastIndexOf(codePoint: Int, fromIndex: Int = Int.MAX_VALUE): Int {
   }
 }
 
+fun String.java_matches(regex: String) = Regex(regex).matches(this)
+
 fun String.java_split(regularExpression: String): Array<String?>? {
   val strList: List<String> = this.split(regularExpression.toRegex())
   return strList.toTypedArray()
