@@ -46,7 +46,7 @@ public final class Byte extends Number implements Comparable<Byte> {
 
   public static native int compare(byte lhs, byte rhs);
 
-  public static native Byte decode(String string) throws NumberFormatException;
+  public static native Byte decode(@JsNonNull String string) throws NumberFormatException;
 
   @Override
   public native double doubleValue();

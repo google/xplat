@@ -90,7 +90,7 @@ public final class Double extends Number implements Comparable<Double> {
   @Override
   public native long longValue();
 
-  public static native double parseDouble(String string) throws NumberFormatException;
+  public static native double parseDouble(@JsNonNull String string) throws NumberFormatException;
 
   @KtName("toInt_toShort")
   @Override
