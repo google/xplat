@@ -19,20 +19,17 @@ package java.util;
 import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import javaemul.internal.annotations.KtPropagateNullability;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html">the official Java
  * API doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableIterator", bridgeWith = "javaemul.lang.JavaIterator")
-public interface Iterator<E> {
+public interface Iterator<E extends @Nullable Object> {
 
   boolean hasNext();
 
-  @KtPropagateNullability
-  @JsNonNull
   E next();
 
   default void remove() {}

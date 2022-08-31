@@ -22,17 +22,17 @@ interface JavaIterator<T> : MutableIterator<T> {
     throw UnsupportedOperationException()
   }
 
-  fun java_forEachRemaining(consumer: Consumer<in T?>?) {
+  fun java_forEachRemaining(consumer: Consumer<in T>?) {
     default_forEachRemaining(consumer)
   }
 }
 
-fun <T> MutableIterator<T>.java_forEachRemaining(consumer: Consumer<in T?>?) {
+fun <T> MutableIterator<T>.java_forEachRemaining(consumer: Consumer<in T>?) {
   requireNotNull(consumer)
   if (this is JavaIterator) java_forEachRemaining(consumer) else default_forEachRemaining(consumer)
 }
 
-private fun <T> MutableIterator<T>.default_forEachRemaining(consumer: Consumer<in T?>?) {
+private fun <T> MutableIterator<T>.default_forEachRemaining(consumer: Consumer<in T>?) {
   requireNotNull(consumer)
   while (hasNext()) consumer.accept(next())
 }

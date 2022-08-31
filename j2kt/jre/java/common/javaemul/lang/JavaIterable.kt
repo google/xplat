@@ -19,18 +19,18 @@ import java.util.Spliterator
 import java.util.function.Consumer
 
 interface JavaIterable<T> : MutableIterable<T> {
-  fun java_forEach(consumer: Consumer<in T?>?) {
+  fun java_forEach(consumer: Consumer<in T>?) {
     default_forEach(consumer)
   }
 
   fun spliterator(): Spliterator<T>? = default_spliterator()
 }
 
-fun <T> MutableIterable<T>.java_forEach(consumer: Consumer<in T?>?) {
+fun <T> MutableIterable<T>.java_forEach(consumer: Consumer<in T>?) {
   if (this is JavaIterable) java_forEach(consumer) else default_forEach(consumer)
 }
 
-private fun <T> kotlin.collections.MutableIterable<T>.default_forEach(consumer: Consumer<in T?>?) {
+private fun <T> kotlin.collections.MutableIterable<T>.default_forEach(consumer: Consumer<in T>?) {
   requireNotNull(consumer)
   for (t in this) consumer.accept(t)
 }

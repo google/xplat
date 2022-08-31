@@ -17,8 +17,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import javaemul.internal.annotations.KtPropagateNullability;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Uses Java 1.5 ListIterator for documentation. The methods hasNext, next, and remove are repeated
@@ -28,17 +27,14 @@ import jsinterop.annotations.JsNonNull;
  * @param <E> element type.
  */
 @KtNative("kotlin.collections.MutableListIterator")
-public interface ListIterator<E> extends Iterator<E> {
+public interface ListIterator<E extends @Nullable Object> extends Iterator<E> {
 
-  @KtPropagateNullability
-  void add(@JsNonNull E e);
+  void add(E e);
 
   boolean hasPrevious();
 
   int nextIndex();
 
-  @KtPropagateNullability
-  @JsNonNull
   E previous();
 
   int previousIndex();
@@ -46,6 +42,5 @@ public interface ListIterator<E> extends Iterator<E> {
   @Override
   void remove();
 
-  @KtPropagateNullability
-  void set(@JsNonNull E e);
+  void set(E e);
 }
