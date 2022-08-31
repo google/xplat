@@ -106,25 +106,25 @@ public class Collections {
     }
 
     @Override
-    public @Nullable V get(Object key) {
+    public @Nullable V get(@Nullable Object key) {
       getCalls++;
       return super.get(key);
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       containsKeyCalls++;
       return super.containsKey(key);
     }
 
     @Override
-    public boolean containsValue(Object value) {
+    public boolean containsValue(@Nullable Object value) {
       containsValueCalls++;
       return super.containsValue(value);
     }
 
     @Override
-    public @Nullable V remove(Object key) {
+    public @Nullable V remove(@Nullable Object key) {
       removeCalls++;
       return super.remove(key);
     }

@@ -17,6 +17,7 @@ package java.util;
 
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractMap.html">the official
@@ -25,7 +26,8 @@ import jsinterop.annotations.JsNonNull;
 @KtNative(
     value = "kotlin.collections.AbstractMutableMap",
     bridgeWith = "javaemul.lang.JavaAbstractMap")
-public abstract class AbstractMap<K, V> implements Map<K, V> {
+public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullable Object>
+    implements Map<K, V> {
 
   protected AbstractMap() {}
 
@@ -33,13 +35,13 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
   public native void clear();
 
   @Override
-  public native boolean containsKey(Object key);
+  public native boolean containsKey(@Nullable Object key);
 
   @Override
-  public native boolean containsValue(Object value);
+  public native boolean containsValue(@Nullable Object value);
 
   @Override
-  public native V get(Object key);
+  public native @Nullable V get(@Nullable Object key);
 
   @Override
   public abstract @JsNonNull Set<Entry<K, V>> entrySet();
@@ -51,13 +53,13 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
   public native @JsNonNull Set<K> keySet();
 
   @Override
-  public native V put(@JsNonNull K key, @JsNonNull V value);
+  public native @Nullable V put(K key, V value);
 
   @Override
   public native void putAll(@JsNonNull Map<? extends K, V> map);
 
   @Override
-  public native V remove(Object key);
+  public native @Nullable V remove(@Nullable Object key);
 
   @JsNonNull
   @Override

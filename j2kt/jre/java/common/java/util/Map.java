@@ -20,28 +20,26 @@ import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import javaemul.internal.annotations.KtProperty;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html">the official Java API
  * doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableMap", bridgeWith = "javaemul.lang.JavaMap")
-public interface Map<K, V> {
+public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   /** Represents an individual map entry. */
   @KtNative("kotlin.collections.MutableMap.MutableEntry")
-  interface Entry<K, V> {
+  interface Entry<K extends @Nullable Object, V extends @Nullable Object> {
     @KtProperty
     @KtPropagateNullability
-    @JsNonNull
     K getKey();
 
     @KtProperty
     @KtPropagateNullability
-    @JsNonNull
     V getValue();
 
-    @JsNonNull
     @KtPropagateNullability
     V setValue(@JsNonNull V value);
 
@@ -50,17 +48,20 @@ public interface Map<K, V> {
       throw new IllegalStateException();
     }
 
-    static <K, V> Comparator<Map.Entry<K, V>> comparingByKey(Comparator<? super K> cmp) {
+    static <K extends @Nullable Object, V extends @Nullable Object>
+        Comparator<Map.Entry<K, V>> comparingByKey(Comparator<? super K> cmp) {
       // native interface method
       throw new IllegalStateException();
     }
 
-    static <K, V extends Comparable<? super V>> Comparator<Map.Entry<K,V>> comparingByValue() {
+    static <K extends @Nullable Object, V extends Comparable<? super V>>
+        Comparator<Map.Entry<K, V>> comparingByValue() {
       // native interface method
       throw new IllegalStateException();
     }
 
-    static <K, V> Comparator<Map.Entry<K, V>> comparingByValue(Comparator<? super V> cmp) {
+    static <K extends @Nullable Object, V> Comparator<Map.Entry<K, V>> comparingByValue(
+        Comparator<? super V> cmp) {
       // native interface method
       throw new IllegalStateException();
     }
@@ -69,10 +70,10 @@ public interface Map<K, V> {
   void clear();
 
   @KtName("java_containsKey")
-  boolean containsKey(Object key);
+  boolean containsKey(@Nullable Object key);
 
   @KtName("java_containsValue")
-  boolean containsValue(Object value);
+  boolean containsValue(@Nullable Object value);
 
   @JsNonNull
   @KtPropagateNullability
@@ -81,7 +82,7 @@ public interface Map<K, V> {
   Set<Entry<K, V>> entrySet();
 
   @KtName("java_get")
-  V get(Object key);
+  @Nullable V get(@Nullable Object key);
 
   boolean isEmpty();
 
@@ -92,14 +93,14 @@ public interface Map<K, V> {
   Set<K> keySet();
 
   @KtPropagateNullability
-  V put(@JsNonNull K key, @JsNonNull V value);
+  @Nullable V put(K key, V value);
 
   @KtName("java_putAll")
   @KtPropagateNullability
   void putAll(@JsNonNull Map<? extends K, V> t);
 
   @KtName("java_remove")
-  V remove(Object key);
+  @Nullable V remove(@Nullable Object key);
 
   @KtProperty
   int size();
