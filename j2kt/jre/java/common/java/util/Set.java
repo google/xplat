@@ -16,10 +16,11 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html">the official Java API
  * doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableSet", bridgeWith = "javaemul.lang.JavaSet")
-public interface Set<E> extends Collection<E> {}
+public interface Set<E extends @Nullable Object> extends Collection<E> {}

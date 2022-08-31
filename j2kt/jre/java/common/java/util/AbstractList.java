@@ -17,6 +17,7 @@ package java.util;
 
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html">the official
@@ -25,29 +26,30 @@ import jsinterop.annotations.JsNonNull;
 @KtNative(
     value = "kotlin.collections.AbstractMutableList",
     bridgeWith = "javaemul.lang.JavaAbstractList")
-public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> {
+public abstract class AbstractList<E extends @Nullable Object> extends AbstractCollection<E>
+    implements List<E> {
 
   protected transient int modCount;
 
   protected AbstractList() {}
 
   @Override
-  public native boolean add(@JsNonNull E obj);
+  public native boolean add(E element);
 
   @Override
-  public native void add(int index, @JsNonNull E element);
+  public native void add(int index, E element);
 
   @Override
   public native boolean addAll(int index, @JsNonNull Collection<E> c);
 
   @Override
-  public native int indexOf(@JsNonNull E toFind);
+  public native int indexOf(@Nullable Object toFind);
 
   @Override
   public native @JsNonNull Iterator<E> iterator();
 
   @Override
-  public native int lastIndexOf(@JsNonNull E toFind);
+  public native int lastIndexOf(@Nullable Object toFind);
 
   @Override
   public native @JsNonNull ListIterator<E> listIterator();
@@ -67,7 +69,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
   public native boolean retainAll(@JsNonNull Collection<E> c);
 
   @Override
-  public native @JsNonNull E set(int index, E o);
+  public native E set(int index, E e);
 
   @Override
   public native @JsNonNull List<E> subList(int fromIndex, int toIndex);

@@ -17,6 +17,7 @@ package java.util;
 
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractCollection.html">the
@@ -25,12 +26,12 @@ import jsinterop.annotations.JsNonNull;
 @KtNative(
     value = "kotlin.collections.AbstractMutableCollection",
     bridgeWith = "javaemul.lang.JavaAbstractCollection")
-public abstract class AbstractCollection<E> implements Collection<E> {
+public abstract class AbstractCollection<E extends @Nullable Object> implements Collection<E> {
 
   protected AbstractCollection() {}
 
   @Override
-  public abstract boolean add(@JsNonNull E e);
+  public abstract boolean add(E e);
 
   @Override
   public native boolean addAll(@JsNonNull Collection<E> c);
@@ -39,7 +40,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
   public native void clear();
 
   @Override
-  public native boolean contains(@JsNonNull E e);
+  public native boolean contains(@Nullable Object o);
 
   @Override
   public native boolean containsAll(@JsNonNull Collection<E> c);
@@ -48,7 +49,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
   public native boolean isEmpty();
 
   @Override
-  public native boolean remove(@JsNonNull E o);
+  public native boolean remove(@Nullable Object o);
 
   @Override
   public native boolean removeAll(@JsNonNull Collection<E> c);

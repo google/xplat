@@ -18,7 +18,11 @@ package javaemul.lang
 abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaCollection<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 
+  override fun contains(e: E): Boolean = super<JavaCollection>.contains(e)
+
   override fun containsAll(c: Collection<E>): Boolean = super<JavaCollection>.containsAll(c)
+
+  override fun remove(e: E): Boolean = super<JavaCollection>.remove(e)
 
   override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
 
@@ -26,7 +30,11 @@ abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaC
 
   override fun add(e: E): Boolean = throw UnsupportedOperationException()
 
-  override fun remove(o: E): Boolean = throw UnsupportedOperationException()
-
   override fun clear() = throw UnsupportedOperationException()
+
+  @Suppress("UNCHECKED_CAST")
+  override fun java_contains(a: Any?): Boolean = super<AbstractMutableCollection>.contains(a as E)
+
+  @Suppress("UNCHECKED_CAST")
+  override fun java_remove(a: Any?): Boolean = throw UnsupportedOperationException()
 }

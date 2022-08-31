@@ -17,13 +17,14 @@ package java.util;
 
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html">the official
  * Java API doc</a> for details.
  */
 @KtNative("kotlin.collections.LinkedHashSet")
-public class LinkedHashSet<E> implements Set<E> {
+public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
 
   public LinkedHashSet() {}
 
@@ -40,16 +41,16 @@ public class LinkedHashSet<E> implements Set<E> {
   public native boolean isEmpty();
 
   @Override
-  public native boolean contains(@JsNonNull E e);
+  public native boolean contains(@Nullable Object o);
 
   @Override
   public native @JsNonNull Iterator<E> iterator();
 
   @Override
-  public native boolean add(@JsNonNull E e);
+  public native boolean add(E e);
 
   @Override
-  public native boolean remove(@JsNonNull E e);
+  public native boolean remove(@Nullable Object o);
 
   @Override
   public native boolean containsAll(@JsNonNull Collection<E> c);

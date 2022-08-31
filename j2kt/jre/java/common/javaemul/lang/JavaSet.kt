@@ -18,7 +18,11 @@ package javaemul.lang
 interface JavaSet<E> : MutableSet<E>, JavaCollection<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 
+  override fun contains(e: E): Boolean = super<JavaCollection>.contains(e)
+
   override fun containsAll(c: Collection<E>): Boolean = super<JavaCollection>.containsAll(c)
+
+  override fun remove(e: E): Boolean = super<JavaCollection>.remove(e)
 
   override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
 

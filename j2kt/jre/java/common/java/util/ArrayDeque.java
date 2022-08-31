@@ -18,13 +18,14 @@ package java.util;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ArrayDeque.html">the official
  * Java API doc</a> for details.
  */
 @KtNative("kotlin.collections.ArrayDeque")
-public class ArrayDeque<E> extends AbstractList<E> {
+public class ArrayDeque<E extends @Nullable Object> extends AbstractList<E> {
 
   public ArrayDeque() {}
 
@@ -33,32 +34,32 @@ public class ArrayDeque<E> extends AbstractList<E> {
   public ArrayDeque(Collection<? extends E> c) {}
 
   @Override
-  public native boolean add(@JsNonNull E e);
+  public native boolean add(E e);
 
   @Override
-  public native void add(int index, @JsNonNull E element);
+  public native void add(int index, E element);
 
-  public native void addFirst(@JsNonNull E e);
+  public native void addFirst(E e);
 
-  public native void addLast(@JsNonNull E e);
+  public native void addLast(E e);
 
   @Override
   public native void clear();
 
   @Override
-  public native boolean contains(@JsNonNull E e);
+  public native boolean contains(@Nullable Object o);
 
   @KtName("first")
-  public native @JsNonNull E element();
+  public native E element();
 
   @Override
-  public native @JsNonNull E get(int index);
+  public native E get(int index);
 
   @KtName("first")
-  public native @JsNonNull E getFirst();
+  public native E getFirst();
 
   @KtName("last")
-  public native @JsNonNull E getLast();
+  public native E getLast();
 
   @Override
   public native boolean isEmpty();
@@ -67,45 +68,45 @@ public class ArrayDeque<E> extends AbstractList<E> {
   public native @JsNonNull Iterator<E> iterator();
 
   @KtName("firstOrNull")
-  public native E peek();
+  public native @Nullable E peek();
 
   @KtName("firstOrNull")
-  public native E peekFirst();
+  public native @Nullable E peekFirst();
 
   @KtName("lastOrNull")
-  public native E peekLast();
+  public native @Nullable E peekLast();
 
   @KtName("removeFirstOrNull")
-  public native E poll();
+  public native @Nullable E poll();
 
   @KtName("removeFirstOrNull")
-  public native E pollFirst();
+  public native @Nullable E pollFirst();
 
   @KtName("removeLastOrNull")
-  public native E pollLast();
+  public native @Nullable E pollLast();
 
   @KtName("removeFirst")
-  public native E pop();
+  public native @Nullable E pop();
 
   @KtName("addFirst")
-  public native void push(@JsNonNull E e);
+  public native void push(E e);
 
   @KtName("removeFirst")
-  public native @JsNonNull E remove();
+  public native E remove();
 
   @Override
   @KtName("removeAt")
-  public native @JsNonNull E remove(int index);
+  public native E remove(int index);
 
   @Override
-  public native boolean remove(@JsNonNull E e);
+  public native boolean remove(@Nullable Object o);
 
-  public native @JsNonNull E removeFirst();
+  public native E removeFirst();
 
-  public native @JsNonNull E removeLast();
+  public native E removeLast();
 
   @Override
-  public native @JsNonNull E set(int index, @JsNonNull E element);
+  public native E set(int index, E element);
 
   @Override
   public native int size();

@@ -203,18 +203,40 @@ public class Collections {
     }
 
     @Override
-    public void add(int index, @JsNonNull E element) {
+    public void add(int index, E element) {
       throw new UnsupportedOperationException("TODO there should be a bridge");
     }
 
     @Override
-    public @JsNonNull E set(int index, @JsNonNull E element) {
+    public E set(int index, E element) {
       throw new UnsupportedOperationException("TODO there should be a bridge");
     }
 
     @Override
-    public @JsNonNull E remove(int index) {
+    public E remove(int index) {
       throw new UnsupportedOperationException("TODO there should be a bridge");
+    }
+
+    // The following overrides are only there to check that the override (with the Java signatures
+    // of the method) compiles.
+    @Override
+    public boolean contains(@Nullable Object o) {
+      return super.contains(o);
+    }
+
+    @Override
+    public boolean remove(@Nullable Object o) {
+      return super.remove(o);
+    }
+
+    @Override
+    public int indexOf(@Nullable Object o) {
+      return super.indexOf(o);
+    }
+
+    @Override
+    public int lastIndexOf(@Nullable Object o) {
+      return super.lastIndexOf(o);
     }
 
     @Override

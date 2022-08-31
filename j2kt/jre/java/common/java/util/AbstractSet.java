@@ -17,18 +17,19 @@ package java.util;
 
 import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractSet.html">the official
  * Java API doc</a> for details.
  */
 @KtNative("kotlin.collections.AbstractMutableSet")
-public abstract class AbstractSet<E> implements Set<E> {
+public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> {
 
   protected AbstractSet() {}
 
   @Override
-  public abstract boolean add(@JsNonNull E o);
+  public abstract boolean add(E e);
 
   @Override
   public native boolean addAll(@JsNonNull Collection<E> c);
@@ -37,7 +38,7 @@ public abstract class AbstractSet<E> implements Set<E> {
   public native void clear();
 
   @Override
-  public native boolean contains(@JsNonNull E e);
+  public native boolean contains(@Nullable Object o);
 
   @Override
   public native boolean containsAll(@JsNonNull Collection<E> c);
@@ -49,7 +50,7 @@ public abstract class AbstractSet<E> implements Set<E> {
   public abstract @JsNonNull Iterator<E> iterator();
 
   @Override
-  public native boolean remove(@JsNonNull E e);
+  public native boolean remove(@Nullable Object o);
 
   @Override
   public native boolean removeAll(@JsNonNull Collection<E> c);

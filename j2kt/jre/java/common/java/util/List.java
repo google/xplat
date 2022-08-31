@@ -19,30 +19,30 @@ import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">the official Java API
  * doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableList", bridgeWith = "javaemul.lang.JavaList")
-public interface List<E> extends Collection<E> {
+public interface List<E extends @Nullable Object> extends Collection<E> {
 
-  @KtPropagateNullability
-  void add(int index, @JsNonNull E element);
+  void add(int index, E element);
 
   @KtName("java_addAll")
   @KtPropagateNullability
   boolean addAll(int index, @JsNonNull Collection<E> c);
 
-  @KtPropagateNullability
-  @JsNonNull
   E get(int index);
 
   @KtPropagateNullability
-  int indexOf(@JsNonNull E e);
+  @KtName("java_indexOf")
+  int indexOf(@Nullable Object o);
 
   @KtPropagateNullability
-  int lastIndexOf(@JsNonNull E e);
+  @KtName("java_lastIndexOf")
+  int lastIndexOf(@Nullable Object o);
 
   @KtPropagateNullability
   @JsNonNull
@@ -53,13 +53,9 @@ public interface List<E> extends Collection<E> {
   ListIterator<E> listIterator(int from);
 
   @KtName("removeAt")
-  @KtPropagateNullability
-  @JsNonNull
   E remove(int index);
 
-  @KtPropagateNullability
-  @JsNonNull
-  E set(int index, @JsNonNull E element);
+  E set(int index, E element);
 
   @KtPropagateNullability
   @JsNonNull

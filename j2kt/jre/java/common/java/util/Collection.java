@@ -20,6 +20,7 @@ import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import javaemul.internal.annotations.KtProperty;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html">the official
@@ -30,8 +31,7 @@ import jsinterop.annotations.JsNonNull;
     bridgeWith = "javaemul.lang.JavaCollection")
 public interface Collection<E> extends Iterable<E> {
 
-  @KtPropagateNullability
-  boolean add(@JsNonNull E e);
+  boolean add(E e);
 
   @KtName("java_addAll")
   @KtPropagateNullability
@@ -40,7 +40,8 @@ public interface Collection<E> extends Iterable<E> {
   void clear();
 
   @KtPropagateNullability
-  boolean contains(@JsNonNull E e);
+  @KtName("java_contains")
+  boolean contains(@Nullable Object o);
 
   @KtName("java_containsAll")
   @KtPropagateNullability
@@ -54,7 +55,8 @@ public interface Collection<E> extends Iterable<E> {
   Iterator<E> iterator();
 
   @KtPropagateNullability
-  boolean remove(@JsNonNull E o);
+  @KtName("java_remove")
+  boolean remove(@Nullable Object o);
 
   @KtName("java_removeAll")
   @KtPropagateNullability
@@ -75,7 +77,7 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_toArray")
   @KtPropagateNullability
-  default <T> T @JsNonNull [] toArray(T[] a) {
+  default <T extends @Nullable Object> T @JsNonNull [] toArray(T[] a) {
     return null;
   }
 }
