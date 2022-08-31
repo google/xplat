@@ -28,7 +28,7 @@ public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
 
   public LinkedHashSet() {}
 
-  public LinkedHashSet(@JsNonNull Collection<E> c) {}
+  public LinkedHashSet(@JsNonNull Collection<? extends E> c) {}
 
   public LinkedHashSet(int initialCapacity) {}
 
@@ -53,16 +53,16 @@ public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<E> c);
+  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<E> c);
+  public native boolean addAll(@JsNonNull Collection<? extends E> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<E> c);
+  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<E> c);
+  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
   public native void clear();

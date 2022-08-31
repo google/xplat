@@ -39,10 +39,10 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native void add(int index, E e);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<E> c);
+  public native boolean addAll(@JsNonNull Collection<? extends E> c);
 
   @Override
-  public native boolean addAll(int index, @JsNonNull Collection<E> c);
+  public native boolean addAll(int index, @JsNonNull Collection<? extends E> c);
 
   @Override
   public native void clear();
@@ -51,7 +51,7 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native boolean contains(@Nullable Object o);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<E> c);
+  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   public native void ensureCapacity(int minCapacity);
 
@@ -83,10 +83,10 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<E> c);
+  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<E> c);
+  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
   public native E set(int index, E e);

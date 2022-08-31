@@ -34,7 +34,7 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
   public abstract boolean add(E e);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<E> c);
+  public native boolean addAll(@JsNonNull Collection<? extends E> c);
 
   @Override
   public native void clear();
@@ -43,7 +43,7 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
   public native boolean contains(@Nullable Object o);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<E> c);
+  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
   public native boolean isEmpty();
@@ -52,8 +52,8 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<E> c);
+  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<E> c);
+  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
 }

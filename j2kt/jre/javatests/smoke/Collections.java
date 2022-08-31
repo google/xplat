@@ -220,13 +220,23 @@ public class Collections {
     // The following overrides are only there to check that the override (with the Java signatures
     // of the method) compiles.
     @Override
+    public boolean addAll(@JsNonNull Collection<? extends E> c) {
+      return super.addAll(c);
+    }
+
+    @Override
+    public boolean addAll(int index, @JsNonNull Collection<? extends E> c) {
+      return super.addAll(index, c);
+    }
+
+    @Override
     public boolean contains(@Nullable Object o) {
       return super.contains(o);
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
-      return super.remove(o);
+    public boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+      return super.containsAll(c);
     }
 
     @Override
@@ -237,6 +247,21 @@ public class Collections {
     @Override
     public int lastIndexOf(@Nullable Object o) {
       return super.lastIndexOf(o);
+    }
+
+    @Override
+    public boolean remove(@Nullable Object o) {
+      return super.remove(o);
+    }
+
+    @Override
+    public boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+      return super.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+      return super.retainAll(c);
     }
 
     @Override

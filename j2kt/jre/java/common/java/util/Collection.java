@@ -35,7 +35,7 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_addAll")
   @KtPropagateNullability
-  boolean addAll(@JsNonNull Collection<E> c);
+  boolean addAll(@JsNonNull Collection<? extends E> c);
 
   void clear();
 
@@ -45,7 +45,7 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_containsAll")
   @KtPropagateNullability
-  boolean containsAll(@JsNonNull Collection<E> c);
+  boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   boolean isEmpty();
 
@@ -60,11 +60,11 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_removeAll")
   @KtPropagateNullability
-  boolean removeAll(@JsNonNull Collection<E> c);
+  boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @KtName("java_retainAll")
   @KtPropagateNullability
-  boolean retainAll(@JsNonNull Collection<E> c);
+  boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @KtProperty
   int size();

@@ -32,7 +32,7 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public abstract boolean add(E e);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<E> c);
+  public native boolean addAll(@JsNonNull Collection<? extends E> c);
 
   @Override
   public native void clear();
@@ -41,7 +41,7 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean contains(@Nullable Object o);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<E> c);
+  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
   public native boolean isEmpty();
@@ -53,8 +53,8 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<E> c);
+  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<E> c);
+  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
 }

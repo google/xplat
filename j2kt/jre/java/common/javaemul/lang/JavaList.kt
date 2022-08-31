@@ -37,15 +37,18 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
 
-  abstract fun java_addAll(index: Int, c: MutableCollection<E>): Boolean
+  abstract fun java_addAll(index: Int, c: MutableCollection<*>): Boolean
 
   abstract fun java_indexOf(a: Any?): Int
 
   abstract fun java_lastIndexOf(a: Any?): Int
 }
 
-fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<out E>): Boolean {
-  if (this is JavaList) return java_addAll(index, c) else return addAll(index, c)
+// TODO(b/243901401): This should be MutableCollection<out Any?>
+@Suppress("UNCHECKED_CAST")
+fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<*>): Boolean {
+  if (this is JavaList) return java_addAll(index, c)
+  else return addAll(index, c as MutableCollection<E>)
 }
 
 @Suppress("UNCHECKED_CAST")

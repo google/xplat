@@ -40,7 +40,7 @@ public abstract class AbstractList<E extends @Nullable Object> extends AbstractC
   public native void add(int index, E element);
 
   @Override
-  public native boolean addAll(int index, @JsNonNull Collection<E> c);
+  public native boolean addAll(int index, @JsNonNull Collection<? extends E> c);
 
   @Override
   public native int indexOf(@Nullable Object toFind);
@@ -61,12 +61,12 @@ public abstract class AbstractList<E extends @Nullable Object> extends AbstractC
   public native E remove(int index);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<E> c);
+  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   protected native void removeRange(int fromIndex, int endIndex);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<E> c);
+  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
 
   @Override
   public native E set(int index, E e);

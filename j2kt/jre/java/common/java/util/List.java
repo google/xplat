@@ -32,7 +32,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   @KtName("java_addAll")
   @KtPropagateNullability
-  boolean addAll(int index, @JsNonNull Collection<E> c);
+  boolean addAll(int index, @JsNonNull Collection<? extends E> c);
 
   E get(int index);
 
