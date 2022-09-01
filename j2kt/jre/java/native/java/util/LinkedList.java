@@ -20,6 +20,7 @@ import static javaemul.internal.InternalPreconditions.checkPositionIndex;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import java.io.Serializable;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Linked list implementation. <a
@@ -28,7 +29,7 @@ import java.io.Serializable;
  *
  * @param <E> element type.
  */
-public class LinkedList<E> extends AbstractSequentialList<E> implements
+public class LinkedList<E extends @Nullable Object> extends AbstractSequentialList<E> implements
     Cloneable, List<E>, Deque<E>, Serializable {
   /*
    * This implementation uses a doubly-linked list with a header/tail node.
@@ -160,9 +161,9 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements
    *
    * @param <E> element type
    */
-  private static class Node<E> {
-    public Node<E> next;
-    public Node<E> prev;
+  private static class Node<E extends @Nullable Object> {
+    public @Nullable Node<E> next;
+    public @Nullable Node<E> prev;
     public E value;
   }
 
@@ -344,7 +345,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements
   }
 
   @Override
-  public boolean removeFirstOccurrence(Object o) {
+  public boolean removeFirstOccurrence(@Nullable Object o) {
     return remove(o);
   }
 
@@ -356,7 +357,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements
   }
 
   @Override
-  public boolean removeLastOccurrence(Object o) {
+  public boolean removeLastOccurrence(@Nullable Object o) {
     for (Node<E> e = tail.prev; e != header; e = e.prev) {
       if (Objects.equals(e.value, o)) {
         removeNode(e);

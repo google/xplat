@@ -71,13 +71,15 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_toArray")
   @KtPropagateNullability
-  default Object @JsNonNull [] toArray() {
+  default @Nullable Object @JsNonNull [] toArray() {
     return null;
   }
 
+  // Note: If array `a` is bigger than `this` collection, `a[this.size()]` will be set to `null`
+  // even though `T` is not necessarily nullable. This is to remain consistent with JSpecify.
   @KtName("java_toArray")
   @KtPropagateNullability
-  default <T extends @Nullable Object> T @JsNonNull [] toArray(T[] a) {
+  default <T extends @Nullable Object> T @JsNonNull [] toArray(T @JsNonNull [] a) {
     return null;
   }
 }

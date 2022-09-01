@@ -33,7 +33,7 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c as MutableCollection<E>)
 
-  // TODO(b/243901401): This should be MutableCollection<out Any?>
+  // TODO(b/243901401): This should be MutableCollection<out E>
   abstract fun java_addAll(c: MutableCollection<*>): Boolean
 
   abstract fun java_contains(a: Any?): Boolean
@@ -51,10 +51,10 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun java_toArray(): Array<Any?> = default_toArray()
 
-  fun <T> java_toArray(a: Array<T>?): Array<T> = default_toArray(a)
+  fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
 }
 
-// TODO(b/243901401): This should be MutableCollection<out Any?>
+// TODO(b/243901401): This should be MutableCollection<out E>
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<*>): Boolean {
   if (this is JavaCollection) return java_addAll(c) else return addAll(c as MutableCollection<E>)
 }
@@ -100,8 +100,7 @@ private fun MutableCollection<*>.default_toArray(): Array<Any?> {
   return default_toArray(emptyArray)
 }
 
-private fun <T> MutableCollection<*>.default_toArray(a: Array<T>?): Array<T> {
-  a!!
+private fun <T> MutableCollection<*>.default_toArray(a: Array<T>): Array<T> {
   if (this.size > a.size) {
     return default_toArray(
       JavaLangReflectArray.newInstance(a::class.javaObjectType.getComponentType(), size) as Array<T>

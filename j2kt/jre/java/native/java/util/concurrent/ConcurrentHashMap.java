@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Minimal emulation of {@link java.util.concurrent.ConcurrentHashMap}.
@@ -55,7 +56,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     this.backingMap = new HashMap<K, V>(t);
   }
 
-  public V putIfAbsent(K key, V value) {
+  public @Nullable V putIfAbsent(K key, V value) {
     if (!containsKey(key)) {
       return put(key, value);
     } else {
@@ -83,7 +84,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
   }
 
-  public V replace(K key, V value) {
+  public @Nullable V replace(K key, V value) {
     if (value == null) {
       throw new NullPointerException();
     } else if (containsKey(key)) {
@@ -93,35 +94,39 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
   }
 
-  @Override public boolean containsKey(Object key) {
+  @Override
+  public boolean containsKey(@Nullable Object key) {
     if (key == null) {
       throw new NullPointerException();
     }
     return backingMap.containsKey(key);
   }
 
-  @Override public V get(Object key) {
+  @Override
+  public @Nullable V get(@Nullable Object key) {
     if (key == null) {
       throw new NullPointerException();
     }
     return backingMap.get(key);
   }
 
-  @Override public V put(K key, V value) {
+  @Override public @Nullable V put(K key, V value) {
     if (key == null || value == null) {
       throw new NullPointerException();
     }
     return backingMap.put(key, value);
   }
 
-  @Override public boolean containsValue(Object value) {
+  @Override
+  public boolean containsValue(@Nullable Object value) {
     if (value == null) {
       throw new NullPointerException();
     }
     return backingMap.containsValue(value);
   }
 
-  @Override public V remove(Object key) {
+  @Override
+  public @Nullable V remove(@Nullable Object key) {
     if (key == null) {
       throw new NullPointerException();
     }
@@ -132,7 +137,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     return backingMap.entrySet();
   }
 
-  public boolean contains(Object value) {
+  public boolean contains(@Nullable Object value) {
     return containsValue(value);
   }
 
@@ -144,7 +149,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     return Collections.enumeration(keySet());
   }
 
-  public static <T> Set<T> newKeySet() {
+  public static <T extends @Nullable Object> Set<T> newKeySet() {
     return new HashSet<>();
   }
 }

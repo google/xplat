@@ -41,7 +41,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
     V getValue();
 
     @KtPropagateNullability
-    V setValue(@JsNonNull V value);
+    V setValue(V value);
 
     static <K extends Comparable<? super K>, V> Comparator<Map.Entry<K,V>> comparingByKey() {
       // native interface method

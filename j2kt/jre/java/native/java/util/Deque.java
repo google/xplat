@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * A collection designed for holding elements prior to processing. <a
  * href="http://docs.oracle.com/javase/6/docs/api/java/util/Deque.html">Deque</a>
@@ -51,10 +53,9 @@ public interface Deque<E> extends Queue<E> {
 
   E removeFirst();
 
-  boolean removeFirstOccurrence(Object o);
+  boolean removeFirstOccurrence(@Nullable Object o);
 
   E removeLast();
 
-  boolean removeLastOccurrence(Object o);
-
+  boolean removeLastOccurrence(@Nullable Object o);
 }

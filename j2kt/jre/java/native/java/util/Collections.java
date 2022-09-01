@@ -15,7 +15,7 @@
  */
 package java.util;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 // TODO(b/238061901): Implement the other Collections methods
 // Only methods necessary for transpiling non-collection/stream code are implemented right now.
@@ -25,7 +25,7 @@ import jsinterop.annotations.JsNonNull;
  * doc</a> for details.
  */
 public class Collections {
-  public static <T> Enumeration<T> enumeration(Collection<T> c) {
+  public static <T extends @Nullable Object> Enumeration<T> enumeration(Collection<T> c) {
     final Iterator<T> it = c.iterator();
     return new Enumeration<T>() {
       @Override
@@ -40,7 +40,7 @@ public class Collections {
     };
   }
 
-  public static <T> List<T> nCopies(int n, @JsNonNull T o) {
+  public static <T extends @Nullable Object> List<T> nCopies(int n, T o) {
     ArrayList<T> list = new ArrayList<T>();
     for (int i = 0; i < n; ++i) {
       list.add(o);

@@ -20,6 +20,7 @@ import static javaemul.internal.InternalPreconditions.checkArraySize;
 
 import javaemul.internal.ArrayHelper;
 import javaemul.internal.LongUtils;
+import org.jspecify.nullness.Nullable;
 
 /**
  * This implementation uses a dense array holding bit groups of size 31 to keep track of when bits
@@ -349,7 +350,7 @@ public class BitSet implements Cloneable {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) {
       return true;
     }

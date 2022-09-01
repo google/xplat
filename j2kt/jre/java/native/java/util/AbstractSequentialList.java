@@ -16,6 +16,7 @@
 package java.util;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Skeletal implementation of the List interface. <a
@@ -24,7 +25,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
  * 
  * @param <E> element type.
  */
-public abstract class AbstractSequentialList<E> extends AbstractList<E> {
+public abstract class AbstractSequentialList<E extends @Nullable Object> extends AbstractList<E> {
 
   // Should not be instantiated directly.
   protected AbstractSequentialList() {

@@ -97,7 +97,9 @@ public class Arrays {
 
   public static native short[] copyOf(short[] original, int newLength);
 
-  public static native <T> @Nullable T[] copyOf(@Nullable T[] original, int newLength);
+  // Note: In JSpecify, T itself cannot be nullable. But it helps J2KT and makes no difference
+  public static native <T extends @Nullable Object> @Nullable T[] copyOf(
+      @Nullable T[] original, int newLength);
 
   public static native boolean[] copyOfRange(boolean[] original, int from, int to);
 
@@ -115,7 +117,9 @@ public class Arrays {
 
   public static native short[] copyOfRange(short[] original, int from, int to);
 
-  public static native <T> @Nullable T[] copyOfRange(@Nullable T[] original, int from, int to);
+  // Note: In JSpecify, T itself cannot be nullable. But it helps J2KT and makes no difference
+  public static native <T extends @Nullable Object> @Nullable T[] copyOfRange(
+      @Nullable T[] original, int from, int to);
 
   public static native boolean deepEquals(
       @Nullable Object @Nullable [] a1, @Nullable Object @Nullable [] a2);

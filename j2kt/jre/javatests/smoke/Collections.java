@@ -265,7 +265,7 @@ public class Collections {
     }
 
     @Override
-    public Object[] toArray() {
+    public @Nullable Object[] toArray() {
       toArrayCalls++;
       int savedToArrayTypedCalls = toArrayTypedCalls;
       try {
@@ -277,7 +277,7 @@ public class Collections {
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
+    public <T extends @Nullable Object> T[] toArray(T[] a) {
       toArrayTypedCalls++;
       return super.toArray(a);
     }

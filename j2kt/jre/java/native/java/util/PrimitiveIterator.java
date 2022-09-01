@@ -21,15 +21,17 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/PrimitiveIterator.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/PrimitiveIterator.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> element type
  * @param <C> consumer type
  */
-public interface PrimitiveIterator<T, C> extends Iterator<T> {
+public interface PrimitiveIterator<T extends @Nullable Object, C extends @Nullable Object>
+    extends Iterator<T> {
 
   void forEachRemaining(C consumer);
 
