@@ -167,7 +167,7 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    *
    * @throws IllegalStateException if no successful match has been made.
    */
-  fun group(group: Int) = ensureMatch().groupValues[group]
+  fun group(group: Int): String? = ensureMatch().groupValues[group]
 
   /**
    * Returns the text that matched the whole regular expression.
@@ -176,7 +176,7 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * @throws IllegalStateException if no successful match has been made.
    */
   fun group(): String {
-    return group(0)
+    return group(0)!! // group(0) can only throw or return non-null
   }
 
   /**

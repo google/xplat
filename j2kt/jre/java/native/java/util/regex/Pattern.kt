@@ -24,7 +24,7 @@ class Pattern(pattern: String?, private val flags: Int) {
     try {
       regex = Regex(pattern!!, flagsToOptions(flags))
     } catch (e: RuntimeException) {
-      throw PatternSyntaxException(e.message, pattern, -1)
+      throw PatternSyntaxException(e.message ?: "", pattern, -1)
     }
   }
 
