@@ -15,15 +15,17 @@
  */
 package java.util;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * A map with ordering. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/SortedMap.html">[Sun
- * docs]</a>
- * 
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/SortedMap.html">[Sun docs]</a>
+ *
  * @param <K> key type.
  * @param <V> value type.
  */
-public interface SortedMap<K, V> extends Map<K, V> {
+public interface SortedMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends Map<K, V> {
 
   Comparator<? super K> comparator();
 

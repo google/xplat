@@ -15,44 +15,47 @@
  */
 package java.util;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * Sorted map providing additional query operations and views.
  *
  * @param <K> key type.
  * @param <V> value type.
  */
-public interface NavigableMap<K, V> extends SortedMap<K, V> {
-  Map.Entry<K, V> ceilingEntry(K key);
+public interface NavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends SortedMap<K, V> {
+  Map.@Nullable Entry<K, V> ceilingEntry(K key);
 
-  K ceilingKey(K key);
+  @Nullable K ceilingKey(K key);
 
   NavigableSet<K> descendingKeySet();
 
   NavigableMap<K, V> descendingMap();
 
-  Map.Entry<K, V> firstEntry();
+  Map.@Nullable Entry<K, V> firstEntry();
 
-  Map.Entry<K, V> floorEntry(K key);
+  Map.@Nullable Entry<K, V> floorEntry(K key);
 
-  K floorKey(K key);
+  @Nullable K floorKey(K key);
 
   NavigableMap<K, V> headMap(K toKey, boolean inclusive);
 
-  Map.Entry<K, V> higherEntry(K key);
+  Map.@Nullable Entry<K, V> higherEntry(K key);
 
-  K higherKey(K key);
+  @Nullable K higherKey(K key);
 
-  Map.Entry<K, V> lastEntry();
+  Map.@Nullable Entry<K, V> lastEntry();
 
-  Map.Entry<K, V> lowerEntry(K key);
+  Map.@Nullable Entry<K, V> lowerEntry(K key);
 
-  K lowerKey(K key);
+  @Nullable K lowerKey(K key);
 
   NavigableSet<K> navigableKeySet();
 
-  Map.Entry<K, V> pollFirstEntry();
+  Map.@Nullable Entry<K, V> pollFirstEntry();
 
-  Map.Entry<K, V> pollLastEntry();
+  Map.@Nullable Entry<K, V> pollLastEntry();
 
   NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive);
 

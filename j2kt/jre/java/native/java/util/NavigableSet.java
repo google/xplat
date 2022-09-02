@@ -15,29 +15,31 @@
  */
 package java.util;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * A {@code SortedSet} with more flexible queries.
  *
  * @param <E> element type.
  */
-public interface NavigableSet<E> extends SortedSet<E> {
+public interface NavigableSet<E extends @Nullable Object> extends SortedSet<E> {
   E ceiling(E e);
 
   Iterator<E> descendingIterator();
 
   NavigableSet<E> descendingSet();
 
-  E floor(E e);
+  @Nullable E floor(E e);
 
   NavigableSet<E> headSet(E toElement, boolean inclusive);
 
-  E higher(E e);
+  @Nullable E higher(E e);
 
-  E lower(E e);
+  @Nullable E lower(E e);
 
-  E pollFirst();
+  @Nullable E pollFirst();
 
-  E pollLast();
+  @Nullable E pollLast();
 
   NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);
 
