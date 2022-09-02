@@ -23,13 +23,15 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractSet.html">the official
  * Java API doc</a> for details.
  */
-@KtNative("kotlin.collections.AbstractMutableSet")
+@KtNative(
+    value = "kotlin.collections.AbstractMutableSet",
+    bridgeWith = "javaemul.lang.JavaAbstractSet")
 public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> {
 
   protected AbstractSet() {}
 
   @Override
-  public abstract boolean add(E e);
+  public native boolean add(E e);
 
   @Override
   public native boolean addAll(@JsNonNull Collection<? extends E> c);
