@@ -35,16 +35,16 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaList>.retainAll(c)
 
-  override fun java_addAll(index: Int, c: MutableCollection<*>): Boolean =
-    super<AbstractMutableList>.addAll(index, c as MutableCollection<E>)
+  override fun java_addAll(index: Int, c: MutableCollection<out E>): Boolean =
+    super<AbstractMutableList>.addAll(index, c)
 
-  override fun java_addAll(c: MutableCollection<*>): Boolean =
-    super<AbstractMutableList>.addAll(c as MutableCollection<E>)
+  override fun java_addAll(c: MutableCollection<out E>): Boolean =
+    super<AbstractMutableList>.addAll(c)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_contains(a: Any?): Boolean = super<AbstractMutableList>.contains(a as E)
 
-  override fun java_containsAll(c: MutableCollection<*>): Boolean =
+  override fun java_containsAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableList>.containsAll(c as MutableCollection<E>)
 
   @Suppress("UNCHECKED_CAST")
@@ -56,10 +56,10 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   @Suppress("UNCHECKED_CAST")
   override fun java_remove(a: Any?): Boolean = super<AbstractMutableList>.remove(a as E)
 
-  override fun java_removeAll(c: MutableCollection<*>): Boolean =
+  override fun java_removeAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableList>.removeAll(c as MutableCollection<E>)
 
-  override fun java_retainAll(c: MutableCollection<*>): Boolean =
+  override fun java_retainAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableList>.retainAll(c as MutableCollection<E>)
 
   override fun add(index: Int, element: E) {

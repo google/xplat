@@ -41,16 +41,15 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
 
   fun sort(c: Comparator<in E>?) = sortWith(Comparators.nullToNaturalOrder(c))
 
-  fun java_addAll(index: Int, c: MutableCollection<*>): Boolean
+  fun java_addAll(index: Int, c: MutableCollection<out E>): Boolean
 
   fun java_indexOf(a: Any?): Int
 
   fun java_lastIndexOf(a: Any?): Int
 }
 
-// TODO(b/243901401): This should be MutableCollection<out Any?>
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<*>): Boolean =
+fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<out E>): Boolean =
   if (this is JavaList) java_addAll(index, c) else addAll(index, c as MutableCollection<E>)
 
 @Suppress("UNCHECKED_CAST")

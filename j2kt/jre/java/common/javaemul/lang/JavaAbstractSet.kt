@@ -29,25 +29,25 @@ abstract class JavaAbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaSet>.retainAll(c)
 
-  override fun java_addAll(c: MutableCollection<*>): Boolean =
+  override fun java_addAll(c: MutableCollection<out E>): Boolean =
     super<AbstractMutableSet>.addAll(c as MutableCollection<E>)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_contains(a: Any?): Boolean = super<AbstractMutableSet>.contains(a as E)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_containsAll(c: MutableCollection<*>): Boolean =
+  override fun java_containsAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableSet>.containsAll(c as MutableCollection<E>)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_remove(a: Any?): Boolean = super<AbstractMutableSet>.remove(a as E)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_removeAll(c: MutableCollection<*>): Boolean =
+  override fun java_removeAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableSet>.removeAll(c as MutableCollection<E>)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_retainAll(c: MutableCollection<*>): Boolean =
+  override fun java_retainAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableSet>.retainAll(c as MutableCollection<E>)
 
   override fun add(element: E): Boolean {

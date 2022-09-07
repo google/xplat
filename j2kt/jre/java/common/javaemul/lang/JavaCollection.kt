@@ -33,29 +33,24 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c as MutableCollection<E>)
 
-  // TODO(b/243901401): This should be MutableCollection<out E>
-  abstract fun java_addAll(c: MutableCollection<*>): Boolean
+  abstract fun java_addAll(c: MutableCollection<out E>): Boolean
 
   abstract fun java_contains(a: Any?): Boolean
 
-  // TODO(b/243901401): This should be MutableCollection<out Any?>
-  abstract fun java_containsAll(c: MutableCollection<*>): Boolean
+  abstract fun java_containsAll(c: MutableCollection<out Any?>): Boolean
 
   abstract fun java_remove(a: Any?): Boolean
 
-  // TODO(b/243901401): This should be MutableCollection<out Any?>
-  abstract fun java_removeAll(c: MutableCollection<*>): Boolean
+  abstract fun java_removeAll(c: MutableCollection<out Any?>): Boolean
 
-  // TODO(b/243901401): This should be MutableCollection<out Any?>
-  abstract fun java_retainAll(c: MutableCollection<*>): Boolean
+  abstract fun java_retainAll(c: MutableCollection<out Any?>): Boolean
 
   fun java_toArray(): Array<Any?> = default_toArray()
 
   fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
 }
 
-// TODO(b/243901401): This should be MutableCollection<out E>
-fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<*>): Boolean {
+fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean {
   if (this is JavaCollection) return java_addAll(c) else return addAll(c as MutableCollection<E>)
 }
 
@@ -64,9 +59,8 @@ fun <E> MutableCollection<E>.java_contains(a: Any?): Boolean {
   if (this is JavaCollection) return java_contains(a) else return contains(a as E)
 }
 
-// TODO(b/243901401): This should be MutableCollection<out Any?>
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<*>): Boolean {
+fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<out Any?>): Boolean {
   if (this is JavaCollection) return java_containsAll(c)
   else return containsAll(c as MutableCollection<E>)
 }
@@ -76,15 +70,13 @@ fun <E> MutableCollection<E>.java_remove(a: Any?): Boolean {
   if (this is JavaCollection) return java_remove(a) else return remove(a as E)
 }
 
-// TODO(b/243901401): This should be MutableCollection<out Any?>
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean {
+fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<out Any?>): Boolean {
   if (this is JavaCollection) return removeAll(c) else return removeAll(c as MutableCollection<E>)
 }
 
-// TODO(b/243901401): This should be MutableCollection<out Any?>
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean {
+fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<out Any?>): Boolean {
   if (this is JavaCollection) return java_retainAll(c)
   else return retainAll(c as MutableCollection<E>)
 }
