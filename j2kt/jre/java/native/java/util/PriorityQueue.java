@@ -21,6 +21,8 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
+import javaemul.internal.Comparators;
+
 /**
  * An unbounded priority queue based on a priority heap.
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html">

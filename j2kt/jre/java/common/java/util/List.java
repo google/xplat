@@ -57,6 +57,10 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   E set(int index, E element);
 
+  default void sort(@Nullable Comparator<? super E> c) {
+    throw new IllegalStateException(); // Native interface. Method body is not being used.
+  }
+
   @KtPropagateNullability
   @JsNonNull
   List<E> subList(int fromIndex, int toIndex);

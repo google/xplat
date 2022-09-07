@@ -21,10 +21,13 @@ import static smoke.Asserts.assertTrue;
 
 import java.util.AbstractList;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import jsinterop.annotations.JsNonNull;
@@ -38,6 +41,8 @@ public class Collections {
     testAbstractMapSubclass_bridgedOverridesAreCalled();
     testToArrayNativeList();
     testToArrayPolymorphism();
+    testListSort();
+    testListSortComparator();
   }
 
   private static void testJavaMapSignatures() {
@@ -298,5 +303,28 @@ public class Collections {
     // String[].class).
     assertEquals(new String[0].getClass(), typedResult.getClass());
     assertTrue(Arrays.equals(new String[] {"content"}, typedResult));
+  }
+
+  private static void testListSort() {
+    List<Integer> list = new ArrayList<>();
+    list.add(1);
+    list.add(4);
+    list.add(2);
+    list.add(3);
+    list.sort(null);
+    assertEquals(new Integer[] {1, 2, 3, 4}, list.toArray());
+  }
+
+  private static void testListSortComparator() {
+    Comparator<Integer> reverse =
+        (o1, o2) -> o2.compareTo(o1); // null-handling not necessary for this test.
+
+    List<Integer> list = new ArrayList<>();
+    list.add(1);
+    list.add(4);
+    list.add(2);
+    list.add(3);
+    list.sort(reverse);
+    assertEquals(new Integer[] {4, 3, 2, 1}, list.toArray());
   }
 }

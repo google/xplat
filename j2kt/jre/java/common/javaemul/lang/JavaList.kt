@@ -15,6 +15,8 @@
  */
 package javaemul.lang
 
+import javaemul.internal.Comparators
+
 interface JavaList<E> : MutableList<E>, JavaCollection<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 
@@ -37,26 +39,34 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
 
-  abstract fun java_addAll(index: Int, c: MutableCollection<*>): Boolean
+  fun sort(c: Comparator<in E>?) = sortWith(Comparators.nullToNaturalOrder(c))
 
-  abstract fun java_indexOf(a: Any?): Int
+  fun java_addAll(index: Int, c: MutableCollection<*>): Boolean
 
-  abstract fun java_lastIndexOf(a: Any?): Int
+  fun java_indexOf(a: Any?): Int
+
+  fun java_lastIndexOf(a: Any?): Int
 }
 
 // TODO(b/243901401): This should be MutableCollection<out Any?>
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<*>): Boolean {
-  if (this is JavaList) return java_addAll(index, c)
-  else return addAll(index, c as MutableCollection<E>)
-}
+fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<*>): Boolean =
+  if (this is JavaList) java_addAll(index, c) else addAll(index, c as MutableCollection<E>)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.java_indexOf(a: Any?): Int {
-  if (this is JavaList) return java_indexOf(a) else return indexOf(a as E)
-}
+fun <E> MutableList<E>.java_indexOf(a: Any?): Int =
+  if (this is JavaList) java_indexOf(a) else indexOf(a as E)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.java_lastIndexOf(a: Any?): Int {
-  if (this is JavaList) return java_lastIndexOf(a) else return lastIndexOf(a as E)
+fun <E> MutableList<E>.java_lastIndexOf(a: Any?): Int =
+  if (this is JavaList) java_lastIndexOf(a) else lastIndexOf(a as E)
+
+@Suppress("UNCHECKED_CAST")
+fun <E> MutableList<E>.sort(c: Comparator<in E>?) {
+  if (this is JavaList) {
+    val list = this as JavaList<E> // kotlinc type inference fails without the temp variable
+    list.sort(c)
+  } else {
+    sortWith(Comparators.nullToNaturalOrder(c))
+  }
 }

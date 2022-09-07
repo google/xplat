@@ -22,6 +22,7 @@ import static javaemul.internal.InternalPreconditions.checkState;
 import static javaemul.internal.InternalPreconditions.isApiChecked;
 
 import java.io.Serializable;
+import javaemul.internal.Comparators;
 import jsinterop.annotations.JsEnum;
 import jsinterop.annotations.JsNonNull;
 
@@ -525,7 +526,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
 
   @Override
   public Comparator<? super K> comparator() {
-    return Comparators.naturalOrderToNull(comparator);
+    return javaemul.internal.Comparators.naturalOrderToNull(comparator);
   }
 
   /*

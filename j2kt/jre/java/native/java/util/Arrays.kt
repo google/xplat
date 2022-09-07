@@ -24,6 +24,7 @@ import java.util.function.IntToDoubleFunction
 import java.util.function.IntToLongFunction
 import java.util.function.IntUnaryOperator
 import java.util.function.LongBinaryOperator
+import javaemul.internal.Comparators
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArrayBounds
 
 /**
