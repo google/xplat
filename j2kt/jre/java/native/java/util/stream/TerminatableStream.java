@@ -55,6 +55,7 @@ class TerminatableStream<T extends TerminatableStream<T>> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public T onClose(Runnable closeHandler) {
     if (root == null) {
       onClose.add(closeHandler);

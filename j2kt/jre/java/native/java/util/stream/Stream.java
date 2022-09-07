@@ -17,6 +17,7 @@ package java.util.stream;
 
 import static javaemul.internal.InternalPreconditions.checkState;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,7 +37,6 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.function.UnaryOperator;
-import javaemul.internal.ArrayHelper;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -65,19 +65,19 @@ public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream
 
   static <T extends @Nullable Object> Stream.Builder<T> builder() {
     return new Builder<T>() {
-      private Object[] items = new Object[0];
+      private @Nullable ArrayList<T> items = new ArrayList<>();
 
       @Override
       public void accept(T t) {
         checkState(items != null, "Builder already built");
-        ArrayHelper.push(items, t);
+        items.add(t);
       }
 
       @Override
       @SuppressWarnings("unchecked")
       public Stream<T> build() {
         checkState(items != null, "Builder already built");
-        Stream<T> stream = (Stream<T>) Arrays.stream(items);
+        Stream<T> stream = items.stream();
         items = null;
         return stream;
       }

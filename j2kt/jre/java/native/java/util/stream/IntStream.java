@@ -17,6 +17,7 @@ package java.util.stream;
 
 import static javaemul.internal.InternalPreconditions.checkState;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.IntSummaryStatistics;
@@ -37,7 +38,6 @@ import java.util.function.IntToLongFunction;
 import java.util.function.IntUnaryOperator;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
-import javaemul.internal.ArrayHelper;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -65,18 +65,18 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
 
   static Builder builder() {
     return new Builder() {
-      private int[] items = new int[0];
+      private @Nullable ArrayList<Integer> items = new ArrayList<>();
 
       @Override
       public void accept(int t) {
         checkState(items != null, "Builder already built");
-        ArrayHelper.push(items, t);
+        items.add(t);
       }
 
       @Override
       public IntStream build() {
         checkState(items != null, "Builder already built");
-        IntStream stream = Arrays.stream(items);
+        IntStream stream = items.stream().mapToInt(i -> i);
         items = null;
         return stream;
       }

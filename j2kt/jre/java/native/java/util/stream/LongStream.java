@@ -17,6 +17,7 @@ package java.util.stream;
 
 import static javaemul.internal.InternalPreconditions.checkState;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LongSummaryStatistics;
@@ -37,7 +38,6 @@ import java.util.function.LongToIntFunction;
 import java.util.function.LongUnaryOperator;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
-import javaemul.internal.ArrayHelper;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -65,18 +65,18 @@ public interface LongStream extends BaseStream<Long, LongStream> {
 
   static Builder builder() {
     return new Builder() {
-      private long[] items = new long[0];
+      private @Nullable ArrayList<Long> items = new ArrayList<>();
 
       @Override
       public void accept(long t) {
         checkState(items != null, "Builder already built");
-        ArrayHelper.push(items, t);
+        items.add(t);
       }
 
       @Override
       public LongStream build() {
         checkState(items != null, "Builder already built");
-        LongStream stream = Arrays.stream(items);
+        LongStream stream = items.stream().mapToLong(l -> l);
         items = null;
         return stream;
       }

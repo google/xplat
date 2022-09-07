@@ -65,10 +65,11 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
       return this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <R extends @Nullable Object> Stream<R> map(Function<? super T, ? extends R> mapper) {
       throwIfTerminated();
-      return (Stream) this;
+      return (Stream<R>) this;
     }
 
     @Override
@@ -89,11 +90,12 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
       return new DoubleStreamImpl.Empty(this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <R extends @Nullable Object> Stream<R> flatMap(
         Function<? super T, ? extends Stream<? extends R>> mapper) {
       throwIfTerminated();
-      return (Stream) this;
+      return (Stream<R>) this;
     }
 
     @Override
@@ -902,9 +904,10 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public Stream<T> sorted() {
     throwIfTerminated();
-    Comparator<T> c = (Comparator) Comparator.naturalOrder();
+    Comparator<T> c = (Comparator<T>) Comparator.naturalOrder();
     return sorted(c);
   }
 

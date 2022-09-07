@@ -18,7 +18,7 @@ package java.util.stream;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashSet;
@@ -39,7 +39,6 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.Supplier;
-import javaemul.internal.ArrayHelper;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -505,9 +504,13 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
   @Override
   public double[] toArray() {
     terminate();
-    double[] entries = new double[0];
-    spliterator.forEachRemaining((double value) -> ArrayHelper.push(entries, value));
-    return entries;
+    ArrayList<Double> entries = new ArrayList<>();
+    spliterator.forEachRemaining((double value) -> entries.add(value));
+    double[] array = new double[entries.size()];
+    for (int i = 0; i < entries.size(); i++) {
+      array[i] = entries.get(i);
+    }
+    return array;
   }
 
   @Override
@@ -728,7 +731,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
     Spliterator.OfDouble sortingSpliterator =
         new Spliterators.AbstractDoubleSpliterator(
             spliterator.estimateSize(), spliterator.characteristics() | Spliterator.SORTED) {
-          Spliterator.OfDouble ordered = null;
+          Spliterator<Double> ordered = null;
 
           @Override
           public Comparator<? super Double> getComparator() {
@@ -738,12 +741,12 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
           @Override
           public boolean tryAdvance(DoubleConsumer action) {
             if (ordered == null) {
-              double[] list = new double[0];
-              spliterator.forEachRemaining((double value) -> ArrayHelper.push(list, value));
-              Arrays.sort(list);
-              ordered = Spliterators.spliterator(list, characteristics());
+              ArrayList<Double> list = new ArrayList<>();
+              spliterator.forEachRemaining((double value) -> list.add(value));
+              list.sort(null);
+              ordered = list.spliterator();
             }
-            return ordered.tryAdvance(action);
+            return ordered.tryAdvance((Double d) -> action.accept(d));
           }
         };
 

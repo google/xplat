@@ -18,7 +18,7 @@ package java.util.stream;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.IntSummaryStatistics;
@@ -41,7 +41,6 @@ import java.util.function.IntUnaryOperator;
 import java.util.function.LongConsumer;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
-import javaemul.internal.ArrayHelper;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -628,9 +627,13 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
   @Override
   public int[] toArray() {
     terminate();
-    int[] entries = new int[0];
-    spliterator.forEachRemaining((int value) -> ArrayHelper.push(entries, value));
-    return entries;
+    ArrayList<Integer> entries = new ArrayList<>();
+    spliterator.forEachRemaining((int value) -> entries.add(value));
+    int[] array = new int[entries.size()];
+    for (int i = 0; i < entries.size(); i++) {
+      array[i] = entries.get(i);
+    }
+    return array;
   }
 
   @Override
@@ -738,7 +741,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
     AbstractIntSpliterator sortedSpliterator =
         new Spliterators.AbstractIntSpliterator(
             spliterator.estimateSize(), spliterator.characteristics() | Spliterator.SORTED) {
-          Spliterator.OfInt ordered = null;
+          Spliterator<Integer> ordered = null;
 
           @Override
           public Comparator<? super Integer> getComparator() {
@@ -748,12 +751,12 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
           @Override
           public boolean tryAdvance(IntConsumer action) {
             if (ordered == null) {
-              int[] list = new int[0];
-              spliterator.forEachRemaining((int value) -> ArrayHelper.push(list, value));
-              Arrays.sort(list);
-              ordered = Spliterators.spliterator(list, characteristics());
+              ArrayList<Integer> list = new ArrayList<>();
+              spliterator.forEachRemaining((int value) -> list.add(value));
+              list.sort(null);
+              ordered = list.spliterator();
             }
-            return ordered.tryAdvance(action);
+            return ordered.tryAdvance((Integer i) -> action.accept(i));
           }
         };
 

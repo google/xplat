@@ -17,6 +17,7 @@ package java.util.stream;
 
 import static javaemul.internal.InternalPreconditions.checkState;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
 import java.util.OptionalDouble;
@@ -34,7 +35,6 @@ import java.util.function.DoubleToLongFunction;
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.Supplier;
-import javaemul.internal.ArrayHelper;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -62,18 +62,18 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
 
   static Builder builder() {
     return new Builder() {
-      private double[] items = new double[0];
+      private @Nullable ArrayList<Double> items = new ArrayList<>();
 
       @Override
       public void accept(double t) {
         checkState(items != null, "Builder already built");
-        ArrayHelper.push(items, t);
+        items.add(t);
       }
 
       @Override
       public DoubleStream build() {
         checkState(items != null, "Builder already built");
-        DoubleStream stream = Arrays.stream(items);
+        DoubleStream stream = items.stream().mapToDouble(d -> d);
         items = null;
         return stream;
       }
