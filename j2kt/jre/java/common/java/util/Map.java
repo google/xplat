@@ -97,7 +97,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @KtName("java_putAll")
   @KtPropagateNullability
-  void putAll(@JsNonNull Map<? extends K, V> t);
+  void putAll(@JsNonNull Map<? extends K, ? extends V> t);
 
   @KtName("java_remove")
   @Nullable V remove(@Nullable Object key);

@@ -58,7 +58,7 @@ public final class HashMap<K extends @Nullable Object, V extends @Nullable Objec
   public native @Nullable V remove(@Nullable Object key);
 
   @Override
-  public native void putAll(@JsNonNull Map<? extends K, V> m);
+  public native void putAll(@JsNonNull Map<? extends K, ? extends V> m);
 
   @Override
   public native void clear();

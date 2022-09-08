@@ -36,7 +36,7 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 
   abstract fun java_remove(key: Any?): V?
 
-  abstract fun java_putAll(t: MutableMap<out K?, V>)
+  abstract fun java_putAll(t: MutableMap<out K, out V>)
 }
 
 // Note: No need to check for the runtime type below. The bridge interface is
@@ -53,3 +53,6 @@ fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean = containsV
 
 @Suppress("UNCHECKED_CAST")
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = remove(key as K)
+
+@Suppress("UNCHECKED_CAST")
+fun <K, V> MutableMap<K, V>.java_putAll(t: MutableMap<out K, out V>) = putAll(t as Map<out K, V>)

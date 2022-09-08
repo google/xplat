@@ -48,7 +48,7 @@ abstract class JavaAbstractMap<K, V> : AbstractMutableMap<K, V>(), JavaMap<K, V>
   }
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_putAll(t: MutableMap<out K?, V>) {
+  override fun java_putAll(t: MutableMap<out K, out V>) {
     return super<JavaMap>.putAll(t as Map<out K, V>)
   }
 

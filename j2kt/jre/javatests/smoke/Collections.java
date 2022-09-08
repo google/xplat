@@ -133,6 +133,13 @@ public class Collections {
       removeCalls++;
       return super.remove(key);
     }
+
+    // The following overrides are only there to check that the override (with the Java signatures
+    // of the method) compiles.
+    @Override
+    public void putAll(Map<? extends K, ? extends V> m) {
+      super.putAll(m);
+    }
   }
 
   private static void testAbstractMapSubclass_bridgedOverridesAreCalled() {

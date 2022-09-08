@@ -56,7 +56,7 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
   public native @Nullable V put(K key, V value);
 
   @Override
-  public native void putAll(@JsNonNull Map<? extends K, V> map);
+  public native void putAll(@JsNonNull Map<? extends K, ? extends V> map);
 
   @Override
   public native @Nullable V remove(@Nullable Object key);

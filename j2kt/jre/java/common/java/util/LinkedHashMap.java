@@ -34,7 +34,7 @@ public final class LinkedHashMap<K extends @Nullable Object, V extends @Nullable
 
   public LinkedHashMap(int initialCapacity, float loadFactor) {}
 
-  public LinkedHashMap(@JsNonNull Map<? extends K, V> original) {}
+  public LinkedHashMap(@JsNonNull Map<? extends K, ? extends V> original) {}
 
   @Override
   public native void clear();
@@ -64,7 +64,7 @@ public final class LinkedHashMap<K extends @Nullable Object, V extends @Nullable
   public native @Nullable V remove(@Nullable Object key);
 
   @Override
-  public native void putAll(@JsNonNull Map<? extends K, V> m);
+  public native void putAll(@JsNonNull Map<? extends K, ? extends V> m);
 
   @Override
   public native int size();
