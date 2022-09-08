@@ -20,6 +20,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import javaemul.internal.annotations.KtNative;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -28,7 +29,10 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <T> the type to be compared.
  */
-@KtNative("kotlin.Comparator")
+@KtNative(
+    value = "kotlin.Comparator",
+    bridgeWith = "javaemul.lang.JavaComparator",
+    companionObject = "javaemul.lang.JavaComparator")
 @FunctionalInterface
 public interface Comparator<T extends @Nullable Object> {
 
@@ -89,7 +93,7 @@ public interface Comparator<T extends @Nullable Object> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends Comparable<? super T>> Comparator<T> naturalOrder() {
+  static <T extends @JsNonNull Comparable<? super T>> Comparator<T> naturalOrder() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
@@ -103,7 +107,7 @@ public interface Comparator<T extends @Nullable Object> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends Comparable<? super T>> Comparator<T> reverseOrder() {
+  static <T extends @JsNonNull Comparable<? super T>> Comparator<T> reverseOrder() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }

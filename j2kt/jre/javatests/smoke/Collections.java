@@ -15,6 +15,7 @@
  */
 package smoke;
 
+import static java.util.Comparator.*;
 import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertFalse;
 import static smoke.Asserts.assertTrue;
@@ -24,7 +25,6 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -348,15 +348,12 @@ public class Collections {
   }
 
   private static void testListSortComparator() {
-    Comparator<Integer> reverse =
-        (o1, o2) -> o2.compareTo(o1); // null-handling not necessary for this test.
-
     List<Integer> list = new ArrayList<>();
     list.add(1);
     list.add(4);
     list.add(2);
     list.add(3);
-    list.sort(reverse);
+    list.sort(reverseOrder());
     assertEquals(new Integer[] {4, 3, 2, 1}, list.toArray());
   }
 }
