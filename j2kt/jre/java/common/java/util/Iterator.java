@@ -32,8 +32,12 @@ public interface Iterator<E extends @Nullable Object> {
 
   E next();
 
-  default void remove() {}
+  default void remove() {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   @KtName("java_forEachRemaining")
-  default void forEachRemaining(Consumer<? super E> consumer) {}
+  default void forEachRemaining(Consumer<? super E> consumer) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 }

@@ -36,9 +36,11 @@ public interface Iterable<T extends @Nullable Object> {
   Iterator<T> iterator();
 
   @KtName("java_forEach")
-  default void forEach(Consumer<? super T> action) {}
+  default void forEach(Consumer<? super T> action) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   default Spliterator<T> spliterator() {
-    return null;
+    throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }

@@ -72,7 +72,7 @@ public interface Collection<E> extends Iterable<E> {
   @KtName("java_toArray")
   @KtPropagateNullability
   default @Nullable Object @JsNonNull [] toArray() {
-    return null;
+    throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   // Note: If array `a` is bigger than `this` collection, `a[this.size()]` will be set to `null`
@@ -80,6 +80,6 @@ public interface Collection<E> extends Iterable<E> {
   @KtName("java_toArray")
   @KtPropagateNullability
   default <T extends @Nullable Object> T @JsNonNull [] toArray(T @JsNonNull [] a) {
-    return null;
+    throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }
