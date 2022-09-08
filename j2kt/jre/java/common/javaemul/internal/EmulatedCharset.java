@@ -16,6 +16,7 @@
 package javaemul.internal;
 
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 
 /** Provides Charset implementations (currently UTF-8 only) */
 public class EmulatedCharset extends Charset {
@@ -28,5 +29,10 @@ public class EmulatedCharset extends Charset {
 
   public byte[] getBytes(char[] buffer, int offset, int count) {
     return new String(buffer, offset, count).getBytes(this);
+  }
+
+  @Override
+  public CharsetDecoder newDecoder() {
+    throw new UnsupportedOperationException();
   }
 }

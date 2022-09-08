@@ -15,10 +15,14 @@
  */
 package java.nio.charset;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import org.jspecify.nullness.Nullable;
 
 /** Partial emulation of the corresponding JRE-Class */
-public class Charset {
+public abstract class Charset {
+
+  private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
   private String canonicalName;
 
@@ -41,5 +45,25 @@ public class Charset {
       default:
         throw new UnsupportedCharsetException(name);
     }
+  }
+
+  public abstract CharsetDecoder newDecoder();
+
+  public final CharBuffer decode(ByteBuffer buffer) {
+    try {
+      return newDecoder()
+          .onMalformedInput(CodingErrorAction.REPLACE)
+          .onUnmappableCharacter(CodingErrorAction.REPLACE)
+          .decode(buffer);
+    } catch (CharacterCodingException ex) {
+      // This method always replaces malformed-input and unmappable-character sequences with this
+      // charset's default replacement byte array. CharacterCodingException cannot occur here as a
+      // result so it is wrapped in an Error.
+      throw new Error(ex.getMessage(), ex);
+    }
+  }
+
+  public static Charset defaultCharset() {
+    return DEFAULT_CHARSET;
   }
 }
