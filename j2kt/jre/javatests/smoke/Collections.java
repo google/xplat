@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
@@ -39,6 +40,7 @@ public class Collections {
   public static void testCollections() {
     testJavaMapSignatures();
     testAbstractMapSubclass_bridgedOverridesAreCalled();
+    testMapMerge();
     testToArrayNativeList();
     testToArrayPolymorphism();
     testListSort();
@@ -96,6 +98,23 @@ public class Collections {
     assertEquals(0, hashMap.size());
   }
 
+  private static void testMapMerge() {
+    Map<String, Integer> map = new HashMap<>();
+    BiFunction<Integer, Integer, Integer> adder = (a, b) -> a + b;
+
+    map.merge("a", 1, adder);
+    map.merge("b", 1, adder);
+    map.merge("a", 2, adder);
+    map.merge("a", 3, adder);
+
+    assertEquals(2, map.size());
+    assertEquals(1 + 2 + 3, map.get("a"));
+    assertEquals(1, map.get("b"));
+
+    map.merge("a", 42, (a, b) -> null);
+    assertEquals(1, map.size());
+  }
+
   private static class TestMap<K, V> extends AbstractMap<K, V> {
 
     private final Set<@JsNonNull Entry<K, V>> entrySet = new HashSet<>();
@@ -136,6 +155,12 @@ public class Collections {
 
     // The following overrides are only there to check that the override (with the Java signatures
     // of the method) compiles.
+    @Override
+    public @Nullable V merge(
+        K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remap) {
+      return super.merge(key, value, remap);
+    }
+
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
       super.putAll(m);

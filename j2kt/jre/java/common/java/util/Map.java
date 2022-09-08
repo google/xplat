@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import java.util.function.BiFunction;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
@@ -91,6 +92,15 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtProperty
   @KtName("keys")
   Set<K> keySet();
+
+  @KtPropagateNullability
+  @KtName("java_merge")
+  default @Nullable V merge(
+      K key,
+      V value,
+      @JsNonNull BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
+    throw new IllegalStateException("Native interface method should not be transpiled.");
+  }
 
   @KtPropagateNullability
   @Nullable V put(K key, V value);

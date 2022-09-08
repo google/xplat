@@ -15,6 +15,8 @@
  */
 package javaemul.lang
 
+import java.util.function.BiFunction
+
 interface JavaMap<K, V> : MutableMap<K, V> {
 
   override fun containsKey(key: K): Boolean = java_containsKey(key)
@@ -28,15 +30,20 @@ interface JavaMap<K, V> : MutableMap<K, V> {
   // TODO(b/243046587): Rewrite to handle case in which t is not mutable
   override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
 
-  abstract fun java_containsKey(key: Any?): Boolean
+  fun java_containsKey(key: Any?): Boolean
 
-  abstract fun java_containsValue(value: Any?): Boolean
+  fun java_containsValue(value: Any?): Boolean
 
-  abstract fun java_get(key: Any?): V?
+  fun java_get(key: Any?): V?
 
-  abstract fun java_remove(key: Any?): V?
+  // The Java `merge` function exists on Kotlin/JVM but is undocumented. So we rename our `merge` to
+  // avoid a collision.
+  fun java_merge(key: K, value: V, remap: BiFunction<in V, in V, out V?>): V? =
+    default_merge(key, value, remap)
 
-  abstract fun java_putAll(t: MutableMap<out K, out V>)
+  fun java_remove(key: Any?): V?
+
+  fun java_putAll(t: MutableMap<out K, out V>)
 }
 
 // Note: No need to check for the runtime type below. The bridge interface is
@@ -56,3 +63,24 @@ fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = remove(key as K)
 
 @Suppress("UNCHECKED_CAST")
 fun <K, V> MutableMap<K, V>.java_putAll(t: MutableMap<out K, out V>) = putAll(t as Map<out K, V>)
+
+fun <K, V> MutableMap<K, V>.java_merge(
+  key: K,
+  value: V,
+  remap: BiFunction<in V, in V, out V?>
+): V? = if (this is JavaMap) java_merge(key, value, remap) else default_merge(key, value, remap)
+
+private fun <K, V> MutableMap<K, V>.default_merge(
+  key: K,
+  value: V,
+  remap: BiFunction<in V, in V, out V?>
+): V? {
+  val oldValue = get(key)
+  val newValue: V? = if (oldValue == null) value else remap.apply(oldValue, value)
+  if (newValue == null) {
+    remove(key)
+  } else {
+    put(key, newValue)
+  }
+  return newValue
+}
