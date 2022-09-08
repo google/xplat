@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import java.util.stream.Stream;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
@@ -68,6 +69,15 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtProperty
   int size();
+
+  @Override
+  default Spliterator<E> spliterator() {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  default Stream<E> stream() {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   @KtName("java_toArray")
   @KtPropagateNullability

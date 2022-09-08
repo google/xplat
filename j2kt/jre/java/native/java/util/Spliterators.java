@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -34,7 +35,8 @@ import org.jspecify.nullness.Nullable;
  */
 public final class Spliterators {
 
-  private abstract static class BaseSpliterator<T, S extends Spliterator<T>>
+  private abstract static class BaseSpliterator<
+          T extends @Nullable Object, S extends Spliterator<T>>
       implements Spliterator<T> {
     private final int characteristics;
     private long sizeEstimate;
@@ -60,10 +62,11 @@ public final class Spliterators {
   }
 
   /**
-   * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterators.AbstractSpliterator.html">
+   * See <a
+   * href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterators.AbstractSpliterator.html">
    * the official Java API doc</a> for details.
    */
-  public abstract static class AbstractSpliterator<T>
+  public abstract static class AbstractSpliterator<T extends @Nullable Object>
       extends BaseSpliterator<T, Spliterator<T>> implements Spliterator<T> {
 
     protected AbstractSpliterator(long size, int characteristics) {
@@ -108,7 +111,7 @@ public final class Spliterators {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> Spliterator<T> emptySpliterator() {
+  public static <T extends @Nullable Object> Spliterator<T> emptySpliterator() {
     return (Spliterator<T>) EmptySpliterator.OF_REF;
   }
 
@@ -124,12 +127,13 @@ public final class Spliterators {
     return EmptySpliterator.OF_LONG;
   }
 
-  public static <T> Spliterator<T> spliterator(Object[] array, int characteristics) {
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
+      Object[] array, int characteristics) {
     return new ArraySpliterator<>(array, characteristics);
   }
 
-  public static <T> Spliterator<T> spliterator(Object[] array, int fromIndex, int toIndex,
-                                               int characteristics) {
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
+      Object[] array, int fromIndex, int toIndex, int characteristics) {
     checkCriticalArrayBounds(fromIndex, toIndex, array.length);
     return new ArraySpliterator<>(array, fromIndex, toIndex, characteristics);
   }
@@ -164,17 +168,18 @@ public final class Spliterators {
     return new DoubleArraySpliterator(array, fromIndex, toIndex, characteristics);
   }
 
-  public static <T> Spliterator<T> spliterator(Collection<? extends T> c, int characteristics) {
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
+      Collection<? extends T> c, int characteristics) {
     return new IteratorSpliterator<>(c, characteristics);
   }
 
-  public static <T> Spliterator<T> spliterator(Iterator<? extends T> it, long size,
-                                               int characteristics) {
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
+      Iterator<? extends T> it, long size, int characteristics) {
     return new IteratorSpliterator<>(it, size, characteristics);
   }
 
-  public static <T> Spliterator<T> spliteratorUnknownSize(Iterator<? extends T> it,
-                                                          int characteristics) {
+  public static <T extends @Nullable Object> @JsNonNull Spliterator<T> spliteratorUnknownSize(
+      Iterator<? extends T> it, int characteristics) {
     return new IteratorSpliterator<>(it, characteristics);
   }
 
@@ -208,7 +213,8 @@ public final class Spliterators {
     return new DoubleIteratorSpliterator(it, characteristics);
   }
 
-  public static <T> Iterator<T> iterator(Spliterator<? extends T> spliterator) {
+  public static <T extends @Nullable Object> Iterator<T> iterator(
+      Spliterator<? extends T> spliterator) {
     return new ConsumerIterator<>(spliterator);
   }
 
@@ -224,7 +230,8 @@ public final class Spliterators {
     return new LongConsumerIterator(spliterator);
   }
 
-  private abstract static class EmptySpliterator<T, S extends Spliterator<T>, C>
+  private abstract static class EmptySpliterator<
+          T extends @Nullable Object, S extends Spliterator<T>, C>
       implements Spliterator<T> {
 
     static final Spliterator<Object> OF_REF = new EmptySpliterator.OfRef<>();
@@ -258,6 +265,11 @@ public final class Spliterators {
         implements Spliterator<T> {
 
       OfRef() { }
+
+      @Override
+      public void forEachRemaining(Consumer<? super T> consumer) {
+        checkNotNull(consumer);
+      }
     }
 
     private static final class OfDouble
@@ -265,6 +277,11 @@ public final class Spliterators {
         implements Spliterator.OfDouble {
 
       OfDouble() { }
+
+      @Override
+      public void forEachRemaining(DoubleConsumer consumer) {
+        checkNotNull(consumer);
+      }
     }
 
     private static final class OfInt
@@ -272,6 +289,11 @@ public final class Spliterators {
         implements Spliterator.OfInt {
 
       OfInt() { }
+
+      @Override
+      public void forEachRemaining(IntConsumer consumer) {
+        checkNotNull(consumer);
+      }
     }
 
     private static final class OfLong
@@ -279,12 +301,18 @@ public final class Spliterators {
         implements Spliterator.OfLong {
 
       OfLong() { }
+
+      @Override
+      public void forEachRemaining(LongConsumer consumer) {
+        checkNotNull(consumer);
+      }
     }
   }
 
-  private static final class ConsumerIterator<T> implements Consumer<T>, Iterator<T> {
+  private static final class ConsumerIterator<T extends @Nullable Object>
+      implements Consumer<T>, Iterator<T> {
     private final Spliterator<? extends T> spliterator;
-    private T nextElement;
+    private @Nullable T nextElement;
     private boolean hasElement = false;
 
     ConsumerIterator(Spliterator<? extends T> spliterator) {
@@ -410,9 +438,9 @@ public final class Spliterators {
     }
   }
 
-  static class IteratorSpliterator<T> implements Spliterator<T> {
-    private Collection<? extends T> collection;
-    private Iterator<? extends T> it;
+  static class IteratorSpliterator<T extends @Nullable Object> implements Spliterator<T> {
+    private @Nullable Collection<? extends T> collection;
+    private @Nullable Iterator<? extends T> it;
     private final int characteristics;
     private long estimateSize;
 
@@ -586,7 +614,8 @@ public final class Spliterators {
     }
   }
 
-  private abstract static class BaseArraySpliterator<T, S extends Spliterator<T>, C>
+  private abstract static class BaseArraySpliterator<
+          T extends @Nullable Object, S extends Spliterator<T>, C>
       implements Spliterator<T> {
     private int index;
     private final int limit;
@@ -635,7 +664,7 @@ public final class Spliterators {
     protected abstract void consume(C consumer, int index);
   }
 
-  private static final class ArraySpliterator<T>
+  private static final class ArraySpliterator<T extends @Nullable Object>
       extends BaseArraySpliterator<T, Spliterator<T>, Consumer<? super T>>
       implements Spliterator<T> {
 
@@ -648,6 +677,11 @@ public final class Spliterators {
     ArraySpliterator(Object[] array, int from, int limit, int characteristics) {
       super(from, limit, characteristics);
       this.array = array;
+    }
+
+    @Override
+    public void forEachRemaining(Consumer<? super T> consumer) {
+      checkNotNull(consumer);
     }
 
     @SuppressWarnings("unchecked")
@@ -673,6 +707,11 @@ public final class Spliterators {
     }
 
     @Override
+    public void forEachRemaining(DoubleConsumer consumer) {
+      checkNotNull(consumer);
+    }
+
+    @Override
     protected void consume(DoubleConsumer consumer, int index) {
       consumer.accept(array[index]);
     }
@@ -694,6 +733,11 @@ public final class Spliterators {
     }
 
     @Override
+    public void forEachRemaining(IntConsumer consumer) {
+      checkNotNull(consumer);
+    }
+
+    @Override
     protected void consume(IntConsumer consumer, int index) {
       consumer.accept(array[index]);
     }
@@ -712,6 +756,11 @@ public final class Spliterators {
     LongArraySpliterator(long[] array, int from, int limit, int characteristics) {
       super(from, limit, characteristics);
       this.array = array;
+    }
+
+    @Override
+    public void forEachRemaining(LongConsumer consumer) {
+      checkNotNull(consumer);
     }
 
     @Override

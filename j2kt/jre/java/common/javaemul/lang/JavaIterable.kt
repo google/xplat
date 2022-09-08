@@ -16,6 +16,7 @@
 package javaemul.lang
 
 import java.util.Spliterator
+import java.util.Spliterators
 import java.util.function.Consumer
 
 interface JavaIterable<T> : MutableIterable<T> {
@@ -23,7 +24,7 @@ interface JavaIterable<T> : MutableIterable<T> {
     default_forEach(consumer)
   }
 
-  fun spliterator(): Spliterator<T>? = default_spliterator()
+  fun spliterator(): Spliterator<T> = default_spliterator()
 }
 
 fun <T> MutableIterable<T>.java_forEach(consumer: Consumer<in T>?) {
@@ -35,8 +36,8 @@ private fun <T> kotlin.collections.MutableIterable<T>.default_forEach(consumer: 
   for (t in this) consumer.accept(t)
 }
 
-fun <T> kotlin.collections.MutableIterable<T>.spliterator(): Spliterator<T>? =
+fun <T> kotlin.collections.MutableIterable<T>.spliterator(): Spliterator<T> =
   if (this is JavaIterable) spliterator() else default_spliterator()
 
-// TODO (b/237650063): Add implementation after Spliterator is supported
-private fun <T> kotlin.collections.Iterable<T>.default_spliterator(): Spliterator<T>? = null
+private fun <T> MutableIterable<T>.default_spliterator(): Spliterator<T> =
+  Spliterators.spliteratorUnknownSize(iterator(), 0)

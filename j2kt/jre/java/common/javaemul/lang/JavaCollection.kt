@@ -16,6 +16,7 @@
 package javaemul.lang
 
 import java.lang.reflect.Array as JavaLangReflectArray
+import java.util.Spliterator
 import kotlin.jvm.javaObjectType
 
 /** Bridge class for java.util.Collection. */
@@ -32,6 +33,9 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
   override fun removeAll(c: Collection<E>): Boolean = java_removeAll(c as MutableCollection<E>)
 
   override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c as MutableCollection<E>)
+
+  // TODO(233944334): On JVM, MutableCollection has a hidden implementation of spliterator.
+  override fun spliterator(): Spliterator<E> = super<JavaIterable>.spliterator()
 
   abstract fun java_addAll(c: MutableCollection<out E>): Boolean
 

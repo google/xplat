@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.function.BiFunction;
 import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
@@ -299,6 +300,11 @@ public class Collections {
     @Override
     public boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c) {
       return super.retainAll(c);
+    }
+
+    @Override
+    public Spliterator<E> spliterator() {
+      return super.spliterator();
     }
 
     @Override

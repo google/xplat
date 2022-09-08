@@ -40,7 +40,8 @@ public interface Iterable<T extends @Nullable Object> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  default Spliterator<T> spliterator() {
+  @KtPropagateNullability
+  default @JsNonNull Spliterator<T> spliterator() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }
