@@ -19,7 +19,7 @@ import java.util.Comparator;
 import javaemul.internal.annotations.KtNative;
 
 @KtNative("javaemul.internal.Comparators")
-class Comparators {
+public class Comparators {
   /*
    * This is a utility class that provides default Comparators. This class
    * exists so Arrays and Collections can share the natural comparator without
@@ -28,7 +28,7 @@ class Comparators {
    * This class is package protected since it is not in the JRE.
    */
 
-  static native <T> Comparator<T> nullToNaturalOrder(Comparator<T> cmp);
+  public static native <T> Comparator<T> nullToNaturalOrder(Comparator<T> cmp);
 
   private Comparators() {}
 }

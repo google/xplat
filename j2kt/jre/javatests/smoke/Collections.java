@@ -289,7 +289,7 @@ public class Collections {
     }
 
     @Override
-    public <T extends @Nullable Object> T[] toArray(T[] a) {
+    public <T extends @Nullable Object> @Nullable T[] toArray(@Nullable T[] a) {
       toArrayTypedCalls++;
       return super.toArray(a);
     }
