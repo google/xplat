@@ -15,14 +15,16 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the supplied value
  */
 @FunctionalInterface
-public interface Supplier<T> {
+public interface Supplier<T extends @Nullable Object> {
 
   T get();
 }

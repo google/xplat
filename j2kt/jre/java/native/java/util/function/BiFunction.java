@@ -17,20 +17,24 @@ package java.util.function;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BiFunction.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the first argument
  * @param <U> type of the second argument
  * @param <R> type of the return value
  */
 @FunctionalInterface
-public interface BiFunction<T, U, R> {
+public interface BiFunction<
+    T extends @Nullable Object, U extends @Nullable Object, R extends @Nullable Object> {
 
   R apply(T t, U u);
 
-  default <V> BiFunction<T, U, V> andThen(Function<? super R, ? extends V> after) {
+  default <V extends @Nullable Object> BiFunction<T, U, V> andThen(
+      Function<? super R, ? extends V> after) {
     checkCriticalNotNull(after);
     return (t, u) -> after.apply(apply(t, u));
   }

@@ -17,28 +17,32 @@ package java.util.function;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html">the
+ * official Java API doc</a> for details.
  *
  * @param <T> type of the argument
  * @param <R> type of the return value
  */
 @FunctionalInterface
-public interface Function<T, R> {
+public interface Function<T extends @Nullable Object, R extends @Nullable Object> {
 
-  static <T> Function<T, T> identity() {
+  static <T extends @Nullable Object> Function<T, T> identity() {
     return t -> t;
   }
 
   R apply(T t);
 
-  default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
+  default <V extends @Nullable Object> Function<T, V> andThen(
+      Function<? super R, ? extends V> after) {
     checkCriticalNotNull(after);
     return t -> after.apply(apply(t));
   }
 
-  default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+  default <V extends @Nullable Object> Function<V, R> compose(
+      Function<? super V, ? extends T> before) {
     checkCriticalNotNull(before);
     return t -> apply(before.apply(t));
   }
