@@ -25,9 +25,12 @@ class TerminatableStream<T extends TerminatableStream<T>> {
   private boolean terminated = false;
   private final List<Runnable> onClose;
 
-  private final TerminatableStream<?> root;
+  private final TerminatableStream root;
 
-  public TerminatableStream(TerminatableStream<?> previous) {
+  // TODO(b/245807463): Change this to TerminatableStream<?> previous throught j.u.streams.
+  // We have to use raw types here. The transpiler backend does not get enough information
+  // to correctly resolve the recursive type if we used TerminatableStream<?> here.
+  public TerminatableStream(TerminatableStream previous) {
     if (previous == null) {
       root = null;
       onClose = new ArrayList<>();

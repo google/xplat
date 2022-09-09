@@ -55,7 +55,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   static class Empty<T extends @Nullable Object> extends TerminatableStream<Empty<T>>
       implements Stream<T> {
 
-    public Empty(TerminatableStream<?> previous) {
+    public Empty(TerminatableStream previous) {
       super(previous);
     }
 
@@ -527,7 +527,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
 
   private final Spliterator<T> spliterator;
 
-  public StreamImpl(TerminatableStream<?> prev, Spliterator<T> spliterator) {
+  public StreamImpl(TerminatableStream prev, Spliterator<T> spliterator) {
     super(prev);
     this.spliterator = spliterator;
   }

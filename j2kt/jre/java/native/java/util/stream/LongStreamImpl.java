@@ -52,7 +52,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
    * Represents an empty stream, doing nothing for all methods.
    */
   static class Empty extends TerminatableStream<Empty> implements LongStream {
-    public Empty(TerminatableStream<?> previous) {
+    public Empty(TerminatableStream previous) {
       super(previous);
     }
 
@@ -487,7 +487,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
 
   private final Spliterator.OfLong spliterator;
 
-  public LongStreamImpl(TerminatableStream<?> previous, Spliterator.OfLong spliterator) {
+  public LongStreamImpl(TerminatableStream previous, Spliterator.OfLong spliterator) {
     super(previous);
     this.spliterator = spliterator;
   }

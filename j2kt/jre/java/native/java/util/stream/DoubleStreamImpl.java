@@ -51,7 +51,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
    * Represents an empty stream, doing nothing for all methods.
    */
   static class Empty extends TerminatableStream<Empty> implements DoubleStream {
-    public Empty(TerminatableStream<?> previous) {
+    public Empty(TerminatableStream previous) {
       super(previous);
     }
 
@@ -483,7 +483,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
 
   private final Spliterator.OfDouble spliterator;
 
-  public DoubleStreamImpl(TerminatableStream<?> previous, Spliterator.OfDouble spliterator) {
+  public DoubleStreamImpl(TerminatableStream previous, Spliterator.OfDouble spliterator) {
     super(previous);
     this.spliterator = spliterator;
   }
