@@ -907,7 +907,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   @SuppressWarnings("unchecked")
   public Stream<T> sorted() {
     throwIfTerminated();
-    Comparator<T> c = (Comparator<T>) Comparator.naturalOrder();
+    Comparator<T> c = (Comparator<T>) Comparator.<Comparable>naturalOrder();
     return sorted(c);
   }
 
@@ -922,7 +922,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
 
           @Override
           public Comparator<? super T> getComparator() {
-            return comparator == Comparator.naturalOrder() ? null : comparator;
+            return comparator == Comparator.<Comparable>naturalOrder() ? null : comparator;
           }
 
           @Override
