@@ -24,11 +24,11 @@ public class Comparators {
    * This is a utility class that provides default Comparators. This class
    * exists so Arrays and Collections can share the natural comparator without
    * having to know internals of each other.
-   *
-   * This class is package protected since it is not in the JRE.
    */
 
   public static native <T> Comparator<T> nullToNaturalOrder(Comparator<T> cmp);
+
+  public static native <T> Comparator<T> naturalOrderToNull(Comparator<T> cmp);
 
   private Comparators() {}
 }

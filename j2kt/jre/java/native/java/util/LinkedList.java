@@ -38,7 +38,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
    */
 
   private final class DescendingIteratorImpl implements Iterator<E> {
-    private final ListIterator<E> itr = new ListIteratorImpl(size, tail);
+    private final ListIterator<E> itr = new ListIteratorImpl(internalSize, tail);
 
     @Override
     public boolean hasNext() {
@@ -184,10 +184,8 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
    */
   private final Node<E> tail = new Node<E>();
 
-  /**
-   * Number of nodes currently present in the list.
-   */
-  private int size;
+  /** Number of nodes currently present in the list. */
+  private int internalSize;
 
   public LinkedList() {
     reset();
@@ -223,7 +221,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
     header.next = tail;
     tail.prev = header;
     header.prev = tail.next = null;
-    size = 0;
+    internalSize = 0;
   }
 
   public Object clone() {
@@ -242,27 +240,27 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
 
   @Override
   public E getFirst() {
-    checkElement(size != 0);
+    checkElement(internalSize != 0);
 
     return header.next.value;
   }
 
   @Override
   public E getLast() {
-    checkElement(size != 0);
+    checkElement(internalSize != 0);
 
     return tail.prev.value;
   }
 
   @Override
   public ListIterator<E> listIterator(final int index) {
-    checkPositionIndex(index, size);
+    checkPositionIndex(index, internalSize);
 
     Node<E> node;
     // start from the nearest end of the list
-    if (index >= size >> 1) {
+    if (index >= internalSize >> 1) {
       node = tail;
-      for (int i = size; i > index; --i) {
+      for (int i = internalSize; i > index; --i) {
         node = node.prev;
       }
     } else {
@@ -299,12 +297,12 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
 
   @Override
   public E peekFirst() {
-    return size == 0 ? null : getFirst();
+    return internalSize == 0 ? null : getFirst();
   }
 
   @Override
   public E peekLast() {
-    return size == 0 ? null : getLast();
+    return internalSize == 0 ? null : getLast();
   }
 
   @Override
@@ -314,12 +312,12 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
 
   @Override
   public E pollFirst() {
-    return size == 0 ? null : removeFirst();
+    return internalSize == 0 ? null : removeFirst();
   }
 
   @Override
   public E pollLast() {
-    return size == 0 ? null : removeLast();
+    return internalSize == 0 ? null : removeLast();
   }
 
   @Override
@@ -339,7 +337,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
 
   @Override
   public E removeFirst() {
-    checkElement(size != 0);
+    checkElement(internalSize != 0);
 
     return removeNode(header.next);
   }
@@ -351,7 +349,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
 
   @Override
   public E removeLast() {
-    checkElement(size != 0);
+    checkElement(internalSize != 0);
 
     return removeNode(tail.prev);
   }
@@ -369,7 +367,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
 
   @Override
   public int size() {
-    return size;
+    return internalSize;
   }
 
   private void addNode(E o, Node<E> prev, Node<E> next) {
@@ -378,7 +376,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
     node.prev = prev;
     node.next = next;
     next.prev = prev.next = node;
-    ++size;
+    ++internalSize;
   }
 
   private E removeNode(Node<E> node) {
@@ -387,7 +385,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
     node.prev.next = node.next;
     node.next = node.prev = null;
     node.value = null;
-    --size;
+    --internalSize;
     return oldValue;
   }
 }

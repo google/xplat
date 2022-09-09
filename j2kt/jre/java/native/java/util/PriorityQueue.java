@@ -22,6 +22,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import javaemul.internal.Comparators;
+import org.jspecify.nullness.Nullable;
 
 /**
  * An unbounded priority queue based on a priority heap.
@@ -225,12 +226,12 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
   }
 
   @Override
-  public Object[] toArray() {
+  public @Nullable Object[] toArray() {
     return heap.toArray();
   }
 
   @Override
-  public <T> T[] toArray(T[] a) {
+  public <T extends @Nullable Object> @Nullable T[] toArray(@Nullable T[] a) {
     return heap.toArray(a);
   }
 

@@ -16,7 +16,21 @@
 package javaemul.internal
 
 object Comparators {
-  @Suppress("UNCHECKED_CAST", "UPPER_BOUND_VIOLATED")
+
+  /**
+   * Returns the given comparator if it is non-null; a natural order comparator otherwise. This
+   * comparator must not be the same object as the [naturalOrder()] comparator because it's used to
+   * mask out client provided comparators in TreeMap and PriorityQueue in
+   * [Comparators.naturalOrderToNull].
+   */
+  @Suppress("UNCHECKED_CAST")
   fun <T> nullToNaturalOrder(comparator: Comparator<T>?): Comparator<T> =
-    comparator ?: naturalOrder<Comparable<T>>() as Comparator<T>
+    comparator ?: InternalNaturalOrderComparator as Comparator<T>
+
+  fun <T> naturalOrderToNull(comparator: Comparator<T>?): Comparator<T>? =
+    if (comparator === InternalNaturalOrderComparator) null else comparator
+}
+
+private object InternalNaturalOrderComparator : Comparator<Comparable<Any>> {
+  override fun compare(o1: Comparable<Any>, o2: Comparable<Any>) = o1.compareTo(o2)
 }

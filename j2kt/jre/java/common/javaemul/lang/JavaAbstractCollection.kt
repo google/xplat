@@ -30,10 +30,17 @@ abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaC
 
   override fun add(e: E): Boolean = throw UnsupportedOperationException()
 
-  override fun clear() = throw UnsupportedOperationException()
+  override fun clear(): Unit = throw UnsupportedOperationException()
+
+  override fun java_addAll(c: MutableCollection<out E>): Boolean =
+    super<AbstractMutableCollection>.addAll(c)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_contains(a: Any?): Boolean = super<AbstractMutableCollection>.contains(a as E)
+
+  @Suppress("UNCHECKED_CAST")
+  override fun java_containsAll(c: MutableCollection<*>): Boolean =
+    super<AbstractMutableCollection>.containsAll(c as MutableCollection<E>)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_remove(a: Any?): Boolean = throw UnsupportedOperationException()
