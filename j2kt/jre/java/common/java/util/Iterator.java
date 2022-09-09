@@ -19,6 +19,8 @@ package java.util;
 import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtPropagateNullability;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -36,8 +38,9 @@ public interface Iterator<E extends @Nullable Object> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
+  @KtPropagateNullability
   @KtName("java_forEachRemaining")
-  default void forEachRemaining(Consumer<? super E> consumer) {
+  default void forEachRemaining(@JsNonNull Consumer<? super E> consumer) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }

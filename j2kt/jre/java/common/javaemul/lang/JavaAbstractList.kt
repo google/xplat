@@ -44,6 +44,7 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   @Suppress("UNCHECKED_CAST")
   override fun java_contains(a: Any?): Boolean = super<AbstractMutableList>.contains(a as E)
 
+  @Suppress("UNCHECKED_CAST")
   override fun java_containsAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableList>.containsAll(c as MutableCollection<E>)
 
@@ -56,9 +57,11 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   @Suppress("UNCHECKED_CAST")
   override fun java_remove(a: Any?): Boolean = super<AbstractMutableList>.remove(a as E)
 
+  @Suppress("UNCHECKED_CAST")
   override fun java_removeAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableList>.removeAll(c as MutableCollection<E>)
 
+  @Suppress("UNCHECKED_CAST")
   override fun java_retainAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableList>.retainAll(c as MutableCollection<E>)
 

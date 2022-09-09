@@ -35,8 +35,9 @@ public interface Iterable<T extends @Nullable Object> {
   @JsNonNull
   Iterator<T> iterator();
 
+  @KtPropagateNullability
   @KtName("java_forEach")
-  default void forEach(Consumer<? super T> action) {
+  default void forEach(@JsNonNull Consumer<? super T> action) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 

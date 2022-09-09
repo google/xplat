@@ -30,30 +30,23 @@ abstract class JavaAbstractMap<K, V> : AbstractMutableMap<K, V>(), JavaMap<K, V>
   }
 
   // TODO(b/243046587): Rewrite to handle case in which t is not mutable
+  @Suppress("UNCHECKED_CAST")
   override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_containsKey(key: Any?): Boolean {
-    return super<AbstractMutableMap>.containsKey(key as K)
-  }
+  override fun java_containsKey(key: Any?): Boolean =
+    super<AbstractMutableMap>.containsKey(key as K)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_containsValue(value: Any?): Boolean {
-    return super<AbstractMutableMap>.containsValue(value as V)
-  }
+  override fun java_containsValue(value: Any?): Boolean =
+    super<AbstractMutableMap>.containsValue(value as V)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_get(key: Any?): V? {
-    return super<AbstractMutableMap>.get(key as K)
-  }
+  override fun java_get(key: Any?): V? = super<AbstractMutableMap>.get(key as K)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_putAll(t: MutableMap<out K, out V>) {
-    return super<JavaMap>.putAll(t as Map<out K, V>)
-  }
+  override fun java_putAll(t: MutableMap<out K, out V>) = super<JavaMap>.putAll(t as Map<out K, V>)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_remove(key: Any?): V? {
-    return super<AbstractMutableMap>.remove(key as K)
-  }
+  override fun java_remove(key: Any?): V? = super<AbstractMutableMap>.remove(key as K)
 }

@@ -17,8 +17,8 @@ package javaemul.lang
 
 interface JavaComparator<T> : Comparator<T> {
   companion object {
-    fun <T : Comparable<in T>> naturalOrder(): Comparator<T> = kotlin.comparisons.naturalOrder()
+    fun <T : Comparable<T>> naturalOrder(): Comparator<T> = kotlin.comparisons.naturalOrder()
 
-    fun <T : Comparable<in T>> reverseOrder(): Comparator<T> = kotlin.comparisons.reverseOrder()
+    fun <T : Comparable<T>> reverseOrder(): Comparator<T> = kotlin.comparisons.reverseOrder()
   }
 }

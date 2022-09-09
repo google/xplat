@@ -37,65 +37,59 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
   // TODO(233944334): On JVM, MutableCollection has a hidden implementation of spliterator.
   override fun spliterator(): Spliterator<E> = super<JavaIterable>.spliterator()
 
-  abstract fun java_addAll(c: MutableCollection<out E>): Boolean
+  fun java_addAll(c: MutableCollection<out E>): Boolean
 
-  abstract fun java_contains(a: Any?): Boolean
+  fun java_contains(a: Any?): Boolean
 
-  abstract fun java_containsAll(c: MutableCollection<out Any?>): Boolean
+  fun java_containsAll(c: MutableCollection<*>): Boolean
 
-  abstract fun java_remove(a: Any?): Boolean
+  fun java_remove(a: Any?): Boolean
 
-  abstract fun java_removeAll(c: MutableCollection<out Any?>): Boolean
+  fun java_removeAll(c: MutableCollection<*>): Boolean
 
-  abstract fun java_retainAll(c: MutableCollection<out Any?>): Boolean
+  fun java_retainAll(c: MutableCollection<*>): Boolean
 
   fun java_toArray(): Array<Any?> = default_toArray()
 
   fun <T> java_toArray(a: Array<T?>): Array<T?> = default_toArray(a)
 }
 
-fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean {
-  if (this is JavaCollection) return java_addAll(c) else return addAll(c as MutableCollection<E>)
-}
+fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
+  if (this is JavaCollection) java_addAll(c) else addAll(c)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_contains(a: Any?): Boolean {
-  if (this is JavaCollection) return java_contains(a) else return contains(a as E)
-}
+fun <E> MutableCollection<E>.java_contains(a: Any?): Boolean =
+  if (this is JavaCollection) java_contains(a) else contains(a as E)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<out Any?>): Boolean {
-  if (this is JavaCollection) return java_containsAll(c)
-  else return containsAll(c as MutableCollection<E>)
-}
+fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<*>): Boolean =
+  if (this is JavaCollection) java_containsAll(c) else containsAll(c as MutableCollection<E>)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_remove(a: Any?): Boolean {
-  if (this is JavaCollection) return java_remove(a) else return remove(a as E)
-}
+fun <E> MutableCollection<E>.java_remove(a: Any?): Boolean =
+  if (this is JavaCollection) java_remove(a) else remove(a as E)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<out Any?>): Boolean {
-  if (this is JavaCollection) return removeAll(c) else return removeAll(c as MutableCollection<E>)
-}
+fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
+  if (this is JavaCollection) removeAll(c) else removeAll(c as MutableCollection<E>)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<out Any?>): Boolean {
-  if (this is JavaCollection) return java_retainAll(c)
-  else return retainAll(c as MutableCollection<E>)
-}
+fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
+  if (this is JavaCollection) java_retainAll(c) else retainAll(c as MutableCollection<E>)
 
 fun MutableCollection<*>.java_toArray(): Array<Any?> =
   if (this is JavaCollection) java_toArray() else default_toArray()
 
 fun <T> MutableCollection<*>.java_toArray(a: Array<T?>): Array<T?> =
-  if (this is JavaCollection) java_toArray(a!!) else default_toArray(a!!)
+  if (this is JavaCollection) java_toArray(a) else default_toArray(a)
 
 private fun MutableCollection<*>.default_toArray(): Array<Any?> {
   val emptyArray: Array<Any?> = emptyArray<Any?>()
   return default_toArray(emptyArray)
 }
 
+// Note: There's no relation between the element types of Collection<E> and Array<T> (same as Java).
+@Suppress("UNCHECKED_CAST")
 private fun <T> MutableCollection<*>.default_toArray(a: Array<T?>): Array<T?> {
   if (this.size > a.size) {
     return default_toArray(

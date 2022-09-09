@@ -30,7 +30,7 @@ abstract class JavaAbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
   override fun retainAll(c: Collection<E>): Boolean = super<JavaSet>.retainAll(c)
 
   override fun java_addAll(c: MutableCollection<out E>): Boolean =
-    super<AbstractMutableSet>.addAll(c as MutableCollection<E>)
+    super<AbstractMutableSet>.addAll(c)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_contains(a: Any?): Boolean = super<AbstractMutableSet>.contains(a as E)
