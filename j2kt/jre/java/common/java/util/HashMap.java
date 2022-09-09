@@ -34,7 +34,7 @@ public final class HashMap<K extends @Nullable Object, V extends @Nullable Objec
 
   public HashMap(int initialCapacity, float loadFactor) {}
 
-  public HashMap(Map<? extends K, ? extends V> original) {}
+  public HashMap(@JsNonNull Map<? extends K, ? extends V> original) {}
 
   @Override
   public native int size();

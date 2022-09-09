@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -133,7 +134,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     return backingMap.remove(key);
   }
 
-  @Override public Set<Entry<K, V>> entrySet() {
+  @Override
+  public Set<@JsNonNull Entry<K, V>> entrySet() {
     return backingMap.entrySet();
   }
 

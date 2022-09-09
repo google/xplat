@@ -1189,7 +1189,7 @@ public class Collections {
     return new SetFromMap<E>(map);
   }
 
-  public static <T extends @Nullable Object> List<T> nCopies(int n, T o) {
+  public static <T extends @Nullable Object> @JsNonNull List<T> nCopies(int n, T o) {
     ArrayList<T> list = new ArrayList<>();
     for (int i = 0; i < n; ++i) {
       list.add(o);
