@@ -680,8 +680,8 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
 
     AbstractLongSpliterator flatMapSpliterator =
         new Spliterators.AbstractLongSpliterator(Long.MAX_VALUE, 0) {
-          LongStream nextStream;
-          Spliterator.OfLong next;
+          @Nullable LongStream nextStream;
+          Spliterator.@Nullable OfLong next;
 
           @Override
           public boolean tryAdvance(LongConsumer action) {

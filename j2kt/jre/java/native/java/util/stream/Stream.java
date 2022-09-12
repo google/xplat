@@ -99,7 +99,7 @@ public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream
 
     AbstractSpliterator<T> spliterator =
         new Spliterators.AbstractSpliterator<T>(Long.MAX_VALUE, 0) {
-          Spliterator<? extends T> next;
+          @Nullable Spliterator<? extends T> next;
 
           @Override
           public boolean tryAdvance(Consumer<? super T> action) {

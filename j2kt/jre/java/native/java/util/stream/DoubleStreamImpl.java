@@ -678,8 +678,8 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
 
     Spliterator.OfDouble flatMapSpliterator =
         new Spliterators.AbstractDoubleSpliterator(Long.MAX_VALUE, 0) {
-          DoubleStream nextStream;
-          Spliterator.OfDouble next;
+          @Nullable DoubleStream nextStream;
+          Spliterator.@Nullable OfDouble next;
 
           @Override
           public boolean tryAdvance(DoubleConsumer action) {

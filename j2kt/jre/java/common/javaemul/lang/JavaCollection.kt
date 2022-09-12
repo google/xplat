@@ -17,6 +17,8 @@ package javaemul.lang
 
 import java.lang.reflect.Array as JavaLangReflectArray
 import java.util.Spliterator
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 import kotlin.jvm.javaObjectType
 
 /** Bridge class for java.util.Collection. */
@@ -37,6 +39,8 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
   // TODO(233944334): On JVM, MutableCollection has a hidden implementation of spliterator.
   override fun spliterator(): Spliterator<E> = super<JavaIterable>.spliterator()
 
+  fun stream(): Stream<E> = default_stream()
+
   fun java_addAll(c: MutableCollection<out E>): Boolean
 
   fun java_contains(a: Any?): Boolean
@@ -53,6 +57,9 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
 }
+
+fun <E> MutableCollection<E>.stream(): Stream<E> =
+  if (this is JavaCollection) stream() else default_stream()
 
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
   if (this is JavaCollection) java_addAll(c) else addAll(c)
@@ -82,6 +89,9 @@ fun MutableCollection<*>.java_toArray(): Array<Any?> =
 
 fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> =
   if (this is JavaCollection) java_toArray(a) else default_toArray(a)
+
+private fun <E> MutableCollection<E>.default_stream(): Stream<E> =
+  StreamSupport.stream(spliterator(), false)
 
 private fun MutableCollection<*>.default_toArray(): Array<Any?> {
   val emptyArray: Array<Any?> = emptyArray<Any?>()

@@ -688,8 +688,8 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
 
     Spliterator.OfInt flatMapSpliterator =
         new Spliterators.AbstractIntSpliterator(Long.MAX_VALUE, 0) {
-          IntStream nextStream;
-          Spliterator.OfInt next;
+          @Nullable IntStream nextStream;
+          Spliterator.@Nullable OfInt next;
 
           @Override
           public boolean tryAdvance(IntConsumer action) {

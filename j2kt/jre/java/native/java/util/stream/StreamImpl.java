@@ -168,7 +168,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public Object[] toArray() {
+    public @Nullable Object[] toArray() {
       terminate();
       return new Object[0];
     }
@@ -449,7 +449,8 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
    *
    * @param <T> the type of data to iterate over
    */
-  private static final class SkipSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
+  private static final class SkipSpliterator<T extends @Nullable Object>
+      extends Spliterators.AbstractSpliterator<T> {
     private long skip;
     private final Spliterator<T> original;
 
@@ -719,8 +720,8 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
 
     AbstractSpliterator<R> flatMapSpliterator =
         new Spliterators.AbstractSpliterator<R>(Long.MAX_VALUE, 0) {
-          Stream<? extends R> nextStream;
-          Spliterator<? extends R> next;
+          @Nullable Stream<? extends R> nextStream;
+          @Nullable Spliterator<? extends R> next;
 
           @Override
           public boolean tryAdvance(Consumer<? super R> action) {
@@ -766,8 +767,8 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
 
     AbstractIntSpliterator flatMapSpliterator =
         new Spliterators.AbstractIntSpliterator(Long.MAX_VALUE, 0) {
-          IntStream nextStream;
-          Spliterator.OfInt next;
+          @Nullable IntStream nextStream;
+          Spliterator.@Nullable OfInt next;
 
           @Override
           public boolean tryAdvance(IntConsumer action) {
@@ -813,8 +814,8 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
 
     AbstractLongSpliterator flatMapSpliterator =
         new Spliterators.AbstractLongSpliterator(Long.MAX_VALUE, 0) {
-          LongStream nextStream;
-          Spliterator.OfLong next;
+          @Nullable LongStream nextStream;
+          Spliterator.@Nullable OfLong next;
 
           @Override
           public boolean tryAdvance(LongConsumer action) {
@@ -860,8 +861,8 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
 
     AbstractDoubleSpliterator flatMapSpliterator =
         new Spliterators.AbstractDoubleSpliterator(Long.MAX_VALUE, 0) {
-          DoubleStream nextStream;
-          Spliterator.OfDouble next;
+          @Nullable DoubleStream nextStream;
+          Spliterator.@Nullable OfDouble next;
 
           @Override
           public boolean tryAdvance(DoubleConsumer action) {

@@ -95,7 +95,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
 
     AbstractLongSpliterator spliterator =
         new Spliterators.AbstractLongSpliterator(Long.MAX_VALUE, 0) {
-          Spliterator.OfLong next;
+          Spliterator.@Nullable OfLong next;
 
           @Override
           public boolean tryAdvance(LongConsumer action) {

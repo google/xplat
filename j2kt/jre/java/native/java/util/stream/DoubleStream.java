@@ -92,7 +92,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
 
     Spliterator.OfDouble spliterator =
         new Spliterators.AbstractDoubleSpliterator(Long.MAX_VALUE, 0) {
-          Spliterator.OfDouble next;
+          Spliterator.@Nullable OfDouble next;
 
           @Override
           public boolean tryAdvance(DoubleConsumer action) {

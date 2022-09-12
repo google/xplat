@@ -95,7 +95,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
 
     Spliterator.OfInt spliterator =
         new Spliterators.AbstractIntSpliterator(Long.MAX_VALUE, 0) {
-          Spliterator.OfInt next;
+          Spliterator.@Nullable OfInt next;
 
           @Override
           public boolean tryAdvance(IntConsumer action) {

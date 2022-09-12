@@ -24,6 +24,11 @@ import java.util.function.IntToDoubleFunction
 import java.util.function.IntToLongFunction
 import java.util.function.IntUnaryOperator
 import java.util.function.LongBinaryOperator
+import java.util.stream.DoubleStream
+import java.util.stream.IntStream
+import java.util.stream.LongStream
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 import javaemul.internal.Comparators
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArrayBounds
 
@@ -827,4 +832,26 @@ object Arrays {
       endExclusive,
       Spliterator.IMMUTABLE or Spliterator.ORDERED
     )
+
+  fun stream(
+    array: DoubleArray,
+    startInclusive: Int = 0,
+    endExclusive: Int = array.size
+  ): DoubleStream =
+    StreamSupport.doubleStream(spliterator(array, startInclusive, endExclusive), false)
+
+  fun stream(array: IntArray, startInclusive: Int = 0, endExclusive: Int = array.size): IntStream =
+    StreamSupport.intStream(spliterator(array, startInclusive, endExclusive), false)
+
+  fun stream(
+    array: LongArray,
+    startInclusive: Int = 0,
+    endExclusive: Int = array.size
+  ): LongStream = StreamSupport.longStream(spliterator(array, startInclusive, endExclusive), false)
+
+  fun <T> stream(
+    array: Array<T>,
+    startInclusive: Int = 0,
+    endExclusive: Int = array.size
+  ): Stream<T> = StreamSupport.stream(spliterator(array, startInclusive, endExclusive), false)
 }
