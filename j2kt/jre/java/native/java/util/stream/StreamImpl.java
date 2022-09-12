@@ -45,6 +45,7 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /** Main implementation of Stream, wrapping a single spliterator and an optional parent stream. */
@@ -173,7 +174,8 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator) {
+    public <A extends @Nullable Object> A @JsNonNull [] toArray(
+        IntFunction<A @JsNonNull []> generator) {
       terminate();
       return generator.apply(0);
     }
@@ -571,7 +573,8 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   }
 
   @Override
-  public <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator) {
+  public <A extends @Nullable Object> A @JsNonNull [] toArray(
+      IntFunction<A @JsNonNull []> generator) {
     List<T> collected = collect(Collectors.toList());
     return collected.toArray(generator.apply(collected.size()));
   }

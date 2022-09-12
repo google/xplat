@@ -434,7 +434,7 @@ public class Collections {
     }
 
     @Override
-    public <E extends @Nullable Object> @Nullable E[] toArray(@Nullable E[] a) {
+    public <E extends @Nullable Object> E @JsNonNull [] toArray(E @JsNonNull [] a) {
       return coll.toArray(a);
     }
 
@@ -620,7 +620,7 @@ public class Collections {
 
       @Override
       @SuppressWarnings("unchecked")
-      public <T extends @Nullable Object> @Nullable T[] toArray(@Nullable T[] a) {
+      public <T extends @Nullable Object> T @JsNonNull [] toArray(T @JsNonNull [] a) {
         Object[] result = super.toArray(a);
         wrap(result, coll.size());
         return (T[]) result;

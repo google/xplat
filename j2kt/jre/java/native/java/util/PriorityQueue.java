@@ -231,7 +231,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
   }
 
   @Override
-  public <T extends @Nullable Object> @Nullable T[] toArray(@Nullable T[] a) {
+  public <T extends @Nullable Object> T[] toArray(T[] a) {
     return heap.toArray(a);
   }
 

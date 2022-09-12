@@ -51,7 +51,7 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun java_toArray(): Array<Any?> = default_toArray()
 
-  fun <T> java_toArray(a: Array<T?>): Array<T?> = default_toArray(a)
+  fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
 }
 
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
@@ -80,7 +80,7 @@ fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
 fun MutableCollection<*>.java_toArray(): Array<Any?> =
   if (this is JavaCollection) java_toArray() else default_toArray()
 
-fun <T> MutableCollection<*>.java_toArray(a: Array<T?>): Array<T?> =
+fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> =
   if (this is JavaCollection) java_toArray(a) else default_toArray(a)
 
 private fun MutableCollection<*>.default_toArray(): Array<Any?> {
@@ -90,11 +90,10 @@ private fun MutableCollection<*>.default_toArray(): Array<Any?> {
 
 // Note: There's no relation between the element types of Collection<E> and Array<T> (same as Java).
 @Suppress("UNCHECKED_CAST")
-private fun <T> MutableCollection<*>.default_toArray(a: Array<T?>): Array<T?> {
+private fun <T> MutableCollection<*>.default_toArray(a: Array<T>): Array<T> {
   if (this.size > a.size) {
     return default_toArray(
-      JavaLangReflectArray.newInstance(a::class.javaObjectType.getComponentType(), size)
-        as Array<T?>
+      JavaLangReflectArray.newInstance(a::class.javaObjectType.getComponentType(), size) as Array<T>
     )
   } else {
     val iterator = iterator()
@@ -103,6 +102,7 @@ private fun <T> MutableCollection<*>.default_toArray(a: Array<T?>): Array<T?> {
       a[index++] = iterator.next() as T
     }
     if (index < a.size) {
+      // Note: This is unsafe. JSpecify (as of Sept 2022) also ignores this case.
       a[index] = null as T
     }
     return a

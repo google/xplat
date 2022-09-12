@@ -320,7 +320,7 @@ public class Collections {
     }
 
     @Override
-    public <T extends @Nullable Object> @Nullable T[] toArray(@Nullable T[] a) {
+    public <T extends @Nullable Object> T @JsNonNull [] toArray(T @JsNonNull [] a) {
       toArrayTypedCalls++;
       return super.toArray(a);
     }
