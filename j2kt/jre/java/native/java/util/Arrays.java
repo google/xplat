@@ -28,8 +28,8 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import javaemul.internal.annotations.KtNative;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -323,74 +323,46 @@ public class Arrays {
   public static native <T extends @Nullable Object> void parallelSort(
       T[] array, int fromIndex, int toIndex, @Nullable Comparator<? super T> c);
 
-  public static Spliterator.OfDouble spliterator(double[] array) {
-    return Spliterators.spliterator(array, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native Spliterator.OfDouble spliterator(double @JsNonNull [] array);
 
-  public static Spliterator.OfDouble spliterator(
-      double[] array, int startInclusive, int endExclusive) {
-    return Spliterators.spliterator(
-        array, startInclusive, endExclusive, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native Spliterator.OfDouble spliterator(
+      double @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static Spliterator.OfInt spliterator(int[] array) {
-    return Spliterators.spliterator(array, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native Spliterator.OfInt spliterator(int @JsNonNull [] array);
 
-  public static Spliterator.OfInt spliterator(int[] array, int startInclusive, int endExclusive) {
-    return Spliterators.spliterator(
-        array, startInclusive, endExclusive, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native Spliterator.OfInt spliterator(
+      int @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static Spliterator.OfLong spliterator(long[] array) {
-    return Spliterators.spliterator(array, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native Spliterator.OfLong spliterator(long @JsNonNull [] array);
 
-  public static Spliterator.OfLong spliterator(long[] array, int startInclusive, int endExclusive) {
-    return Spliterators.spliterator(
-        array, startInclusive, endExclusive, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native Spliterator.OfLong spliterator(
+      long @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static <T> Spliterator<T> spliterator(T[] array) {
-    return Spliterators.spliterator(array, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native <T extends @Nullable Object> Spliterator<T> spliterator(
+      T @JsNonNull [] array);
 
-  public static <T> Spliterator<T> spliterator(T[] array, int startInclusive, int endExclusive) {
-    return Spliterators.spliterator(
-        array, startInclusive, endExclusive, Spliterator.IMMUTABLE | Spliterator.ORDERED);
-  }
+  public static native <T extends @Nullable Object> Spliterator<T> spliterator(
+      T @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static DoubleStream stream(double[] array) {
-    return stream(array, 0, array.length);
-  }
+  public static native DoubleStream stream(double @JsNonNull [] array);
 
-  public static DoubleStream stream(double[] array, int startInclusive, int endExclusive) {
-    return StreamSupport.doubleStream(spliterator(array, startInclusive, endExclusive), false);
-  }
+  public static native DoubleStream stream(
+      double @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static IntStream stream(int[] array) {
-    return stream(array, 0, array.length);
-  }
+  public static native IntStream stream(int @JsNonNull [] array);
 
-  public static IntStream stream(int[] array, int startInclusive, int endExclusive) {
-    return StreamSupport.intStream(spliterator(array, startInclusive, endExclusive), false);
-  }
+  public static native IntStream stream(
+      int @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static LongStream stream(long[] array) {
-    return stream(array, 0, array.length);
-  }
+  public static native LongStream stream(long @JsNonNull [] array);
 
-  public static LongStream stream(long[] array, int startInclusive, int endExclusive) {
-    return StreamSupport.longStream(spliterator(array, startInclusive, endExclusive), false);
-  }
+  public static native LongStream stream(
+      long @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static <T> Stream<T> stream(T[] array) {
-    return stream(array, 0, array.length);
-  }
+  public static native <T extends @Nullable Object> Stream<T> stream(T @JsNonNull [] array);
 
-  public static <T> Stream<T> stream(T[] array, int startInclusive, int endExclusive) {
-    return StreamSupport.stream(spliterator(array, startInclusive, endExclusive), false);
-  }
+  public static native <T extends @Nullable Object> Stream<T> stream(
+      T @JsNonNull [] array, int startInclusive, int endExclusive);
 
   public static native String toString(boolean @Nullable [] a);
 

@@ -779,4 +779,52 @@ object Arrays {
     val c = Comparators.nullToNaturalOrder(c)
     array.sortWith(c, fromIndex, toIndex)
   }
+
+  fun spliterator(array: DoubleArray): Spliterator.OfDouble =
+    Spliterators.spliterator(array, Spliterator.IMMUTABLE or Spliterator.ORDERED)
+
+  fun spliterator(
+    array: DoubleArray,
+    startInclusive: Int,
+    endExclusive: Int
+  ): Spliterator.OfDouble =
+    Spliterators.spliterator(
+      array,
+      startInclusive,
+      endExclusive,
+      Spliterator.IMMUTABLE or Spliterator.ORDERED
+    )
+
+  fun spliterator(array: IntArray): Spliterator.OfInt =
+    Spliterators.spliterator(array, Spliterator.IMMUTABLE or Spliterator.ORDERED)
+
+  fun spliterator(array: IntArray, startInclusive: Int, endExclusive: Int): Spliterator.OfInt =
+    Spliterators.spliterator(
+      array,
+      startInclusive,
+      endExclusive,
+      Spliterator.IMMUTABLE or Spliterator.ORDERED
+    )
+
+  fun spliterator(array: LongArray): Spliterator.OfLong =
+    Spliterators.spliterator(array, Spliterator.IMMUTABLE or Spliterator.ORDERED)
+
+  fun spliterator(array: LongArray, startInclusive: Int, endExclusive: Int): Spliterator.OfLong =
+    Spliterators.spliterator(
+      array,
+      startInclusive,
+      endExclusive,
+      Spliterator.IMMUTABLE or Spliterator.ORDERED
+    )
+
+  fun <T> spliterator(array: Array<T>): Spliterator<T> =
+    Spliterators.spliterator(array as Array<Any?>, Spliterator.IMMUTABLE or Spliterator.ORDERED)
+
+  fun <T> spliterator(array: Array<T>, startInclusive: Int, endExclusive: Int): Spliterator<T> =
+    Spliterators.spliterator(
+      array as Array<Any?>,
+      startInclusive,
+      endExclusive,
+      Spliterator.IMMUTABLE or Spliterator.ORDERED
+    )
 }
