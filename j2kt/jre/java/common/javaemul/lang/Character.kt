@@ -36,9 +36,27 @@ fun Char.Companion.valueOf(c: Char): Char = c
 
 fun Char.Companion.compare(c1: Char, c2: Char): Int = c1.compareTo(c2)
 
+fun Char.Companion.isDigit(c: Char): Boolean = c.isDigit()
+
+fun Char.Companion.isLetter(c: Char): Boolean = c.isLetter()
+
+fun Char.Companion.isLetterOrDigit(c: Char): Boolean = c.isLetterOrDigit()
+
+fun Char.Companion.isUpperCase(c: Char): Boolean = c.isUpperCase()
+
+fun Char.Companion.isLowerCase(c: Char): Boolean = c.isLowerCase()
+
+fun Char.Companion.isWhitespace(c: Char): Boolean = c.isWhitespace()
+
 fun Char.Companion.forDigit(digit: Int, radix: Int): Char = digit.digitToChar(radix).lowercaseChar()
 
 fun Char.Companion.hashCode(c: Char): Int = c.hashCode()
+
+fun Char.Companion.digit(ch: Char, radix: Int): Int = ch.digitToIntOrNull(radix) ?: -1
+
+fun Char.shr(pos: Int): Int = this.ushr(pos)
+
+fun Char.ushr(pos: Int): Int = this.ushr(pos)
 
 fun Char.Companion.charCount(codePoint: Int): Int =
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) 2 else 1
@@ -54,8 +72,23 @@ fun Char.Companion.codePointAt(charSequence: CharArray?, index: Int, limit: Int)
   return hiSurrogate.code
 }
 
+fun Char.Companion.codePointAt(charSequence: CharSequence?, index: Int): Int {
+  requireNotNull(charSequence)
+
+  var hiSurrogate = charSequence[index]
+  var loSurrogate = charSequence[index + 1]
+  if (isSurrogatePair(hiSurrogate, loSurrogate)) {
+    return toCodePoint(hiSurrogate, loSurrogate)
+  }
+  return hiSurrogate.code
+}
+
 fun Char.Companion.isSurrogatePair(high: Char, low: Char): Boolean =
   high.isHighSurrogate() && low.isLowSurrogate()
+
+fun Char.Companion.isLowSurrogate(ch: Char): Boolean = ch.isLowSurrogate()
+
+fun Char.Companion.isHighSurrogate(ch: Char): Boolean = ch.isHighSurrogate()
 
 // TODO(b/233944334): Duplicate method for JVM.
 fun Char.Companion.toCodePoint(high: Char, low: Char): Int =
@@ -75,8 +108,4 @@ fun Char.Companion.toChars(codePoint: Int, dst: CharArray?, dstIndex: Int): Int 
   }
   dst[dstIndex] = codePoint.toChar()
   return 1
-}
-
-fun Char.Companion.digit(ch: Char, radix: Int): Int {
-  return ch.digitToIntOrNull(radix) ?: -1
 }

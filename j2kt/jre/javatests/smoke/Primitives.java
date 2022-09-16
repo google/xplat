@@ -228,6 +228,24 @@ public class Primitives {
     assertEquals(-1, Character.compare('a', 'b'));
     assertEquals(1, Character.compare('c', 'b'));
 
+    assertTrue(Character.isDigit('1'));
+    assertFalse(Character.isDigit('a'));
+
+    assertTrue(Character.isLetter('a'));
+    assertFalse(Character.isLetter('1'));
+
+    assertTrue(Character.isUpperCase('A'));
+    assertFalse(Character.isUpperCase('a'));
+
+    assertTrue(Character.isLowerCase('a'));
+    assertFalse(Character.isLowerCase('A'));
+
+    assertTrue(Character.isLetterOrDigit('a'));
+    assertFalse(Character.isLetterOrDigit('$'));
+
+    assertTrue(Character.isWhitespace(' '));
+    assertFalse(Character.isWhitespace('a'));
+
     assertEquals('a', Character.forDigit(10, 16));
 
     assertEquals(98, Character.hashCode('b'));
@@ -245,7 +263,19 @@ public class Primitives {
     char[] cArray3 = {'a', 'b'};
     assertEquals(97, Character.codePointAt(cArray3, 0, 1));
 
+    CharSequence charSeq1 = "abcd";
+    assertEquals(99, Character.codePointAt(charSeq1, 2));
+
+    assertTrue(Character.isLowSurrogate('\uDD00'));
+    assertFalse(Character.isLowSurrogate('\uD000'));
+
+    assertTrue(Character.isHighSurrogate('\uD900'));
+    assertFalse(Character.isHighSurrogate('\uDD00'));
+
     assertEquals(10, Character.digit('a', 15));
     assertEquals(-1, Character.digit('a', 5));
+
+    assertEquals(27, 0xDE >>> 3);
+    assertEquals(27, 0xDE >> 3);
   }
 }
