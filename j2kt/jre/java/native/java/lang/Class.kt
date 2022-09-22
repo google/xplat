@@ -23,20 +23,20 @@ import kotlin.reflect.KClass
  * Implementation of java.lang.Class used in Kotlin Native. The constructor and the `kClass`
  * property are not accessible in Java.
  */
-class Class<T>(private val kClass: KClass<*>, private val isPrimitive0: Boolean) {
-  fun getName() = kClass.qualifiedName
-  fun getCanonicalName() = kClass.qualifiedName
-  fun getSimpleName() = kClass.simpleName
-  fun isPrimitive() = isPrimitive0
-  fun isArray() = getComponentType() != null
+class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) {
+  fun getName(): kotlin.String = kClass.qualifiedName ?: ""
+  fun getCanonicalName(): kotlin.String? = kClass.qualifiedName
+  fun getSimpleName(): kotlin.String = kClass.simpleName ?: ""
+  fun isPrimitive(): kotlin.Boolean = isPrimitive0
+  fun isArray(): kotlin.Boolean = getComponentType() != null
   fun getComponentType(): Class<*>? = arrayComponentTypeMap[kClass]
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()
-  override fun toString() = kClass.toString()
+  override fun toString(): kotlin.String = kClass.toString()
 }
 
-private val arrayComponentTypeMap =
-  mapOf<KClass<*>, Class<*>>(
+private val arrayComponentTypeMap: Map<KClass<*>, Class<*>> =
+  mapOf(
     ByteArray::class to Byte::class.javaPrimitiveType!!,
     ShortArray::class to Short::class.javaPrimitiveType!!,
     IntArray::class to Int::class.javaPrimitiveType!!,

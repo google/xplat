@@ -14,22 +14,25 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 // On Kotlin JVM, the native class is part of the JDK. On Kotlin Native, J2KT provides an
 // implementation of java.lang.Class.
 /** Minimal stub for {@code Class}. */
 @KtNative("java.lang.Class")
+@NullMarked
 public final class Class<T> {
 
   private Class() {}
 
   public native String getName();
 
-  public native String getCanonicalName();
+  public native @Nullable String getCanonicalName();
 
   public native String getSimpleName();
 
-  public native Class<?> getComponentType();
+  public native @Nullable Class<?> getComponentType();
 
   public native boolean isArray();
 
@@ -39,12 +42,9 @@ public final class Class<T> {
 
   public native boolean isPrimitive();
 
-  public native T[] getEnumConstants();
+  public native T @Nullable [] getEnumConstants();
 
-  public native Class<? super T> getSuperclass();
+  public native @Nullable Class<? super T> getSuperclass();
 
   public native boolean desiredAssertionStatus();
-
-  @Override
-  public native String toString();
 }
