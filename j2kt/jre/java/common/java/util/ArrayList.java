@@ -28,7 +28,7 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
 
   public ArrayList() {}
 
-  public ArrayList(Collection<E> c) {}
+  public ArrayList(@JsNonNull Collection<E> c) {}
 
   public ArrayList(int initialCapacity) {}
 
