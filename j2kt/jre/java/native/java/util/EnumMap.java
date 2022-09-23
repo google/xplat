@@ -18,7 +18,9 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkArgument;
 import static javaemul.internal.InternalPreconditions.checkState;
 
-import javaemul.internal.ArrayHelper;
+import javaemul.internal.MapUtils;
+import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A {@link java.util.Map} of {@link Enum}s. <a
@@ -27,9 +29,10 @@ import javaemul.internal.ArrayHelper;
  * @param <K> key type
  * @param <V> value type
  */
-public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements Cloneable {
+public class EnumMap<K extends Enum<K>, V extends @Nullable Object>
+    extends AbstractMap<K, V> /* implements Cloneable */ {
 
-  private final class EntrySet extends AbstractSet<Entry<K, V>> {
+  private final class EntrySet extends AbstractSet<@JsNonNull Entry<K, V>> {
 
     @Override
     public void clear() {
@@ -39,13 +42,13 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements 
     @Override
     public boolean contains(Object o) {
       if (o instanceof Map.Entry) {
-        return containsEntry((Map.Entry<?, ?>) o);
+        return MapUtils.containsEntry(EnumMap.this, (Map.Entry<?, ?>) o);
       }
       return false;
     }
 
     @Override
-    public Iterator<Entry<K, V>> iterator() {
+    public Iterator<@JsNonNull Entry<K, V>> iterator() {
       return new EntrySetIterator();
     }
 
@@ -65,8 +68,8 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements 
     }
   }
 
-  private final class EntrySetIterator implements Iterator<Entry<K, V>> {
-    private Iterator<K> it = keySet.iterator();
+  private final class EntrySetIterator implements Iterator<@JsNonNull Entry<K, V>> {
+    private final Iterator<K> it = enumMapKeySet.iterator();
     private K key;
 
     @Override
@@ -75,7 +78,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements 
     }
 
     @Override
-    public Entry<K, V> next() {
+    public @JsNonNull Entry<K, V> next() {
       key = it.next();
       return new MapEntry(key);
     }
@@ -91,70 +94,68 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements 
 
   private class MapEntry extends AbstractMapEntry<K, V> {
 
-    private final K key;
+    private final K mapEntryKey;
 
     public MapEntry(K key) {
-      this.key = key;
+      this.mapEntryKey = key;
     }
 
     @Override
     public K getKey() {
-      return key;
+      return mapEntryKey;
     }
 
     @Override
     public V getValue() {
-      return values[key.ordinal()];
+      return enumMapValues.get(mapEntryKey.ordinal());
     }
 
     @Override
     public V setValue(V value) {
-      return ArrayHelper.setAt(values, key.ordinal(), value);
+      return setAt(mapEntryKey, value);
     }
   }
 
-  private EnumSet<K> keySet;
+  private EnumSet<K> enumMapKeySet;
+  private ArrayList<V> enumMapValues;
 
-  private V[] values;
-
-  public EnumMap(Class<K> type) {
-    init(type);
+  public EnumMap(@JsNonNull Class<K> type) {
+    init();
   }
 
-  public EnumMap(EnumMap<K, ? extends V> m) {
+  public EnumMap(@JsNonNull EnumMap<K, ? extends V> m) {
     init(m);
   }
 
-  public EnumMap(Map<K, ? extends V> m) {
+  public EnumMap(@JsNonNull Map<K, ? extends V> m) {
     if (m instanceof EnumMap) {
       init((EnumMap<K, ? extends V>) m);
     } else {
       checkArgument(!m.isEmpty(), "Specified map is empty");
-      init(m.keySet().iterator().next().getDeclaringClass());
+      init();
       putAll(m);
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void clear() {
-    keySet.clear();
-    values = (V[]) new Object[values.length];
+    enumMapKeySet.clear();
+    enumMapValues.clear();
   }
 
   public EnumMap<K, V> clone() {
-    return new EnumMap<K, V>(this);
+    return new EnumMap<>(this);
   }
 
   @Override
   public boolean containsKey(Object key) {
-    return keySet.contains(key);
+    return enumMapKeySet.contains(key);
   }
 
   @Override
   public boolean containsValue(Object value) {
-    for (K key : keySet) {
-      if (Objects.equals(value, values[key.ordinal()])) {
+    for (K key : enumMapKeySet) {
+      if (Objects.equals(value, enumMapValues.get(key.ordinal()))) {
         return true;
       }
     }
@@ -162,29 +163,29 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements 
   }
 
   @Override
-  public Set<Map.Entry<K, V>> entrySet() {
+  public @JsNonNull Set<Map.@JsNonNull Entry<K, V>> entrySet() {
     return new EntrySet();
   }
 
   @Override
   public V get(Object k) {
-    return keySet.contains(k) ? values[asOrdinal(k)] : null;
+    return enumMapKeySet.contains(k) ? enumMapValues.get(asOrdinal(k)) : null;
   }
 
   @Override
   public V put(K key, V value) {
-    keySet.add(key);
-    return ArrayHelper.setAt(values, key.ordinal(), value);
+    enumMapKeySet.add(key);
+    return setAt(key, value);
   }
 
   @Override
   public V remove(Object key) {
-    return keySet.remove(key) ? ArrayHelper.setAt(values, asOrdinal(key), null) : null;
+    return enumMapKeySet.remove(key) ? setAt((K) key, null) : null;
   }
 
   @Override
   public int size() {
-    return keySet.size();
+    return enumMapKeySet.size();
   }
 
   /**
@@ -192,7 +193,6 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements 
    * key is an Enum, not that it's the particular Enum K. Should only be called
    * when you are sure <code>key</code> is of type <code>K</code>.
    */
-  @SuppressWarnings("unchecked")
   private K asKey(Object key) {
     return (K) key;
   }
@@ -201,14 +201,24 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V> implements 
     return asKey(key).ordinal();
   }
 
-  @SuppressWarnings("unchecked")
-  private void init(Class<K> type) {
-    keySet = EnumSet.noneOf(type);
-    values = (V[]) new Object[keySet.capacity()];
+  private void init() {
+    enumMapKeySet = new EnumSet<>();
+    enumMapValues = new ArrayList<>();
   }
 
   private void init(EnumMap<K, ? extends V> m) {
-    keySet = m.keySet.clone();
-    values = ArrayHelper.clone(m.values);
+    enumMapKeySet = m.enumMapKeySet.clone();
+    enumMapValues = new ArrayList<>(m.size());
+    enumMapValues.addAll(m.values());
+  }
+
+  private V setAt(K key, V value) {
+    int index = key.ordinal();
+    while (enumMapValues.size() <= key.ordinal()) {
+      enumMapValues.add(null);
+    }
+    V oldValue = enumMapValues.get(index);
+    enumMapValues.set(index, value);
+    return oldValue;
   }
 }

@@ -40,11 +40,13 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
   @Override
   public native boolean containsValue(@Nullable Object value);
 
+  native boolean containsEntry(@Nullable Object value);
+
   @Override
   public native @Nullable V get(@Nullable Object key);
 
   @Override
-  public abstract @JsNonNull Set<Entry<K, V>> entrySet();
+  public abstract @JsNonNull Set<@JsNonNull Entry<K, V>> entrySet();
 
   @Override
   public native boolean isEmpty();

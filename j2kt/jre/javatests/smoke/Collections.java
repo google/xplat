@@ -25,6 +25,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,6 +49,7 @@ public class Collections {
     testListSort();
     testListSortComparator();
     testEnumSet();
+    testEnumMap();
   }
 
   private static void testJavaMapSignatures() {
@@ -374,5 +376,12 @@ public class Collections {
     EnumSet<Fruit> enumSet = EnumSet.of(Fruit.APPLE);
     assertTrue(enumSet.contains(Fruit.APPLE));
     assertFalse(enumSet.contains(Fruit.ORANGE));
+  }
+
+  private static void testEnumMap() {
+    EnumMap<Fruit, String> enumMap = new EnumMap<>(Fruit.class);
+    enumMap.put(Fruit.APPLE, "apple");
+    assertEquals(enumMap.get(Fruit.APPLE), "apple");
+    assertEquals(enumMap.get(Fruit.ORANGE), null);
   }
 }

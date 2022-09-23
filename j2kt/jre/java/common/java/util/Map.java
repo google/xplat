@@ -80,7 +80,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtPropagateNullability
   @KtProperty
   @KtName("entries")
-  Set<Entry<K, V>> entrySet();
+  Set<@JsNonNull Entry<K, V>> entrySet();
 
   @KtName("java_get")
   @Nullable V get(@Nullable Object key);
