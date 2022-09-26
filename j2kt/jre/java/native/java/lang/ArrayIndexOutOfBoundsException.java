@@ -15,16 +15,17 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * NOTE: in GWT this will never be thrown for normal array accesses, only for
- * explicit throws.
- * 
- * See <a
+ * NOTE: in GWT this will never be thrown for normal array accesses, only for explicit throws.
+ *
+ * <p>See <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/ArrayIndexOutOfBoundsException.html">the
  * official Java API doc</a> for details.
  */
+@NullMarked
 public class ArrayIndexOutOfBoundsException extends IndexOutOfBoundsException {
   // TODO: find other places that should use AIOOBE instead of IOOBE
 

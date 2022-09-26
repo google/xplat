@@ -15,13 +15,14 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/CloneNotSupportedException.html">
+ * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/CloneNotSupportedException.html">
  * the official Java API doc</a> for details.
  */
+@NullMarked
 public class CloneNotSupportedException extends Exception {
 
   public CloneNotSupportedException() {

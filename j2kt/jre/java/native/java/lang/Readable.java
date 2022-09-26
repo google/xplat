@@ -18,11 +18,13 @@ package java.lang;
 
 import java.io.IOException;
 import java.nio.CharBuffer;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Represents a sequence of characters that can be incrementally read (copied) into a {@link
  * CharBuffer}.
  */
+@NullMarked
 public interface Readable {
   int read(CharBuffer cb) throws IOException;
 }

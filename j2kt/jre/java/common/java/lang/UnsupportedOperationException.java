@@ -18,6 +18,7 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -26,6 +27,7 @@ import org.jspecify.nullness.Nullable;
  * official Java API doc</a> for details.
  */
 @KtNative("kotlin.UnsupportedOperationException")
+@NullMarked
 public class UnsupportedOperationException extends RuntimeException {
 
   public UnsupportedOperationException() {}

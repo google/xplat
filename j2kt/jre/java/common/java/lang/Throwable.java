@@ -19,10 +19,11 @@ package java.lang;
 
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Throwable")
+@NullMarked
 public class Throwable {
 
   public Throwable() {}
@@ -73,7 +74,7 @@ public class Throwable {
   @KtProperty
   public native @Nullable Throwable getCause();
 
-  public final native void addSuppressed(@JsNonNull Throwable throwable);
+  public final native void addSuppressed(Throwable throwable);
 
   public final native Throwable[] getSuppressed();
 }

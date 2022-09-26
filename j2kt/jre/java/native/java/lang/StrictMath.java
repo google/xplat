@@ -15,7 +15,10 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
+
 /** StrictMath utility methods and constants. */
+@NullMarked
 public final class StrictMath {
 
   public static final double E = Math.E;

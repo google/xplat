@@ -17,13 +17,15 @@ package java.lang;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Included for hosted mode source compatibility. Partially implemented
- * 
+ *
  * @skip
  */
+@NullMarked
 public final class StackTraceElement implements Serializable {
 
   private String className = "";

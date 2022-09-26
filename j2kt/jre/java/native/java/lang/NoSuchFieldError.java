@@ -13,5 +13,8 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
+
 /** Exists solely to make javac happy. */
+@NullMarked
 class NoSuchFieldError {}

@@ -15,6 +15,7 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -22,6 +23,7 @@ import org.jspecify.nullness.Nullable;
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/StringIndexOfBoundsException.html">the
  * official Java API doc</a> for details.
  */
+@NullMarked
 public class StringIndexOutOfBoundsException extends IndexOutOfBoundsException {
 
   public StringIndexOutOfBoundsException() {

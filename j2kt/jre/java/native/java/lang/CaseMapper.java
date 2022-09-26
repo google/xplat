@@ -15,7 +15,10 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
+
 /** Performs case operations. Abstracted so can be platform specific. */
+@NullMarked
 final class CaseMapper {
 
   public static char charToLowerCase(char c) {

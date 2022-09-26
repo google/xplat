@@ -18,8 +18,10 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 
 @KtNative("kotlin.Unit")
+@NullMarked
 public final class Void {
 
   public static /* final */ Class<Void> TYPE;

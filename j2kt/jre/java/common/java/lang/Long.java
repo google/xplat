@@ -19,10 +19,11 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Long")
+@NullMarked
 public final class Long extends Number implements Comparable<Long> {
 
   public static /* final */ long MAX_VALUE;
@@ -36,7 +37,7 @@ public final class Long extends Number implements Comparable<Long> {
 
   public Long(long value) {}
 
-  public Long(@JsNonNull String string) throws NumberFormatException {}
+  public Long(String string) throws NumberFormatException {}
 
   @Override
   public native byte byteValue();
@@ -46,7 +47,7 @@ public final class Long extends Number implements Comparable<Long> {
 
   public static native int compare(long lhs, long rhs);
 
-  public static native Long decode(@JsNonNull String string) throws NumberFormatException;
+  public static native Long decode(String string) throws NumberFormatException;
 
   @Override
   public native double doubleValue();
@@ -72,10 +73,9 @@ public final class Long extends Number implements Comparable<Long> {
   @Override
   public native long longValue();
 
-  public static native long parseLong(@JsNonNull String string) throws NumberFormatException;
+  public static native long parseLong(String string) throws NumberFormatException;
 
-  public static native long parseLong(@JsNonNull String string, int radix)
-      throws NumberFormatException;
+  public static native long parseLong(String string, int radix) throws NumberFormatException;
 
   @Override
   public native short shortValue();
@@ -93,10 +93,9 @@ public final class Long extends Number implements Comparable<Long> {
 
   public static native String toString(long v, int radix);
 
-  public static native Long valueOf(@JsNonNull String string) throws NumberFormatException;
+  public static native Long valueOf(String string) throws NumberFormatException;
 
-  public static native Long valueOf(@JsNonNull String string, int radix)
-      throws NumberFormatException;
+  public static native Long valueOf(String string, int radix) throws NumberFormatException;
 
   public static native long highestOneBit(long v);
 

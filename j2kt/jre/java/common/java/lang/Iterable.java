@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -29,20 +29,20 @@ import org.jspecify.nullness.Nullable;
  * API doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableIterable", bridgeWith = "javaemul.lang.JavaIterable")
+@NullMarked
 public interface Iterable<T extends @Nullable Object> {
 
   @KtPropagateNullability
-  @JsNonNull
   Iterator<T> iterator();
 
   @KtPropagateNullability
   @KtName("java_forEach")
-  default void forEach(@JsNonNull Consumer<? super T> action) {
+  default void forEach(Consumer<? super T> action) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtPropagateNullability
-  default @JsNonNull Spliterator<T> spliterator() {
+  default Spliterator<T> spliterator() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }

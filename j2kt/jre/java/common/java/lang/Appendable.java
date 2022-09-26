@@ -19,21 +19,19 @@ package java.lang;
 import java.io.IOException;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.text.Appendable")
+@NullMarked
 public interface Appendable {
 
   @KtPropagateNullability
-  @JsNonNull
   Appendable append(char c) throws IOException;
 
   @KtPropagateNullability
-  @JsNonNull
   Appendable append(@Nullable CharSequence csq) throws IOException;
 
   @KtPropagateNullability
-  @JsNonNull
   Appendable append(@Nullable CharSequence csq, int start, int end) throws IOException;
 }

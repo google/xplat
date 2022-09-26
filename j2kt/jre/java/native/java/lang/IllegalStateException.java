@@ -15,12 +15,11 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Indicates that an objet was in an invalid state during an attempted
- * operation.
- */
+/** Indicates that an objet was in an invalid state during an attempted operation. */
+@NullMarked
 public class IllegalStateException extends RuntimeException {
 
   public IllegalStateException() {

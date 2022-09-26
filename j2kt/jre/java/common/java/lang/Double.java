@@ -19,10 +19,11 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Double")
+@NullMarked
 public final class Double extends Number implements Comparable<Double> {
 
   public static /* final */ double MAX_VALUE;
@@ -48,7 +49,7 @@ public final class Double extends Number implements Comparable<Double> {
 
   public Double(double value) {}
 
-  public Double(@JsNonNull String string) throws NumberFormatException {}
+  public Double(String string) throws NumberFormatException {}
 
   @Override
   public native int compareTo(Double object);
@@ -90,7 +91,7 @@ public final class Double extends Number implements Comparable<Double> {
   @Override
   public native long longValue();
 
-  public static native double parseDouble(@JsNonNull String string) throws NumberFormatException;
+  public static native double parseDouble(String string) throws NumberFormatException;
 
   @KtName("toInt_toShort")
   @Override
@@ -101,7 +102,7 @@ public final class Double extends Number implements Comparable<Double> {
 
   public static native String toString(double d);
 
-  public static native Double valueOf(@JsNonNull String string) throws NumberFormatException;
+  public static native Double valueOf(String string) throws NumberFormatException;
 
   public static native int compare(double double1, double double2);
 

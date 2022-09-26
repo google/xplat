@@ -17,6 +17,8 @@
 
 package java.nio;
 
+import jsinterop.annotations.JsNonNull;
+
 /**
  * A buffer of shorts.
  */
@@ -53,10 +55,12 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
     elementSizeShift = 1;
   }
 
+  @Override
   public final short[] array() {
     return protectedArray();
   }
 
+  @Override
   public final int arrayOffset() {
     return protectedArrayOffset();
   }
@@ -65,7 +69,8 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
 
   public abstract ShortBuffer compact();
 
-  public int compareTo(ShortBuffer otherBuffer) {
+  @Override
+  public int compareTo(@JsNonNull ShortBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -129,6 +134,7 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
 
   public abstract short get(int index);
 
+  @Override
   public final boolean hasArray() {
     return protectedHasArray();
   }
@@ -143,6 +149,7 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
     return hash;
   }
 
+  @Override
   public abstract boolean isDirect();
 
   public abstract ByteOrder order();

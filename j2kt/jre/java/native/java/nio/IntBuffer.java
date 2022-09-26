@@ -17,6 +17,8 @@
 
 package java.nio;
 
+import jsinterop.annotations.JsNonNull;
+
 /**
  * A buffer of ints.
  */
@@ -53,10 +55,12 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
     elementSizeShift = 2;
   }
 
+  @Override
   public final int[] array() {
     return protectedArray();
   }
 
+  @Override
   public final int arrayOffset() {
     return protectedArrayOffset();
   }
@@ -65,7 +69,8 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
 
   public abstract IntBuffer compact();
 
-  public int compareTo(IntBuffer otherBuffer) {
+  @Override
+  public int compareTo(@JsNonNull IntBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -131,6 +136,7 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
 
   public abstract int get(int index);
 
+  @Override
   public final boolean hasArray() {
     return protectedHasArray();
   }
@@ -145,6 +151,7 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
     return hash;
   }
 
+  @Override
   public abstract boolean isDirect();
 
   public abstract ByteOrder order();

@@ -24,11 +24,12 @@ import java.util.Locale;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java String should implement Serializable. Kotlin String doesn't.
 @KtNative("kotlin.String")
+@NullMarked
 public final class String implements Comparable<String>, CharSequence {
 
   public static /* final */ Comparator<String> CASE_INSENSITIVE_ORDER;
@@ -59,7 +60,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public String(char[] data, int offset, int charCount) {}
 
-  public String(@JsNonNull String toCopy) {}
+  public String(String toCopy) {}
 
   // TODO(b/224969395): Add once StringBuffer is available
   // public String(StringBuffer stringBuffer) {}
@@ -74,7 +75,7 @@ public final class String implements Comparable<String>, CharSequence {
   @Override
   public native int compareTo(String string);
 
-  public native int compareToIgnoreCase(@JsNonNull String string);
+  public native int compareToIgnoreCase(String string);
 
   public native String concat(String string);
 
@@ -98,7 +99,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native byte[] getBytes(Charset charset);
 
-  public native void getChars(int start, int end, char @JsNonNull [] buffer, int index);
+  public native void getChars(int start, int end, char[] buffer, int index);
 
   @Override
   public native int hashCode();
@@ -107,9 +108,9 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native int indexOf(int c, int start);
 
-  public native int indexOf(@JsNonNull String string);
+  public native int indexOf(String string);
 
-  public native int indexOf(@JsNonNull String subString, int start);
+  public native int indexOf(String subString, int start);
 
   // TODO(b/222269323): Revisit.
   public native String intern();
@@ -120,9 +121,9 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native int lastIndexOf(int c, int start);
 
-  public native int lastIndexOf(@JsNonNull String string);
+  public native int lastIndexOf(String string);
 
-  public native int lastIndexOf(@JsNonNull String subString, int start);
+  public native int lastIndexOf(String subString, int start);
 
   @Override
   @KtProperty

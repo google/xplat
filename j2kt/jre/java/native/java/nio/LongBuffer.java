@@ -17,6 +17,8 @@
 
 package java.nio;
 
+import jsinterop.annotations.JsNonNull;
+
 /**
  * A buffer of longs.
  */
@@ -53,10 +55,12 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
     elementSizeShift = 3;
   }
 
+  @Override
   public final long[] array() {
     return protectedArray();
   }
 
+  @Override
   public final int arrayOffset() {
     return protectedArrayOffset();
   }
@@ -65,7 +69,8 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
 
   public abstract LongBuffer compact();
 
-  public int compareTo(LongBuffer otherBuffer) {
+  @Override
+  public int compareTo(@JsNonNull LongBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -132,6 +137,7 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
 
   public abstract long get(int index);
 
+  @Override
   public final boolean hasArray() {
     return protectedHasArray();
   }
@@ -148,6 +154,7 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
     return hash;
   }
 
+  @Override
   public abstract boolean isDirect();
 
   public abstract ByteOrder order();

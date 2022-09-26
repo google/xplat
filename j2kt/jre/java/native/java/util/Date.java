@@ -16,6 +16,7 @@
 package java.util;
 
 import java.io.Serializable;
+import jsinterop.annotations.JsNonNull;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import org.jspecify.nullness.Nullable;
@@ -112,7 +113,7 @@ public class Date implements Cloneable, Comparable<Date>, Serializable {
   }
 
   @Override
-  public int compareTo(Date other) {
+  public int compareTo(@JsNonNull Date other) {
     return Long.compare(getTime(), other.getTime());
   }
 

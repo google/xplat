@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 
 // TODO(b/223774683): Java Number should implement Serializable. Kotlin Number doesn't.
 /**
@@ -26,6 +27,7 @@ import javaemul.internal.annotations.KtNative;
  * API doc</a> for details.
  */
 @KtNative(value = "kotlin.Number", bridgeWith = "javaemul.lang.JavaNumber")
+@NullMarked
 public abstract class Number {
 
   public Number() {}

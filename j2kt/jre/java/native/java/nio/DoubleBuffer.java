@@ -17,6 +17,8 @@
 
 package java.nio;
 
+import jsinterop.annotations.JsNonNull;
+
 /**
  * A buffer of doubles.
  */
@@ -51,10 +53,12 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
     elementSizeShift = 3;
   }
 
+  @Override
   public final double[] array() {
     return protectedArray();
   }
 
+  @Override
   public final int arrayOffset() {
     return protectedArrayOffset();
   }
@@ -64,7 +68,8 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
   public abstract DoubleBuffer compact();
 
   @SuppressWarnings("IdentityBinaryExpression")
-  public int compareTo(DoubleBuffer otherBuffer) {
+  @Override
+  public int compareTo(@JsNonNull DoubleBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -134,6 +139,7 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
 
   public abstract double get(int index);
 
+  @Override
   public final boolean hasArray() {
     return protectedHasArray();
   }
@@ -150,6 +156,7 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
     return hash;
   }
 
+  @Override
   public abstract boolean isDirect();
 
   public abstract ByteOrder order();

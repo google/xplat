@@ -20,9 +20,11 @@ package java.lang.annotation;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Annotation")
+@NullMarked
 public interface Annotation {
   @KtProperty
   @KtName("annotationClass")

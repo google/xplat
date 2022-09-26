@@ -18,11 +18,14 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.NumberFormatException")
+@NullMarked
 public class NumberFormatException extends java.lang.IllegalArgumentException {
 
   public NumberFormatException() {}
 
-  public NumberFormatException(String detailMessage) {}
+  public NumberFormatException(@Nullable String detailMessage) {}
 }

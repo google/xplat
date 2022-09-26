@@ -18,11 +18,12 @@ package java.lang;
 
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Enum")
-public abstract class Enum<E extends @JsNonNull Enum<E>> implements Comparable<E> {
+@NullMarked
+public abstract class Enum<E extends Enum<E>> implements Comparable<E> {
 
   protected Enum(String name, int ordinal) {}
 
@@ -48,6 +49,5 @@ public abstract class Enum<E extends @JsNonNull Enum<E>> implements Comparable<E
 
   public final native Class<E> getDeclaringClass();
 
-  public static native <T extends @JsNonNull Enum<T>> T valueOf(
-      Class<@JsNonNull T> enumType, String name);
+  public static native <T extends Enum<T>> T valueOf(Class<T> enumType, String name);
 }

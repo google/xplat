@@ -20,8 +20,10 @@ package java.lang;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
+import org.jspecify.nullness.NullMarked;
 
 @KtNative("kotlin.CharSequence")
+@NullMarked
 public interface CharSequence {
 
   @KtProperty

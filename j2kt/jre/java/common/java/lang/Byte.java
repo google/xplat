@@ -19,10 +19,11 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Byte")
+@NullMarked
 public final class Byte extends Number implements Comparable<Byte> {
 
   public static /* final */ byte MAX_VALUE;
@@ -36,7 +37,7 @@ public final class Byte extends Number implements Comparable<Byte> {
 
   public Byte(byte value) {}
 
-  public Byte(@JsNonNull String string) throws NumberFormatException {}
+  public Byte(String string) throws NumberFormatException {}
 
   @Override
   public native byte byteValue();
@@ -46,7 +47,7 @@ public final class Byte extends Number implements Comparable<Byte> {
 
   public static native int compare(byte lhs, byte rhs);
 
-  public static native Byte decode(@JsNonNull String string) throws NumberFormatException;
+  public static native Byte decode(String string) throws NumberFormatException;
 
   @Override
   public native double doubleValue();
@@ -66,10 +67,9 @@ public final class Byte extends Number implements Comparable<Byte> {
   @Override
   public native long longValue();
 
-  public static native byte parseByte(@JsNonNull String string) throws NumberFormatException;
+  public static native byte parseByte(String string) throws NumberFormatException;
 
-  public static native byte parseByte(@JsNonNull String string, int radix)
-      throws NumberFormatException;
+  public static native byte parseByte(String string, int radix) throws NumberFormatException;
 
   @Override
   public native short shortValue();
@@ -81,10 +81,9 @@ public final class Byte extends Number implements Comparable<Byte> {
 
   public static native String toString(byte value);
 
-  public static native Byte valueOf(@JsNonNull String string) throws NumberFormatException;
+  public static native Byte valueOf(String string) throws NumberFormatException;
 
-  public static native Byte valueOf(@JsNonNull String string, int radix)
-      throws NumberFormatException;
+  public static native Byte valueOf(String string, int radix) throws NumberFormatException;
 
   public static native Byte valueOf(byte b);
 

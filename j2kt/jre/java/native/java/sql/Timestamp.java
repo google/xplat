@@ -15,6 +15,7 @@
  */
 package java.sql;
 
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -109,7 +110,7 @@ public class Timestamp extends java.util.Date {
   }
 
   @Override
-  public int compareTo(java.util.Date o) {
+  public int compareTo(java.util.@JsNonNull Date o) {
     if (o instanceof Timestamp) {
       return compareTo((Timestamp) o);
     } else {
@@ -117,7 +118,7 @@ public class Timestamp extends java.util.Date {
     }
   }
 
-  public int compareTo(Timestamp o) {
+  public int compareTo(@JsNonNull Timestamp o) {
     int cmp = Long.compare(getTime(), o.getTime());
     return cmp == 0 ? Integer.compare(getNanos(), o.getNanos()) : cmp;
   }

@@ -18,8 +18,10 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 
 @KtNative("kotlin.Comparable")
+@NullMarked
 public interface Comparable<T> {
 
   int compareTo(T another);

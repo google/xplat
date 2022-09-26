@@ -15,17 +15,17 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Encapsulates an action for later execution.
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html">
- * the official Java API doc</a> for details.
+ * Encapsulates an action for later execution. See <a
+ * href="https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html">the official Java API
+ * doc</a> for details.
  *
- * <p>
- * This interface is provided only for JRE compatibility. GWT does not support
- * multithreading.
- * </p>
+ * <p>This interface is provided only for JRE compatibility. GWT does not support multithreading.
  */
 @FunctionalInterface
+@NullMarked
 public interface Runnable {
   void run();
 }

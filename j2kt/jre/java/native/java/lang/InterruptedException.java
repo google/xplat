@@ -18,12 +18,14 @@
 
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * Minimal emulation of {@link java.lang.InterruptedException}, that should
- * only be used in method signatures.
+ * Minimal emulation of {@link java.lang.InterruptedException}, that should only be used in method
+ * signatures.
  */
+@NullMarked
 public class InterruptedException extends Exception {
   public InterruptedException() { }
 

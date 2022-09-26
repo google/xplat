@@ -22,6 +22,7 @@ import static smoke.Asserts.assertTrue;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import jsinterop.annotations.JsNonNull;
 
 public class Array {
   static class ExampleObject implements Comparable<ExampleObject> {
@@ -32,7 +33,7 @@ public class Array {
     }
 
     @Override
-    public int compareTo(ExampleObject other) {
+    public int compareTo(@JsNonNull ExampleObject other) {
       return this.val - other.val;
     }
   }

@@ -17,6 +17,8 @@
 
 package java.nio;
 
+import jsinterop.annotations.JsNonNull;
+
 /**
  * A buffer of floats.
  */
@@ -53,10 +55,12 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
     elementSizeShift = 2;
   }
 
+  @Override
   public final float[] array() {
     return protectedArray();
   }
 
+  @Override
   public final int arrayOffset() {
     return protectedArrayOffset();
   }
@@ -66,7 +70,8 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
   public abstract FloatBuffer compact();
 
   @SuppressWarnings("IdentityBinaryExpression")
-  public int compareTo(FloatBuffer otherBuffer) {
+  @Override
+  public int compareTo(@JsNonNull FloatBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -135,6 +140,7 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
 
   public abstract float get(int index);
 
+  @Override
   public final boolean hasArray() {
     return protectedHasArray();
   }
@@ -149,6 +155,7 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
     return hash;
   }
 
+  @Override
   public abstract boolean isDirect();
 
   public abstract ByteOrder order();

@@ -19,10 +19,11 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Float")
+@NullMarked
 public final class Float extends Number implements Comparable<Float> {
 
   public static /* final */ float MAX_VALUE;
@@ -50,7 +51,7 @@ public final class Float extends Number implements Comparable<Float> {
 
   public Float(double value) {}
 
-  public Float(@JsNonNull String string) throws NumberFormatException {}
+  public Float(String string) throws NumberFormatException {}
 
   @Override
   public native int compareTo(Float object);
@@ -92,7 +93,7 @@ public final class Float extends Number implements Comparable<Float> {
   @Override
   public native long longValue();
 
-  public static native float parseFloat(@JsNonNull String string) throws NumberFormatException;
+  public static native float parseFloat(String string) throws NumberFormatException;
 
   @KtName("toInt_toShort")
   @Override
@@ -103,7 +104,7 @@ public final class Float extends Number implements Comparable<Float> {
 
   public static native String toString(float f);
 
-  public static native Float valueOf(@JsNonNull String string) throws NumberFormatException;
+  public static native Float valueOf(String string) throws NumberFormatException;
 
   public static native int compare(float float1, float float2);
 

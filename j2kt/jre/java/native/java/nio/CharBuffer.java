@@ -18,6 +18,7 @@
 package java.nio;
 
 import java.io.IOException;
+import jsinterop.annotations.JsNonNull;
 
 /**
  * A buffer of chars.
@@ -73,10 +74,12 @@ public abstract class CharBuffer extends Buffer
     elementSizeShift = 1;
   }
 
+  @Override
   public final char[] array() {
     return protectedArray();
   }
 
+  @Override
   public final int arrayOffset() {
     return protectedArrayOffset();
   }
@@ -92,7 +95,8 @@ public abstract class CharBuffer extends Buffer
 
   public abstract CharBuffer compact();
 
-  public int compareTo(CharBuffer otherBuffer) {
+  @Override
+  public int compareTo(@JsNonNull CharBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -157,6 +161,7 @@ public abstract class CharBuffer extends Buffer
 
   public abstract char get(int index);
 
+  @Override
   public final boolean hasArray() {
     return protectedHasArray();
   }
@@ -171,6 +176,7 @@ public abstract class CharBuffer extends Buffer
     return hash;
   }
 
+  @Override
   public abstract boolean isDirect();
 
   public final int length() {
@@ -255,10 +261,12 @@ public abstract class CharBuffer extends Buffer
     return result.toString();
   }
 
+  @Override
   public CharBuffer append(char c) {
     return put(c);
   }
 
+  @Override
   public CharBuffer append(CharSequence csq) {
     if (csq != null) {
       return put(csq.toString());
@@ -266,6 +274,7 @@ public abstract class CharBuffer extends Buffer
     return put("null");
   }
 
+  @Override
   public CharBuffer append(CharSequence csq, int start, int end) {
     if (csq == null) {
       csq = "null";
@@ -277,7 +286,8 @@ public abstract class CharBuffer extends Buffer
     return this;
   }
 
-  public int read(CharBuffer target) throws IOException {
+  @Override
+  public int read(@JsNonNull CharBuffer target) throws IOException {
     int remaining = remaining();
     if (target == this) {
       if (remaining == 0) {

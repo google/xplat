@@ -20,18 +20,19 @@ package java.lang;
 import java.io.Serializable;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.text.StringBuilder")
+@NullMarked
 public final class StringBuilder implements Appendable, CharSequence, Serializable {
   public StringBuilder() {}
 
   public StringBuilder(int capacity) {}
 
-  public StringBuilder(@JsNonNull CharSequence seq) {}
+  public StringBuilder(CharSequence seq) {}
 
-  public StringBuilder(@JsNonNull String str) {}
+  public StringBuilder(String str) {}
 
   public native StringBuilder append(boolean b);
 
@@ -92,9 +93,9 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
 
   public native StringBuilder insert(int offset, @Nullable String str);
 
-  public native StringBuilder insert(int offset, char @JsNonNull [] ch);
+  public native StringBuilder insert(int offset, char[] ch);
 
-  public native StringBuilder insert(int offset, char @JsNonNull [] str, int strOffset, int strLen);
+  public native StringBuilder insert(int offset, char[] str, int strOffset, int strLen);
 
   public native StringBuilder insert(int offset, @Nullable CharSequence s);
 
@@ -112,7 +113,7 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
   public native int length();
 
   @KtName("setRange")
-  public native StringBuilder replace(int start, int end, @JsNonNull String string);
+  public native StringBuilder replace(int start, int end, String string);
 
   public native StringBuilder reverse();
 

@@ -19,12 +19,12 @@ package java.lang;
 
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 
 @KtNative("kotlin.Cloneable")
+@NullMarked
 public interface Cloneable {
   // In Kotlin, clone() is a method of Cloneable, but not of Object/Any
   @KtPropagateNullability
-  @JsNonNull
   Object clone() throws CloneNotSupportedException;
 }

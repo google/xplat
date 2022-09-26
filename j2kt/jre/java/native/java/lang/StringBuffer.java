@@ -17,12 +17,15 @@ package java.lang;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * A fast way to create strings using multiple appends.
  *
- * This class is an exact clone of {@link StringBuilder} except for the name.
- * Any change made to one should be mirrored in the other.
+ * <p>This class is an exact clone of {@link StringBuilder} except for the name. Any change made to
+ * one should be mirrored in the other.
  */
+@NullMarked
 public final class StringBuffer extends AbstractStringBuilder {
 
   public StringBuffer() {

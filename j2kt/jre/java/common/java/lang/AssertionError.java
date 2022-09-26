@@ -18,9 +18,11 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.AssertionError")
+@NullMarked
 public class AssertionError extends Error {
 
   public AssertionError() {}

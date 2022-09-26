@@ -18,10 +18,12 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java Boolean should implement Serializable. Kotlin Boolean doesn't.
 @KtNative("kotlin.Boolean")
+@NullMarked
 public final class Boolean implements Comparable<Boolean> {
 
   public static /* final */ Class<Boolean> TYPE;

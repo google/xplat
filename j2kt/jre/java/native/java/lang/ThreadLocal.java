@@ -19,6 +19,7 @@
 package java.lang;
 
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -26,6 +27,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <T> value type.
  */
+@NullMarked
 public class ThreadLocal<T extends @Nullable Object> {
 
   private @Nullable T value;

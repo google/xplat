@@ -19,10 +19,11 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative("kotlin.Int")
+@NullMarked
 public final class Integer extends Number implements Comparable<Integer> {
 
   public static /* final */ int MAX_VALUE;
@@ -36,17 +37,17 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public Integer(int value) {}
 
-  public Integer(@JsNonNull String string) throws NumberFormatException {}
+  public Integer(String string) throws NumberFormatException {}
 
   @Override
   public native byte byteValue();
 
   @Override
-  public native int compareTo(@JsNonNull Integer object);
+  public native int compareTo(Integer object);
 
   public static native int compare(int lhs, int rhs);
 
-  public static native Integer decode(@JsNonNull String string) throws NumberFormatException;
+  public static native Integer decode(String string) throws NumberFormatException;
 
   @Override
   public native double doubleValue();
@@ -73,10 +74,9 @@ public final class Integer extends Number implements Comparable<Integer> {
   @Override
   public native long longValue();
 
-  public static native int parseInt(@JsNonNull String string) throws NumberFormatException;
+  public static native int parseInt(String string) throws NumberFormatException;
 
-  public static native int parseInt(@JsNonNull String string, int radix)
-      throws NumberFormatException;
+  public static native int parseInt(String string, int radix) throws NumberFormatException;
 
   @Override
   public native short shortValue();

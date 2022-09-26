@@ -15,11 +15,13 @@
  */
 package java.lang;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * See <a
- * href="http://docs.oracle.com/javase/7/docs/api/java/lang/AutoCloseable.html">the
- * official Java API doc</a> for details.
+ * See <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/AutoCloseable.html">the official
+ * Java API doc</a> for details.
  */
+@NullMarked
 public interface AutoCloseable {
 
   /**
