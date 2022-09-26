@@ -21,19 +21,6 @@ abstract class JavaAbstractMap<K, V> : AbstractMutableMap<K, V>(), JavaMap<K, V>
 
   override fun containsValue(value: V): Boolean = super<JavaMap>.containsValue(value)
 
-  fun containsEntry(entry: MutableMap.MutableEntry<K, V>): Boolean {
-    val key: K = entry.key
-    val value: V = entry.value
-    val ourValue: Any? = get(key)
-
-    if (value != ourValue) {
-      return false
-    }
-
-    // Perhaps it was null and we don't contain the key?
-    return !(ourValue == null && !containsKey(key))
-  }
-
   override operator fun get(key: K): V? = super<JavaMap>.get(key)
 
   override fun remove(key: K): V? = super<JavaMap>.remove(key)
