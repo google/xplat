@@ -54,9 +54,15 @@ fun Char.Companion.hashCode(c: Char): Int = c.hashCode()
 
 fun Char.Companion.digit(ch: Char, radix: Int): Int = ch.digitToIntOrNull(radix) ?: -1
 
-fun Char.shr(pos: Int): Int = this.ushr(pos)
+fun Char.shr(pos: Int): Int {
+  val intVal = this.toInt()
+  return intVal.shr(pos)
+}
 
-fun Char.ushr(pos: Int): Int = this.ushr(pos)
+fun Char.ushr(pos: Int): Int {
+  val intVal = this.toInt()
+  return intVal.ushr(pos)
+}
 
 fun Char.Companion.charCount(codePoint: Int): Int =
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) 2 else 1

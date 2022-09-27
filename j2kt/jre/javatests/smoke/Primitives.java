@@ -275,7 +275,7 @@ public class Primitives {
     assertEquals(10, Character.digit('a', 15));
     assertEquals(-1, Character.digit('a', 5));
 
-    assertEquals(27, 0xDE >>> 3);
-    assertEquals(27, 0xDE >> 3);
+    assertEquals(4607, '迿' >>> 3);
+    assertEquals(4607, '迿' >> 3);
   }
 }
