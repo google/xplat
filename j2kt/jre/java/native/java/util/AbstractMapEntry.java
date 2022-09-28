@@ -17,6 +17,57 @@ package java.util;
 
 /** Basic {@link Map.Entry} implementation that implements hashCode, equals, and toString. */
 abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
+  private final K entryKey;
+  private V entryValue;
+
+  /** A mutable {@link Map.Entry} shared by several {@link Map} implementations. */
+  public static class SimpleEntry<K, V> extends AbstractMapEntry<K, V> {
+    public SimpleEntry(K key, V value) {
+      super(key, value);
+    }
+
+    public SimpleEntry(Map.Entry<? extends K, ? extends V> entry) {
+      super(entry.getKey(), entry.getValue());
+    }
+  }
+
+  /** An immutable {@link Map.Entry} shared by several {@link Map} implementations. */
+  public static class SimpleImmutableEntry<K, V> extends AbstractMapEntry<K, V> {
+    public SimpleImmutableEntry(K key, V value) {
+      super(key, value);
+    }
+
+    public SimpleImmutableEntry(Map.Entry<? extends K, ? extends V> entry) {
+      super(entry.getKey(), entry.getValue());
+    }
+
+    @Override
+    public V setValue(V value) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
+  protected AbstractMapEntry(K key, V value) {
+    this.entryKey = key;
+    this.entryValue = value;
+  }
+
+  @Override
+  public K getKey() {
+    return entryKey;
+  }
+
+  @Override
+  public V getValue() {
+    return entryValue;
+  }
+
+  @Override
+  public V setValue(V value) {
+    V oldValue = this.entryValue;
+    this.entryValue = value;
+    return oldValue;
+  }
 
   @Override
   public final boolean equals(Object other) {

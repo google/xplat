@@ -94,25 +94,19 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object>
 
   private class MapEntry extends AbstractMapEntry<K, V> {
 
-    private final K mapEntryKey;
-
     public MapEntry(K key) {
-      this.mapEntryKey = key;
-    }
-
-    @Override
-    public K getKey() {
-      return mapEntryKey;
+      // Note: the value is going to be ignored.
+      super(key, enumMapValues.get(key.ordinal()));
     }
 
     @Override
     public V getValue() {
-      return enumMapValues.get(mapEntryKey.ordinal());
+      return enumMapValues.get(getKey().ordinal());
     }
 
     @Override
     public V setValue(V value) {
-      return setAt(mapEntryKey, value);
+      return setAt(getKey(), value);
     }
   }
 

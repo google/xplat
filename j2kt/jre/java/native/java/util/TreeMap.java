@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import static java.util.AbstractMapEntry.SimpleEntry;
+import static java.util.AbstractMapEntry.SimpleImmutableEntry;
 import static javaemul.internal.InternalPreconditions.checkConcurrentModification;
 import static javaemul.internal.InternalPreconditions.checkCriticalArgument;
 import static javaemul.internal.InternalPreconditions.checkElement;
@@ -35,7 +37,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
 
   private Comparator<? super K> comparator;
   private Node<K, V> root;
-  private int size;
+  private int mapSize;
   private int modCount;
 
   public TreeMap() {
@@ -58,12 +60,12 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
 
   @Override
   public int size() {
-    return size;
+    return mapSize;
   }
 
   @Override
   public boolean isEmpty() {
-    return size == 0;
+    return mapSize == 0;
   }
 
   @Override
@@ -85,7 +87,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   @Override
   public void clear() {
     root = null;
-    size = 0;
+    mapSize = 0;
     structureChanged();
   }
 
@@ -148,7 +150,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     if (root == null) {
       if (relation == Relation.CREATE) {
         root = new Node<K, V>(null, key);
-        size = 1;
+        mapSize = 1;
         structureChanged();
         return root;
       } else {
@@ -192,7 +194,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
             } else {
               nearest.right = created;
             }
-            size++;
+            mapSize++;
             structureChanged();
             rebalance(nearest, true);
             return created;
@@ -252,7 +254,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
        * gone!
        */
       Node<K, V> adjacent = (left.height > right.height) ? left.last() : right.first();
-      removeInternal(adjacent); // takes care of rebalance and size--
+      removeInternal(adjacent); // takes care of rebalance and mapSize--
       int leftHeight = 0;
       left = node.left;
       if (left != null) {
@@ -282,7 +284,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       replaceInParent(node, null);
     }
     rebalance(originalParent, false);
-    size--;
+    mapSize--;
     structureChanged();
   }
 
@@ -537,7 +539,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   private KeySet keySet;
 
   @Override
-  public Set<Entry<K, V>> entrySet() {
+  public Set<@JsNonNull Entry<K, V>> entrySet() {
     if (entrySet == null) {
       entrySet = new EntrySet();
     }
@@ -722,17 +724,17 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
    * View implementations.
    */
 
-  private class EntrySet extends AbstractSet<Map.Entry<K, V>> {
+  private class EntrySet extends AbstractSet<Map.@JsNonNull Entry<K, V>> {
     @Override
     public int size() {
-      return size;
+      return mapSize;
     }
 
     @Override
-    public Iterator<Entry<K, V>> iterator() {
-      return new MapIterator<Entry<K, V>>(getFirst()) {
+    public Iterator<@JsNonNull Entry<K, V>> iterator() {
+      return new MapIterator<@JsNonNull Entry<K, V>>(getFirst()) {
         @Override
-        public Entry<K, V> next() {
+        public @JsNonNull Entry<K, V> next() {
           return stepForward();
         }
       };
@@ -765,7 +767,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   private class KeySet extends AbstractSet<K> implements NavigableSet<K> {
     @Override
     public int size() {
-      return size;
+      return mapSize;
     }
 
     @Override
@@ -1192,7 +1194,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     private BoundedKeySet keySet;
 
     @Override
-    public Set<Entry<K, V>> entrySet() {
+    public Set<@JsNonNull Entry<K, V>> entrySet() {
       if (entrySet == null) {
         entrySet = new BoundedEntrySet();
       }
@@ -1310,7 +1312,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
     }
 
-    private final class BoundedEntrySet extends AbstractSet<Entry<K, V>> {
+    private final class BoundedEntrySet extends AbstractSet<@JsNonNull Entry<K, V>> {
       @Override
       public int size() {
         int count = 0;
@@ -1326,10 +1328,10 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
 
       @Override
-      public Iterator<Entry<K, V>> iterator() {
-        return new BoundedIterator<Entry<K, V>>(endpoint(true)) {
+      public Iterator<@JsNonNull Entry<K, V>> iterator() {
+        return new BoundedIterator<@JsNonNull Entry<K, V>>(endpoint(true)) {
           @Override
-          public Entry<K, V> next() {
+          public @JsNonNull Entry<K, V> next() {
             return ascending ? stepForward() : stepBackward();
           }
         };

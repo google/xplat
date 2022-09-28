@@ -18,6 +18,7 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
+import javaemul.internal.MapUtils;
 
 /**
  * Implements a set using a TreeMap. <a
@@ -39,7 +40,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
 
   public TreeSet(Collection<? extends E> c) {
     this();
-    addAll(c);
+    boolean unused = addAll(c);
   }
 
   public TreeSet(Comparator<? super E> c) {
@@ -49,7 +50,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
   public TreeSet(SortedSet<E> s) {
     this(checkNotNull(s).comparator());
     // TODO(jat): more efficient implementation
-    addAll(s);
+    boolean unused = addAll(s);
   }
 
   /**
@@ -139,12 +140,12 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
 
   @Override
   public E pollFirst() {
-    return AbstractMap.getEntryKeyOrNull(map.pollFirstEntry());
+    return MapUtils.getEntryKeyOrNull(map.pollFirstEntry());
   }
 
   @Override
   public E pollLast() {
-    return AbstractMap.getEntryKeyOrNull(map.pollLastEntry());
+    return MapUtils.getEntryKeyOrNull(map.pollLastEntry());
   }
 
   @Override

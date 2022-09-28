@@ -31,8 +31,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.function.BiFunction;
 import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
@@ -50,6 +54,8 @@ public class Collections {
     testListSortComparator();
     testEnumSet();
     testEnumMap();
+    testTreeMap();
+    testTreeSet();
   }
 
   private static void testJavaMapSignatures() {
@@ -383,5 +389,24 @@ public class Collections {
     enumMap.put(Fruit.APPLE, "apple");
     assertEquals(enumMap.get(Fruit.APPLE), "apple");
     assertEquals(enumMap.get(Fruit.ORANGE), null);
+  }
+
+  private static void testTreeMap() {
+    NavigableMap<String, String> map = new TreeMap<>();
+    map.put("foo", "1");
+    map.put("bar", "2");
+    map.put("baz", "3");
+    assertEquals("1", map.get("foo"));
+    assertEquals(new String[] {"bar", "baz", "foo"}, map.keySet().toArray());
+  }
+
+  private static void testTreeSet() {
+    NavigableSet<Integer> set = new TreeSet<>();
+    set.add(3);
+    set.add(1);
+    set.add(4);
+    set.add(1);
+    set.add(5);
+    assertEquals(new Integer[] {1, 3, 4, 5}, set.toArray());
   }
 }

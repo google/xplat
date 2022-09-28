@@ -17,11 +17,13 @@ package javaemul.internal;
 
 import java.util.Map;
 import java.util.Objects;
+import org.jspecify.nullness.Nullable;
 
 /** Map utilities. */
 public class MapUtils {
 
-  public static <K, V> boolean containsEntry(Map<K, V> map, Map.Entry<?, ?> entry) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> boolean containsEntry(
+      Map<K, V> map, Map.Entry<?, ?> entry) {
     Object key = entry.getKey();
     Object value = entry.getValue();
     Object ourValue = map.get(key);
@@ -36,5 +38,10 @@ public class MapUtils {
     }
 
     return true;
+  }
+
+  public static <K extends @Nullable Object, V extends @Nullable Object> K getEntryKeyOrNull(
+      Map.Entry<K, V> entry) {
+    return entry == null ? null : entry.getKey();
   }
 }
