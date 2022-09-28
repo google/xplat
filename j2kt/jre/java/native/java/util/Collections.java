@@ -1174,15 +1174,13 @@ public class Collections {
     return max;
   }
 
-  // TODO(b/238061901): Implement the remaining Collections methods
-  // public static <T extends Object & Comparable<? super T>> T min(Collection<? extends T> coll) {
-  //   return min(coll, null);
-  // }
+  public static <T extends Object & Comparable<? super T>> T min(Collection<? extends T> coll) {
+    return min(coll, null);
+  }
 
-  // TODO(b/238061901): Implement the remaining Collections methods
-  // public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
-  //   return max(coll, reverseOrder(comp));
-  // }
+  public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
+    return max(coll, reverseOrder(comp));
+  }
 
   public static <E extends @Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
     checkArgument(map.isEmpty(), "map is not empty");
@@ -1227,16 +1225,14 @@ public class Collections {
     }
   }
 
-  // // TODO: Check compiling
-  // @SuppressWarnings("unchecked")
-  // public static <T> Comparator<T> reverseOrder() {
-  //   return (Comparator<T>) Comparator.reverseOrder();
-  // }
+  @SuppressWarnings("unchecked")
+  public static <T> Comparator<T> reverseOrder() {
+    return (Comparator<T>) Comparator.<Comparable>reverseOrder();
+  }
 
-  // // TODO: Check compiling
-  // public static <T> Comparator<T> reverseOrder(Comparator<T> cmp) {
-  //   return cmp == null ? reverseOrder() : cmp.reversed();
-  // }
+  public static <T> Comparator<T> reverseOrder(Comparator<T> cmp) {
+    return cmp == null ? reverseOrder() : cmp.reversed();
+  }
 
   /**
    * Rotates the elements in {@code lst} by the distance {@code dist}
