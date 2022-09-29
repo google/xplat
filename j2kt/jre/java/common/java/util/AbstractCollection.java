@@ -31,7 +31,7 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
   protected AbstractCollection() {}
 
   @Override
-  public abstract boolean add(E e);
+  public native boolean add(E e);
 
   @Override
   public native boolean addAll(@JsNonNull Collection<? extends E> c);

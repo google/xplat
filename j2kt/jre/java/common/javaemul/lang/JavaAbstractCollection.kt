@@ -44,4 +44,12 @@ abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaC
 
   @Suppress("UNCHECKED_CAST")
   override fun java_remove(a: Any?): Boolean = throw UnsupportedOperationException()
+
+  @Suppress("UNCHECKED_CAST")
+  override fun java_removeAll(c: MutableCollection<*>): Boolean =
+    super<AbstractMutableCollection>.removeAll(c as MutableCollection<E>)
+
+  @Suppress("UNCHECKED_CAST")
+  override fun java_retainAll(c: MutableCollection<*>): Boolean =
+    super<AbstractMutableCollection>.retainAll(c as MutableCollection<E>)
 }
