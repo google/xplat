@@ -17,6 +17,7 @@ package java.nio.charset;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /** Partial emulation of the corresponding JRE-Class */
@@ -34,7 +35,7 @@ public abstract class Charset {
     return canonicalName;
   }
 
-  public static Charset forName(String name)
+  public static @JsNonNull Charset forName(String name)
       throws UnsupportedCharsetException, IllegalArgumentException {
     if (name == null) {
       throw new IllegalArgumentException();

@@ -67,9 +67,7 @@ fun Char.ushr(pos: Int): Int {
 fun Char.Companion.charCount(codePoint: Int): Int =
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) 2 else 1
 
-fun Char.Companion.codePointAt(charSequence: CharArray?, index: Int, limit: Int): Int {
-  requireNotNull(charSequence)
-
+fun Char.Companion.codePointAt(charSequence: CharArray, index: Int, limit: Int): Int {
   var hiSurrogate = charSequence[index]
   var loSurrogate = charSequence[index + 1]
   if (isSurrogatePair(hiSurrogate, loSurrogate) && index < limit) {
@@ -78,9 +76,7 @@ fun Char.Companion.codePointAt(charSequence: CharArray?, index: Int, limit: Int)
   return hiSurrogate.code
 }
 
-fun Char.Companion.codePointAt(charSequence: CharSequence?, index: Int): Int {
-  requireNotNull(charSequence)
-
+fun Char.Companion.codePointAt(charSequence: CharSequence, index: Int): Int {
   var hiSurrogate = charSequence[index]
   var loSurrogate = charSequence[index + 1]
   if (isSurrogatePair(hiSurrogate, loSurrogate)) {
@@ -100,10 +96,9 @@ fun Char.Companion.isHighSurrogate(ch: Char): Boolean = ch.isHighSurrogate()
 fun Char.Companion.toCodePoint(high: Char, low: Char): Int =
   (((high - MIN_HIGH_SURROGATE) shl 10) or (low - MIN_LOW_SURROGATE)) + MIN_SUPPLEMENTARY_CODE_POINT
 
-fun Char.Companion.toChars(codePoint: Int, dst: CharArray?, dstIndex: Int): Int {
+fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
   // TODO(b/228304843): Add InternalPreconditions for Kotlin.
   // checkCriticalArgument(codePoint >= 0 && codePoint <= MAX_CODE_POINT);
-  requireNotNull(dst)
 
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) {
     dst[dstIndex] =

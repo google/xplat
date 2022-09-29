@@ -21,6 +21,8 @@ import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
 import java.util.Locale
 
+// The CharArray constructors are deliberately using nullable CharArray parameters to avoid
+// triggering a compiler diagnostic that forbids use of these deprecated constructors in Kotlin 🤞.
 /**
  * Pseudo-constructor for emulated java.lang.String.
  *
@@ -28,45 +30,39 @@ import java.util.Locale
  *
  * See regular JRE API documentation for other methods in this file.
  */
-operator fun String.Companion.invoke(a: CharArray?): String {
-  requireNotNull(a)
-  return a.concatToString()
-}
+operator fun String.Companion.invoke(a: CharArray?): String = valueOf(a!!)
 
-operator fun String.Companion.invoke(a: CharArray?, offset: Int, len: Int): String {
-  requireNotNull(a)
-  return a.concatToString(offset, offset + len)
-}
+operator fun String.Companion.invoke(a: CharArray?, offset: Int, len: Int): String =
+  valueOf(a!!, offset, len)
 
-operator fun String.Companion.invoke(a: ByteArray?) =
-  a!!.decodeToString(throwOnInvalidSequence = false)
+operator fun String.Companion.invoke(a: ByteArray) =
+  a.decodeToString(throwOnInvalidSequence = false)
 
-operator fun String.Companion.invoke(a: ByteArray?, offset: Int, len: Int) =
-  a!!.decodeToString(offset, offset + len, throwOnInvalidSequence = false)
+operator fun String.Companion.invoke(a: ByteArray, offset: Int, len: Int) =
+  a.decodeToString(offset, offset + len, throwOnInvalidSequence = false)
 
 operator fun String.Companion.invoke(
-  a: ByteArray?,
+  a: ByteArray,
   offset: Int,
   len: Int,
-  charSet: Charset?
+  charSet: Charset
 ): String {
-  if (charSet!! != StandardCharsets.UTF_8) {
+  if (charSet != StandardCharsets.UTF_8) {
     throw UnsupportedEncodingException(charSet.name())
   }
-  return a!!.decodeToString(offset, offset + len, throwOnInvalidSequence = true)
+  return a.decodeToString(offset, offset + len, throwOnInvalidSequence = true)
 }
 
-operator fun String.Companion.invoke(a: ByteArray?, charSet: Charset?) =
-  String(a, 0, a!!.size, charSet)
+operator fun String.Companion.invoke(a: ByteArray, charSet: Charset) = String(a, 0, a.size, charSet)
 
-operator fun String.Companion.invoke(a: ByteArray?, charSetName: String?) =
-  String(a!!, 0, a!!.size, charSetName)
+operator fun String.Companion.invoke(a: ByteArray, charSetName: String) =
+  String(a, 0, a.size, charSetName)
 
 operator fun String.Companion.invoke(
-  a: ByteArray?,
+  a: ByteArray,
   offset: Int,
   len: Int,
-  charsetName: String?
+  charsetName: String
 ): String {
   try {
     return String(a, offset, len, Charset.forName(charsetName))
@@ -81,21 +77,15 @@ fun String.Companion.valueOf(c: Char): String = c.toString()
 
 fun String.Companion.valueOf(a: Any?): String = a.toString()
 
-fun String.Companion.valueOf(data: CharArray?): String {
-  return String(data)
-}
+fun String.Companion.valueOf(data: CharArray): String = data.concatToString()
 
-fun String.Companion.valueOf(data: CharArray?, offset: Int, count: Int): String {
-  return String(data, offset, count)
-}
+fun String.Companion.valueOf(data: CharArray, offset: Int, count: Int) =
+  data.concatToString(offset, offset + count)
 
-fun String.Companion.copyValueOf(data: CharArray?): String {
-  return String(data)
-}
+fun String.Companion.copyValueOf(data: CharArray) = valueOf(data)
 
-fun String.Companion.copyValueOf(data: CharArray?, offset: Int, count: Int): String {
-  return String(data, offset, count)
-}
+fun String.Companion.copyValueOf(data: CharArray, offset: Int, count: Int): String =
+  valueOf(data, offset, count)
 
 fun String.equalsIgnoreCase(str: String?) = this.equals(str, ignoreCase = true)
 
@@ -121,21 +111,19 @@ fun String.getBytes(charsetName: String): ByteArray {
   }
 }
 
-fun String.getBytes(charset: Charset?): ByteArray {
-  if (charset!! != StandardCharsets.UTF_8) {
+fun String.getBytes(charset: Charset): ByteArray {
+  if (charset != StandardCharsets.UTF_8) {
     throw UnsupportedEncodingException(charset.name())
   }
   return encodeToByteArray()
 }
 
 // TODO(b/230671584): Add support for Locale on Kotlin Native
-fun String.toUpperCase(locale: Locale?): String = this.uppercase()
+fun String.toUpperCase(locale: Locale): String = this.uppercase()
 
-fun String.toLowerCase(locale: Locale?): String = this.lowercase()
+fun String.toLowerCase(locale: Locale): String = this.lowercase()
 
 fun String.getChars(start: Int, end: Int, buffer: CharArray, index: Int) {
-  requireNotNull(buffer)
-
   var bufferIndex = index
   for (srcIndex in start until end) {
     buffer[bufferIndex++] = this[srcIndex]
@@ -162,16 +150,16 @@ fun String.lastIndexOf(codePoint: Int, fromIndex: Int = Int.MAX_VALUE): Int {
 
 fun String.java_matches(regex: String) = Regex(regex).matches(this)
 
-fun String.java_split(regularExpression: String): Array<String?>? {
+fun String.java_split(regularExpression: String): Array<String> {
   val strList: List<String> = this.split(regularExpression.toRegex())
   return strList.toTypedArray()
 }
 
-fun String.java_split(regularExpression: String, limit: Int): Array<String?>? {
+fun String.java_split(regularExpression: String, limit: Int): Array<String> {
   val strList: List<String> = this.split(regularExpression.toRegex(), limit)
   return strList.toTypedArray()
 }
 
-fun String.java_replace(target: CharSequence?, replacement: CharSequence?): String {
+fun String.java_replace(target: CharSequence, replacement: CharSequence): String {
   return this.replace(target.toString(), replacement.toString())
 }

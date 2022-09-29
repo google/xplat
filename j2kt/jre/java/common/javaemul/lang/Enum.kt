@@ -18,6 +18,6 @@ package javaemul.lang
 import java.lang.Class
 
 // Not supported in J2KT
-fun <T : Enum<T>> Enum.Companion.valueOf(enumType: Class<T>?, name: String?): T {
+fun <T : Enum<T>> Enum.Companion.valueOf(enumType: Class<T>, name: String): T {
   throw UnsupportedOperationException()
 }
