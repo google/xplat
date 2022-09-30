@@ -20,10 +20,14 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /**
  * J2CL compatible implementation of EnumSet. Notably, some methods are unsupported since
  * Enum#getDeclaringClass is unsupported for code size reasons.
  */
+@NullMarked
 public class EnumSet<E extends Enum<E>> extends AbstractSet<E> /* implements Cloneable */ {
   private HashSet<E> set = new HashSet<>();
 
@@ -36,12 +40,12 @@ public class EnumSet<E extends Enum<E>> extends AbstractSet<E> /* implements Clo
   }
 
   @Override
-  public boolean remove(Object o) {
+  public boolean remove(@Nullable Object o) {
     return set.remove(o);
   }
 
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(@Nullable Object o) {
     return set.contains(o);
   }
 
