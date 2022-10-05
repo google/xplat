@@ -21,6 +21,8 @@ import kotlin.system.getTimeNanos
 
 // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
 object System {
+  fun getProperty(name: String?, def: String?): String? = getProperty(name) ?: def
+
   fun getProperty(name: String?): String? =
     when (name) {
       "jre.checks.api",
