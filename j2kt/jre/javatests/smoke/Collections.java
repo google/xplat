@@ -15,9 +15,10 @@
  */
 package smoke;
 
-import static java.util.Comparator.*;
+import static java.util.Comparator.reverseOrder;
 import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertFalse;
+import static smoke.Asserts.assertNull;
 import static smoke.Asserts.assertTrue;
 
 import java.util.AbstractList;
@@ -29,6 +30,7 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -56,6 +58,7 @@ public class Collections {
     testEnumMap();
     testTreeMap();
     testTreeSet();
+    testIdentityHashMap();
   }
 
   private static void testJavaMapSignatures() {
@@ -408,5 +411,46 @@ public class Collections {
     set.add(1);
     set.add(5);
     assertEquals(new Integer[] {1, 3, 4, 5}, set.toArray());
+  }
+
+  private static class IdentityHashMapTestObject {
+    private final int i;
+
+    IdentityHashMapTestObject(int i) {
+      this.i = i;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object that) {
+      if (that == null || !(that instanceof IdentityHashMapTestObject)) {
+        return false;
+      }
+
+      return this.i == ((IdentityHashMapTestObject) that).i;
+    }
+
+    @Override
+    public int hashCode() {
+      return Integer.hashCode(i);
+    }
+  }
+
+  private static void testIdentityHashMap() {
+    IdentityHashMap<IdentityHashMapTestObject, String> identityHashMap = new IdentityHashMap<>();
+    IdentityHashMapTestObject i1 = new IdentityHashMapTestObject(1);
+    IdentityHashMapTestObject i1Prime = new IdentityHashMapTestObject(1);
+    IdentityHashMapTestObject i2 = new IdentityHashMapTestObject(2);
+    IdentityHashMapTestObject i3 = new IdentityHashMapTestObject(3);
+
+    identityHashMap.put(i1, "a");
+    identityHashMap.put(i1Prime, "b");
+    identityHashMap.put(i2, "c");
+    identityHashMap.put(i1, "e");
+
+    assertEquals(3, identityHashMap.size());
+    assertEquals("e", identityHashMap.get(i1));
+    assertEquals("b", identityHashMap.get(i1Prime));
+    assertEquals("c", identityHashMap.get(i2));
+    assertNull(identityHashMap.get(new IdentityHashMapTestObject(1)));
   }
 }

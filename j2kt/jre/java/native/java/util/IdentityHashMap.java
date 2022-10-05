@@ -17,46 +17,44 @@
 
 package java.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
+// TODO(b/228163266): Should implemenent Cloneable but its current mapping doesn't work here.
 /**
  * IdentityHashMap is a variant on HashMap which tests equality by reference instead of equality by
  * value. Basically, keys and values are compared for equality by checking if their references are
  * equal rather than by calling the "equals" function.
  *
- * <p><b>Note: This class intentionally violates the general contract of {@code Map}'s on comparing
- * objects by their {@code equals} method.</b>
- *
- * <p>IdentityHashMap uses open addressing (linear probing in particular) for collision resolution.
- * This is different from HashMap which uses Chaining.
- *
- * <p>Like HashMap, IdentityHashMap is not thread safe, so access by multiple threads must be
- * synchronized by an external mechanism such as Collections.synchronizedMap.
- *
- * @since 1.4
+ * <p><a href="https://java.sun.com/j2se/1.5.0/docs/api/java/util/IdentityHashMap.html">Oracle
+ * docs</a>
  */
-public class IdentityHashMap<K, V> extends AbstractMap<K, V>
-    implements Map<K, V>, Serializable, Cloneable {
-
-  private static final long serialVersionUID = 8188218128353913216L;
+@NullMarked
+public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMap<K, V> implements Map<K, V>, Serializable /* , Cloneable */ {
 
   /*
    * The internal data structure to hold key value pairs This array holds keys
    * and values in an alternating fashion.
    */
-  transient Object[] elementData;
+  private transient @Nullable Object[] elementData;
+
+  // Lazily-initialized key set (for implementing {@link #keySet}).
+  private @Nullable Set<K> backingKeySet;
+
+  // Lazily-initialized values collection (for implementing {@link #values}).
+  private @Nullable Collection<V> valuesCollection;
 
   /* Actual number of key-value pairs. */
-  int size;
+  private int mapSize;
 
   /*
    * maximum number of elements that can be put in this map before having to
    * rehash.
    */
-  transient int threshold;
+  private transient int threshold;
 
   /*
    * default threshold value that an IdentityHashMap created using the default
@@ -71,7 +69,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
    * modification count, to keep track of structural modifications between the
    * IdentityHashMap and the iterator
    */
-  transient int modCount = 0;
+  private transient int modCount = 0;
 
   /*
    * Object used to represent null keys and values. This is used to
@@ -80,7 +78,8 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
    */
   private static final Object NULL_OBJECT = new Object(); // $NON-LOCK-1$
 
-  static class IdentityHashMapEntry<K, V> extends MapEntry<K, V> {
+  static class IdentityHashMapEntry<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMapEntry<K, V> {
     private final IdentityHashMap<K, V> map;
 
     IdentityHashMapEntry(IdentityHashMap<K, V> map, K theKey, V theValue) {
@@ -88,42 +87,38 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
       this.map = map;
     }
 
-    @Override
-    public Object clone() {
-      return super.clone();
+    public Object clone() throws CloneNotSupportedException {
+      return new IdentityHashMapEntry<>(map, getKey(), getValue());
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (this == object) {
         return true;
       }
       if (object instanceof Map.Entry) {
-        Map.Entry<?, ?> entry = (Map.Entry) object;
-        return (key == entry.getKey()) && (value == entry.getValue());
+        Map.Entry<?, ?> entry = (Map.Entry<?, ?>) object;
+        return (getKey() == entry.getKey()) && (getValue() == entry.getValue());
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return System.identityHashCode(key) ^ System.identityHashCode(value);
-    }
-
-    @Override
-    public String toString() {
-      return key + "=" + value;
+      return System.identityHashCode(getKey()) ^ System.identityHashCode(getValue());
     }
 
     @Override
     public V setValue(V object) {
       V result = super.setValue(object);
-      map.put(key, object);
+      map.put(getKey(), object);
       return result;
     }
   }
 
-  static class IdentityHashMapIterator<E, KT, VT> implements Iterator<E> {
+  static class IdentityHashMapIterator<
+          E extends @Nullable Object, KT extends @Nullable Object, VT extends @Nullable Object>
+      implements Iterator<E> {
     private int position = 0; // the current position
 
     // the position of the entry that was last returned from next()
@@ -133,11 +128,11 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
 
     int expectedModCount;
 
-    final MapEntry.Type<E, KT, VT> type;
+    final MapEntryType<E, KT, VT> type;
 
     boolean canRemove = false;
 
-    IdentityHashMapIterator(MapEntry.Type<E, KT, VT> value, IdentityHashMap<KT, VT> hm) {
+    IdentityHashMapIterator(MapEntryType<E, KT, VT> value, IdentityHashMap<KT, VT> hm) {
       associatedMap = hm;
       type = value;
       expectedModCount = hm.modCount;
@@ -188,7 +183,8 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     }
   }
 
-  static class IdentityHashMapEntrySet<KT, VT> extends AbstractSet<Map.Entry<KT, VT>> {
+  static class IdentityHashMapEntrySet<KT extends @Nullable Object, VT extends @Nullable Object>
+      extends AbstractSet<Map.Entry<KT, VT>> {
     private final IdentityHashMap<KT, VT> associatedMap;
 
     public IdentityHashMapEntrySet(IdentityHashMap<KT, VT> hm) {
@@ -201,7 +197,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
 
     @Override
     public int size() {
-      return associatedMap.size;
+      return associatedMap.mapSize;
     }
 
     @Override
@@ -212,7 +208,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     @Override
     public boolean remove(Object object) {
       if (contains(object)) {
-        associatedMap.remove(((Map.Entry) object).getKey());
+        associatedMap.remove(((Map.Entry<?, ?>) object).getKey());
         return true;
       }
       return false;
@@ -221,7 +217,8 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     @Override
     public boolean contains(Object object) {
       if (object instanceof Map.Entry) {
-        IdentityHashMapEntry<?, ?> entry = associatedMap.getEntry(((Map.Entry) object).getKey());
+        IdentityHashMapEntry<?, ?> entry =
+            associatedMap.getEntry(((Map.Entry<?, ?>) object).getKey());
         // we must call equals on the entry obtained from "this"
         return entry != null && entry.equals(object);
       }
@@ -230,31 +227,20 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
 
     @Override
     public Iterator<Map.Entry<KT, VT>> iterator() {
-      return new IdentityHashMapIterator<Map.Entry<KT, VT>, KT, VT>(
-          new MapEntry.Type<Map.Entry<KT, VT>, KT, VT>() {
-            public Map.Entry<KT, VT> get(MapEntry<KT, VT> entry) {
-              return entry;
-            }
-          },
-          associatedMap);
+      return new IdentityHashMapIterator<Map.@JsNonNull Entry<KT, VT>, KT, VT>(
+          entry -> entry, associatedMap);
     }
   }
 
-  /** Creates an IdentityHashMap with default expected maximum size. */
   public IdentityHashMap() {
     this(DEFAULT_MAX_SIZE);
   }
 
-  /**
-   * Creates an IdentityHashMap with the specified maximum size parameter.
-   *
-   * @param maxSize The estimated maximum number of entries that will be put in this map.
-   */
   public IdentityHashMap(int maxSize) {
     if (maxSize < 0) {
       throw new IllegalArgumentException("maxSize < 0: " + maxSize);
     }
-    size = 0;
+    mapSize = 0;
     threshold = getThreshold(maxSize);
     elementData = newElementArray(computeElementArraySize());
   }
@@ -272,54 +258,31 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return arraySize < 0 ? -arraySize : arraySize;
   }
 
-  /**
-   * Create a new element array
-   *
-   * @param s the number of elements
-   * @return Reference to the element array
-   */
   private Object[] newElementArray(int s) {
     return new Object[s];
   }
 
-  /**
-   * Creates an IdentityHashMap using the given map as initial values.
-   *
-   * @param map A map of (key,value) pairs to copy into the IdentityHashMap.
-   */
   public IdentityHashMap(Map<? extends K, ? extends V> map) {
     this(map.size() < 6 ? 11 : map.size() * 2);
     putAllImpl(map);
   }
 
   @SuppressWarnings("unchecked")
-  private V massageValue(Object value) {
-    return (V) ((value == NULL_OBJECT) ? null : value);
+  private @Nullable V massageValue(@Nullable Object value) {
+    return (@Nullable V) ((value == NULL_OBJECT) ? null : value);
   }
 
-  /**
-   * Removes all elements from this map, leaving it empty.
-   *
-   * @see #isEmpty()
-   * @see #size()
-   */
   @Override
   public void clear() {
-    size = 0;
+    mapSize = 0;
     for (int i = 0; i < elementData.length; i++) {
       elementData[i] = null;
     }
     modCount++;
   }
 
-  /**
-   * Returns whether this map contains the specified key.
-   *
-   * @param key the key to search for.
-   * @return {@code true} if this map contains the specified key, {@code false} otherwise.
-   */
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
     if (key == null) {
       key = NULL_OBJECT;
     }
@@ -328,14 +291,8 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return elementData[index] == key;
   }
 
-  /**
-   * Returns whether this map contains the specified value.
-   *
-   * @param value the value to search for.
-   * @return {@code true} if this map contains the specified value, {@code false} otherwise.
-   */
   @Override
-  public boolean containsValue(Object value) {
+  public boolean containsValue(@Nullable Object value) {
     if (value == null) {
       value = NULL_OBJECT;
     }
@@ -348,14 +305,8 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return false;
   }
 
-  /**
-   * Returns the value of the mapping with the specified key.
-   *
-   * @param key the key.
-   * @return the value of the mapping with the specified key.
-   */
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     if (key == null) {
       key = NULL_OBJECT;
     }
@@ -370,7 +321,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return null;
   }
 
-  private IdentityHashMapEntry<K, V> getEntry(Object key) {
+  private IdentityHashMapEntry<K, V> getEntry(@Nullable Object key) {
     if (key == null) {
       key = NULL_OBJECT;
     }
@@ -383,7 +334,6 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return null;
   }
 
-  /** Convenience method for getting the IdentityHashMapEntry without the NULL_OBJECT elements */
   @SuppressWarnings("unchecked")
   private IdentityHashMapEntry<K, V> getEntry(int index) {
     Object key = elementData[index];
@@ -396,14 +346,10 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
       value = null;
     }
 
-    return new IdentityHashMapEntry<K, V>(this, (K) key, (V) value);
+    return new IdentityHashMapEntry<>(this, (K) key, (V) value);
   }
 
-  /**
-   * Returns the index where the key is found at, or the index of the next empty spot if the key is
-   * not found in this table.
-   */
-  private int findIndex(Object key, Object[] array) {
+  private int findIndex(@Nullable Object key, @Nullable Object[] array) {
     int length = array.length;
     int index = getModuloHash(key, length);
     int last = (index + length - 2) % length;
@@ -420,20 +366,12 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return index;
   }
 
-  private int getModuloHash(Object key, int length) {
-    return ((Collections.secondaryIdentityHash(key) & 0x7FFFFFFF) % (length / 2)) * 2;
+  private int getModuloHash(@Nullable Object key, int length) {
+    return ((secondaryIdentityHash(key) & 0x7FFFFFFF) % (length / 2)) * 2;
   }
 
-  /**
-   * Maps the specified key to the specified value.
-   *
-   * @param key the key.
-   * @param value the value.
-   * @return the value of any previous mapping with the specified key or {@code null} if there was
-   *     no such mapping.
-   */
   @Override
-  public V put(K key, V value) {
+  public @Nullable V put(K key, V value) {
     Object _key = key;
     Object _value = value;
     if (_key == null) {
@@ -449,7 +387,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     // if the key doesn't exist in the table
     if (elementData[index] != _key) {
       modCount++;
-      if (++size > threshold) {
+      if (++mapSize > threshold) {
         rehash();
         index = findIndex(_key, elementData);
       }
@@ -466,13 +404,6 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return massageValue(result);
   }
 
-  /**
-   * Copies all the mappings in the specified map to this map. These mappings will replace all
-   * mappings that this map had for any of the keys currently in the given map.
-   *
-   * @param map the map to copy mappings from.
-   * @throws NullPointerException if {@code map} is {@code null}.
-   */
   @Override
   public void putAll(Map<? extends K, ? extends V> map) {
     putAllImpl(map);
@@ -501,15 +432,8 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     threshold = (int) ((long) (elementData.length / 2) * loadFactor / 10000);
   }
 
-  /**
-   * Removes the mapping with the specified key from this map.
-   *
-   * @param key the key of the mapping to remove.
-   * @return the value of the removed mapping, or {@code null} if no mapping for the specified key
-   *     was found.
-   */
   @Override
-  public V remove(Object key) {
+  public @Nullable V remove(@Nullable Object key) {
     if (key == null) {
       key = NULL_OBJECT;
     }
@@ -550,7 +474,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
       }
     }
 
-    size--;
+    mapSize--;
     modCount++;
 
     // clear both the key and the value
@@ -560,30 +484,18 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return massageValue(result);
   }
 
-  /**
-   * Returns a set containing all of the mappings in this map. Each mapping is an instance of {@link
-   * Map.Entry}. As the set is backed by this map, changes in one will be reflected in the other.
-   *
-   * @return a set of the mappings.
-   */
   @Override
   public Set<Map.Entry<K, V>> entrySet() {
-    return new IdentityHashMapEntrySet<K, V>(this);
+    return new IdentityHashMapEntrySet<>(this);
   }
 
-  /**
-   * Returns a set of the keys contained in this map. The set is backed by this map so changes to
-   * one are reflected by the other. The set does not support adding.
-   *
-   * @return a set of the keys.
-   */
   @Override
   public Set<K> keySet() {
-    if (keySet == null) {
-      keySet =
+    if (backingKeySet == null) {
+      backingKeySet =
           new AbstractSet<K>() {
             @Override
-            public boolean contains(Object object) {
+            public boolean contains(@Nullable Object object) {
               return containsKey(object);
             }
 
@@ -598,7 +510,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
             }
 
             @Override
-            public boolean remove(Object key) {
+            public boolean remove(@Nullable Object key) {
               if (containsKey(key)) {
                 IdentityHashMap.this.remove(key);
                 return true;
@@ -608,42 +520,20 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
 
             @Override
             public Iterator<K> iterator() {
-              return new IdentityHashMapIterator<K, K, V>(
-                  new MapEntry.Type<K, K, V>() {
-                    public K get(MapEntry<K, V> entry) {
-                      return entry.key;
-                    }
-                  },
-                  IdentityHashMap.this);
+              return new IdentityHashMapIterator<>(Entry::getKey, IdentityHashMap.this);
             }
           };
     }
-    return keySet;
+    return backingKeySet;
   }
 
-  /**
-   * Returns a collection of the values contained in this map. The collection is backed by this map
-   * so changes to one are reflected by the other. The collection supports remove, removeAll,
-   * retainAll and clear operations, and it does not support add or addAll operations.
-   *
-   * <p>This method returns a collection which is the subclass of AbstractCollection. The iterator
-   * method of this subclass returns a "wrapper object" over the iterator of map's entrySet(). The
-   * {@code size} method wraps the map's size method and the {@code contains} method wraps the map's
-   * containsValue method.
-   *
-   * <p>The collection is created when this method is called for the first time and returned in
-   * response to all subsequent calls. This method may return different collections when multiple
-   * concurrent calls occur, since no synchronization is performed.
-   *
-   * @return a collection of the values contained in this map.
-   */
   @Override
   public Collection<V> values() {
     if (valuesCollection == null) {
       valuesCollection =
           new AbstractCollection<V>() {
             @Override
-            public boolean contains(Object object) {
+            public boolean contains(@Nullable Object object) {
               return containsValue(object);
             }
 
@@ -659,17 +549,11 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
 
             @Override
             public Iterator<V> iterator() {
-              return new IdentityHashMapIterator<V, K, V>(
-                  new MapEntry.Type<V, K, V>() {
-                    public V get(MapEntry<K, V> entry) {
-                      return entry.value;
-                    }
-                  },
-                  IdentityHashMap.this);
+              return new IdentityHashMapIterator<>(Entry::getValue, IdentityHashMap.this);
             }
 
             @Override
-            public boolean remove(Object object) {
+            public boolean remove(@Nullable Object object) {
               Iterator<?> it = iterator();
               while (it.hasNext()) {
                 if (object == it.next()) {
@@ -684,18 +568,8 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return valuesCollection;
   }
 
-  /**
-   * Compares this map with other objects. This map is equal to another map is it represents the
-   * same set of mappings. With this map, two mappings are the same if both the key and the value
-   * are equal by reference. When compared with a map that is not an IdentityHashMap, the equals
-   * method is neither necessarily symmetric (a.equals(b) implies b.equals(a)) nor transitive
-   * (a.equals(b) and b.equals(c) implies a.equals(c)).
-   *
-   * @param object the object to compare to.
-   * @return whether the argument object is equal to this object.
-   */
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     /*
      * We need to override the equals method in AbstractMap because
      * AbstractMap.equals will call ((Map) object).entrySet().contains() to
@@ -709,7 +583,7 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
       return true;
     }
     if (object instanceof Map) {
-      Map<?, ?> map = (Map) object;
+      Map<?, ?> map = (Map<?, ?>) object;
       if (size() != map.size()) {
         return false;
       }
@@ -721,72 +595,49 @@ public class IdentityHashMap<K, V> extends AbstractMap<K, V>
     return false;
   }
 
-  /**
-   * Returns a new IdentityHashMap with the same mappings and size as this one.
-   *
-   * @return a shallow copy of this IdentityHashMap.
-   * @see java.lang.Cloneable
-   */
   @Override
-  public Object clone() {
-    try {
-      IdentityHashMap<K, V> cloneHashMap = (IdentityHashMap<K, V>) super.clone();
-      cloneHashMap.elementData = newElementArray(elementData.length);
-      System.arraycopy(elementData, 0, cloneHashMap.elementData, 0, elementData.length);
-      return cloneHashMap;
-    } catch (CloneNotSupportedException e) {
-      throw new AssertionError(e);
-    }
+  public int hashCode() {
+    return super.hashCode();
   }
 
-  /**
-   * Returns whether this IdentityHashMap has no elements.
-   *
-   * @return {@code true} if this IdentityHashMap has no elements, {@code false} otherwise.
-   * @see #size()
-   */
+  public Object clone() {
+    return new IdentityHashMap<>(this);
+  }
+
   @Override
   public boolean isEmpty() {
-    return size == 0;
+    return mapSize == 0;
   }
 
-  /**
-   * Returns the number of mappings in this IdentityHashMap.
-   *
-   * @return the number of mappings in this IdentityHashMap.
-   */
   @Override
   public int size() {
-    return size;
-  }
-
-  private void writeObject(ObjectOutputStream stream) throws IOException {
-    stream.defaultWriteObject();
-    stream.writeInt(size);
-    Iterator<?> iterator = entrySet().iterator();
-    while (iterator.hasNext()) {
-      MapEntry<?, ?> entry = (MapEntry) iterator.next();
-      stream.writeObject(entry.key);
-      stream.writeObject(entry.value);
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-    stream.defaultReadObject();
-    int savedSize = stream.readInt();
-    threshold = getThreshold(DEFAULT_MAX_SIZE);
-    elementData = newElementArray(computeElementArraySize());
-    for (int i = savedSize; --i >= 0; ) {
-      K key = (K) stream.readObject();
-      put(key, (V) stream.readObject());
-    }
-    size = savedSize;
+    return mapSize;
   }
 
   private void putAllImpl(Map<? extends K, ? extends V> map) {
     if (map.entrySet() != null) {
       super.putAll(map);
     }
+  }
+
+  @FunctionalInterface
+  private interface MapEntryType<
+      R extends @Nullable Object, K extends @Nullable Object, V extends @Nullable Object> {
+    R get(AbstractMapEntry<K, V> entry);
+  }
+
+  private static int secondaryIdentityHash(@Nullable Object key) {
+    return secondaryHash(System.identityHashCode(key));
+  }
+
+  private static int secondaryHash(int h) {
+    // Spread bits to regularize both segment and index locations,
+    // using variant of single-word Wang/Jenkins hash.
+    h += (h << 15) ^ 0xffffcd7d;
+    h ^= (h >>> 10);
+    h += (h << 3);
+    h ^= (h >>> 6);
+    h += (h << 2) + (h << 14);
+    return h ^ (h >>> 16);
   }
 }

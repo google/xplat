@@ -70,7 +70,7 @@ abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
   }
 
   @Override
-  public final boolean equals(Object other) {
+  public boolean equals(Object other) {
     if (!(other instanceof Map.Entry)) {
       return false;
     }
@@ -80,7 +80,7 @@ abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
 
   /** Calculate the hash code using Sun's specified algorithm. */
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return Objects.hashCode(getKey()) ^ Objects.hashCode(getValue());
   }
 
