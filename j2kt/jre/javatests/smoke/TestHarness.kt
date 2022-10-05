@@ -20,9 +20,7 @@ import kotlin.test.Test
 class TestHarness {
   @Test fun testMath() = Math.testMath()
   @Test fun testPrimitives() = Primitives.testPrimitives()
-  @Test fun testString() = Strings.testString()
-  @Test fun testStringBuilder() = Strings.testStringBuilder()
-  @Test fun testJavaEmul() = Strings.testJavaEmul()
+  @Test fun testStrings() = Strings.testStrings()
   @Test fun testReflectArray() = ReflectArray.testReflectArray()
   @Test fun testRegex() = Regex.testRegex()
   @Test fun testSystemTime() = LangSystem.testSystemTime()

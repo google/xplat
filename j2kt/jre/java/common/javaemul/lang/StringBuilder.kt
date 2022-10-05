@@ -17,12 +17,12 @@ package javaemul.lang
 
 // See regular JRE API documentation for other methods in this file.
 
-fun StringBuilder.insert(offset: Int, str: CharArray?, strOffset: Int, strLen: Int) {
-  requireNotNull(str)
-  this.insertRange(offset, str, strOffset, strOffset + strLen)
-}
+fun StringBuilder.appendCodePoint(codePoint: Int) =
+  if (Char.charCount(codePoint) == 1) append(codePoint.toChar())
+  else append(Char.toChars(codePoint))
 
-fun StringBuilder.insert(offset: Int, s: CharSequence?, strOffset: Int, strLen: Int) {
-  requireNotNull(s)
-  this.insertRange(offset, s, strOffset, strLen)
-}
+fun StringBuilder.java_insert(offset: Int, str: CharArray, strOffset: Int, strLen: Int) =
+  this.insertRange(offset, str, strOffset, strOffset + strLen)
+
+fun StringBuilder.insert(offset: Int, s: CharSequence?, strOffset: Int, strLen: Int) =
+  this.insertRange(offset, s ?: s.toString(), strOffset, strLen)

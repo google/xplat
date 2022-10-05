@@ -95,6 +95,7 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
 
   public native StringBuilder insert(int offset, char[] ch);
 
+  @KtName("java_insert")
   public native StringBuilder insert(int offset, char[] str, int strOffset, int strLen);
 
   public native StringBuilder insert(int offset, @Nullable CharSequence s);

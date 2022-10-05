@@ -67,22 +67,31 @@ fun Char.ushr(pos: Int): Int {
 fun Char.Companion.charCount(codePoint: Int): Int =
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) 2 else 1
 
-fun Char.Companion.codePointAt(charSequence: CharArray, index: Int, limit: Int): Int {
-  var hiSurrogate = charSequence[index]
-  var loSurrogate = charSequence[index + 1]
-  if (isSurrogatePair(hiSurrogate, loSurrogate) && index < limit) {
-    return toCodePoint(hiSurrogate, loSurrogate)
-  }
-  return hiSurrogate.code
+fun Char.Companion.codePointAt(charArray: CharArray, index: Int, limit: Int = charArray.size): Int {
+  val hiSurrogate: Char = charArray[index]
+  var loSurrogate: Char = '\u0000'
+  return if (
+    isHighSurrogate(hiSurrogate) &&
+      index + 1 < limit &&
+      isLowSurrogate(charArray[index + 1].also { loSurrogate = it })
+  )
+    toCodePoint(hiSurrogate, loSurrogate)
+  else hiSurrogate.code
 }
 
-fun Char.Companion.codePointAt(charSequence: CharSequence, index: Int): Int {
-  var hiSurrogate = charSequence[index]
-  var loSurrogate = charSequence[index + 1]
-  if (isSurrogatePair(hiSurrogate, loSurrogate)) {
-    return toCodePoint(hiSurrogate, loSurrogate)
-  }
-  return hiSurrogate.code
+fun Char.Companion.codePointAt(
+  charSequence: CharSequence,
+  index: Int,
+): Int {
+  val hiSurrogate: Char = charSequence[index]
+  var loSurrogate: Char = '\u0000'
+  return if (
+    isHighSurrogate(hiSurrogate) &&
+      index + 1 < charSequence.length &&
+      isLowSurrogate(charSequence[index + 1].also { loSurrogate = it })
+  )
+    toCodePoint(hiSurrogate, loSurrogate)
+  else hiSurrogate.code
 }
 
 fun Char.Companion.isSurrogatePair(high: Char, low: Char): Boolean =
@@ -96,17 +105,26 @@ fun Char.Companion.isHighSurrogate(ch: Char): Boolean = ch.isHighSurrogate()
 fun Char.Companion.toCodePoint(high: Char, low: Char): Int =
   (((high - MIN_HIGH_SURROGATE) shl 10) or (low - MIN_LOW_SURROGATE)) + MIN_SUPPLEMENTARY_CODE_POINT
 
+fun Char.Companion.toChars(codePoint: Int): CharArray =
+  if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT)
+    charArrayOf(getHighSurrogate(codePoint), getLowSurrogate(codePoint))
+  else charArrayOf(codePoint.toChar())
+
 fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
   // TODO(b/228304843): Add InternalPreconditions for Kotlin.
   // checkCriticalArgument(codePoint >= 0 && codePoint <= MAX_CODE_POINT);
 
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) {
-    dst[dstIndex] =
-      (MIN_HIGH_SURROGATE + (((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) shr 10) and 1023)).toChar()
-    dst[dstIndex + 1] =
-      (MIN_LOW_SURROGATE + ((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) and 1023)).toChar()
+    dst[dstIndex] = getHighSurrogate(codePoint)
+    dst[dstIndex + 1] = getLowSurrogate(codePoint)
     return 2
   }
   dst[dstIndex] = codePoint.toChar()
   return 1
 }
+
+private fun Char.Companion.getLowSurrogate(codePoint: Int) =
+  (MIN_LOW_SURROGATE + ((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) and 1023)).toChar()
+
+private fun Char.Companion.getHighSurrogate(codePoint: Int) =
+  (MIN_HIGH_SURROGATE + (((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) shr 10) and 1023)).toChar()

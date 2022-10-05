@@ -99,6 +99,8 @@ internal fun String.Companion.fromCodePoint(codePoint: Int): String {
   }
 }
 
+fun String.codePointAt(index: Int) = Char.codePointAt(this, index)
+
 fun String.compareToIgnoreCase(str: String): Int = this.compareTo(str, ignoreCase = true)
 
 fun String.getBytes(): ByteArray = encodeToByteArray()

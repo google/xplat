@@ -29,16 +29,23 @@ public class Strings {
 
   static byte[] AEBC = {(byte) 0xC3, (byte) 0x84, (byte) 66, (byte) 67};
 
+  static void testStrings() throws Exception {
+    testString();
+    testStringBuilder();
+    testJavaEmul();
+    testCodePointMethods();
+  }
+
   // TODO(b/236003566): Test OutputStreamWriter instead after cl/438505991 is submitted.
-  static void testJavaEmul() {
+  private static void testJavaEmul() {
     assertEquals(AEBC, EmulatedCharset.UTF_8.getBytes(new char[] {'Ä', 'B', 'C'}, 0, 3));
   }
 
-  static void testStringBuilder() {
+  private static void testStringBuilder() {
     testInsert();
   }
 
-  static void testString() throws UnsupportedEncodingException {
+  private static void testString() throws UnsupportedEncodingException {
     char[] cArray = {'h', 'e', 'l', 'l', 'o'};
     assertEquals("ello", new String(cArray, 1, 4));
 
@@ -140,5 +147,22 @@ public class Strings {
     assertEquals("0el123", strBuilder2.toString());
     strBuilder2.insert(6, charSeq, 0, 5);
     assertEquals("0el123hello", strBuilder2.toString());
+  }
+
+  private static void testCodePointMethods() {
+    assertEquals(0xc4, "Ä".codePointAt(0));
+    assertEquals(0x1f602, "😂".codePointAt(0));
+    assertEquals(0xde02, "😂".codePointAt(1));
+
+    assertEquals(1, Character.charCount(0xc4));
+    assertEquals(2, Character.charCount(0x1f602));
+
+    assertEquals(new char[] {0xd83d, 0xde02}, Character.toChars(0x1f602));
+    char[] charsOut = new char[3];
+    Character.toChars(0x1f602, charsOut, 1);
+    assertEquals(new char[] {0, 0xd83d, 0xde02}, charsOut);
+
+    assertEquals(
+        "Ä😂", new StringBuilder().appendCodePoint(0xc4).appendCodePoint(0x1f602).toString());
   }
 }

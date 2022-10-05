@@ -73,7 +73,24 @@ public class Asserts extends AssertsBase {
           "Mismatch at array element ["
               + i
               + "]:"
-              + getEqualsDefaultFailureMessage(expected, actual),
+              + getEqualsDefaultFailureMessage(expected[i], actual[i]),
+          expected[i],
+          actual[i]);
+    }
+  }
+
+  public static void assertEquals(char[] expected, char[] actual) {
+    assertEquals(
+        getFailureMessage(expected, actual, "should have the same length as"),
+        expected.length,
+        actual.length);
+
+    for (int i = 0; i < expected.length; i++) {
+      assertEquals(
+          "Mismatch at array element ["
+              + i
+              + "]:"
+              + getEqualsDefaultFailureMessage(expected[i], actual[i]),
           expected[i],
           actual[i]);
     }
