@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
@@ -62,6 +63,12 @@ public interface Collection<E> extends Iterable<E> {
   @KtName("java_removeAll")
   @KtPropagateNullability
   boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
+
+  @KtName("java_removeIf")
+  @KtPropagateNullability
+  default boolean removeIf(@JsNonNull Predicate<? super E> filter) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   @KtName("java_retainAll")
   @KtPropagateNullability

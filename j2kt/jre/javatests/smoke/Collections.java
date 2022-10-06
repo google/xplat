@@ -40,6 +40,7 @@ import java.util.Spliterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.BiFunction;
+import java.util.function.Predicate;
 import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
@@ -56,6 +57,7 @@ public class Collections {
     testListSortComparator();
     testEnumSet();
     testEnumMap();
+    testRemoveIf();
     testTreeMap();
     testTreeSet();
     testIdentityHashMap();
@@ -311,6 +313,11 @@ public class Collections {
     }
 
     @Override
+    public boolean removeIf(@JsNonNull Predicate<? super E> filter) {
+      return super.removeIf(filter);
+    }
+
+    @Override
     public boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c) {
       return super.retainAll(c);
     }
@@ -337,6 +344,17 @@ public class Collections {
       toArrayTypedCalls++;
       return super.toArray(a);
     }
+  }
+
+  private static void testRemoveIf() {
+    ArrayList<String> list = new ArrayList<>();
+    list.add("A");
+    list.add("B");
+    assertFalse(list.removeIf(e -> e.equals("C")));
+    assertEquals(2, list.size());
+
+    assertTrue(list.removeIf(e -> e.equals("A")));
+    assertEquals(1, list.size());
   }
 
   private static void testToArrayPolymorphism() {
