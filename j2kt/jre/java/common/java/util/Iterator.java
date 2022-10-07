@@ -32,6 +32,7 @@ public interface Iterator<E extends @Nullable Object> {
 
   boolean hasNext();
 
+  @KtPropagateNullability
   E next();
 
   default void remove() {
