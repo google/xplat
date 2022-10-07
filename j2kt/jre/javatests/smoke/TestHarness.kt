@@ -30,4 +30,5 @@ class TestHarness {
   @Test fun testArrays() = Array.testArrays()
   @Test fun testCollections() = Collections.testCollections()
   @Test fun testLogging() = Logging.testLogging()
+  @Test fun testBitSets() = BitSets.testBitSets()
 }
