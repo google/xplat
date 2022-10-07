@@ -21,10 +21,12 @@ import java.nio.charset.CharsetDecoder;
 /** Provides Charset implementations (currently UTF-8 only) */
 public class EmulatedCharset extends Charset {
 
-  public static final EmulatedCharset UTF_8 = new EmulatedCharset();
+  public static final EmulatedCharset UTF_8 = new EmulatedCharset("UTF-8");
+  public static final EmulatedCharset ISO_8859_1 = new EmulatedCharset("ISO-8859-1");
+  public static final EmulatedCharset US_ASCII = new EmulatedCharset("ASCII");
 
-  private EmulatedCharset() {
-    super("UTF-8", new String[0]);
+  private EmulatedCharset(String name) {
+    super(name, new String[0]);
   }
 
   public byte[] getBytes(char[] buffer, int offset, int count) {

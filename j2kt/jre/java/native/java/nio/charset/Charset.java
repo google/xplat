@@ -41,6 +41,10 @@ public abstract class Charset {
       throw new IllegalArgumentException();
     }
     switch (name) {
+      case "ASCII":
+        return StandardCharsets.US_ASCII;
+      case "ISO-8859-1":
+        return StandardCharsets.ISO_8859_1;
       case "UTF-8":
         return StandardCharsets.UTF_8;
       default:

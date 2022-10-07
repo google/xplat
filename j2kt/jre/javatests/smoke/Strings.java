@@ -27,7 +27,9 @@ import javaemul.internal.EmulatedCharset;
 
 public class Strings {
 
+  static byte[] ABC = {(byte) 65, (byte) 66, (byte) 67};
   static byte[] AEBC = {(byte) 0xC3, (byte) 0x84, (byte) 66, (byte) 67};
+  static byte[] AEBC_ISO = {(byte) 0xC4, (byte) 66, (byte) 67};
 
   static void testStrings() throws Exception {
     testString();
@@ -86,14 +88,26 @@ public class Strings {
     assertEquals("hello", strArray2[0]);
     assertEquals("hello2hello", strArray2[1]);
 
-
     assertEquals("ÄBC", new String(AEBC));
     assertEquals("ÄBC", new String(AEBC, "UTF-8"));
     assertEquals("ÄBC", new String(AEBC, StandardCharsets.UTF_8));
 
+    assertEquals("ÄBC", new String(AEBC_ISO, "ISO-8859-1"));
+    assertEquals("ÄBC", new String(AEBC_ISO, StandardCharsets.ISO_8859_1));
+
+    assertEquals("ABC", new String(ABC, "ASCII"));
+    assertEquals("ABC", new String(ABC, StandardCharsets.US_ASCII));
+
     assertEquals("Ä", new String(AEBC, 0, 2));
     assertEquals("Ä", new String(AEBC, 0, 2, "UTF-8"));
     assertEquals("Ä", new String(AEBC, 0, 2, StandardCharsets.UTF_8));
+
+    assertEquals("Ä", new String(AEBC_ISO, 0, 1, "ISO-8859-1"));
+    assertEquals("Ä", new String(AEBC_ISO, 0, 1, StandardCharsets.ISO_8859_1));
+
+    assertEquals("A", new String(ABC, 0, 1));
+    assertEquals("A", new String(ABC, 0, 1, "ASCII"));
+    assertEquals("A", new String(ABC, 0, 1, StandardCharsets.US_ASCII));
 
     assertEquals("BC", new String(AEBC, 2, 2));
     assertEquals("BC", new String(AEBC, 2, 2, "UTF-8"));
@@ -114,6 +128,12 @@ public class Strings {
     assertEquals(AEBC, "ÄBC".getBytes());
     assertEquals(AEBC, "ÄBC".getBytes("UTF-8"));
     assertEquals(AEBC, "ÄBC".getBytes(StandardCharsets.UTF_8));
+
+    assertEquals(AEBC_ISO, "ÄBC".getBytes("ISO-8859-1"));
+    assertEquals(AEBC_ISO, "ÄBC".getBytes(StandardCharsets.ISO_8859_1));
+
+    assertEquals(ABC, "ABC".getBytes("ASCII"));
+    assertEquals(ABC, "ABC".getBytes(StandardCharsets.US_ASCII));
 
     assertEquals(-1, "ABCDEABCDE".indexOf('F'));
     assertEquals(-1, "ABCDEABCDE".indexOf(0x1f602));

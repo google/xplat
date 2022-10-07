@@ -20,6 +20,8 @@ import javaemul.internal.EmulatedCharset;
 /** Partial emulation of the corresponding JRE-Class */
 public final class StandardCharsets {
 
+  public static final Charset ISO_8859_1 = EmulatedCharset.ISO_8859_1;
+  public static final Charset US_ASCII = EmulatedCharset.US_ASCII;
   public static final Charset UTF_8 = EmulatedCharset.UTF_8;
 
   private StandardCharsets() {}

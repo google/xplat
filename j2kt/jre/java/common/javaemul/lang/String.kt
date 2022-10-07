@@ -20,6 +20,7 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
 import java.util.Locale
+import kotlin.text.CharacterCodingException
 
 // The CharArray constructors are deliberately using nullable CharArray parameters to avoid
 // triggering a compiler diagnostic that forbids use of these deprecated constructors in Kotlin 🤞.
@@ -46,12 +47,13 @@ operator fun String.Companion.invoke(
   offset: Int,
   len: Int,
   charSet: Charset
-): String {
-  if (charSet != StandardCharsets.UTF_8) {
-    throw UnsupportedEncodingException(charSet.name())
+): String =
+  when (charSet) {
+    StandardCharsets.UTF_8 -> a.decodeToString(offset, offset + len, throwOnInvalidSequence = true)
+    StandardCharsets.US_ASCII -> a.decodeToStringUnmapped(offset, offset + len, ascii = true)
+    StandardCharsets.ISO_8859_1 -> a.decodeToStringUnmapped(offset, offset + len, ascii = false)
+    else -> throw UnsupportedEncodingException(charSet.name())
   }
-  return a.decodeToString(offset, offset + len, throwOnInvalidSequence = true)
-}
 
 operator fun String.Companion.invoke(a: ByteArray, charSet: Charset) = String(a, 0, a.size, charSet)
 
@@ -113,12 +115,13 @@ fun String.getBytes(charsetName: String): ByteArray {
   }
 }
 
-fun String.getBytes(charset: Charset): ByteArray {
-  if (charset != StandardCharsets.UTF_8) {
-    throw UnsupportedEncodingException(charset.name())
+fun String.getBytes(charset: Charset): ByteArray =
+  when (charset) {
+    StandardCharsets.US_ASCII -> encodeToByteArrayUnmapped(127)
+    StandardCharsets.ISO_8859_1 -> encodeToByteArrayUnmapped(255)
+    StandardCharsets.UTF_8 -> encodeToByteArray()
+    else -> throw UnsupportedEncodingException(charset.name())
   }
-  return encodeToByteArray()
-}
 
 // TODO(b/230671584): Add support for Locale on Kotlin Native
 fun String.toUpperCase(locale: Locale): String = this.uppercase()
@@ -164,4 +167,28 @@ fun String.java_split(regularExpression: String, limit: Int): Array<String> {
 
 fun String.java_replace(target: CharSequence, replacement: CharSequence): String {
   return this.replace(target.toString(), replacement.toString())
+}
+
+private fun ByteArray.decodeToStringUnmapped(offset: Int, end: Int, ascii: Boolean): String {
+  val sb: StringBuilder = StringBuilder(end - offset)
+  for (i in offset until end) {
+    val c = this[i].toInt() and 255
+    if (ascii && c > 127) {
+      throw CharacterCodingException()
+    }
+    sb.append(c.toChar())
+  }
+  return sb.toString()
+}
+
+private fun String.encodeToByteArrayUnmapped(maxValue: Int): ByteArray {
+  val result = ByteArray(length)
+  for (i in 0 until length) {
+    val c = this[i].toInt()
+    if (c > maxValue) {
+      throw CharacterCodingException()
+    }
+    result[i] = c.toByte()
+  }
+  return result
 }
