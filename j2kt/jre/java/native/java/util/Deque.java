@@ -39,13 +39,13 @@ public interface Deque<E> extends Queue<E> {
 
   boolean offerLast(E e);
 
-  E peekFirst();
+  @Nullable E peekFirst();
 
-  E peekLast();
+  @Nullable E peekLast();
 
-  E pollFirst();
+  @Nullable E pollFirst();
 
-  E pollLast();
+  @Nullable E pollLast();
 
   E pop();
 

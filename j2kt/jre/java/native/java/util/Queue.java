@@ -15,11 +15,12 @@
  */
 package java.util;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * A collection designed for holding elements prior to processing. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Queue.html">[Sun
- * docs]</a>
- * 
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Queue.html">[Sun docs]</a>
+ *
  * @param <E> element type.
  */
 public interface Queue<E> extends Collection<E> {
@@ -28,9 +29,9 @@ public interface Queue<E> extends Collection<E> {
 
   boolean offer(E o);
 
-  E peek();
+  @Nullable E peek();
 
-  E poll();
+  @Nullable E poll();
 
   E remove();
 

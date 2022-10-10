@@ -23,6 +23,7 @@ import static smoke.Asserts.assertTrue;
 
 import java.util.AbstractList;
 import java.util.AbstractMap;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,6 +49,7 @@ import org.jspecify.nullness.Nullable;
 public class Collections {
 
   public static void testCollections() {
+    testArrayDeque();
     testJavaMapSignatures();
     testAbstractMapSubclass_bridgedOverridesAreCalled();
     testMapMerge();
@@ -61,6 +63,30 @@ public class Collections {
     testTreeMap();
     testTreeSet();
     testIdentityHashMap();
+  }
+
+  private static void testArrayDeque() {
+    ArrayDeque<String> deque = new ArrayDeque<>();
+    assertEquals(0, deque.size());
+    deque.add("a");
+    assertEquals(1, deque.size());
+    assertEquals("a", deque.peekFirst());
+    assertEquals("a", deque.peekLast());
+
+    deque.add("o");
+    assertEquals(2, deque.size());
+
+    assertEquals("a", deque.peekFirst());
+    assertEquals("o", deque.peekLast());
+    assertEquals("o", deque.pollLast());
+
+    assertEquals(1, deque.size());
+
+    assertEquals("a", deque.peekFirst());
+    assertEquals("a", deque.peekLast());
+    assertEquals("a", deque.removeFirst());
+
+    assertEquals(0, deque.size());
   }
 
   private static void testJavaMapSignatures() {

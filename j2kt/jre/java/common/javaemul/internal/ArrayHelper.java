@@ -16,4 +16,11 @@
 package javaemul.internal;
 
 /** Class must exist as it is always loaded during tranpilation. */
-public final class ArrayHelper {}
+public final class ArrayHelper {
+
+  @SuppressWarnings("unchecked")
+  public static <T> T[] createFrom(T[] array, int newLength) {
+    // This works because the code only runs on Kotlin Native and not on the JVM.
+    return (T[]) new Object[newLength];
+  }
+}
