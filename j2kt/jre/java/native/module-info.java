@@ -27,8 +27,7 @@ module java.base {
   exports java.util.concurrent.atomic;
   exports java.util.function;
   exports java.util.logging;
-  // TODO(b/237650063): Add Streams
-  // exports java.util.stream;
+  exports java.util.stream;
   exports javax.annotation.processing;
   // TODO(goktug): Provide a public API for array stamping and stop exporting this.
   exports javaemul.internal;
