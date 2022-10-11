@@ -25,8 +25,7 @@ import org.jspecify.nullness.Nullable;
  * Not yet implemented: public static BitSet valueOf(ByteBuffer) public static BitSet
  * valueOf(LongBuffer)
  */
-// TODO(b/228163266): implements Cloneable
-public class BitSet {
+public class BitSet implements Cloneable {
   private static final int WORD_MASK = 0xffffffff;
   private static final int BITS_PER_WORD = 32;
 
@@ -333,6 +332,7 @@ public class BitSet {
     }
   }
 
+  @Override
   public Object clone() {
     return new BitSet(Arrays.copyOf(array, array.length));
   }
