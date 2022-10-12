@@ -32,7 +32,8 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> the element type.
  */
-public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cloneable {
+// TODO(b/228163266): Implements Cloneable
+public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E> {
 
   private final class IteratorImpl implements Iterator<E> {
     /**
@@ -213,7 +214,6 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
     tail = 0;
   }
 
-  @Override
   public Object clone() {
     return new ArrayDeque<>(this);
   }

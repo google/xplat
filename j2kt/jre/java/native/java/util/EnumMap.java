@@ -30,8 +30,8 @@ import org.jspecify.nullness.Nullable;
  * @param <V> value type
  */
 @NullMarked
-public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends AbstractMap<K, V>
-    implements Cloneable {
+public class EnumMap<K extends Enum<K>, V extends @Nullable Object>
+    extends AbstractMap<K, V> /* implements Cloneable */ {
 
   private final class EntrySet extends AbstractSet<Entry<K, V>> {
 
@@ -145,7 +145,6 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
     values.clear();
   }
 
-  @Override
   public EnumMap<K, V> clone() {
     return new EnumMap<>(this);
   }

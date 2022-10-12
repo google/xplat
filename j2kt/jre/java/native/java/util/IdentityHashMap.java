@@ -22,6 +22,7 @@ import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
+// TODO(b/228163266): Should implemenent Cloneable but its current mapping doesn't work here.
 /**
  * IdentityHashMap is a variant on HashMap which tests equality by reference instead of equality by
  * value. Basically, keys and values are compared for equality by checking if their references are
@@ -32,7 +33,7 @@ import org.jspecify.nullness.Nullable;
  */
 @NullMarked
 public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Object>
-    extends AbstractMap<K, V> implements Map<K, V>, Serializable, Cloneable {
+    extends AbstractMap<K, V> implements Map<K, V>, Serializable /* , Cloneable */ {
 
   /*
    * The internal data structure to hold key value pairs This array holds keys
