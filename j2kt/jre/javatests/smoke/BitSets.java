@@ -28,8 +28,11 @@ public final class BitSets {
   public static void testBitSets() {
     BitSet bitset = new BitSet();
     bitset.set(100, true);
+    
     assertTrue(bitset.get(100));
     assertTrue(!bitset.get(101));
     assertTrue(!bitset.get(99));
+
+    assertTrue(bitset instanceof Cloneable);
   }
 }

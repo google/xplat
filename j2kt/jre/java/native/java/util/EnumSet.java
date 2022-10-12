@@ -28,7 +28,7 @@ import org.jspecify.nullness.Nullable;
  * Enum#getDeclaringClass is unsupported for code size reasons.
  */
 @NullMarked
-public class EnumSet<E extends Enum<E>> extends AbstractSet<E> /* implements Cloneable */ {
+public class EnumSet<E extends Enum<E>> extends AbstractSet<E> implements Cloneable {
   private HashSet<E> set = new HashSet<>();
 
   EnumSet() {}
@@ -117,6 +117,7 @@ public class EnumSet<E extends Enum<E>> extends AbstractSet<E> /* implements Clo
     return new EnumSet();
   }
 
+  @Override
   public EnumSet<E> clone() {
     return EnumSet.copyOf(this);
   }

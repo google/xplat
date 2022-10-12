@@ -13,7 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package kotlin
+package java.lang
 
 /** Indicates that a class implements <code>clone()</code>. */
-typealias Cloneable = java.lang.Cloneable
+interface Cloneable {
+  fun clone(): Any
+}
