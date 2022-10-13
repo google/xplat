@@ -21,4 +21,4 @@ package kotlin.jvm
  * use this to find all use cases and do semething else.
  */
 // TODO(b/236003566): Actually implement locking.
-fun <R> synchronized(lock: Any, block: () -> R): R = block()
+inline fun <R> synchronized(lock: Any, block: () -> R): R = block()
