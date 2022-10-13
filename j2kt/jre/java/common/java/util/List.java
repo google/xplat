@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import java.util.function.UnaryOperator;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
@@ -54,6 +55,12 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   @KtName("removeAt")
   E remove(int index);
+
+  @KtPropagateNullability
+  @KtName("java_replaceAll")
+  default void replaceAll(@JsNonNull UnaryOperator<E> operator) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   E set(int index, E element);
 

@@ -40,8 +40,12 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
@@ -198,6 +202,33 @@ public class Collections {
     // The following overrides are only there to check that the override (with the Java signatures
     // of the method) compiles.
     @Override
+    public V compute(
+        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+      return super.compute(key, remappingFunction);
+    }
+
+    @Override
+    public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
+      return super.computeIfAbsent(key, mappingFunction);
+    }
+
+    @Override
+    public V computeIfPresent(
+        K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+      return super.computeIfPresent(key, remappingFunction);
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> action) {
+      super.forEach(action);
+    }
+
+    @Override
+    public V getOrDefault(Object key, V defaultValue) {
+      return super.getOrDefault(key, defaultValue);
+    }
+
+    @Override
     public @Nullable V merge(
         K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remap) {
       return super.merge(key, value, remap);
@@ -206,6 +237,31 @@ public class Collections {
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
       super.putAll(m);
+    }
+
+    @Override
+    public V putIfAbsent(K key, V value) {
+      return super.putIfAbsent(key, value);
+    }
+
+    @Override
+    public boolean remove(Object key, Object value) {
+      return super.remove(key, value);
+    }
+
+    @Override
+    public V replace(K key, V value) {
+      return super.replace(key, value);
+    }
+
+    @Override
+    public boolean replace(K key, V oldValue, V newValue) {
+      return super.replace(key, oldValue, newValue);
+    }
+
+    @Override
+    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+      super.replaceAll(function);
     }
   }
 
@@ -329,6 +385,11 @@ public class Collections {
     }
 
     @Override
+    public Stream<E> parallelStream() {
+      return super.parallelStream();
+    }
+
+    @Override
     public boolean remove(@Nullable Object o) {
       return super.remove(o);
     }
@@ -341,6 +402,11 @@ public class Collections {
     @Override
     public boolean removeIf(@JsNonNull Predicate<? super E> filter) {
       return super.removeIf(filter);
+    }
+
+    @Override
+    public void replaceAll(UnaryOperator<E> operator) {
+      super.replaceAll(operator);
     }
 
     @Override

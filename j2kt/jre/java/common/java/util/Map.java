@@ -15,7 +15,9 @@
  */
 package java.util;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
@@ -44,7 +46,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
     @KtPropagateNullability
     V setValue(V value);
 
-    static <K extends Comparable<? super K>, V> Comparator<Map.Entry<K,V>> comparingByKey() {
+    static <K extends Comparable<? super K>, V> Comparator<Map.Entry<K, V>> comparingByKey() {
       // native interface method
       throw new IllegalStateException();
     }
@@ -70,6 +72,26 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   void clear();
 
+  @KtName("java_compute")
+  @KtPropagateNullability
+  default @Nullable V compute(
+      K key, @JsNonNull BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @KtName("java_computeIfAbsent")
+  @KtPropagateNullability
+  default V computeIfAbsent(K key, @JsNonNull Function<? super K, ? extends V> mappingFunction) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @KtName("java_computeIfPresent")
+  @KtPropagateNullability
+  default @Nullable V computeIfPresent(
+      K key, @JsNonNull BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   @KtName("java_containsKey")
   boolean containsKey(@Nullable Object key);
 
@@ -82,8 +104,20 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtName("entries")
   Set<@JsNonNull Entry<K, V>> entrySet();
 
+  @KtName("java_forEach")
+  @KtPropagateNullability
+  default void forEach(@JsNonNull BiConsumer<? super K, ? super V> action) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   @KtName("java_get")
   @Nullable V get(@Nullable Object key);
+
+  @KtName("java_getOrDefault")
+  @KtPropagateNullability
+  default @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   boolean isEmpty();
 
@@ -104,13 +138,42 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @KtPropagateNullability
   @Nullable V put(K key, V value);
-
+  
   @KtName("java_putAll")
   @KtPropagateNullability
   void putAll(@JsNonNull Map<? extends K, ? extends V> t);
 
+  @KtName("java_putIfAbsent")
+  @KtPropagateNullability
+  default @Nullable V putIfAbsent(K key, V value) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   @KtName("java_remove")
   @Nullable V remove(@Nullable Object key);
+
+  @KtName("java_remove")
+  default boolean remove(@Nullable Object key, @Nullable Object value) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @KtName("java_replace")
+  @KtPropagateNullability
+  default @Nullable V replace(K key, V value) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @KtName("java_replace")
+  @KtPropagateNullability
+  default boolean replace(K key, V oldValue, V newValue) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @KtName("java_replaceAll")
+  @KtPropagateNullability
+  default void replaceAll(@JsNonNull BiFunction<? super K, ? super V, ? extends V> function) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   @KtProperty
   int size();

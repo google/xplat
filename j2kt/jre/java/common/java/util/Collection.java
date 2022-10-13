@@ -57,7 +57,12 @@ public interface Collection<E> extends Iterable<E> {
   Iterator<E> iterator();
 
   @KtPropagateNullability
+  default @JsNonNull Stream<E> parallelStream() {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   @KtName("java_remove")
+  @KtPropagateNullability
   boolean remove(@Nullable Object o);
 
   @KtName("java_removeAll")

@@ -503,7 +503,7 @@ public class Collections {
       return new UnmodifiableListIterator<T>(list.listIterator(from));
     }
 
-    // @Override
+    @Override
     public void replaceAll(UnaryOperator<T> operator) {
       throw new UnsupportedOperationException();
     }

@@ -42,6 +42,8 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun stream(): Stream<E> = default_stream()
 
+  fun parallelStream(): Stream<E> = default_parallelStream()
+
   fun java_addAll(c: MutableCollection<out E>): Boolean
 
   fun java_contains(a: Any?): Boolean
@@ -63,6 +65,9 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
 fun <E> MutableCollection<E>.stream(): Stream<E> =
   if (this is JavaCollection) stream() else default_stream()
+
+fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
+  if (this is JavaCollection) stream() else default_parallelStream()
 
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
   if (this is JavaCollection) java_addAll(c) else addAll(c)
@@ -109,6 +114,9 @@ private fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>): 
 }
 
 private fun <E> MutableCollection<E>.default_stream(): Stream<E> =
+  StreamSupport.stream(spliterator(), false)
+
+private fun <E> MutableCollection<E>.default_parallelStream(): Stream<E> =
   StreamSupport.stream(spliterator(), false)
 
 private fun MutableCollection<*>.default_toArray(): Array<Any?> {

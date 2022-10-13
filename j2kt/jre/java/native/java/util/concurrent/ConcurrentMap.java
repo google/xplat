@@ -28,12 +28,15 @@ import org.jspecify.nullness.Nullable;
  * @param <V> value type
  */
 public interface ConcurrentMap<K, V> extends Map<K, V> {
-
+  @Override
   @Nullable V putIfAbsent(K key, V value);
 
+  @Override
   boolean remove(Object key, Object value);
 
+  @Override
   @Nullable V replace(K key, V value);
 
+  @Override
   boolean replace(K key, V oldValue, V newValue);
 }

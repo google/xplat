@@ -15,6 +15,7 @@
  */
 package javaemul.lang
 
+import java.util.function.UnaryOperator
 import javaemul.internal.Comparators
 
 interface JavaList<E> : MutableList<E>, JavaCollection<E> {
@@ -46,6 +47,18 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
   fun java_indexOf(a: Any?): Int
 
   fun java_lastIndexOf(a: Any?): Int
+
+  fun java_replaceAll(operator: UnaryOperator<E>) = default_replaceAll(operator)
+}
+
+@Suppress("UNCHECKED_CAST")
+fun <E> MutableList<E>.sort(c: Comparator<in E>?) {
+  if (this is JavaList) {
+    val list = this as JavaList<E> // kotlinc type inference fails without the temp variable
+    list.sort(c)
+  } else {
+    sortWith(Comparators.nullToNaturalOrder(c))
+  }
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -60,12 +73,12 @@ fun <E> MutableList<E>.java_indexOf(a: Any?): Int =
 fun <E> MutableList<E>.java_lastIndexOf(a: Any?): Int =
   if (this is JavaList) java_lastIndexOf(a) else lastIndexOf(a as E)
 
-@Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.sort(c: Comparator<in E>?) {
-  if (this is JavaList) {
-    val list = this as JavaList<E> // kotlinc type inference fails without the temp variable
-    list.sort(c)
-  } else {
-    sortWith(Comparators.nullToNaturalOrder(c))
+fun <E> MutableList<E>.java_replaceAll(operator: UnaryOperator<E>) =
+  if (this is JavaList) java_replaceAll(operator) else default_replaceAll(operator)
+
+private fun <E> MutableList<E>.default_replaceAll(operator: UnaryOperator<E>) {
+  val itr: MutableListIterator<E> = this.listIterator()
+  while (itr.hasNext()) {
+    itr.set(operator.apply(itr.next()))
   }
 }
