@@ -151,13 +151,15 @@ private fun <K, V> MutableMap<K, V>.default_compute(
   val newValue = remappingFunction.apply(key, oldValue)
   if (oldValue != null) {
     if (newValue != null) {
-      return this.put(key, newValue)
+      this.put(key, newValue)
+      return newValue
     } else {
       this.remove(key)
       return null
     }
   } else if (newValue != null) {
-    return this.put(key, newValue)
+    this.put(key, newValue)
+    return newValue
   }
   return null
 }

@@ -67,7 +67,7 @@ fun <E> MutableCollection<E>.stream(): Stream<E> =
   if (this is JavaCollection) stream() else default_stream()
 
 fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
-  if (this is JavaCollection) stream() else default_parallelStream()
+  if (this is JavaCollection) parallelStream() else default_parallelStream()
 
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
   if (this is JavaCollection) java_addAll(c) else addAll(c)
