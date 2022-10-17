@@ -38,8 +38,10 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.Vector;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -53,9 +55,10 @@ import org.jspecify.nullness.Nullable;
 public class Collections {
 
   public static void testCollections() {
-    testArrayDeque();
-    testJavaMapSignatures();
     testAbstractMapSubclass_bridgedOverridesAreCalled();
+    testArrayDeque();
+    testIdentityHashMap();
+    testJavaMapSignatures();
     testMapMerge();
     testToArrayNativeList();
     testToArrayPolymorphism();
@@ -64,9 +67,10 @@ public class Collections {
     testEnumSet();
     testEnumMap();
     testRemoveIf();
+    testStack();
     testTreeMap();
     testTreeSet();
-    testIdentityHashMap();
+    testVector();
   }
 
   private static void testArrayDeque() {
@@ -449,6 +453,25 @@ public class Collections {
     assertEquals(1, list.size());
   }
 
+  private static void testStack() {
+    Stack<String> stack = new Stack<>();
+    assertEquals(0, stack.size());
+    stack.push("A");
+    assertEquals(1, stack.size());
+    stack.push("B");
+    assertEquals(2, stack.size());
+
+    assertEquals("B", stack.peek());
+    assertEquals(2, stack.size());
+    assertEquals("B", stack.pop());
+    assertEquals(1, stack.size());
+
+    assertEquals("A", stack.peek());
+    assertEquals(1, stack.size());
+    assertEquals("A", stack.pop());
+    assertEquals(0, stack.size());
+  }
+
   private static void testToArrayPolymorphism() {
     TestList<String> testList = new TestList<>("content");
 
@@ -464,6 +487,17 @@ public class Collections {
     // String[].class).
     assertEquals(new String[0].getClass(), typedResult.getClass());
     assertTrue(Arrays.equals(new String[] {"content"}, typedResult));
+  }
+
+  private static void testVector() {
+    Vector<String> list = new Vector<>();
+    list.add("A");
+    list.add("B");
+    assertFalse(list.removeIf(e -> e.equals("C")));
+    assertEquals(2, list.size());
+
+    assertTrue(list.removeIf(e -> e.equals("A")));
+    assertEquals(1, list.size());
   }
 
   private static void testListSort() {

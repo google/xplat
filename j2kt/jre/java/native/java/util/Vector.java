@@ -21,25 +21,24 @@ import java.io.Serializable;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-
 import jsinterop.annotations.JsNonNull;
 
 /**
- * To keep performance characteristics in line with Java community expectations,
- * <code>Vector</code> is a wrapper around <code>ArrayList</code>.
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Vector.html">
- * the official Java API doc</a> for details.
+ * To keep performance characteristics in line with Java community expectations, <code>Vector</code>
+ * is a wrapper around <code>ArrayList</code>. See <a
+ * href="https://docs.oracle.com/javase/8/docs/api/java/util/Vector.html">the official Java API
+ * doc</a> for details.
  *
  * @param <E> element type.
  */
-public class Vector<E> extends AbstractList<E> implements List<E>,
-    RandomAccess, Cloneable, Serializable {
+public class Vector<E> extends AbstractList<E>
+    implements List<E>, RandomAccess, Cloneable, Serializable {
 
   private transient ArrayList<E> arrayList;
 
   /**
-   * Ensures that RPC will consider type parameter E to be exposed. It will be
-   * pruned by dead code elimination.
+   * Ensures that RPC will consider type parameter E to be exposed. It will be pruned by dead code
+   * elimination.
    */
   @SuppressWarnings("unused")
   private E exposeElement;
@@ -57,9 +56,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
     arrayList = new ArrayList<E>(initialCapacity);
   }
 
-  /**
-   * Capacity increment is ignored.
-   */
+  /** Capacity increment is ignored. */
   @SuppressWarnings("unused")
   public Vector(int initialCapacity, int ignoredCapacityIncrement) {
     this(initialCapacity);
@@ -77,12 +74,12 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
   }
 
   @Override
-  public boolean addAll(Collection<? extends E> c) {
+  public boolean addAll(@JsNonNull Collection<? extends E> c) {
     return arrayList.addAll(c);
   }
 
   @Override
-  public boolean addAll(int index, Collection<? extends E> c) {
+  public boolean addAll(int index, @JsNonNull Collection<? extends E> c) {
     checkArrayElementIndex(index, size() + 1);
     return arrayList.addAll(index, c);
   }
@@ -100,6 +97,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
     arrayList.clear();
   }
 
+  @Override
   public Object clone() {
     return new Vector<E>(this);
   }
@@ -157,7 +155,12 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
 
   public int indexOf(Object elem, int index) {
     checkArrayIndexOutOfBounds(index >= 0, index);
-    return arrayList.indexOf(elem, index);
+    for (; index < arrayList.size(); ++index) {
+      if (Objects.equals(elem, arrayList.get(index))) {
+        return index;
+      }
+    }
+    return -1;
   }
 
   public void insertElementAt(E o, int index) {
@@ -186,7 +189,12 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
 
   public int lastIndexOf(Object o, int index) {
     checkArrayIndexOutOfBounds(index < size(), index);
-    return arrayList.lastIndexOf(o, index);
+    for (; index >= 0; --index) {
+      if (Objects.equals(o, arrayList.get(index))) {
+        return index;
+      }
+    }
+    return -1;
   }
 
   @Override
@@ -218,8 +226,8 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
   }
 
   @Override
-  public void replaceAll(UnaryOperator<E> operator) {
-    arrayList.replaceAll(operator);
+  public void replaceAll(@JsNonNull UnaryOperator<E> op) {
+    arrayList.replaceAll(op);
   }
 
   @Override
@@ -234,7 +242,13 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
 
   public void setSize(int size) {
     checkArrayIndexOutOfBounds(size >= 0, size);
-    arrayList.setSize(size);
+    if (size > arrayList.size()) {
+      removeRange(size, arrayList.size());
+    } else {
+      while (arrayList.size() < size) {
+        arrayList.add(null);
+      }
+    }
   }
 
   @Override
@@ -274,7 +288,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>,
 
   @Override
   protected void removeRange(int fromIndex, int endIndex) {
-    arrayList.removeRange(fromIndex, endIndex);
+    arrayList.subList(fromIndex, endIndex).clear();
   }
 
   private static void checkArrayElementIndex(int index, int size) {
