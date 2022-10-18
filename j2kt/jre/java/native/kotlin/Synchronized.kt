@@ -14,7 +14,7 @@
  * the License.
  */
 
-package kotlin.jvm
+package kotlin
 
 /**
  * Placeholder for locking. Either we'll implement this for iOS based on J2Objc locking, or we'll

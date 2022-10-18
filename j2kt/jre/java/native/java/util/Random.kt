@@ -34,9 +34,9 @@
  */
 package java.util
 
-import kotlin.jvm.synchronized
 import kotlin.math.ln
 import kotlin.math.sqrt
+import kotlin.synchronized
 
 class Random {
   var ktRandom: kotlin.random.Random
