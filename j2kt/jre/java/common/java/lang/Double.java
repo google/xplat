@@ -45,7 +45,10 @@ public final class Double extends Number implements Comparable<Double> {
   public static /* final */ Class<Double> TYPE;
 
   @KtName("SIZE_BITS")
-  public static /* final */ int SIZE;
+  public static final int SIZE = 64;
+
+  @KtName("SIZE_BYTES")
+  public static final int BYTES = SIZE / Byte.SIZE;
 
   public Double(double value) {}
 

@@ -45,7 +45,10 @@ public final class Float extends Number implements Comparable<Float> {
   public static /* final */ Class<Float> TYPE;
 
   @KtName("SIZE_BITS")
-  public static /* final */ int SIZE;
+  public static final int SIZE = 32;
+
+  @KtName("SIZE_BYTES")
+  public static final int BYTES = SIZE / Byte.SIZE;
 
   public Float(float value) {}
 

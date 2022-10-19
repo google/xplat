@@ -33,7 +33,10 @@ public final class Long extends Number implements Comparable<Long> {
   public static /* final */ Class<Long> TYPE;
 
   @KtName("SIZE_BITS")
-  public static /* final */ int SIZE;
+  public static final int SIZE = 64;
+
+  @KtName("SIZE_BYTES")
+  public static final int BYTES = SIZE / Byte.SIZE;
 
   public Long(long value) {}
 

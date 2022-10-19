@@ -31,7 +31,10 @@ public final class Integer extends Number implements Comparable<Integer> {
   public static /* final */ int MIN_VALUE;
 
   @KtName("SIZE_BITS")
-  public static /* final */ int SIZE;
+  public static final int SIZE = 32;
+
+  @KtName("SIZE_BYTES")
+  public static final int BYTES = SIZE / Byte.SIZE;
 
   public static /* final */ Class<Integer> TYPE;
 

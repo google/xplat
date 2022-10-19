@@ -31,7 +31,10 @@ public final class Short extends Number implements Comparable<Short> {
   public static /* final */ short MIN_VALUE;
 
   @KtName("SIZE_BITS")
-  public static /* final */ int SIZE;
+  public static final int SIZE = 16;
+
+  @KtName("SIZE_BYTES")
+  public static final int BYTES = SIZE / Byte.SIZE;
 
   public static /* final */ Class<Short> TYPE;
 
