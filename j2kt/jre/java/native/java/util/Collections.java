@@ -33,41 +33,39 @@ import org.jspecify.nullness.Nullable;
  */
 public class Collections {
 
-  // TODO(b/238061901): Implement the remaining Collections methods
-  // private static final class LifoQueue<E> extends AbstractQueue<E> implements
-  //     Serializable {
+  private static final class LifoQueue<E> extends AbstractQueue<E> implements Serializable {
 
-  //   private final Deque<E> deque;
+    private final Deque<E> deque;
 
-  //   LifoQueue(Deque<E> deque) {
-  //     this.deque = deque;
-  //   }
+    LifoQueue(Deque<E> deque) {
+      this.deque = deque;
+    }
 
-  //   @Override
-  //   public Iterator<E> iterator() {
-  //     return deque.iterator();
-  //   }
+    @Override
+    public Iterator<E> iterator() {
+      return deque.iterator();
+    }
 
-  //   @Override
-  //   public boolean offer(E e) {
-  //     return deque.offerFirst(e);
-  //   }
+    @Override
+    public boolean offer(E e) {
+      return deque.offerFirst(e);
+    }
 
-  //   @Override
-  //   public E peek() {
-  //     return deque.peekFirst();
-  //   }
+    @Override
+    public @Nullable E peek() {
+      return deque.peekFirst();
+    }
 
-  //   @Override
-  //   public E poll() {
-  //     return deque.pollFirst();
-  //   }
+    @Override
+    public @Nullable E poll() {
+      return deque.pollFirst();
+    }
 
-  //   @Override
-  //   public int size() {
-  //     return deque.size();
-  //   }
-  // }
+    @Override
+    public int size() {
+      return deque.size();
+    }
+  }
 
   private static final class EmptyList<E extends @Nullable Object> extends AbstractList<E>
       implements RandomAccess, Serializable {
@@ -945,10 +943,9 @@ public class Collections {
     return result;
   }
 
-  // TODO(b/238061901): Implement the remaining Collections methods
-  // public static <T> Queue<T> asLifoQueue(Deque<T> deque) {
-  //   return new LifoQueue<T>(deque);
-  // }
+  public static <T> Queue<T> asLifoQueue(Deque<T> deque) {
+    return new LifoQueue<T>(deque);
+  }
 
   /**
    * Perform a binary search on a sorted List, using natural ordering.
