@@ -18,3 +18,10 @@ package javaemul.lang
 // See regular JRE API documentation for other methods in this file.
 
 fun Throwable.getSuppressed(): Array<Throwable> = suppressedExceptions.toTypedArray()
+
+// TODO(b/254412607): Generalize to other exceptions.
+fun kotlin.NumberFormatException.initCause(cause: Throwable?): Throwable =
+  if (this is java.lang.NumberFormatException) initCause(cause)
+  // initCause is generally called inside a constructor or right after calling one, so this
+  // restriction should not be too bad in practice:
+  else throw UnsupportedOperationException("Cannot initCause for native exception")

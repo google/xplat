@@ -21,11 +21,17 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.NumberFormatException")
+// Note: the bridge class is part of the JRE on the JVM and emulated on Native. This avoids
+// duplicating/shadowing the JVM built-in implementation on the JVM. If we used the simpler
+// @KtNative("java.lang.NumberFormatException"), then we couldn't catch NumberFormatExceptions
+// thrown by stdlib code in j2kt-native.
+@KtNative(value = "kotlin.NumberFormatException", bridgeWith = "java.lang.NumberFormatException")
 @NullMarked
 public class NumberFormatException extends java.lang.IllegalArgumentException {
 
   public NumberFormatException() {}
 
   public NumberFormatException(@Nullable String detailMessage) {}
+
+  public synchronized native Throwable initCause(@Nullable Throwable cause);
 }
