@@ -18,9 +18,19 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class NumberFormatException(message: String? = null) :
-  kotlin.NumberFormatException(message), InitCauseCapable {
+open class AssertionError(message: String? = null) :
+  kotlin.AssertionError(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
+
+  constructor(
+    message: Any?
+  ) : this((if (message is kotlin.Throwable) null else message)?.toString()) {
+    if (message is kotlin.Throwable) initCause(message)
+  }
+
+  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
+    initCause(cause)
+  }
 }

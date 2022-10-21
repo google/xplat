@@ -32,6 +32,4 @@ public class NumberFormatException extends java.lang.IllegalArgumentException {
   public NumberFormatException() {}
 
   public NumberFormatException(@Nullable String detailMessage) {}
-
-  public synchronized native Throwable initCause(@Nullable Throwable cause);
 }

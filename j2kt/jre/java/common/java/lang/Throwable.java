@@ -22,7 +22,7 @@ import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Throwable")
+@KtNative(value = "kotlin.Throwable", bridgeWith = "javaemul.lang.JavaThrowable")
 @NullMarked
 public class Throwable {
 
@@ -68,8 +68,7 @@ public class Throwable {
   @Override
   public native String toString();
 
-  // J2KT: Disabled.
-  // public native Throwable initCause(@Nullable Throwable throwable);
+  public native Throwable initCause(@Nullable Throwable throwable);
 
   @KtProperty
   public native @Nullable Throwable getCause();

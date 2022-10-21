@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Error")
+@KtNative(value = "kotlin.Error", bridgeWith = "java.lang.Error")
 @NullMarked
 public class Error extends Throwable {
 

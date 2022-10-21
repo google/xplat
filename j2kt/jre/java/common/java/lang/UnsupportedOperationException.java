@@ -26,7 +26,9 @@ import org.jspecify.nullness.Nullable;
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/UnsupportedOperationException.html">the
  * official Java API doc</a> for details.
  */
-@KtNative("kotlin.UnsupportedOperationException")
+@KtNative(
+    value = "kotlin.UnsupportedOperationException",
+    bridgeWith = "java.lang.UnsupportedOperationException")
 @NullMarked
 public class UnsupportedOperationException extends RuntimeException {
 

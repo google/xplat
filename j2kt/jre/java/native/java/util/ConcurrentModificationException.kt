@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package java.lang
+package java.util
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class NumberFormatException(message: String? = null) :
-  kotlin.NumberFormatException(message), InitCauseCapable {
+open class ConcurrentModificationException(message: String? = null) :
+  kotlin.ConcurrentModificationException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
+
+  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
+    initCause(cause)
+  }
+
+  constructor(cause: kotlin.Throwable?) : this() {
+    initCause(cause)
+  }
 }

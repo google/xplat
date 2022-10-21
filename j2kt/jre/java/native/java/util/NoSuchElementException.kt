@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package java.lang
+package java.util
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class NumberFormatException(message: String? = null) :
-  kotlin.NumberFormatException(message), InitCauseCapable {
+open class NoSuchElementException(message: String? = null) :
+  kotlin.NoSuchElementException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause

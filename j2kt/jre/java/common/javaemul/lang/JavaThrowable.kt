@@ -15,13 +15,28 @@
  */
 package javaemul.lang
 
-// See regular JRE API documentation for other methods in this file.
+// Bridge type for transpiled subclasses of Throwable
+open class JavaThrowable(message: String? = null) : Throwable(message), InitCauseCapable {
+  override val causeHolder = CauseHolder()
+  override val cause
+    get() = causeHolder.cause
+
+  constructor(cause: Throwable?) : this() {
+    initCause(cause)
+  }
+
+  constructor(message: String?, cause: Throwable?) : this(message) {
+    initCause(cause)
+  }
+
+  override fun initCause(cause: Throwable?): Throwable = super<InitCauseCapable>.initCause(cause)
+}
 
 fun Throwable.getSuppressed(): Array<Throwable> = suppressedExceptions.toTypedArray()
 
-// TODO(b/254412607): Generalize to other exceptions.
-fun kotlin.NumberFormatException.initCause(cause: Throwable?): Throwable =
-  if (this is java.lang.NumberFormatException) initCause(cause)
+fun Throwable.initCause(cause: Throwable?): Throwable =
+  if (this is InitCauseCapable) initCause(cause) // Generic native bridge case
+  else if (this is java.lang.Throwable) initCause(cause) // JVM or direct Throwable subclass case
   // initCause is generally called inside a constructor or right after calling one, so this
   // restriction should not be too bad in practice:
   else throw UnsupportedOperationException("Cannot initCause for native exception")

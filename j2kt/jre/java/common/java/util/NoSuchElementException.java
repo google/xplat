@@ -16,15 +16,18 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/NoSuchElementException.html">the
  * official Java API doc</a> for details.
  */
-@KtNative("kotlin.NoSuchElementException")
+@KtNative(value = "kotlin.NoSuchElementException", bridgeWith = "java.util.NoSuchElementException")
+@NullMarked
 public class NoSuchElementException extends RuntimeException {
 
   public NoSuchElementException() {}
 
-  public NoSuchElementException(String s) {}
+  public NoSuchElementException(@Nullable String s) {}
 }

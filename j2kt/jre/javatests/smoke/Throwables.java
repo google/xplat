@@ -17,20 +17,26 @@ package smoke;
 
 import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertNull;
+import static smoke.Asserts.assertSame;
+import static smoke.Asserts.assertTrue;
 import static smoke.Asserts.fail;
+
+import org.jspecify.nullness.Nullable;
 
 public class Throwables {
   static void testThrowables() throws Exception {
-    testNumberFormatException_initCause();
+    testBridgedException_initCause();
+    testTranspiledException_initCause();
+    testAssertionError_constructors();
   }
 
-  private static void testNumberFormatException_initCause() throws Exception {
-    NumberFormatException nfe = new NumberFormatException();
+  private static void testBridgedException_initCause() throws Exception {
+    NumberFormatException nfe = new NumberFormatException(); // Native but bridged exception
     assertNull(nfe.getCause());
 
     RuntimeException theCause = new RuntimeException();
-    assertEquals(nfe, nfe.initCause(theCause));
-    assertEquals(theCause, nfe.getCause());
+    assertSame(nfe, nfe.initCause(theCause));
+    assertSame(theCause, nfe.getCause());
 
     try {
       nfe.initCause(new RuntimeException());
@@ -38,5 +44,69 @@ public class Throwables {
     } catch (IllegalStateException e) {
       // Expected
     }
+  }
+
+  private static class TranspiledException extends Exception {
+    TranspiledException() {
+      super();
+    }
+
+    TranspiledException(@Nullable Throwable cause) {
+      super(cause);
+    }
+  }
+
+  private static void testTranspiledException_initCause() throws Exception {
+    Exception exception = new TranspiledException();
+    assertNull(exception.getCause());
+
+    RuntimeException theCause = new RuntimeException();
+    assertSame(exception, exception.initCause(theCause));
+    assertSame(theCause, exception.getCause());
+
+    try {
+      exception.initCause(new RuntimeException());
+      fail("Calling initCause twice should not succeed");
+    } catch (IllegalStateException e) {
+      // Expected
+    }
+
+    exception = new TranspiledException(/* cause= */ theCause);
+    assertSame(theCause, exception.getCause());
+
+    try {
+      exception.initCause(new RuntimeException());
+      fail("Calling initCause should not succeed if cause was provided to constructor");
+    } catch (IllegalStateException e) {
+      // Expected
+    }
+  }
+
+  private static void testAssertionError_constructors() throws Exception {
+    AssertionError assertionError = new AssertionError(null);
+    // assertEquals("null", assertionError.getMessage());
+    assertNull(assertionError.getCause());
+    assertionError.initCause(new RuntimeException()); // Would fail if ctor param was used as cause
+    assertTrue(assertionError.getCause() instanceof RuntimeException);
+
+    assertionError = new AssertionError("message");
+    assertEquals("message", assertionError.getMessage());
+
+    assertionError = new AssertionError(42);
+    assertEquals("42", assertionError.getMessage());
+
+    assertionError =
+        new AssertionError(
+            new Object() {
+              @Override
+              public String toString() {
+                return "toString result";
+              }
+            });
+    assertEquals("toString result", assertionError.getMessage());
+
+    Exception cause = new RuntimeException();
+    assertionError = new AssertionError(cause);
+    assertSame(cause, assertionError.getCause());
   }
 }

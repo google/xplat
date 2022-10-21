@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.NullPointerException")
+@KtNative(value = "kotlin.NullPointerException", bridgeWith = "java.lang.NullPointerException")
 @NullMarked
 public class NullPointerException extends RuntimeException {
 
