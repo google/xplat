@@ -27,10 +27,4 @@ public class UnsupportedEncodingException extends IOException {
   public UnsupportedEncodingException(String msg) {
     super(msg);
   }
-
-  // TODO(b/245605329): Add setCause to Throwable and remove non-standard
-  // UnsupportedEncodingException constructor
-  public UnsupportedEncodingException(String message, Throwable cause) {
-    super(message, cause);
-  }
 }

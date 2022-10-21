@@ -56,9 +56,11 @@ public class URLDecoder {
     try {
       charset = Charset.forName(encoding);
     } catch (IllegalCharsetNameException e) {
-      throw (UnsupportedEncodingException) (new UnsupportedEncodingException(encoding, e));
+      throw (UnsupportedEncodingException)
+          (new UnsupportedEncodingException(encoding).initCause(e));
     } catch (UnsupportedCharsetException e) {
-      throw (UnsupportedEncodingException) (new UnsupportedEncodingException(encoding, e));
+      throw (UnsupportedEncodingException)
+          (new UnsupportedEncodingException(encoding).initCause(e));
     }
 
     return decode(s, charset);
