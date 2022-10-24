@@ -31,6 +31,7 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import javaemul.internal.Comparators
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArrayBounds
+import kotlin.math.min
 
 /**
  * Utility methods related to native arrays. See <a
@@ -164,94 +165,81 @@ object Arrays {
     return sortedArray.asList().binarySearch(key, c)
   }
 
-  fun copyOf(original: BooleanArray?, newLength: Int): BooleanArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOf(original: BooleanArray, newLength: Int): BooleanArray = original.copyOf(newLength)
+
+  fun copyOf(original: ByteArray, newLength: Int): ByteArray = original.copyOf(newLength)
+
+  fun copyOf(original: CharArray, newLength: Int): CharArray = original.copyOf(newLength)
+
+  fun copyOf(original: DoubleArray, newLength: Int): DoubleArray = original.copyOf(newLength)
+
+  fun copyOf(original: FloatArray, newLength: Int): FloatArray = original.copyOf(newLength)
+
+  fun copyOf(original: IntArray, newLength: Int): IntArray = original.copyOf(newLength)
+
+  fun copyOf(original: LongArray, newLength: Int): LongArray = original.copyOf(newLength)
+
+  fun copyOf(original: ShortArray, newLength: Int): ShortArray = original.copyOf(newLength)
+
+  fun <T> copyOf(original: Array<T?>, newLength: Int): Array<T?> = original.copyOf(newLength)
+
+  fun checkCopyOfRangeArguments(originalSize: Int, from: Int, to: Int) {
+    if (from < 0 || from > originalSize) throw ArrayIndexOutOfBoundsException()
+    if (from > to) throw IllegalArgumentException()
   }
 
-  fun copyOf(original: ByteArray?, newLength: Int): ByteArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: BooleanArray, from: Int, to: Int): BooleanArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = BooleanArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun copyOf(original: CharArray?, newLength: Int): CharArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: ByteArray, from: Int, to: Int): ByteArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = ByteArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun copyOf(original: DoubleArray?, newLength: Int): DoubleArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: CharArray, from: Int, to: Int): CharArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = CharArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun copyOf(original: FloatArray?, newLength: Int): FloatArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: DoubleArray, from: Int, to: Int): DoubleArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = DoubleArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun copyOf(original: IntArray?, newLength: Int): IntArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: FloatArray, from: Int, to: Int): FloatArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = FloatArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun copyOf(original: LongArray?, newLength: Int): LongArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: IntArray, from: Int, to: Int): IntArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = IntArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun copyOf(original: ShortArray?, newLength: Int): ShortArray {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: LongArray, from: Int, to: Int): LongArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = LongArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun <T> copyOf(original: Array<T>?, newLength: Int): Array<T?> {
-    requireNotNull(original)
-    return original.copyOf(newLength)
+  fun copyOfRange(original: ShortArray, from: Int, to: Int): ShortArray {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = ShortArray(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
-  fun copyOfRange(original: BooleanArray?, from: Int, to: Int): BooleanArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun copyOfRange(original: ByteArray?, from: Int, to: Int): ByteArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun copyOfRange(original: CharArray?, from: Int, to: Int): CharArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun copyOfRange(original: DoubleArray?, from: Int, to: Int): DoubleArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun copyOfRange(original: FloatArray?, from: Int, to: Int): FloatArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun copyOfRange(original: IntArray?, from: Int, to: Int): IntArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun copyOfRange(original: LongArray?, from: Int, to: Int): LongArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun copyOfRange(original: ShortArray?, from: Int, to: Int): ShortArray {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
-  }
-
-  fun <T> copyOfRange(original: Array<T>?, from: Int, to: Int): Array<T> {
-    requireNotNull(original)
-    return original.copyOfRange(from, to)
+  inline fun <reified T> copyOfRange(original: Array<T?>, from: Int, to: Int): Array<T?> {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = arrayOfNulls<T>(to - from)
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
   }
 
   fun deepEquals(a1: Array<Any?>?, a2: Array<Any?>?): Boolean {

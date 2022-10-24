@@ -16,8 +16,10 @@
 package smoke;
 
 import jsinterop.annotations.JsFunction;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
+@NullMarked
 public class Asserts extends AssertsBase {
 
   public static void assertFalse(boolean condition) {
