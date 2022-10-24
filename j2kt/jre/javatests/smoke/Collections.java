@@ -341,21 +341,6 @@ public class Collections {
       return 1;
     }
 
-    @Override
-    public void add(int index, E element) {
-      throw new UnsupportedOperationException("TODO there should be a bridge");
-    }
-
-    @Override
-    public E set(int index, E element) {
-      throw new UnsupportedOperationException("TODO there should be a bridge");
-    }
-
-    @Override
-    public E remove(int index) {
-      throw new UnsupportedOperationException("TODO there should be a bridge");
-    }
-
     // The following overrides are only there to check that the override (with the Java signatures
     // of the method) compiles.
     @Override
