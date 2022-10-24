@@ -31,8 +31,8 @@ import org.jspecify.nullness.Nullable;
  */
 @KtNative(
     value = "kotlin.Comparator",
-    bridgeWith = "javaemul.lang.JavaComparator",
-    companionObject = "javaemul.lang.JavaComparator")
+    bridgeWith = "java.util.Comparator",
+    companionObject = "java.util.Comparator")
 @FunctionalInterface
 public interface Comparator<T extends @Nullable Object> {
 
@@ -97,12 +97,12 @@ public interface Comparator<T extends @Nullable Object> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends @Nullable Object> Comparator<@Nullable T> nullsFirst(
+  static <T extends @JsNonNull Object> Comparator<@Nullable T> nullsFirst(
       Comparator<? super T> comparator) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends @Nullable Object> Comparator<@Nullable T> nullsLast(
+  static <T extends @JsNonNull Object> Comparator<@Nullable T> nullsLast(
       Comparator<? super T> comparator) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
