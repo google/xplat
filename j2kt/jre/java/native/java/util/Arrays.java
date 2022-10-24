@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -38,7 +38,6 @@ import org.jspecify.nullness.Nullable;
  * doc</a> for details.
  */
 @KtNative("java.util.Arrays") // Reimplemented in Kotlin, not transpiled.
-@NullMarked
 public class Arrays {
 
   public static native <T extends @Nullable Object> List<T> asList(T... array);
@@ -103,7 +102,9 @@ public class Arrays {
 
   public static native short[] copyOf(short[] original, int newLength);
 
-  public static native <T> @Nullable T[] copyOf(@Nullable T[] original, int newLength);
+  // Note: In JSpecify, T itself cannot be nullable. But it helps J2KT and makes no difference
+  public static native <T extends @Nullable Object> @Nullable T[] copyOf(
+      @Nullable T[] original, int newLength);
 
   public static native boolean[] copyOfRange(boolean[] original, int from, int to);
 
@@ -121,7 +122,9 @@ public class Arrays {
 
   public static native short[] copyOfRange(short[] original, int from, int to);
 
-  public static native <T> @Nullable T[] copyOfRange(@Nullable T[] original, int from, int to);
+  // Note: In JSpecify, T itself cannot be nullable. But it helps J2KT and makes no difference
+  public static native <T extends @Nullable Object> @Nullable T[] copyOfRange(
+      @Nullable T[] original, int from, int to);
 
   public static native boolean deepEquals(
       @Nullable Object @Nullable [] a1, @Nullable Object @Nullable [] a2);
@@ -320,42 +323,46 @@ public class Arrays {
   public static native <T extends @Nullable Object> void parallelSort(
       T[] array, int fromIndex, int toIndex, @Nullable Comparator<? super T> c);
 
-  public static native Spliterator.OfDouble spliterator(double[] array);
+  public static native Spliterator.OfDouble spliterator(double @JsNonNull [] array);
 
   public static native Spliterator.OfDouble spliterator(
-      double[] array, int startInclusive, int endExclusive);
+      double @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static native Spliterator.OfInt spliterator(int[] array);
+  public static native Spliterator.OfInt spliterator(int @JsNonNull [] array);
 
   public static native Spliterator.OfInt spliterator(
-      int[] array, int startInclusive, int endExclusive);
+      int @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static native Spliterator.OfLong spliterator(long[] array);
+  public static native Spliterator.OfLong spliterator(long @JsNonNull [] array);
 
   public static native Spliterator.OfLong spliterator(
-      long[] array, int startInclusive, int endExclusive);
-
-  public static native <T extends @Nullable Object> Spliterator<T> spliterator(T[] array);
+      long @JsNonNull [] array, int startInclusive, int endExclusive);
 
   public static native <T extends @Nullable Object> Spliterator<T> spliterator(
-      T[] array, int startInclusive, int endExclusive);
+      T @JsNonNull [] array);
 
-  public static native DoubleStream stream(double[] array);
+  public static native <T extends @Nullable Object> Spliterator<T> spliterator(
+      T @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static native DoubleStream stream(double[] array, int startInclusive, int endExclusive);
+  public static native DoubleStream stream(double @JsNonNull [] array);
 
-  public static native IntStream stream(int[] array);
+  public static native DoubleStream stream(
+      double @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static native IntStream stream(int[] array, int startInclusive, int endExclusive);
+  public static native IntStream stream(int @JsNonNull [] array);
 
-  public static native LongStream stream(long[] array);
+  public static native IntStream stream(
+      int @JsNonNull [] array, int startInclusive, int endExclusive);
 
-  public static native LongStream stream(long[] array, int startInclusive, int endExclusive);
+  public static native LongStream stream(long @JsNonNull [] array);
 
-  public static native <T extends @Nullable Object> Stream<T> stream(T[] array);
+  public static native LongStream stream(
+      long @JsNonNull [] array, int startInclusive, int endExclusive);
+
+  public static native <T extends @Nullable Object> Stream<T> stream(T @JsNonNull [] array);
 
   public static native <T extends @Nullable Object> Stream<T> stream(
-      T[] array, int startInclusive, int endExclusive);
+      T @JsNonNull [] array, int startInclusive, int endExclusive);
 
   public static native String toString(boolean @Nullable [] a);
 
