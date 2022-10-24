@@ -17,13 +17,15 @@ package smoke;
 
 import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertFalse;
+import static smoke.Asserts.assertSame;
 import static smoke.Asserts.assertTrue;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 
+@NullMarked
 public class Array {
   static class ExampleObject implements Comparable<ExampleObject> {
     public int val;
@@ -33,7 +35,7 @@ public class Array {
     }
 
     @Override
-    public int compareTo(@JsNonNull ExampleObject other) {
+    public int compareTo(ExampleObject other) {
       return this.val - other.val;
     }
   }
@@ -80,6 +82,16 @@ public class Array {
   static long[] longArray3 = {4L, 3L, 1L, 2L};
   static short[] shortArray3 = {s4, s3, s1, s2};
   static ExampleObject[] objArray3 = {obj4, obj3, obj1, obj2};
+
+  static boolean[] boolArray4 = {true, false};
+  static byte[] byteArray4 = {b1, b2};
+  static char[] charArray4 = {'a', 'b'};
+  static double[] doubleArray4 = {1, 2};
+  static float[] floatArray4 = {1F, 2F};
+  static int[] intArray4 = {1, 2};
+  static long[] longArray4 = {1L, 2L};
+  static short[] shortArray4 = {s1, s2};
+  static ExampleObject[] objArray4 = {obj1, obj2};
 
   static void testArrays() {
     testAsList();
@@ -151,50 +163,59 @@ public class Array {
   }
 
   private static void testCopyOf() {
-    boolean[] boolCopy = Arrays.copyOf(boolArray2, 3);
+    boolean[] boolCopy = Arrays.copyOf(boolArray4, 3);
     assertEquals(3, boolCopy.length);
-    assertEquals(true, boolCopy[0]);
-    assertEquals(true, boolCopy[2]);
+    assertEquals(boolArray4[0], boolCopy[0]);
+    assertEquals(boolArray4[1], boolCopy[1]);
+    assertEquals(false, boolCopy[2]);
 
-    byte[] byteCopy = Arrays.copyOf(byteArray2, 3);
+    byte[] byteCopy = Arrays.copyOf(byteArray4, 3);
     assertEquals(3, byteCopy.length);
-    assertEquals(b4, byteCopy[0]);
-    assertEquals(b1, byteCopy[2]);
+    assertEquals(byteArray4[0], byteCopy[0]);
+    assertEquals(byteArray4[1], byteCopy[1]);
+    assertEquals((byte) 0, byteCopy[2]);
 
-    char[] charCopy = Arrays.copyOf(charArray2, 3);
+    char[] charCopy = Arrays.copyOf(charArray4, 3);
     assertEquals(3, charCopy.length);
-    assertEquals('d', charCopy[0]);
-    assertEquals('a', charCopy[2]);
+    assertEquals(charArray4[0], charCopy[0]);
+    assertEquals(charArray4[1], charCopy[1]);
+    assertEquals((char) 0, charCopy[2]);
 
-    double[] doubleCopy = Arrays.copyOf(doubleArray2, 3);
+    double[] doubleCopy = Arrays.copyOf(doubleArray4, 3);
     assertEquals(3, doubleCopy.length);
-    assertEquals(4.0, doubleCopy[0]);
-    assertEquals(1.0, doubleCopy[2]);
+    assertEquals(doubleArray4[0], doubleCopy[0]);
+    assertEquals(doubleArray4[1], doubleCopy[1]);
+    assertEquals(0.0, doubleCopy[2]);
 
-    float[] floatCopy = Arrays.copyOf(floatArray2, 3);
+    float[] floatCopy = Arrays.copyOf(floatArray4, 3);
     assertEquals(3, floatCopy.length);
-    assertEquals(4F, floatCopy[0]);
-    assertEquals(1F, floatCopy[2]);
+    assertEquals(floatArray4[0], floatCopy[0]);
+    assertEquals(floatArray4[1], floatCopy[1]);
+    assertEquals(0f, floatCopy[2]);
 
-    int[] intCopy = Arrays.copyOf(intArray2, 3);
+    int[] intCopy = Arrays.copyOf(intArray4, 3);
     assertEquals(3, intCopy.length);
-    assertEquals(4, intCopy[0]);
-    assertEquals(1, intCopy[2]);
+    assertEquals(intArray4[0], intCopy[0]);
+    assertEquals(intArray4[1], intCopy[1]);
+    assertEquals(0, intCopy[2]);
 
-    long[] longCopy = Arrays.copyOf(longArray2, 3);
+    long[] longCopy = Arrays.copyOf(longArray4, 3);
     assertEquals(3, longCopy.length);
-    assertEquals(4L, longCopy[0]);
-    assertEquals(1L, longCopy[2]);
+    assertEquals(longArray4[0], longCopy[0]);
+    assertEquals(longArray4[1], longCopy[1]);
+    assertEquals(0L, longCopy[2]);
 
-    short[] shortCopy = Arrays.copyOf(shortArray2, 3);
+    short[] shortCopy = Arrays.copyOf(shortArray4, 3);
     assertEquals(3, shortCopy.length);
-    assertEquals(s4, shortCopy[0]);
-    assertEquals(s1, shortCopy[2]);
+    assertEquals(shortArray4[0], shortCopy[0]);
+    assertEquals(shortArray4[1], shortCopy[1]);
+    assertEquals((short) 0, shortCopy[2]);
 
-    ExampleObject[] objCopy = Arrays.copyOf(objArray2, 3);
+    ExampleObject[] objCopy = Arrays.copyOf(objArray4, 3);
     assertEquals(3, objCopy.length);
-    assertEquals(objCopy[0], obj4);
-    assertEquals(objCopy[2], obj1);
+    assertSame(objArray4[0], objCopy[0]);
+    assertSame(objArray4[1], objCopy[1]);
+    assertSame(null, objCopy[2]);
   }
 
   private static void testCopyOfRange() {
@@ -208,50 +229,59 @@ public class Array {
     float[] floatCopy;
     boolean[] boolCopy;
 
-    boolCopy = Arrays.copyOfRange(boolArray2, 0, 3);
+    boolCopy = Arrays.copyOfRange(boolArray2, 2, 5);
     assertEquals(3, boolCopy.length);
-    assertEquals(true, boolCopy[0]);
-    assertEquals(true, boolCopy[2]);
+    assertEquals(boolArray2[2], boolCopy[0]);
+    assertEquals(boolArray2[3], boolCopy[1]);
+    assertEquals(false, boolCopy[2]);
 
-    byteCopy = Arrays.copyOfRange(byteArray2, 0, 3);
+    byteCopy = Arrays.copyOfRange(byteArray2, 2, 5);
     assertEquals(3, byteCopy.length);
-    assertEquals(b4, byteCopy[0]);
-    assertEquals(b1, byteCopy[2]);
+    assertEquals(byteArray2[2], byteCopy[0]);
+    assertEquals(byteArray2[3], byteCopy[1]);
+    assertEquals((byte) 0, byteCopy[2]);
 
-    charCopy = Arrays.copyOfRange(charArray2, 0, 3);
+    charCopy = Arrays.copyOfRange(charArray2, 2, 5);
     assertEquals(3, charCopy.length);
-    assertEquals('d', charCopy[0]);
-    assertEquals('a', charCopy[2]);
+    assertEquals(charArray2[2], charCopy[0]);
+    assertEquals(charArray2[3], charCopy[1]);
+    assertEquals((char) 0, charCopy[2]);
 
-    doubleCopy = Arrays.copyOfRange(doubleArray2, 0, 3);
+    doubleCopy = Arrays.copyOfRange(doubleArray2, 2, 5);
     assertEquals(3, doubleCopy.length);
-    assertEquals(4.0, doubleCopy[0]);
-    assertEquals(1.0, doubleCopy[2]);
+    assertEquals(doubleArray2[2], doubleCopy[0]);
+    assertEquals(doubleArray2[3], doubleCopy[1]);
+    assertEquals(0.0, doubleCopy[2]);
 
-    floatCopy = Arrays.copyOfRange(floatArray2, 0, 3);
+    floatCopy = Arrays.copyOfRange(floatArray2, 2, 5);
     assertEquals(3, floatCopy.length);
-    assertEquals(4F, floatCopy[0]);
-    assertEquals(1F, floatCopy[2]);
+    assertEquals(floatArray2[2], floatCopy[0]);
+    assertEquals(floatArray2[3], floatCopy[1]);
+    assertEquals(0.0f, floatCopy[2]);
 
-    intCopy = Arrays.copyOfRange(intArray2, 0, 3);
+    intCopy = Arrays.copyOfRange(intArray2, 2, 5);
     assertEquals(3, intCopy.length);
-    assertEquals(4, intCopy[0]);
-    assertEquals(1, intCopy[2]);
+    assertEquals(intArray2[2], intCopy[0]);
+    assertEquals(intArray2[3], intCopy[1]);
+    assertEquals(0, intCopy[2]);
 
-    longCopy = Arrays.copyOfRange(longArray2, 0, 3);
+    longCopy = Arrays.copyOfRange(longArray2, 2, 5);
     assertEquals(3, longCopy.length);
-    assertEquals(4L, longCopy[0]);
-    assertEquals(1L, longCopy[2]);
+    assertEquals(longArray2[2], longCopy[0]);
+    assertEquals(longArray2[3], longCopy[1]);
+    assertEquals(0L, longCopy[2]);
 
-    shortCopy = Arrays.copyOfRange(shortArray2, 0, 3);
+    shortCopy = Arrays.copyOfRange(shortArray2, 2, 5);
     assertEquals(3, shortCopy.length);
-    assertEquals(s4, shortCopy[0]);
-    assertEquals(s1, shortCopy[2]);
+    assertEquals(shortArray2[2], shortCopy[0]);
+    assertEquals(shortArray2[3], shortCopy[1]);
+    assertEquals((short) 0, shortCopy[2]);
 
-    objCopy = Arrays.copyOfRange(objArray2, 0, 3);
+    objCopy = Arrays.copyOfRange(objArray2, 2, 5);
     assertEquals(3, objCopy.length);
-    assertEquals(obj4, objCopy[0]);
-    assertEquals(obj1, objCopy[2]);
+    assertSame(objArray2[2], objCopy[0]);
+    assertSame(objArray2[3], objCopy[1]);
+    assertSame(null, objCopy[2]);
   }
 
   private static void testEquals() {
