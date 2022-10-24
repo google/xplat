@@ -18,18 +18,19 @@ package smoke
 import kotlin.test.Test
 
 class TestHarness {
+  @Test fun testArrayCopy() = LangSystem.testArrayCopy()
+  @Test fun testArrays() = Array.testArrays()
+  @Test fun testBitSets() = BitSets.testBitSets()
+  @Test fun testCollections() = Collections.testCollections()
+  @Test fun testHashCode() = LangSystem.testHashCode()
+  @Test fun testLogging() = Logging.testLogging()
   @Test fun testMath() = Math.testMath()
   @Test fun testPrimitives() = Primitives.testPrimitives()
-  @Test fun testStrings() = Strings.testStrings()
+  @Test fun testRandom() = RandomNumbers.testRandom()
   @Test fun testReflectArray() = ReflectArray.testReflectArray()
   @Test fun testRegex() = Regex.testRegex()
+  @Test fun testSecurity() = Security.testSecurity()
+  @Test fun testStrings() = Strings.testStrings()
   @Test fun testSystemTime() = LangSystem.testSystemTime()
-  @Test fun testArrayCopy() = LangSystem.testArrayCopy()
-  @Test fun testHashCode() = LangSystem.testHashCode()
-  @Test fun testRandom() = RandomNumbers.testRandom()
-  @Test fun testArrays() = Array.testArrays()
-  @Test fun testCollections() = Collections.testCollections()
-  @Test fun testLogging() = Logging.testLogging()
-  @Test fun testBitSets() = BitSets.testBitSets()
   @Test fun testThrowables() = Throwables.testThrowables()
 }

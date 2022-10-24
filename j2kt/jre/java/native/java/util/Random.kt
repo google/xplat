@@ -38,7 +38,7 @@ import kotlin.math.ln
 import kotlin.math.sqrt
 import kotlin.synchronized
 
-class Random {
+open class Random {
   var ktRandom: kotlin.random.Random
   var haveNextNextGaussian = false
   var nextNextGaussian = 0.0
