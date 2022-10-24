@@ -23,16 +23,17 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterators.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Spliterators.html">the official
+ * Java API doc</a> for details.
  *
- * Since it's hard to implement parallel algorithms in the browser environment
- * and to keep code simple, implementation does not provide splitting.
+ * <p>Since it's hard to implement parallel algorithms in the browser environment and to keep code
+ * simple, implementation does not provide splitting.
  */
+@NullMarked
 public final class Spliterators {
 
   private abstract static class BaseSpliterator<
@@ -47,14 +48,17 @@ public final class Spliterators {
           characteristics | Spliterator.SUBSIZED : characteristics;
     }
 
+    @Override
     public int characteristics() {
       return characteristics;
     }
 
+    @Override
     public long estimateSize() {
       return sizeEstimate;
     }
 
+    @Override
     public @Nullable S trySplit() {
       // see javadoc for java.util.Spliterator
       return null;
@@ -111,125 +115,122 @@ public final class Spliterators {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T extends @Nullable Object> @JsNonNull Spliterator<T> emptySpliterator() {
+  public static <T extends @Nullable Object> Spliterator<T> emptySpliterator() {
     return (Spliterator<T>) EmptySpliterator.OF_REF;
   }
 
-  public static Spliterator.@JsNonNull OfDouble emptyDoubleSpliterator() {
+  public static Spliterator.OfDouble emptyDoubleSpliterator() {
     return EmptySpliterator.OF_DOUBLE;
   }
 
-  public static Spliterator.@JsNonNull OfInt emptyIntSpliterator() {
+  public static Spliterator.OfInt emptyIntSpliterator() {
     return EmptySpliterator.OF_INT;
   }
 
-  public static Spliterator.@JsNonNull OfLong emptyLongSpliterator() {
+  public static Spliterator.OfLong emptyLongSpliterator() {
     return EmptySpliterator.OF_LONG;
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Spliterator<T> spliterator(
-      Object @JsNonNull [] array, int characteristics) {
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
+      @Nullable Object[] array, int characteristics) {
     return new ArraySpliterator<>(array, characteristics);
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Spliterator<T> spliterator(
-      Object @JsNonNull [] array, int fromIndex, int toIndex, int characteristics) {
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
+      @Nullable Object[] array, int fromIndex, int toIndex, int characteristics) {
     checkCriticalArrayBounds(fromIndex, toIndex, array.length);
     return new ArraySpliterator<>(array, fromIndex, toIndex, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfInt spliterator(
-      int @JsNonNull [] array, int characteristics) {
+  public static Spliterator.OfInt spliterator(int[] array, int characteristics) {
     return new IntArraySpliterator(array, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfInt spliterator(
-      int @JsNonNull [] array, int fromIndex, int toIndex, int characteristics) {
+  public static Spliterator.OfInt spliterator(
+      int[] array, int fromIndex, int toIndex, int characteristics) {
     checkCriticalArrayBounds(fromIndex, toIndex, array.length);
     return new IntArraySpliterator(array, fromIndex, toIndex, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfLong spliterator(
-      long @JsNonNull [] array, int characteristics) {
+  public static Spliterator.OfLong spliterator(long[] array, int characteristics) {
     return new LongArraySpliterator(array, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfLong spliterator(
-      long @JsNonNull [] array, int fromIndex, int toIndex, int characteristics) {
+  public static Spliterator.OfLong spliterator(
+      long[] array, int fromIndex, int toIndex, int characteristics) {
     checkCriticalArrayBounds(fromIndex, toIndex, array.length);
     return new LongArraySpliterator(array, fromIndex, toIndex, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfDouble spliterator(
-      double @JsNonNull [] array, int characteristics) {
+  public static Spliterator.OfDouble spliterator(double[] array, int characteristics) {
     return new DoubleArraySpliterator(array, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfDouble spliterator(
-      double @JsNonNull [] array, int fromIndex, int toIndex, int characteristics) {
+  public static Spliterator.OfDouble spliterator(
+      double[] array, int fromIndex, int toIndex, int characteristics) {
     checkCriticalArrayBounds(fromIndex, toIndex, array.length);
     return new DoubleArraySpliterator(array, fromIndex, toIndex, characteristics);
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Spliterator<T> spliterator(
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
       Collection<? extends T> c, int characteristics) {
     return new IteratorSpliterator<>(c, characteristics);
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Spliterator<T> spliterator(
+  public static <T extends @Nullable Object> Spliterator<T> spliterator(
       Iterator<? extends T> it, long size, int characteristics) {
     return new IteratorSpliterator<>(it, size, characteristics);
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Spliterator<T> spliteratorUnknownSize(
+  public static <T extends @Nullable Object> Spliterator<T> spliteratorUnknownSize(
       Iterator<? extends T> it, int characteristics) {
     return new IteratorSpliterator<>(it, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfInt spliterator(
+  public static Spliterator.OfInt spliterator(
       PrimitiveIterator.OfInt it, long size, int characteristics) {
     return new IntIteratorSpliterator(it, size, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfInt spliteratorUnknownSize(
+  public static Spliterator.OfInt spliteratorUnknownSize(
       PrimitiveIterator.OfInt it, int characteristics) {
     return new IntIteratorSpliterator(it, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfLong spliterator(
+  public static Spliterator.OfLong spliterator(
       PrimitiveIterator.OfLong it, long size, int characteristics) {
     return new LongIteratorSpliterator(it, size, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfLong spliteratorUnknownSize(
+  public static Spliterator.OfLong spliteratorUnknownSize(
       PrimitiveIterator.OfLong it, int characteristics) {
     return new LongIteratorSpliterator(it, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfDouble spliterator(
+  public static Spliterator.OfDouble spliterator(
       PrimitiveIterator.OfDouble it, long size, int characteristics) {
     return new DoubleIteratorSpliterator(it, size, characteristics);
   }
 
-  public static Spliterator.@JsNonNull OfDouble spliteratorUnknownSize(
+  public static Spliterator.OfDouble spliteratorUnknownSize(
       PrimitiveIterator.OfDouble it, int characteristics) {
     return new DoubleIteratorSpliterator(it, characteristics);
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Iterator<T> iterator(
+  public static <T extends @Nullable Object> Iterator<T> iterator(
       Spliterator<? extends T> spliterator) {
     return new ConsumerIterator<>(spliterator);
   }
 
-  public static PrimitiveIterator.@JsNonNull OfDouble iterator(Spliterator.OfDouble spliterator) {
+  public static PrimitiveIterator.OfDouble iterator(Spliterator.OfDouble spliterator) {
     return new DoubleConsumerIterator(spliterator);
   }
 
-  public static PrimitiveIterator.@JsNonNull OfInt iterator(Spliterator.OfInt spliterator) {
+  public static PrimitiveIterator.OfInt iterator(Spliterator.OfInt spliterator) {
     return new IntConsumerIterator(spliterator);
   }
 
-  public static PrimitiveIterator.@JsNonNull OfLong iterator(Spliterator.OfLong spliterator) {
+  public static PrimitiveIterator.OfLong iterator(Spliterator.OfLong spliterator) {
     return new LongConsumerIterator(spliterator);
   }
 
@@ -242,10 +243,12 @@ public final class Spliterators {
     static final Spliterator.OfInt OF_INT = new EmptySpliterator.OfInt();
     static final Spliterator.OfLong OF_LONG = new EmptySpliterator.OfLong();
 
+    @Override
     public int characteristics() {
       return Spliterator.SIZED | Spliterator.SUBSIZED;
     }
 
+    @Override
     public long estimateSize() {
       return 0;
     }
@@ -259,6 +262,7 @@ public final class Spliterators {
       return false;
     }
 
+    @Override
     public @Nullable S trySplit() {
       return null;
     }
@@ -482,7 +486,7 @@ public final class Spliterators {
     }
 
     @Override
-    public Comparator<? super T> getComparator() {
+    public @Nullable Comparator<? super T> getComparator() {
       checkSorted(characteristics);
       return null;
     }
@@ -531,7 +535,7 @@ public final class Spliterators {
     }
 
     @Override
-    public Comparator<? super Double> getComparator() {
+    public @Nullable Comparator<? super Double> getComparator() {
       checkSorted(characteristics());
       return null;
     }
@@ -566,7 +570,7 @@ public final class Spliterators {
     }
 
     @Override
-    public Comparator<? super Integer> getComparator() {
+    public @Nullable Comparator<? super Integer> getComparator() {
       checkSorted(characteristics());
       return null;
     }
@@ -601,7 +605,7 @@ public final class Spliterators {
     }
 
     @Override
-    public Comparator<? super Long> getComparator() {
+    public @Nullable Comparator<? super Long> getComparator() {
       checkSorted(characteristics());
       return null;
     }
@@ -645,7 +649,7 @@ public final class Spliterators {
       }
     }
 
-    public Comparator<? super T> getComparator() {
+    public @Nullable Comparator<? super T> getComparator() {
       checkSorted(characteristics);
       return null;
     }
@@ -671,13 +675,13 @@ public final class Spliterators {
       extends BaseArraySpliterator<T, Spliterator<T>, Consumer<? super T>>
       implements Spliterator<T> {
 
-    private final Object[] array;
+    private final @Nullable Object[] array;
 
-    ArraySpliterator(Object[] array, int characteristics) {
+    ArraySpliterator(@Nullable Object[] array, int characteristics) {
       this(array, 0, array.length, characteristics);
     }
 
-    ArraySpliterator(Object[] array, int from, int limit, int characteristics) {
+    ArraySpliterator(@Nullable Object[] array, int from, int limit, int characteristics) {
       super(from, limit, characteristics);
       this.array = array;
     }

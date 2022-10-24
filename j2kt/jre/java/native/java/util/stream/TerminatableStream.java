@@ -18,8 +18,10 @@ package java.util.stream;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.jspecify.nullness.NullMarked;
 
 // package protected, as not part of jre
+@NullMarked
 class TerminatableStream<T extends TerminatableStream<T>> {
   // root-only fields, ignored for non-root instances
   private boolean terminated = false;

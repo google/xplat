@@ -15,6 +15,7 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -25,6 +26,7 @@ import org.jspecify.nullness.Nullable;
  * @param <T> type of the object argument
  */
 @FunctionalInterface
+@NullMarked
 public interface ObjDoubleConsumer<T extends @Nullable Object> {
 
   void accept(T t, double value);

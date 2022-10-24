@@ -18,6 +18,7 @@ package java.util.function;
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
 import java.util.Comparator;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,6 +28,7 @@ import org.jspecify.nullness.Nullable;
  * @param <T> type of both operands and the result
  */
 @FunctionalInterface
+@NullMarked
 public interface BinaryOperator<T extends @Nullable Object> extends BiFunction<T, T, T> {
 
   static <T extends @Nullable Object> BinaryOperator<T> maxBy(Comparator<? super T> comparator) {

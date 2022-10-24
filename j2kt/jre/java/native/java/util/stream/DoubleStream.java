@@ -35,12 +35,14 @@ import java.util.function.DoubleToLongFunction;
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/DoubleStream.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/DoubleStream.html">the
+ * official Java API doc</a> for details.
  */
+@NullMarked
 public interface DoubleStream extends BaseStream<Double, DoubleStream> {
 
   /**

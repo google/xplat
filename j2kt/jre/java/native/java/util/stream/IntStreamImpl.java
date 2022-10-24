@@ -41,11 +41,13 @@ import java.util.function.IntUnaryOperator;
 import java.util.function.LongConsumer;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Main implementation of IntStream, wrapping a single spliterator, and an optional parent stream.
  */
+@NullMarked
 final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements IntStream {
 
   /**
@@ -744,7 +746,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
           Spliterator<Integer> ordered = null;
 
           @Override
-          public Comparator<? super Integer> getComparator() {
+          public @Nullable Comparator<? super Integer> getComparator() {
             return null;
           }
 

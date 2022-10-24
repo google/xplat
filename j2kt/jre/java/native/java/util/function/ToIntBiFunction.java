@@ -15,6 +15,7 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -25,6 +26,7 @@ import org.jspecify.nullness.Nullable;
  * @param <U> type of the second argument
  */
 @FunctionalInterface
+@NullMarked
 public interface ToIntBiFunction<T extends @Nullable Object, U extends @Nullable Object> {
 
   int applyAsInt(T t, U u);

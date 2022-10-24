@@ -18,6 +18,7 @@ package java.util.function;
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
 import java.util.Objects;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,6 +28,7 @@ import org.jspecify.nullness.Nullable;
  * @param <T> type of the argument
  */
 @FunctionalInterface
+@NullMarked
 public interface Predicate<T extends @Nullable Object> {
 
   static <T extends @Nullable Object> Predicate<T> isEqual(Object targetRef) {

@@ -17,21 +17,21 @@ package java.util.stream;
 
 import java.util.Spliterator;
 import java.util.function.Supplier;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/StreamSupport.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/StreamSupport.html">the
+ * official Java API doc</a> for details.
  */
+@NullMarked
 public final class StreamSupport {
 
-  public static @JsNonNull DoubleStream doubleStream(
-      Spliterator.OfDouble spliterator, boolean parallel) {
+  public static DoubleStream doubleStream(Spliterator.OfDouble spliterator, boolean parallel) {
     return new DoubleStreamImpl(null, spliterator);
   }
 
-  public static @JsNonNull DoubleStream doubleStream(
+  public static DoubleStream doubleStream(
       Supplier<? extends Spliterator.OfDouble> supplier, int characteristics, boolean parallel) {
     // TODO this is somewhat convoluted, and would be better served by a lazy singleton spliterator
     return Stream.of(supplier)
@@ -42,11 +42,11 @@ public final class StreamSupport {
             });
   }
 
-  public static @JsNonNull IntStream intStream(Spliterator.OfInt spliterator, boolean parallel) {
+  public static IntStream intStream(Spliterator.OfInt spliterator, boolean parallel) {
     return new IntStreamImpl(null, spliterator);
   }
 
-  public static @JsNonNull IntStream intStream(
+  public static IntStream intStream(
       Supplier<? extends Spliterator.OfInt> supplier, int characteristics, boolean parallel) {
     // TODO this is somewhat convoluted, and would be better served by a lazy singleton spliterator
     return Stream.of(supplier)
@@ -57,11 +57,11 @@ public final class StreamSupport {
             });
   }
 
-  public static @JsNonNull LongStream longStream(Spliterator.OfLong spliterator, boolean parallel) {
+  public static LongStream longStream(Spliterator.OfLong spliterator, boolean parallel) {
     return new LongStreamImpl(null, spliterator);
   }
 
-  public static @JsNonNull LongStream longStream(
+  public static LongStream longStream(
       Supplier<? extends Spliterator.OfLong> supplier,
       int characteristics,
       final boolean parallel) {
@@ -74,12 +74,12 @@ public final class StreamSupport {
             });
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Stream<T> stream(
+  public static <T extends @Nullable Object> Stream<T> stream(
       Spliterator<T> spliterator, boolean parallel) {
     return new StreamImpl<T>(null, spliterator);
   }
 
-  public static <T extends @Nullable Object> @JsNonNull Stream<T> stream(
+  public static <T extends @Nullable Object> Stream<T> stream(
       Supplier<? extends Spliterator<T>> supplier, int characteristics, final boolean parallel) {
     // TODO this is somewhat convoluted, and would be better served by a lazy singleton spliterator
     return Stream.of(supplier)

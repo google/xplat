@@ -41,11 +41,13 @@ import java.util.function.LongToIntFunction;
 import java.util.function.LongUnaryOperator;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Main implementation of LongStream, wrapping a single spliterator, and an optional parent stream.
  */
+@NullMarked
 final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements LongStream {
 
   /**
@@ -383,7 +385,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
     }
 
     @Override
-    public Comparator<? super Long> getComparator() {
+    public @Nullable Comparator<? super Long> getComparator() {
       return original.getComparator();
     }
 
@@ -655,7 +657,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
   }
 
   @Override
-  public <U> Stream<U> mapToObj(LongFunction<? extends U> mapper) {
+  public <U extends @Nullable Object> Stream<U> mapToObj(LongFunction<? extends U> mapper) {
     throwIfTerminated();
     return new StreamImpl<U>(this, new MapToObjSpliterator<U>(mapper, spliterator));
   }

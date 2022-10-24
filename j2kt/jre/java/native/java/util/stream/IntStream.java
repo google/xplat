@@ -38,12 +38,14 @@ import java.util.function.IntToLongFunction;
 import java.util.function.IntUnaryOperator;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html">the
+ * official Java API doc</a> for details.
  */
+@NullMarked
 public interface IntStream extends BaseStream<Integer, IntStream> {
 
   /**
@@ -202,7 +204,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
           private int next = startInclusive;
 
           @Override
-          public Comparator<? super Integer> getComparator() {
+          public @Nullable Comparator<? super Integer> getComparator() {
             return null;
           }
 

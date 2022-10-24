@@ -15,6 +15,7 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,6 +25,7 @@ import org.jspecify.nullness.Nullable;
  * @param <T> type of the argument
  */
 @FunctionalInterface
+@NullMarked
 public interface ToDoubleFunction<T extends @Nullable Object> {
 
   double applyAsDouble(T value);

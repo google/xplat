@@ -45,10 +45,11 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /** Main implementation of Stream, wrapping a single spliterator and an optional parent stream. */
+@NullMarked
 final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<StreamImpl<T>>
     implements Stream<T> {
 
@@ -174,8 +175,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public <A extends @Nullable Object> A @JsNonNull [] toArray(
-        IntFunction<A @JsNonNull []> generator) {
+    public <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator) {
       terminate();
       return generator.apply(0);
     }
@@ -422,7 +422,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public Comparator<? super T> getComparator() {
+    public @Nullable Comparator<? super T> getComparator() {
       return original.getComparator();
     }
 
@@ -465,7 +465,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public Comparator<? super T> getComparator() {
+    public @Nullable Comparator<? super T> getComparator() {
       return original.getComparator();
     }
 
@@ -503,7 +503,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public Comparator<? super T> getComparator() {
+    public @Nullable Comparator<? super T> getComparator() {
       return original.getComparator();
     }
 
@@ -574,8 +574,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   }
 
   @Override
-  public <A extends @Nullable Object> A @JsNonNull [] toArray(
-      IntFunction<A @JsNonNull []> generator) {
+  public <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator) {
     List<T> collected = collect(Collectors.toList());
     return collected.toArray(generator.apply(collected.size()));
   }
@@ -623,7 +622,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     return findFirst();
   }
 
-  private static final Consumer<Object> NULL_CONSUMER = value -> { };
+  private static final Consumer<@Nullable Object> NULL_CONSUMER = value -> {};
 
   @Override
   public boolean anyMatch(Predicate<? super T> predicate) {
@@ -925,7 +924,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
           Spliterator<T> ordered = null;
 
           @Override
-          public Comparator<? super T> getComparator() {
+          public @Nullable Comparator<? super T> getComparator() {
             return comparator == Comparator.<Comparable>naturalOrder() ? null : comparator;
           }
 

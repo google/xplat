@@ -15,6 +15,7 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,6 +25,7 @@ import org.jspecify.nullness.Nullable;
  * @param <R> type of the return value
  */
 @FunctionalInterface
+@NullMarked
 public interface LongFunction<R extends @Nullable Object> {
 
   R apply(long value);

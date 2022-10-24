@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,6 +28,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <T> the type of elements returned by Spliterator.
  */
+@NullMarked
 public interface Spliterator<T extends @Nullable Object> {
 
   int DISTINCT = 0x00000001;

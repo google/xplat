@@ -17,6 +17,7 @@ package java.util.function;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,6 +28,7 @@ import org.jspecify.nullness.Nullable;
  * @param <R> type of the return value
  */
 @FunctionalInterface
+@NullMarked
 public interface Function<T extends @Nullable Object, R extends @Nullable Object> {
 
   static <T extends @Nullable Object> Function<T, T> identity() {

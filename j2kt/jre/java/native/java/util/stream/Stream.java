@@ -37,7 +37,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.function.UnaryOperator;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -46,6 +46,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <T> the type of data being streamed
  */
+@NullMarked
 public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream<T>> {
 
   /**
@@ -245,5 +246,5 @@ public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream
 
   @Nullable Object[] toArray();
 
-  <A extends @Nullable Object> A @JsNonNull [] toArray(IntFunction<A @JsNonNull []> generator);
+  <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator);
 }

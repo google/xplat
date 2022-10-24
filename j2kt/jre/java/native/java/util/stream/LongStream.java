@@ -38,12 +38,14 @@ import java.util.function.LongToIntFunction;
 import java.util.function.LongUnaryOperator;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/LongStream.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/LongStream.html">the
+ * official Java API doc</a> for details.
  */
+@NullMarked
 public interface LongStream extends BaseStream<Long, LongStream> {
 
   /**
@@ -200,7 +202,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
           private long next = startInclusive;
 
           @Override
-          public Comparator<? super Long> getComparator() {
+          public @Nullable Comparator<? super Long> getComparator() {
             return null;
           }
 

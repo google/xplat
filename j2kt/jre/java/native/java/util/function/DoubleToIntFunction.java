@@ -15,11 +15,15 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleToIntFunction.html">
- * the official Java API doc</a> for details.
+ * See <a
+ * href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleToIntFunction.html">the
+ * official Java API doc</a> for details.
  */
 @FunctionalInterface
+@NullMarked
 public interface DoubleToIntFunction {
 
   int applyAsInt(double value);

@@ -38,13 +38,14 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a
- * href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html">the
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html">the
  * official Java API doc</a> for details.
  */
+@NullMarked
 public final class Collectors {
   public static <T extends @Nullable Object> Collector<T, ?, Double> averagingDouble(
       ToDoubleFunction<? super T> mapper) {

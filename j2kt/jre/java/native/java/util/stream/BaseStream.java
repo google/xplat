@@ -18,6 +18,7 @@ package java.util.stream;
 
 import java.util.Iterator;
 import java.util.Spliterator;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,6 +28,7 @@ import org.jspecify.nullness.Nullable;
  * @param <T> the contents of the stream
  * @param <S> the type of stream implementing this interface
  */
+@NullMarked
 public interface BaseStream<T extends @Nullable Object, S extends BaseStream<T, S>>
     extends AutoCloseable {
   Iterator<T> iterator();

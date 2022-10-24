@@ -17,6 +17,7 @@ package java.util.function;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -26,6 +27,7 @@ import org.jspecify.nullness.Nullable;
  * @param <T> type of the argument
  */
 @FunctionalInterface
+@NullMarked
 public interface Consumer<T extends @Nullable Object> {
 
   void accept(T t);

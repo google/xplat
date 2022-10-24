@@ -17,11 +17,14 @@ package java.util.function;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleConsumer.html">
  * the official Java API doc</a> for details.
  */
 @FunctionalInterface
+@NullMarked
 public interface DoubleConsumer {
 
   void accept(double value);

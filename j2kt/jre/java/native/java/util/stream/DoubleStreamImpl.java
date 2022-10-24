@@ -39,12 +39,14 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Main implementation of DoubleStream, wrapping a single spliterator, and an optional parent
  * stream.
  */
+@NullMarked
 final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implements DoubleStream {
 
   /**
@@ -378,7 +380,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
     }
 
     @Override
-    public Comparator<? super Double> getComparator() {
+    public @Nullable Comparator<? super Double> getComparator() {
       return original.getComparator();
     }
 

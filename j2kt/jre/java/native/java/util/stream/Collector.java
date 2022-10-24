@@ -22,6 +22,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -32,6 +33,7 @@ import org.jspecify.nullness.Nullable;
  * @param <A> the type of accumulator used to track results
  * @param <R> the final output data type
  */
+@NullMarked
 public interface Collector<
     T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> {
 

@@ -15,6 +15,7 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,6 +25,7 @@ import org.jspecify.nullness.Nullable;
  * @param <T> type of both argument and return value
  */
 @FunctionalInterface
+@NullMarked
 public interface UnaryOperator<T extends @Nullable Object> extends Function<T, T> {
 
   static <T extends @Nullable Object> UnaryOperator<T> identity() {

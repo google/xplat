@@ -15,11 +15,14 @@
  */
 package java.util.function;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/BooleanSupplier.html">
  * the official Java API doc</a> for details.
  */
 @FunctionalInterface
+@NullMarked
 public interface BooleanSupplier {
 
   boolean getAsBoolean();
