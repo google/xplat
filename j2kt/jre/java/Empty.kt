@@ -13,20 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package smoke;
 
-import static smoke.Asserts.assertEquals;
-
-import java.security.SecureRandom;
-
-class Security {
-
-  static void testSecurity() {
-    testSecureRandom();
-  }
-
-  static void testSecureRandom() {
-    SecureRandom secureRandom = new SecureRandom();
-    assertEquals(0, secureRandom.nextInt(1));
-  }
-}
+// Empty kotlin source file to satisfy the corresponding requirement of kt_native_library,
+// Which we are using here to add a dependency on an objc library to a j2kt_native_library.
+// TODO(b/255519786): Cleanup / remove

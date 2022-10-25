@@ -38,18 +38,13 @@ import kotlin.math.ln
 import kotlin.math.sqrt
 import kotlin.synchronized
 
-open class Random {
-  var ktRandom: kotlin.random.Random
+open class Random internal constructor(var ktRandom: kotlin.random.Random) {
   var haveNextNextGaussian = false
   var nextNextGaussian = 0.0
 
-  constructor() {
-    ktRandom = kotlin.random.Random.Default
-  }
+  constructor() : this(kotlin.random.Random.Default)
 
-  constructor(seed: Long) {
-    ktRandom = kotlin.random.Random(seed)
-  }
+  constructor(seed: Long) : this(kotlin.random.Random(seed))
 
   fun nextBoolean() = ktRandom.nextBoolean()
 

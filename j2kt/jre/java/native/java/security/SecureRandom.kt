@@ -16,14 +16,24 @@
 package java.security
 
 import java.util.Random
+import kotlinx.cinterop.IntVar
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.ptr
+import kotlinx.cinterop.value
+import platform.Security.SecRandomCopyBytes
+import platform.Security.kSecRandomDefault
 
 /**
  * Implementation of SecureRandom that passes the randomization into to iOS random number generator.
  */
-// TODO(b/253266919): Actually implement this based on the iOS secure random number generator.
-public class SecureRandom : Random() {
-
-  init {
-    throw UnsupportedOperationException("Secure random runtime not implemented.")
-  }
-}
+public class SecureRandom :
+  Random(
+    object : kotlin.random.Random() {
+      override fun nextBits(bits: Int): Int = memScoped {
+        val intVar: IntVar = alloc<IntVar>()
+        SecRandomCopyBytes(kSecRandomDefault, 4, intVar.ptr)
+        return if (bits == 32) intVar.value else intVar.value and ((1 shl bits) - 1)
+      }
+    }
+  )
