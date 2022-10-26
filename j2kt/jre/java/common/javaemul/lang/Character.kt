@@ -54,16 +54,6 @@ fun Char.Companion.hashCode(c: Char): Int = c.hashCode()
 
 fun Char.Companion.digit(ch: Char, radix: Int): Int = ch.digitToIntOrNull(radix) ?: -1
 
-fun Char.shr(pos: Int): Int {
-  val intVal = this.toInt()
-  return intVal.shr(pos)
-}
-
-fun Char.ushr(pos: Int): Int {
-  val intVal = this.toInt()
-  return intVal.ushr(pos)
-}
-
 fun Char.Companion.charCount(codePoint: Int): Int =
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) 2 else 1
 
@@ -128,3 +118,9 @@ private fun Char.Companion.getLowSurrogate(codePoint: Int) =
 
 private fun Char.Companion.getHighSurrogate(codePoint: Int) =
   (MIN_HIGH_SURROGATE + (((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) shr 10) and 1023)).toChar()
+
+fun Char.shr(pos: Int): Int = toInt().shr(pos)
+
+fun Char.ushr(pos: Int): Int = toInt().ushr(pos)
+
+operator fun Char.unaryMinus(): Int = toInt().unaryMinus()

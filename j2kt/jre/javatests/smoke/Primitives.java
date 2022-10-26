@@ -278,6 +278,8 @@ public class Primitives {
 
     assertEquals(4607, '迿' >>> 3);
     assertEquals(4607, '迿' >> 3);
+
+    assertEquals(-65, -'A');
   }
 
   private static void testDecode() throws Exception {
