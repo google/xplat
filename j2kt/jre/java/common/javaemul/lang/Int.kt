@@ -16,6 +16,7 @@
 package javaemul.lang
 
 import java.lang.Class
+import javaemul.internal.decodeNumberString
 import kotlin.jvm.javaPrimitiveType
 import kotlin.math.sign
 
@@ -36,6 +37,11 @@ fun Int.Companion.valueOf(s: String): Int = s.toInt()
 fun Int.Companion.valueOf(s: String, radix: Int): Int = s.toInt(radix)
 
 fun Int.Companion.compare(i1: Int, i2: Int): Int = i1.compareTo(i2)
+
+fun Int.Companion.decode(s: String): Int {
+  val (radix, payload) = decodeNumberString(s)
+  return payload.toInt(radix)
+}
 
 fun Int.Companion.toString(i: Int): String = i.toString()
 

@@ -30,6 +30,7 @@ public class Primitives {
     testByte();
     testFloat();
     testCharacter();
+    testDecode();
   }
 
   private static void testBoolean() {
@@ -277,5 +278,24 @@ public class Primitives {
 
     assertEquals(4607, '迿' >>> 3);
     assertEquals(4607, '迿' >> 3);
+  }
+
+  private static void testDecode() throws Exception {
+    assertEquals(123, Integer.decode("123"));
+    assertEquals(123, Integer.decode("+123"));
+    assertEquals(-123, Integer.decode("-123"));
+    assertEquals(0123, Integer.decode("0123"));
+    assertEquals(+0123, Integer.decode("+0123"));
+    assertEquals(-0123, Integer.decode("-0123"));
+    assertEquals(0x123, Integer.decode("0x123"));
+    assertEquals(+0x123, Integer.decode("+0x123"));
+    assertEquals(-0x123, Integer.decode("-0x123"));
+    assertEquals(0x123, Integer.decode("#123"));
+    assertEquals(+0x123, Integer.decode("+#123"));
+    assertEquals(-0x123, Integer.decode("-#123"));
+
+    assertEquals((byte) 0100, Byte.decode("0100"));
+    assertEquals((short) 0x1234, Short.decode("0x1234"));
+    assertEquals(0xaaaabbbbccccL, Long.decode("#aaaabbbbcccc"));
   }
 }

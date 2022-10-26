@@ -16,6 +16,7 @@
 package javaemul.lang
 
 import java.lang.Class
+import javaemul.internal.decodeNumberString
 import kotlin.jvm.javaPrimitiveType
 
 /**
@@ -35,6 +36,11 @@ fun Byte.Companion.valueOf(s: String): Byte = s.toByte()
 fun Byte.Companion.valueOf(s: String, radix: Int): Byte = s.toByte(radix)
 
 fun Byte.Companion.compare(b1: Byte, b2: Byte): Int = b1.compareTo(b2)
+
+fun Byte.Companion.decode(s: String): Byte {
+  val (radix, payload) = decodeNumberString(s)
+  return payload.toByte(radix)
+}
 
 fun Byte.Companion.toString(b: Byte): String = b.toString()
 
