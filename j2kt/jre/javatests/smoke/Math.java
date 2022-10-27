@@ -23,6 +23,10 @@ import java.math.RoundingMode;
 public class Math {
 
   static void testMath() {
+    testRoundingMode();
+  }
+
+  static void testRoundingMode() {
     String s = "precision=5 roundingMode=HALF_UP";
     assertEquals(new MathContext(5, RoundingMode.HALF_UP), new MathContext(s));
     assertEquals(s, new MathContext(5, RoundingMode.HALF_UP).toString());
