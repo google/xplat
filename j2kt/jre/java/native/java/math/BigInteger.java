@@ -40,6 +40,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 import java.io.Serializable;
 import java.util.Random;
 import javaemul.internal.LongUtils;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -576,16 +577,15 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
   }
 
   /**
-   * Compares this {@code BigInteger} with {@code val}. Returns one of the three
-   * values 1, 0, or -1.
+   * Compares this {@code BigInteger} with {@code val}. Returns one of the three values 1, 0, or -1.
    *
    * @param val value to be compared with {@code this}.
-   * @return {@code 1} if {@code this > val}, {@code -1} if {@code this < val} ,
-   *         {@code 0} if {@code this == val}.
+   * @return {@code 1} if {@code this > val}, {@code -1} if {@code this < val} , {@code 0} if {@code
+   *     this == val}.
    * @throws NullPointerException if {@code val == null}.
    */
   @Override
-  public int compareTo(BigInteger val) {
+  public int compareTo(@JsNonNull BigInteger val) {
     if (sign > val.sign) {
       return GREATER;
     }
