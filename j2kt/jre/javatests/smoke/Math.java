@@ -17,13 +17,21 @@ package smoke;
 
 import static smoke.Asserts.assertEquals;
 
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class Math {
 
   static void testMath() {
+    testBigInteger();
     testRoundingMode();
+  }
+
+  static void testBigInteger() {
+    assertEquals(0, BigInteger.ZERO.intValue());
+    assertEquals(1, BigInteger.ONE.intValue());
+    assertEquals(10, BigInteger.TEN.intValue());
   }
 
   static void testRoundingMode() {
