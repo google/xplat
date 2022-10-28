@@ -109,22 +109,21 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
     }
   }
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * Returns a random positive {@code BigInteger} instance in the range [0,
-  //  * 2^(bitLength)-1] which is probably prime. The probability that the returned
-  //  * {@code BigInteger} is prime is beyond (1-1/2^80).
-  //  * <p>
-  //  * <b>Implementation Note:</b> Currently {@code rnd} is ignored.
-  //  *
-  //  * @param bitLength length of the new {@code BigInteger} in bits.
-  //  * @param rnd random generator used to generate the new {@code BigInteger}.
-  //  * @return probably prime random {@code BigInteger} instance.
-  //  * @throws ArithmeticException if {@code bitLength < 2}.
-  //  */
-  // public static BigInteger probablePrime(int bitLength, Random rnd) {
-  //   return new BigInteger(bitLength, 100, rnd);
-  // }
+  /**
+   * Returns a random positive {@code BigInteger} instance in the range [0, 2^(bitLength)-1] which
+   * is probably prime. The probability that the returned {@code BigInteger} is prime is beyond
+   * (1-1/2^80).
+   *
+   * <p><b>Implementation Note:</b> Currently {@code rnd} is ignored.
+   *
+   * @param bitLength length of the new {@code BigInteger} in bits.
+   * @param rnd random generator used to generate the new {@code BigInteger}.
+   * @return probably prime random {@code BigInteger} instance.
+   * @throws ArithmeticException if {@code bitLength < 2}.
+   */
+  public static BigInteger probablePrime(int bitLength, Random rnd) {
+    return new BigInteger(bitLength, 100, rnd);
+  }
 
   public static BigInteger valueOf(long val) {
     return val >= 0 ? BigInteger.fromBits(val) : BigInteger.fromBits(-val).negate();
@@ -153,64 +152,62 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
     return new BigInteger(1, intCount + 1, resDigits);
   }
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * @see BigInteger#BigInteger(String, int)
-  //  */
-  // private static void setFromString(BigInteger bi, String val, int radix) {
-  //   int sign;
-  //   int[] digits;
-  //   int numberLength;
-  //   int stringLength = val.length();
-  //   int startChar;
-  //   int endChar = stringLength;
+  /**
+   * @see BigInteger#BigInteger(String, int)
+   */
+  private static void setFromString(BigInteger bi, String val, int radix) {
+    int sign;
+    int[] digits;
+    int numberLength;
+    int stringLength = val.length();
+    int startChar;
+    int endChar = stringLength;
 
-  //   if (val.charAt(0) == '-') {
-  //     sign = -1;
-  //     startChar = 1;
-  //     stringLength--;
-  //   } else {
-  //     sign = 1;
-  //     startChar = 0;
-  //   }
-  //   /*
-  //    * We use the following algorithm: split a string into portions of n
-  //    * characters and convert each portion to an integer according to the radix.
-  //    * Then convert an exp(radix, n) based number to binary using the
-  //    * multiplication method. See D. Knuth, The Art of Computer Programming,
-  //    * vol. 2.
-  //    */
+    if (val.charAt(0) == '-') {
+      sign = -1;
+      startChar = 1;
+      stringLength--;
+    } else {
+      sign = 1;
+      startChar = 0;
+    }
+    /*
+     * We use the following algorithm: split a string into portions of n
+     * characters and convert each portion to an integer according to the radix.
+     * Then convert an exp(radix, n) based number to binary using the
+     * multiplication method. See D. Knuth, The Art of Computer Programming,
+     * vol. 2.
+     */
 
-  //   int charsPerInt = Conversion.digitFitInInt[radix];
-  //   int bigRadixDigitsLength = stringLength / charsPerInt;
-  //   int topChars = stringLength % charsPerInt;
+    int charsPerInt = Conversion.digitFitInInt[radix];
+    int bigRadixDigitsLength = stringLength / charsPerInt;
+    int topChars = stringLength % charsPerInt;
 
-  //   if (topChars != 0) {
-  //     bigRadixDigitsLength++;
-  //   }
-  //   digits = new int[bigRadixDigitsLength];
-  //   // Get the maximal power of radix that fits in int
-  //   int bigRadix = Conversion.bigRadices[radix - 2];
-  //   // Parse an input string and accumulate the BigInteger's magnitude
-  //   int digitIndex = 0; // index of digits array
-  //   int substrEnd = startChar + ((topChars == 0) ? charsPerInt : topChars);
-  //   int newDigit;
+    if (topChars != 0) {
+      bigRadixDigitsLength++;
+    }
+    digits = new int[bigRadixDigitsLength];
+    // Get the maximal power of radix that fits in int
+    int bigRadix = Conversion.bigRadices[radix - 2];
+    // Parse an input string and accumulate the BigInteger's magnitude
+    int digitIndex = 0; // index of digits array
+    int substrEnd = startChar + ((topChars == 0) ? charsPerInt : topChars);
+    int newDigit;
 
-  //   for (int substrStart = startChar; substrStart < endChar; substrStart = substrEnd, substrEnd =
-  // substrStart
-  //       + charsPerInt) {
-  //     int bigRadixDigit = Integer.parseInt(
-  //         val.substring(substrStart, substrEnd), radix);
-  //     newDigit = Multiplication.multiplyByInt(digits, digitIndex, bigRadix);
-  //     newDigit += Elementary.inplaceAdd(digits, digitIndex, bigRadixDigit);
-  //     digits[digitIndex++] = newDigit;
-  //   }
-  //   numberLength = digitIndex;
-  //   bi.sign = sign;
-  //   bi.numberLength = numberLength;
-  //   bi.digits = digits;
-  //   bi.cutOffLeadingZeroes();
-  // }
+    for (int substrStart = startChar;
+        substrStart < endChar;
+        substrStart = substrEnd, substrEnd = substrStart + charsPerInt) {
+      int bigRadixDigit = Integer.parseInt(val.substring(substrStart, substrEnd), radix);
+      newDigit = Multiplication.multiplyByInt(digits, digitIndex, bigRadix);
+      newDigit += Elementary.inplaceAdd(digits, digitIndex, bigRadixDigit);
+      digits[digitIndex++] = newDigit;
+    }
+    numberLength = digitIndex;
+    bi.sign = sign;
+    bi.numberLength = numberLength;
+    bi.digits = digits;
+    bi.cutOffLeadingZeroes();
+  }
 
   /**
    * The magnitude of this big integer. This array is in little endian order and each "digit" is a
@@ -305,27 +302,26 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
     }
   }
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * Constructs a random {@code BigInteger} instance in the range [0, 2^(bitLength)-1] which is
-  //  * probably prime. The probability that the returned {@code BigInteger} is prime is beyond
-  //  * (1-1/2^certainty).
-  //  *
-  //  * @param bitLength length of the new {@code BigInteger} in bits.
-  //  * @param certainty tolerated primality uncertainty.
-  //  * @param rnd is an optional random generator to be used.
-  //  * @throws ArithmeticException if {@code bitLength} < 2.
-  //  */
-  // public BigInteger(int bitLength, int certainty, Random rnd) {
-  //   if (bitLength < 2) {
-  //     // math.1C=bitLength < 2
-  //     throw new ArithmeticException("bitLength < 2"); //$NON-NLS-1$
-  //   }
-  //   BigInteger me = Primality.consBigInteger(bitLength, certainty, rnd);
-  //   sign = me.sign;
-  //   numberLength = me.numberLength;
-  //   digits = me.digits;
-  // }
+  /**
+   * Constructs a random {@code BigInteger} instance in the range [0, 2^(bitLength)-1] which is
+   * probably prime. The probability that the returned {@code BigInteger} is prime is beyond
+   * (1-1/2^certainty).
+   *
+   * @param bitLength length of the new {@code BigInteger} in bits.
+   * @param certainty tolerated primality uncertainty.
+   * @param rnd is an optional random generator to be used.
+   * @throws ArithmeticException if {@code bitLength} < 2.
+   */
+  public BigInteger(int bitLength, int certainty, Random rnd) {
+    if (bitLength < 2) {
+      // math.1C=bitLength < 2
+      throw new ArithmeticException("bitLength < 2"); // $NON-NLS-1$
+    }
+    BigInteger me = Primality.consBigInteger(bitLength, certainty, rnd);
+    sign = me.sign;
+    numberLength = me.numberLength;
+    digits = me.digits;
+  }
 
   /**
    * Constructs a random non-negative {@code BigInteger} instance in the range [0, 2^(numBits)-1].
@@ -354,22 +350,19 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
     }
   }
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * Constructs a new {@code BigInteger} instance from the string representation. The string
-  //  * representation consists of an optional minus sign followed by a non-empty sequence of
-  // decimal
-  //  * digits.
-  //  *
-  //  * @param val string representation of the new {@code BigInteger}.
-  //  * @throws NullPointerException if {@code val == null}.
-  //  * @throws NumberFormatException if {@code val} is not a valid representation of a {@code
-  //  *     BigInteger}.
-  //  *     <p>public BigInteger(String val) { this(val, 10); }
-  //  */
-  // public BigInteger(String val) {
-  //   this(val, 10);
-  // }
+  /**
+   * Constructs a new {@code BigInteger} instance from the string representation. The string
+   * representation consists of an optional minus sign followed by a non-empty sequence of decimal
+   * digits.
+   *
+   * @param val string representation of the new {@code BigInteger}.
+   * @throws NullPointerException if {@code val == null}.
+   * @throws NumberFormatException if {@code val} is not a valid representation of a {@code
+   *     BigInteger}.
+   */
+  public BigInteger(String val) {
+    this(val, 10);
+  }
 
   /**
    * Constructs a new {@code BigInteger} instance from the string representation. The string
@@ -385,20 +378,17 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
    *     Character.MAX_RADIX}.
    */
   public BigInteger(String val, int radix) {
-    // TODO(b/237503140): Re-enable
-    throw new RuntimeException("Disabled (b/237503140)");
-    //
-    //   checkNotNull(val);
-    //
-    //   if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
-    //     // math.11=Radix out of range
-    //     throw new NumberFormatException("Radix out of range"); //$NON-NLS-1$
-    //   }
-    //   if (val.isEmpty()) {
-    //     // math.12=Zero length BigInteger
-    //     throw new NumberFormatException("Zero length BigInteger"); //$NON-NLS-1$
-    //   }
-    //   setFromString(this, val, radix);
+    checkNotNull(val);
+
+    if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
+      // math.11=Radix out of range
+      throw new NumberFormatException("Radix out of range"); // $NON-NLS-1$
+    }
+    if (val.isEmpty()) {
+      // math.12=Zero length BigInteger
+      throw new NumberFormatException("Zero length BigInteger"); // $NON-NLS-1$
+    }
+    setFromString(this, val, radix);
   }
 
   /**
@@ -855,24 +845,19 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
     throw new ArithmeticException("out of int range");
   }
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * Tests whether this {@code BigInteger} is probably prime. If {@code true} is returned, then
-  // this
-  //  * is prime with a probability beyond (1-1/2^certainty). If {@code false} is returned, then
-  // this
-  //  * is definitely composite. If the argument {@code certainty} <= 0, then this method returns
-  // true.
-  //  *
-  //  * @param certainty tolerated primality uncertainty.
-  //  * @return {@code true}, if {@code this} is probably prime, {@code false} otherwise.
-  //  *     <p>public boolean isProbablePrime(int certainty) { return
-  // Primality.isProbablePrime(abs(),
-  //  *     certainty); }
-  //  */
-  // public boolean isProbablePrime(int certainty) {
-  //   return Primality.isProbablePrime(abs(), certainty);
-  // }
+  /**
+   * Tests whether this {@code BigInteger} is probably prime. If {@code true} is returned, then this
+   * is prime with a probability beyond (1-1/2^certainty). If {@code false} is returned, then this
+   * is definitely composite. If the argument {@code certainty} <= 0, then this method returns true.
+   *
+   * @param certainty tolerated primality uncertainty.
+   * @return {@code true}, if {@code this} is probably prime, {@code false} otherwise.
+   *     <p>public boolean isProbablePrime(int certainty) { return Primality.isProbablePrime(abs(),
+   *     certainty); }
+   */
+  public boolean isProbablePrime(int certainty) {
+    return Primality.isProbablePrime(abs(), certainty);
+  }
 
   /**
    * Returns this {@code BigInteger} as an long value. If {@code this} is too big to be represented
@@ -1053,23 +1038,20 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
     return sign == 0 ? this : new BigInteger(-sign, numberLength, digits);
   }
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * Returns the smallest integer x > {@code this} which is probably prime as a {@code
-  // BigInteger}
-  //  * instance. The probability that the returned {@code BigInteger} is prime is beyond
-  // (1-1/2^80).
-  //  *
-  //  * @return smallest integer > {@code this} which is robably prime.
-  //  * @throws ArithmeticException if {@code this < 0}.
-  //  */
-  // public BigInteger nextProbablePrime() {
-  //   if (sign < 0) {
-  //     // math.1A=start < 0: {0}
-  //     throw new ArithmeticException("start < 0: " + this); //$NON-NLS-1$
-  //   }
-  //   return Primality.nextProbablePrime(this);
-  // }
+  /**
+   * Returns the smallest integer x > {@code this} which is probably prime as a {@code BigInteger}
+   * instance. The probability that the returned {@code BigInteger} is prime is beyond (1-1/2^80).
+   *
+   * @return smallest integer > {@code this} which is robably prime.
+   * @throws ArithmeticException if {@code this < 0}.
+   */
+  public BigInteger nextProbablePrime() {
+    if (sign < 0) {
+      // math.1A=start < 0: {0}
+      throw new ArithmeticException("start < 0: " + this); // $NON-NLS-1$
+    }
+    return Primality.nextProbablePrime(this);
+  }
 
   /**
    * Returns a new {@code BigInteger} whose value is {@code ~this}. The result of this operation is
@@ -1368,16 +1350,15 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
     return bytes;
   }
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * Returns a string representation of this {@code BigInteger} in decimal form.
-  //  *
-  //  * @return a string representation of {@code this} in decimal form.
-  //  */
-  // @Override
-  // public String toString() {
-  //   return Conversion.toDecimalScaledString(this, 0);
-  // }
+  /**
+   * Returns a string representation of this {@code BigInteger} in decimal form.
+   *
+   * @return a string representation of {@code this} in decimal form.
+   */
+  @Override
+  public String toString() {
+    return Conversion.toDecimalScaledString(this, 0);
+  }
 
   /**
    * Returns a string containing a string representation of this {@code BigInteger} with base radix.
@@ -1389,9 +1370,7 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
    * @return a string representation of this with radix 10.
    */
   public String toString(int radix) {
-    // TODO(b/237503140): Re-enable
-    throw new RuntimeException("Disabled (b/237503140)");
-    // return Conversion.bigInteger2String(this, radix);
+    return Conversion.bigInteger2String(this, radix);
   }
 
   /**

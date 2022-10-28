@@ -16,7 +16,10 @@
 package smoke;
 
 import static smoke.Asserts.assertEquals;
+import static smoke.Asserts.assertFalse;
+import static smoke.Asserts.assertTrue;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -24,14 +27,24 @@ import java.math.RoundingMode;
 public class Math {
 
   static void testMath() {
+    testBigDecimal();
     testBigInteger();
     testRoundingMode();
+  }
+
+  static void testBigDecimal() {
+    assertEquals(0.5, BigDecimal.valueOf(0.5).doubleValue());
+    assertEquals(BigDecimal.ONE, BigDecimal.valueOf(1));
+    assertEquals(1, BigDecimal.ONE.intValue());
   }
 
   static void testBigInteger() {
     assertEquals(0, BigInteger.ZERO.intValue());
     assertEquals(1, BigInteger.ONE.intValue());
     assertEquals(10, BigInteger.TEN.intValue());
+
+    assertTrue(new BigInteger("35742549198872617291353508656626642567").isProbablePrime(10));
+    assertFalse(new BigInteger("35742549198872617291353508656626642568").isProbablePrime(10));
   }
 
   static void testRoundingMode() {

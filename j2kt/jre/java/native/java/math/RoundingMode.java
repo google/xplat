@@ -91,35 +91,34 @@ public enum RoundingMode {
    */
   UNNECESSARY;
 
-  // TODO(b/237503140): Re-enable
-  // /**
-  //  * Converts rounding mode constants from class {@code BigDecimal} into {@code
-  //  * RoundingMode} values.
-  //  *
-  //  * @param mode rounding mode constant as defined in class {@code BigDecimal}
-  //  * @return corresponding rounding mode object
-  //  */
-  // public static RoundingMode valueOf(int mode) {
-  //   switch (mode) {
-  //     case BigDecimal.ROUND_CEILING:
-  //       return CEILING;
-  //     case BigDecimal.ROUND_DOWN:
-  //       return DOWN;
-  //     case BigDecimal.ROUND_FLOOR:
-  //       return FLOOR;
-  //     case BigDecimal.ROUND_HALF_DOWN:
-  //       return HALF_DOWN;
-  //     case BigDecimal.ROUND_HALF_EVEN:
-  //       return HALF_EVEN;
-  //     case BigDecimal.ROUND_HALF_UP:
-  //       return HALF_UP;
-  //     case BigDecimal.ROUND_UNNECESSARY:
-  //       return UNNECESSARY;
-  //     case BigDecimal.ROUND_UP:
-  //       return UP;
-  //     default:
-  //       // math.00=Invalid rounding mode
-  //       throw new IllegalArgumentException("Invalid rounding mode");
-  //   }
-  // }
+  /**
+   * Converts rounding mode constants from class {@code BigDecimal} into {@code RoundingMode}
+   * values.
+   *
+   * @param mode rounding mode constant as defined in class {@code BigDecimal}
+   * @return corresponding rounding mode object
+   */
+  public static RoundingMode valueOf(int mode) {
+    switch (mode) {
+      case BigDecimal.ROUND_CEILING:
+        return CEILING;
+      case BigDecimal.ROUND_DOWN:
+        return DOWN;
+      case BigDecimal.ROUND_FLOOR:
+        return FLOOR;
+      case BigDecimal.ROUND_HALF_DOWN:
+        return HALF_DOWN;
+      case BigDecimal.ROUND_HALF_EVEN:
+        return HALF_EVEN;
+      case BigDecimal.ROUND_HALF_UP:
+        return HALF_UP;
+      case BigDecimal.ROUND_UNNECESSARY:
+        return UNNECESSARY;
+      case BigDecimal.ROUND_UP:
+        return UP;
+      default:
+        // math.00=Invalid rounding mode
+        throw new IllegalArgumentException("Invalid rounding mode");
+    }
+  }
 }

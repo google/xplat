@@ -37,33 +37,27 @@ package java.math;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
-import javaemul.internal.NativeRegExp;
-import javaemul.internal.Platform;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
- * This class represents immutable arbitrary precision decimal numbers. Each
- * {@code BigDecimal} instance is represented with a unscaled arbitrary
- * precision mantissa (the unscaled value) and a scale. The value of the {@code
- * BigDecimal} is {@code unscaledValue} 10^(-{@code scale}).
+ * This class represents immutable arbitrary precision decimal numbers. Each {@code BigDecimal}
+ * instance is represented with a unscaled arbitrary precision mantissa (the unscaled value) and a
+ * scale. The value of the {@code BigDecimal} is {@code unscaledValue} 10^(-{@code scale}).
  */
-public class BigDecimal extends Number implements Comparable<BigDecimal>,
-    Serializable {
+// TODO(b/256117556): This implementation is optimized for J2cl and if there are actual long-term
+//   use cases, we should replace the small value double with a long.
+public class BigDecimal extends Number implements Comparable<BigDecimal>, Serializable {
 
-  /**
-   * One more than the number of bits which can be stored in {@link #smallValue}.
-   */
+  /** One more than the number of bits which can be stored in {@link #smallValue}. */
   private static final int SMALL_VALUE_BITS = 54;
 
-  /**
-   * The constant one as a {@code BigDecimal}.
-   */
+  /** The constant one as a {@code BigDecimal}. */
   public static final BigDecimal ONE = new BigDecimal(1, 0);
 
   /**
-   * Rounding mode to round towards positive infinity. For positive values this
-   * rounding mode behaves as {@link #ROUND_UP}, for negative values as
-   * {@link #ROUND_DOWN}.
+   * Rounding mode to round towards positive infinity. For positive values this rounding mode
+   * behaves as {@link #ROUND_UP}, for negative values as {@link #ROUND_DOWN}.
    *
    * @see RoundingMode#CEILING
    */
@@ -77,138 +71,153 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   public static final int ROUND_DOWN = 1;
 
   /**
-   * Rounding mode to round towards negative infinity. For positive values this
-   * rounding mode behaves as {@link #ROUND_DOWN}, for negative values as
-   * {@link #ROUND_UP}.
+   * Rounding mode to round towards negative infinity. For positive values this rounding mode
+   * behaves as {@link #ROUND_DOWN}, for negative values as {@link #ROUND_UP}.
    *
    * @see RoundingMode#FLOOR
    */
   public static final int ROUND_FLOOR = 3;
 
   /**
-   * Rounding mode where values are rounded towards the nearest neighbor. Ties
-   * are broken by rounding down.
+   * Rounding mode where values are rounded towards the nearest neighbor. Ties are broken by
+   * rounding down.
    *
    * @see RoundingMode#HALF_DOWN
    */
   public static final int ROUND_HALF_DOWN = 5;
 
   /**
-   * Rounding mode where values are rounded towards the nearest neighbor. Ties
-   * are broken by rounding to the even neighbor.
+   * Rounding mode where values are rounded towards the nearest neighbor. Ties are broken by
+   * rounding to the even neighbor.
    *
    * @see RoundingMode#HALF_EVEN
    */
   public static final int ROUND_HALF_EVEN = 6;
 
   /**
-   * Rounding mode where values are rounded towards the nearest neighbor. Ties
-   * are broken by rounding up.
+   * Rounding mode where values are rounded towards the nearest neighbor. Ties are broken by
+   * rounding up.
    *
    * @see RoundingMode#HALF_UP
    */
   public static final int ROUND_HALF_UP = 4;
 
   /**
-   * Rounding mode where the rounding operations throws an {@code
-   * ArithmeticException} for the case that rounding is necessary, i.e. for the
-   * case that the value cannot be represented exactly.
+   * Rounding mode where the rounding operations throws an {@code ArithmeticException} for the case
+   * that rounding is necessary, i.e. for the case that the value cannot be represented exactly.
    *
    * @see RoundingMode#UNNECESSARY
    */
   public static final int ROUND_UNNECESSARY = 7;
 
   /**
-   * Rounding mode where positive values are rounded towards positive infinity
-   * and negative values towards negative infinity.
+   * Rounding mode where positive values are rounded towards positive infinity and negative values
+   * towards negative infinity.
    *
    * @see RoundingMode#UP
    */
   public static final int ROUND_UP = 0;
 
-  /**
-   * The constant ten as a {@code BigDecimal}.
-   */
+  /** The constant ten as a {@code BigDecimal}. */
   public static final BigDecimal TEN = new BigDecimal(10, 0);
 
-  /**
-   * The constant zero as a {@code BigDecimal}.
-   */
+  /** The constant zero as a {@code BigDecimal}. */
   public static final BigDecimal ZERO = new BigDecimal(0, 0);
-
-  /**
-   * Stores a regular expression object to verify the format of unscaled bigdecimal values.
-   */
-  private static NativeRegExp unscaledRegex;
 
   private static final int BI_SCALED_BY_ZERO_LENGTH = 11;
 
   /**
-   * An array with the first <code>BigInteger</code> scaled by zero. (
-   * <code>[0,0],[1,0],...,[10,0]</code>).
+   * An array with the first <code>BigInteger</code> scaled by zero. ( <code>[0,0],[1,0],...,[10,0]
+   * </code>).
    */
   private static final BigDecimal BI_SCALED_BY_ZERO[] = new BigDecimal[BI_SCALED_BY_ZERO_LENGTH];
 
-  /**
-   * An array filled with characters <code>'0'</code>.
-   */
+  /** An array filled with characters <code>'0'</code>. */
   private static final char[] CH_ZEROS = new char[100];
 
-  private static final double[] DOUBLE_FIVE_POW = new double[] {
-      1D, 5D, 25D, 125D, 625D, 3125D, 15625D, 78125D, 390625D, 1953125D,
-      9765625D, 48828125D, 244140625D, 1220703125D, 6103515625D, 30517578125D,
-      152587890625D, 762939453125D, 3814697265625D, 19073486328125D,
-      95367431640625D, 476837158203125D, 2384185791015625D,};
+  private static final double[] DOUBLE_FIVE_POW =
+      new double[] {
+        1D,
+        5D,
+        25D,
+        125D,
+        625D,
+        3125D,
+        15625D,
+        78125D,
+        390625D,
+        1953125D,
+        9765625D,
+        48828125D,
+        244140625D,
+        1220703125D,
+        6103515625D,
+        30517578125D,
+        152587890625D,
+        762939453125D,
+        3814697265625D,
+        19073486328125D,
+        95367431640625D,
+        476837158203125D,
+        2384185791015625D,
+      };
 
   private static final int[] DOUBLE_FIVE_POW_BIT_LENGTH = new int[DOUBLE_FIVE_POW.length];
 
   /**
-   * An array with powers of ten that fit in the type <code>double</code> (
-   * <code>10^0,10^1,...,10^18</code>).
+   * An array with powers of ten that fit in the type <code>double</code> ( <code>
+   * 10^0,10^1,...,10^18</code>).
    */
-  private static final double[] DOUBLE_TEN_POW = new double[] {
-      1D, 10D, 100D, 1000D, 10000D, 100000D, 1000000D, 10000000D, 100000000D,
-      1000000000D, 10000000000D, 100000000000D, 1000000000000D,
-      10000000000000D, 100000000000000D, 1000000000000000D,
-      10000000000000000D,};
+  private static final double[] DOUBLE_TEN_POW =
+      new double[] {
+        1D,
+        10D,
+        100D,
+        1000D,
+        10000D,
+        100000D,
+        1000000D,
+        10000000D,
+        100000000D,
+        1000000000D,
+        10000000000D,
+        100000000000D,
+        1000000000000D,
+        10000000000000D,
+        100000000000000D,
+        1000000000000000D,
+        10000000000000000D,
+      };
 
   private static final int[] DOUBLE_TEN_POW_BIT_LENGTH = new int[DOUBLE_TEN_POW.length];
 
   /**
-   * An array with powers of five that fit in the type <code>double</code> (
-   * <code>5^0,5^1,...,5^27</code>).
+   * An array with powers of five that fit in the type <code>double</code> ( <code>5^0,5^1,...,5^27
+   * </code>).
    */
   private static final BigInteger FIVE_POW[];
 
-  /**
-   * The double closest to <code>Math.log(2.0d)</code>.
-   */
+  /** The double closest to <code>Math.log(2.0d)</code>. */
   private static final double LOG2 = 0.6931471805599453d;
 
-  /**
-   * The double closest to <code>Log10(2)</code>.
-   */
+  /** The double closest to <code>Log10(2)</code>. */
   private static final double LOG10_2 = 0.3010299956639812;
 
-  /**
-   * The double closer to <code>Math.pow(2, 47)</code>.
-   */
+  /** The double closer to <code>Math.pow(2, 47)</code>. */
   private static final double POW47 = 140737488355328d;
 
-  /**
-   * This is the serialVersionUID used by the sun implementation.
-   */
+  /** This is the serialVersionUID used by the sun implementation. */
   private static final long serialVersionUID = 6108874887143696463L;
 
   /**
-   * An array with powers of ten that fit in the type <code>double</code> (
-   * <code>10^0,10^1,...,10^18</code>).
+   * An array with powers of ten that fit in the type <code>double</code> ( <code>
+   * 10^0,10^1,...,10^18</code>).
    */
   private static final BigInteger TEN_POW[];
 
   /**
-   * An array with the zero number scaled by the first positive scales. (
-   * <code>0*10^0, 0*10^1, ..., 0*10^10</code>).
+   * An array with the zero number scaled by the first positive scales. ( <code>
+   * 0*10^0, 0*10^1, ..., 0*10^10</code>).
    */
   private static final BigDecimal ZERO_SCALED_BY[] = new BigDecimal[11];
 
@@ -238,34 +247,29 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns a new {@code BigDecimal} instance whose value is equal to {@code
-   * val}. The new decimal is constructed as if the {@code BigDecimal(String)}
-   * constructor is called with an argument which is equal to {@code
-   * Double.toString(val)}. For example, {@code valueOf("0.1")} is converted to
-   * (unscaled=1, scale=1), although the double {@code 0.1} cannot be
-   * represented exactly as a double value. In contrast to that, a new {@code
-   * BigDecimal(0.1)} instance has the value {@code
-   * 0.1000000000000000055511151231257827021181583404541015625} with an unscaled
-   * value {@code 1000000000000000055511151231257827021181583404541015625} and
-   * the scale {@code 55}.
+   * Returns a new {@code BigDecimal} instance whose value is equal to {@code val}. The new decimal
+   * is constructed as if the {@code BigDecimal(String)} constructor is called with an argument
+   * which is equal to {@code Double.toString(val)}. For example, {@code valueOf("0.1")} is
+   * converted to (unscaled=1, scale=1), although the double {@code 0.1} cannot be represented
+   * exactly as a double value. In contrast to that, a new {@code BigDecimal(0.1)} instance has the
+   * value {@code 0.1000000000000000055511151231257827021181583404541015625} with an unscaled value
+   * {@code 1000000000000000055511151231257827021181583404541015625} and the scale {@code 55}.
    *
    * @param val double value to be converted to a {@code BigDecimal}.
    * @return {@code BigDecimal} instance with the value {@code val}.
-   * @throws NumberFormatException if {@code val} is infinite or {@code val} is
-   *           not a number
+   * @throws NumberFormatException if {@code val} is infinite or {@code val} is not a number
    */
   public static BigDecimal valueOf(double val) {
     if (Double.isInfinite(val) || Double.isNaN(val)) {
       // math.03=Infinity or NaN
-      throw new NumberFormatException("Infinite or NaN"); //$NON-NLS-1$
+      throw new NumberFormatException("Infinite or NaN"); // $NON-NLS-1$
     }
     return new BigDecimal(Double.toString(val));
   }
 
   /**
-   * Returns a new {@code BigDecimal} instance whose value is equal to {@code
-   * unscaledVal}. The scale of the result is {@code 0}, and its unscaled value
-   * is {@code unscaledVal}.
+   * Returns a new {@code BigDecimal} instance whose value is equal to {@code unscaledVal}. The
+   * scale of the result is {@code 0}, and its unscaled value is {@code unscaledVal}.
    *
    * @param unscaledVal value to be converted to a {@code BigDecimal}.
    * @return {@code BigDecimal} instance with the value {@code unscaledVal}.
@@ -278,15 +282,14 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns a new {@code BigDecimal} instance whose value is equal to {@code
-   * unscaledVal} 10^(-{@code scale}). The scale of the result is {@code scale},
-   * and its unscaled value is {@code unscaledVal}.
+   * Returns a new {@code BigDecimal} instance whose value is equal to {@code unscaledVal}
+   * 10^(-{@code scale}). The scale of the result is {@code scale}, and its unscaled value is {@code
+   * unscaledVal}.
    *
-   * @param unscaledVal unscaled value to be used to construct the new {@code
-   *          BigDecimal}.
+   * @param unscaledVal unscaled value to be used to construct the new {@code BigDecimal}.
    * @param scale scale to be used to construct the new {@code BigDecimal}.
-   * @return {@code BigDecimal} instance with the value {@code unscaledVal}*
-   *         10^(-{@code unscaledVal}).
+   * @return {@code BigDecimal} instance with the value {@code unscaledVal}* 10^(-{@code
+   *     unscaledVal}).
    */
   public static BigDecimal valueOf(long unscaledVal, int scale) {
     if (scale == 0) {
@@ -298,18 +301,23 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
     return new BigDecimal(unscaledVal, scale);
   }
 
-  private static BigDecimal addAndMult10(BigDecimal thisValue,
-      BigDecimal augend, double diffScale) {
+  private static BigDecimal addAndMult10(
+      BigDecimal thisValue, BigDecimal augend, double diffScale) {
     if (diffScale < DOUBLE_TEN_POW.length
-        && Math.max(thisValue.bitLength, augend.bitLength
-            + DOUBLE_TEN_POW_BIT_LENGTH[(int) diffScale]) + 1
+        && Math.max(
+                    thisValue.bitLength,
+                    augend.bitLength + DOUBLE_TEN_POW_BIT_LENGTH[(int) diffScale])
+                + 1
             < SMALL_VALUE_BITS) {
-      return valueOf(thisValue.smallValue + augend.smallValue
-          * DOUBLE_TEN_POW[(int) diffScale], thisValue.scale);
+      return valueOf(
+          thisValue.smallValue + augend.smallValue * DOUBLE_TEN_POW[(int) diffScale],
+          thisValue.scale);
     }
-    return new BigDecimal(thisValue.getUnscaledValue().add(
-        Multiplication.multiplyByTenPow(augend.getUnscaledValue(),
-            (int) diffScale)), thisValue.scale);
+    return new BigDecimal(
+        thisValue
+            .getUnscaledValue()
+            .add(Multiplication.multiplyByTenPow(augend.getUnscaledValue(), (int) diffScale)),
+        thisValue.scale);
   }
 
   private static int bitLength(double value) {
@@ -339,12 +347,12 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
     return 64 - Long.numberOfLeadingZeros(value);
   }
 
-  private static BigDecimal divideBigIntegers(BigInteger scaledDividend,
-      BigInteger scaledDivisor, int scale, RoundingMode roundingMode) {
+  private static BigDecimal divideBigIntegers(
+      BigInteger scaledDividend, BigInteger scaledDivisor, int scale, RoundingMode roundingMode) {
 
     BigInteger[] quotAndRem = scaledDividend.divideAndRemainder(scaledDivisor); // quotient
-                                                                                // and
-                                                                                // remainder
+    // and
+    // remainder
     // If after division there is a remainder...
     BigInteger quotient = quotAndRem[0];
     BigInteger remainder = quotAndRem[1];
@@ -358,14 +366,12 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
       long divisor = scaledDivisor.longValue();
       compRem = Long.compare(Math.abs(rem) << 1, Math.abs(divisor));
       // To look if there is a carry
-      compRem = roundingBehavior(quotient.testBit(0) ? 1 : 0, sign
-          * (5 + compRem), roundingMode);
+      compRem = roundingBehavior(quotient.testBit(0) ? 1 : 0, sign * (5 + compRem), roundingMode);
 
     } else {
       // Checking if: remainder * 2 >= scaledDivisor
       compRem = remainder.abs().shiftLeftOneBit().compareTo(scaledDivisor.abs());
-      compRem = roundingBehavior(quotient.testBit(0) ? 1 : 0, sign
-          * (5 + compRem), roundingMode);
+      compRem = roundingBehavior(quotient.testBit(0) ? 1 : 0, sign * (5 + compRem), roundingMode);
     }
     if (compRem != 0) {
       if (quotient.bitLength() < SMALL_VALUE_BITS) {
@@ -378,19 +384,17 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
     return new BigDecimal(quotient, scale);
   }
 
-  private static BigDecimal dividePrimitiveDoubles(double scaledDividend,
-      double scaledDivisor, int scale, RoundingMode roundingMode) {
+  private static BigDecimal dividePrimitiveDoubles(
+      double scaledDividend, double scaledDivisor, int scale, RoundingMode roundingMode) {
     double quotient = intDivide(scaledDividend, scaledDivisor);
     double remainder = scaledDividend % scaledDivisor;
     int sign = Double.compare(scaledDividend * scaledDivisor, 0.0);
     if (remainder != 0) {
       // Checking if: remainder * 2 >= scaledDivisor
       int compRem; // 'compare to remainder'
-      compRem = Double.compare(Math.abs(remainder) * 2,
-          Math.abs(scaledDivisor));
+      compRem = Double.compare(Math.abs(remainder) * 2, Math.abs(scaledDivisor));
       // To look if there is a carry
-      quotient += roundingBehavior(((int) quotient) & 1, sign * (5 + compRem),
-          roundingMode);
+      quotient += roundingBehavior(((int) quotient) & 1, sign * (5 + compRem), roundingMode);
     }
     // Constructing the result with the appropriate unscaled value
     return valueOf(quotient, scale);
@@ -402,11 +406,15 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   private static boolean isValidBigUnscaledDecimal(String str) {
-    if (unscaledRegex == null) {
-      unscaledRegex = new NativeRegExp("^[+-]?\\d*$", "i");
+    // Replacement for new NativeRegExp("^[+-]?\\d*$", "i").test(str);
+    if (str.length() > 0) {
+      for (int i = str.charAt(0) == '-' || str.charAt(0) == '+' ? 1 : 0; i < str.length(); ++i) {
+        if (str.charAt(i) < '0' || str.charAt(i) > '9') {
+          return false;
+        }
+      }
     }
-
-    return unscaledRegex.test(str);
+    return true;
   }
 
   private static double parseUnscaled(String str) {
@@ -414,24 +422,21 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Return an increment that can be -1,0 or 1, depending of {@code
-   * roundingMode}.
+   * Return an increment that can be -1,0 or 1, depending of {@code roundingMode}.
    *
-   * @param parityBit can be 0 or 1, it's only used in the case {@code
-   *          HALF_EVEN}
+   * @param parityBit can be 0 or 1, it's only used in the case {@code HALF_EVEN}
    * @param fraction the mantisa to be analyzed
    * @param roundingMode the type of rounding
    * @return the carry propagated after rounding
    */
-  private static int roundingBehavior(int parityBit, int fraction,
-      RoundingMode roundingMode) {
+  private static int roundingBehavior(int parityBit, int fraction, RoundingMode roundingMode) {
     int increment = 0; // the carry after rounding
 
     switch (roundingMode) {
       case UNNECESSARY:
         if (fraction != 0) {
           // math.08=Rounding necessary
-          throw new ArithmeticException("Rounding necessary"); //$NON-NLS-1$
+          throw new ArithmeticException("Rounding necessary"); // $NON-NLS-1$
         }
         break;
       case UP:
@@ -465,31 +470,29 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * It tests if a scale of type {@code long} fits in 32 bits. It returns the
-   * same scale being casted to {@code int} type when is possible, otherwise
-   * throws an exception.
+   * It tests if a scale of type {@code long} fits in 32 bits. It returns the same scale being
+   * casted to {@code int} type when is possible, otherwise throws an exception.
    *
    * @param doubleScale a double bit scale
    * @return a 32 bit scale when is possible
-   * @throws ArithmeticException when {@code scale} doesn't fit in {@code int}
-   *           type
+   * @throws ArithmeticException when {@code scale} doesn't fit in {@code int} type
    * @see #scale
    */
   private static int toIntScale(double doubleScale) {
     if (doubleScale < Integer.MIN_VALUE) {
       // math.09=Overflow
-      throw new ArithmeticException("Overflow"); //$NON-NLS-1$
+      throw new ArithmeticException("Overflow"); // $NON-NLS-1$
     } else if (doubleScale > Integer.MAX_VALUE) {
       // math.0A=Underflow
-      throw new ArithmeticException("Underflow"); //$NON-NLS-1$
+      throw new ArithmeticException("Underflow"); // $NON-NLS-1$
     } else {
       return (int) doubleScale;
     }
   }
 
   /**
-   * Convert a double to a string with {@code digits} precision.  The resulting
-   * string may still be in exponential notation.
+   * Convert a double to a string with {@code digits} precision. The resulting string may still be
+   * in exponential notation.
    *
    * @param digits number of digits of precision to include
    * @return non-localized string representation of {@code d}
@@ -499,11 +502,10 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * It returns the value 0 with the most approximated scale of type {@code int}
-   * . if {@code longScale > Integer.MAX_VALUE} the scale will be {@code
-   * Integer.MAX_VALUE}; if {@code longScale < Integer.MIN_VALUE} the scale will
-   * be {@code Integer.MIN_VALUE}; otherwise {@code longScale} is casted to the
-   * type {@code int}.
+   * It returns the value 0 with the most approximated scale of type {@code int} . if {@code
+   * longScale > Integer.MAX_VALUE} the scale will be {@code Integer.MAX_VALUE}; if {@code longScale
+   * < Integer.MIN_VALUE} the scale will be {@code Integer.MIN_VALUE}; otherwise {@code longScale}
+   * is casted to the type {@code int}.
    *
    * @param doubleScale the scale to which the value 0 will be scaled.
    * @return the value 0 scaled by the closer scale of type {@code int}.
@@ -521,22 +523,19 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
 
   private transient int bitLength;
 
-  /**
-   * Cache for the hash code.
-   */
+  /** Cache for the hash code. */
   private transient int hashCode;
 
   /**
-   * The arbitrary precision integer (unscaled value) in the internal
-   * representation of {@code BigDecimal}.
+   * The arbitrary precision integer (unscaled value) in the internal representation of {@code
+   * BigDecimal}.
    */
   private BigInteger intVal;
 
   /**
-   * Represent the number of decimal digits in the unscaled value. This
-   * precision is calculated the first time, and used in the following calls of
-   * method <code>precision()</code>. Note that some call to the private method
-   * <code>inplaceRound()</code> could update this field.
+   * Represent the number of decimal digits in the unscaled value. This precision is calculated the
+   * first time, and used in the following calls of method <code>precision()</code>. Note that some
+   * call to the private method <code>inplaceRound()</code> could update this field.
    *
    * @see #precision()
    * @see #inplaceRound(MathContext)
@@ -546,34 +545,30 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   private double scale;
 
   /**
-   * The unscaled integer value (stored in a double) if the number of bits is
-   * less than {@link #SMALL_VALUE_BITS}.
+   * The unscaled integer value (stored in a double) if the number of bits is less than {@link
+   * #SMALL_VALUE_BITS}.
    */
   private transient double smallValue;
 
-  /**
-   * The <code>String</code> representation is cached.
-   */
+  /** The <code>String</code> representation is cached. */
   private transient String toStringImage;
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given big integer
-   * {@code val}. The scale of the result is {@code 0}.
+   * Constructs a new {@code BigDecimal} instance from the given big integer {@code val}. The scale
+   * of the result is {@code 0}.
    *
-   * @param val {@code BigInteger} value to be converted to a {@code BigDecimal}
-   *          instance.
+   * @param val {@code BigInteger} value to be converted to a {@code BigDecimal} instance.
    */
   public BigDecimal(BigInteger val) {
     this(val, 0);
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from a given unscaled value
-   * {@code unscaledVal} and a given scale. The value of this instance is
-   * {@code unscaledVal} 10^(-{@code scale}).
+   * Constructs a new {@code BigDecimal} instance from a given unscaled value {@code unscaledVal}
+   * and a given scale. The value of this instance is {@code unscaledVal} 10^(-{@code scale}).
    *
-   * @param unscaledVal {@code BigInteger} representing the unscaled value of
-   *          this {@code BigDecimal} instance.
+   * @param unscaledVal {@code BigInteger} representing the unscaled value of this {@code
+   *     BigDecimal} instance.
    * @param scale scale of this {@code BigDecimal} instance.
    * @throws NullPointerException if {@code unscaledVal == null}.
    */
@@ -582,18 +577,17 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from a given unscaled value
-   * {@code unscaledVal} and a given scale. The value of this instance is
-   * {@code unscaledVal} 10^(-{@code scale}). The result is rounded according to
-   * the specified math context.
+   * Constructs a new {@code BigDecimal} instance from a given unscaled value {@code unscaledVal}
+   * and a given scale. The value of this instance is {@code unscaledVal} 10^(-{@code scale}). The
+   * result is rounded according to the specified math context.
    *
-   * @param unscaledVal {@code BigInteger} representing the unscaled value of
-   *          this {@code BigDecimal} instance.
+   * @param unscaledVal {@code BigInteger} representing the unscaled value of this {@code
+   *     BigDecimal} instance.
    * @param scale scale of this {@code BigDecimal} instance.
    * @param mc rounding mode and precision for the result of this operation.
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           mc.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code mc.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    * @throws NullPointerException if {@code unscaledVal == null}.
    */
   public BigDecimal(BigInteger unscaledVal, int scale, MathContext mc) {
@@ -602,15 +596,14 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given big integer
-   * {@code val}. The scale of the result is {@code 0}.
+   * Constructs a new {@code BigDecimal} instance from the given big integer {@code val}. The scale
+   * of the result is {@code 0}.
    *
-   * @param val {@code BigInteger} value to be converted to a {@code BigDecimal}
-   *          instance.
+   * @param val {@code BigInteger} value to be converted to a {@code BigDecimal} instance.
    * @param mc rounding mode and precision for the result of this operation.
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           mc.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code mc.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    */
   public BigDecimal(BigInteger val, MathContext mc) {
     this(val);
@@ -618,32 +611,30 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from a string representation
-   * given as a character array.
+   * Constructs a new {@code BigDecimal} instance from a string representation given as a character
+   * array.
    *
-   * @param in array of characters containing the string representation of this
-   *          {@code BigDecimal}.
+   * @param in array of characters containing the string representation of this {@code BigDecimal}.
    * @throws NullPointerException if {@code in == null}.
-   * @throws NumberFormatException if {@code in} does not contain a valid string
-   *           representation of a big decimal.
+   * @throws NumberFormatException if {@code in} does not contain a valid string representation of a
+   *     big decimal.
    */
   public BigDecimal(char[] in) {
     this(in, 0, in.length);
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from a string representation
-   * given as a character array.
+   * Constructs a new {@code BigDecimal} instance from a string representation given as a character
+   * array.
    *
-   * @param in array of characters containing the string representation of this
-   *          {@code BigDecimal}.
+   * @param in array of characters containing the string representation of this {@code BigDecimal}.
    * @param offset first index to be copied.
    * @param len number of characters to be used.
    * @throws NullPointerException if {@code in == null}.
-   * @throws NumberFormatException if {@code offset < 0} or {@code len <= 0} or
-   *           {@code offset+len-1 < 0} or {@code offset+len-1 >= in.length}.
-   * @throws NumberFormatException if in does not contain a valid string
-   *           representation of a big decimal.
+   * @throws NumberFormatException if {@code offset < 0} or {@code len <= 0} or {@code offset+len-1
+   *     < 0} or {@code offset+len-1 >= in.length}.
+   * @throws NumberFormatException if in does not contain a valid string representation of a big
+   *     decimal.
    */
   public BigDecimal(char[] in, int offset, int len) {
     try {
@@ -654,22 +645,21 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from a string representation
-   * given as a character array.
+   * Constructs a new {@code BigDecimal} instance from a string representation given as a character
+   * array.
    *
-   * @param in array of characters containing the string representation of this
-   *          {@code BigDecimal}.
+   * @param in array of characters containing the string representation of this {@code BigDecimal}.
    * @param offset first index to be copied.
    * @param len number of characters to be used.
    * @param mc rounding mode and precision for the result of this operation.
    * @throws NullPointerException if {@code in == null}.
-   * @throws NumberFormatException if {@code offset < 0} or {@code len <= 0} or
-   *           {@code offset+len-1 < 0} or {@code offset+len-1 >= in.length}.
-   * @throws NumberFormatException if {@code in} does not contain a valid string
-   *           representation of a big decimal.
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           mc.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws NumberFormatException if {@code offset < 0} or {@code len <= 0} or {@code offset+len-1
+   *     < 0} or {@code offset+len-1 >= in.length}.
+   * @throws NumberFormatException if {@code in} does not contain a valid string representation of a
+   *     big decimal.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code mc.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    */
   public BigDecimal(char[] in, int offset, int len, MathContext mc) {
     this(in, offset, len);
@@ -677,19 +667,17 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from a string representation
-   * given as a character array. The result is rounded according to the
-   * specified math context.
+   * Constructs a new {@code BigDecimal} instance from a string representation given as a character
+   * array. The result is rounded according to the specified math context.
    *
-   * @param in array of characters containing the string representation of this
-   *          {@code BigDecimal}.
+   * @param in array of characters containing the string representation of this {@code BigDecimal}.
    * @param mc rounding mode and precision for the result of this operation.
    * @throws NullPointerException if {@code in == null}.
-   * @throws NumberFormatException if {@code in} does not contain a valid string
-   *           representation of a big decimal.
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           mc.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws NumberFormatException if {@code in} does not contain a valid string representation of a
+   *     big decimal.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code mc.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    */
   public BigDecimal(char[] in, MathContext mc) {
     this(in, 0, in.length);
@@ -697,31 +685,74 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given double {@code
-   * val}. The scale of the result is 0.
+   * Constructs a new {@code BigDecimal} instance from the given double {@code val}. The scale of
+   * the result is 0.
    *
    * @param val double value to be converted to a {@code BigDecimal} instance.
    * @throws NumberFormatException if {@code val} is infinite or a NaN
    */
   public BigDecimal(double val) {
     if (Double.isInfinite(val) || Double.isNaN(val)) {
-      // math.03=Infinity or NaN
-      throw new NumberFormatException("Infinite or NaN"); //$NON-NLS-1$
+      throw new NumberFormatException("Infinity or NaN: " + val);
     }
-    initFrom(Platform.toPrecision(val, 20));
+    long bits = Double.doubleToLongBits(val); // IEEE-754
+    int trailingZeros;
+    // Extracting the exponent, note that the bias is 1023
+    int scale = 1075 - (int) ((bits >> 52) & 0x7FFL);
+    this.scale = scale;
+    // Extracting the 52 bits of the mantissa.
+    long mantissa =
+        (scale == 1075)
+            ? (bits & 0xFFFFFFFFFFFFFL) << 1
+            : (bits & 0xFFFFFFFFFFFFFL) | 0x10000000000000L;
+    if (mantissa == 0) {
+      scale = 0;
+      precision = 1;
+    }
+    // To simplify all factors '2' in the mantissa
+    if (scale > 0) {
+      trailingZeros = Math.min(scale, Long.numberOfTrailingZeros(mantissa));
+      mantissa >>>= trailingZeros;
+      scale -= trailingZeros;
+    }
+    // Calculating the new unscaled value and the new scale
+    if ((bits >> 63) != 0) {
+      mantissa = -mantissa;
+    }
+    int mantissaBits = bitLength(mantissa);
+    if (scale < 0) {
+      bitLength = mantissaBits == 0 ? 0 : mantissaBits - scale;
+      if (bitLength < SMALL_VALUE_BITS) {
+        smallValue = mantissa << (-scale);
+      } else {
+        intVal = BigInteger.valueOf(mantissa).shiftLeft(-scale);
+      }
+      scale = 0;
+    } else if (scale > 0) {
+      // m * 2^e =  (m * 5^(-e)) * 10^e
+      if (scale < DOUBLE_FIVE_POW.length
+          && mantissaBits + DOUBLE_FIVE_POW_BIT_LENGTH[scale] < SMALL_VALUE_BITS) {
+        smallValue = mantissa * DOUBLE_FIVE_POW[scale];
+        bitLength = bitLength(smallValue);
+      } else {
+        setUnscaledValue(Multiplication.multiplyByFivePow(BigInteger.valueOf(mantissa), scale));
+      }
+    } else { // scale == 0
+      smallValue = mantissa;
+      bitLength = mantissaBits;
+    }
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given double {@code
-   * val}. The scale of the result is 0. The result is rounded according to the
-   * specified math context.
+   * Constructs a new {@code BigDecimal} instance from the given double {@code val}. The scale of
+   * the result is 0. The result is rounded according to the specified math context.
    *
    * @param val double value to be converted to a {@code BigDecimal} instance.
    * @param mc rounding mode and precision for the result of this operation.
    * @throws NumberFormatException if {@code val} is infinite or a NaN
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           mc.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code mc.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    */
   public BigDecimal(double val, MathContext mc) {
     this(val);
@@ -729,8 +760,8 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given int {@code val}
-   * . The scale of the result is 0.
+   * Constructs a new {@code BigDecimal} instance from the given int {@code val} . The scale of the
+   * result is 0.
    *
    * @param val int value to be converted to a {@code BigDecimal} instance.
    */
@@ -739,15 +770,14 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given int {@code val}
-   * . The scale of the result is {@code 0}. The result is rounded according to
-   * the specified math context.
+   * Constructs a new {@code BigDecimal} instance from the given int {@code val} . The scale of the
+   * result is {@code 0}. The result is rounded according to the specified math context.
    *
    * @param val int value to be converted to a {@code BigDecimal} instance.
    * @param mc rounding mode and precision for the result of this operation.
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           c.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code c.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    */
   public BigDecimal(int val, MathContext mc) {
     this(val, 0);
@@ -755,8 +785,8 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given long {@code
-   * val}. The scale of the result is {@code 0}.
+   * Constructs a new {@code BigDecimal} instance from the given long {@code val}. The scale of the
+   * result is {@code 0}.
    *
    * @param val long value to be converted to a {@code BigDecimal} instance.
    */
@@ -765,15 +795,14 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from the given long {@code
-   * val}. The scale of the result is {@code 0}. The result is rounded according
-   * to the specified math context.
+   * Constructs a new {@code BigDecimal} instance from the given long {@code val}. The scale of the
+   * result is {@code 0}. The result is rounded according to the specified math context.
    *
    * @param val long value to be converted to a {@code BigDecimal} instance.
    * @param mc rounding mode and precision for the result of this operation.
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           mc.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code mc.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    */
   public BigDecimal(long val, MathContext mc) {
     this(val);
@@ -783,27 +812,25 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   /**
    * Constructs a new {@code BigDecimal} instance from a string representation.
    *
-   * @param val string containing the string representation of this {@code
-   *          BigDecimal}.
-   * @throws NumberFormatException if {@code val} does not contain a valid
-   *           string representation of a big decimal.
+   * @param val string containing the string representation of this {@code BigDecimal}.
+   * @throws NumberFormatException if {@code val} does not contain a valid string representation of
+   *     a big decimal.
    */
   public BigDecimal(String val) {
     initFrom(val);
   }
 
   /**
-   * Constructs a new {@code BigDecimal} instance from a string representation.
-   * The result is rounded according to the specified math context.
+   * Constructs a new {@code BigDecimal} instance from a string representation. The result is
+   * rounded according to the specified math context.
    *
-   * @param val string containing the string representation of this {@code
-   *          BigDecimal}.
+   * @param val string containing the string representation of this {@code BigDecimal}.
    * @param mc rounding mode and precision for the result of this operation.
-   * @throws NumberFormatException if {@code val} does not contain a valid
-   *           string representation of a big decimal.
-   * @throws ArithmeticException if {@code mc.precision > 0} and {@code
-   *           mc.roundingMode == UNNECESSARY} and the new big decimal cannot be
-   *           represented within the given precision without rounding.
+   * @throws NumberFormatException if {@code val} does not contain a valid string representation of
+   *     a big decimal.
+   * @throws ArithmeticException if {@code mc.precision > 0} and {@code mc.roundingMode ==
+   *     UNNECESSARY} and the new big decimal cannot be represented within the given precision
+   *     without rounding.
    */
   public BigDecimal(String val, MathContext mc) {
     this(val.toCharArray(), 0, val.length());
@@ -832,8 +859,8 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns a new {@code BigDecimal} whose value is the absolute value of
-   * {@code this}. The scale of the result is the same as the scale of this.
+   * Returns a new {@code BigDecimal} whose value is the absolute value of {@code this}. The scale
+   * of the result is the same as the scale of this.
    *
    * @return {@code abs(this)}
    */
@@ -842,9 +869,8 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns a new {@code BigDecimal} whose value is the absolute value of
-   * {@code this}. The result is rounded according to the passed context {@code
-   * mc}.
+   * Returns a new {@code BigDecimal} whose value is the absolute value of {@code this}. The result
+   * is rounded according to the passed context {@code mc}.
    *
    * @param mc rounding mode and precision for the result of this operation.
    * @return {@code abs(this)}
@@ -854,8 +880,8 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns a new {@code BigDecimal} whose value is {@code this + augend}. The
-   * scale of the result is the maximum of the scales of the two arguments.
+   * Returns a new {@code BigDecimal} whose value is {@code this + augend}. The scale of the result
+   * is the maximum of the scales of the two arguments.
    *
    * @param augend value to be added to {@code this}.
    * @return {@code this + augend}.
@@ -882,8 +908,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
       if (Math.max(this.bitLength, augend.bitLength) + 1 < SMALL_VALUE_BITS) {
         return valueOf(this.smallValue + augend.smallValue, this.scale);
       }
-      return new BigDecimal(this.getUnscaledValue().add(
-          augend.getUnscaledValue()), this.scale);
+      return new BigDecimal(this.getUnscaledValue().add(augend.getUnscaledValue()), this.scale);
     } else if (diffScale > 0) {
       // case s1 > s2 : [(u1 + u2) * 10 ^ (s1 - s2) , s1]
       return addAndMult10(this, augend, diffScale);
@@ -894,14 +919,13 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns a new {@code BigDecimal} whose value is {@code this + augend}. The
-   * result is rounded according to the passed context {@code mc}.
+   * Returns a new {@code BigDecimal} whose value is {@code this + augend}. The result is rounded
+   * according to the passed context {@code mc}.
    *
    * @param augend value to be added to {@code this}.
    * @param mc rounding mode and precision for the result of this operation.
    * @return {@code this + augend}.
-   * @throws NullPointerException if {@code augend == null} or {@code mc ==
-   *           null}.
+   * @throws NullPointerException if {@code augend == null} or {@code mc == null}.
    */
   public BigDecimal add(BigDecimal augend, MathContext mc) {
     BigDecimal larger; // operand with the largest unscaled value
@@ -932,13 +956,14 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
     // scales
     largerSignum = larger.signum();
     if (largerSignum == smaller.signum()) {
-      tempBI = Multiplication.multiplyByPositiveInt(larger.getUnscaledValue(),
-          10).add(BigInteger.valueOf(largerSignum));
+      tempBI =
+          Multiplication.multiplyByPositiveInt(larger.getUnscaledValue(), 10)
+              .add(BigInteger.valueOf(largerSignum));
     } else {
-      tempBI = larger.getUnscaledValue().subtract(
-          BigInteger.valueOf(largerSignum));
-      tempBI = Multiplication.multiplyByPositiveInt(tempBI, 10).add(
-          BigInteger.valueOf(largerSignum * 9));
+      tempBI = larger.getUnscaledValue().subtract(BigInteger.valueOf(largerSignum));
+      tempBI =
+          Multiplication.multiplyByPositiveInt(tempBI, 10)
+              .add(BigInteger.valueOf(largerSignum * 9));
     }
     // Rounding the improved adding
     larger = new BigDecimal(tempBI, larger.scale + 1);
@@ -946,34 +971,31 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>,
   }
 
   /**
-   * Returns this {@code BigDecimal} as a byte value if it has no fractional
-   * part and if its value fits to the byte range ([-128..127]). If these
-   * conditions are not met, an {@code ArithmeticException} is thrown.
+   * Returns this {@code BigDecimal} as a byte value if it has no fractional part and if its value
+   * fits to the byte range ([-128..127]). If these conditions are not met, an {@code
+   * ArithmeticException} is thrown.
    *
    * @return this {@code BigDecimal} as a byte value.
-   * @throws ArithmeticException if rounding is necessary or the number doesn't
-   *           fit in a byte.
+   * @throws ArithmeticException if rounding is necessary or the number doesn't fit in a byte.
    */
   public byte byteValueExact() {
     return (byte) valueExact(8);
   }
 
   /**
-   * Compares this {@code BigDecimal} with {@code val}. Returns one of the three
-   * values {@code 1}, {@code 0}, or {@code -1}. The method behaves as if
-   * {@code this.subtract(val)} is computed. If this difference is > 0 then 1 is
-   * returned, if the difference is < 0 then -1 is returned, and if the
-   * difference is 0 then 0 is returned. This means, that if two decimal
-   * instances are compared which are equal in value but differ in scale, then
-   * these two instances are considered as equal.
+   * Compares this {@code BigDecimal} with {@code val}. Returns one of the three values {@code 1},
+   * {@code 0}, or {@code -1}. The method behaves as if {@code this.subtract(val)} is computed. If
+   * this difference is > 0 then 1 is returned, if the difference is < 0 then -1 is returned, and if
+   * the difference is 0 then 0 is returned. This means, that if two decimal instances are compared
+   * which are equal in value but differ in scale, then these two instances are considered as equal.
    *
    * @param val value to be compared with {@code this}.
-   * @return {@code 1} if {@code this > val}, {@code -1} if {@code this < val},
-   *         {@code 0} if {@code this == val}.
+   * @return {@code 1} if {@code this > val}, {@code -1} if {@code this < val}, {@code 0} if {@code
+   *     this == val}.
    * @throws NullPointerException if {@code val == null}.
    */
   @Override
-  public int compareTo(BigDecimal val) {
+  public int compareTo(@JsNonNull BigDecimal val) {
     int thisSign = signum();
     int valueSign = val.signum();
 
