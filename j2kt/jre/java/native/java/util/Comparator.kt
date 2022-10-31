@@ -66,10 +66,10 @@ fun interface Comparator<T> : kotlin.Comparator<T> {
     fun <T> comparingLong(keyExtractor: ToLongFunction<in T>): kotlin.Comparator<T> =
       Comparator<T> { a, b -> keyExtractor.applyAsLong(a).compareTo(keyExtractor.applyAsLong(b)) }
 
-    fun <T : Any> nullsFirst(comparator: kotlin.Comparator<in T>): kotlin.Comparator<T?> =
+    fun <T> nullsFirst(comparator: kotlin.Comparator<in T>): kotlin.Comparator<T?> =
       kotlin.comparisons.nullsFirst(comparator)
 
-    fun <T : Any> nullsLast(comparator: kotlin.Comparator<in T>): kotlin.Comparator<T?> =
+    fun <T> nullsLast(comparator: kotlin.Comparator<in T>): kotlin.Comparator<T?> =
       kotlin.comparisons.nullsLast(comparator)
 
     fun <T : Comparable<T>> naturalOrder(): kotlin.Comparator<T> = kotlin.comparisons.naturalOrder()
