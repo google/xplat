@@ -23,7 +23,7 @@ import org.jspecify.nullness.Nullable;
  * @param <E> element type.
  */
 public interface NavigableSet<E extends @Nullable Object> extends SortedSet<E> {
-  E ceiling(E e);
+  @Nullable E ceiling(E e);
 
   Iterator<E> descendingIterator();
 

@@ -19,6 +19,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
 import javaemul.internal.MapUtils;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Implements a set using a TreeMap. <a
@@ -69,7 +70,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
   }
 
   @Override
-  public E ceiling(E e) {
+  public @Nullable E ceiling(E e) {
     return map.ceilingKey(e);
   }
 
