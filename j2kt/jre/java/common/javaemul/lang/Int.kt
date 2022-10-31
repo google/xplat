@@ -53,6 +53,10 @@ fun Int.Companion.parseInt(s: String): Int = s.toInt()
 
 fun Int.Companion.parseInt(s: String, radix: Int): Int = s.toInt(radix)
 
+fun Int.Companion.rotateLeft(i: Int, bitCount: Int): Int = i.rotateLeft(bitCount)
+
+fun Int.Companion.rotateRight(i: Int, bitCount: Int): Int = i.rotateRight(bitCount)
+
 fun Int.Companion.hashCode(i: Int): Int = i.hashCode()
 
 fun Int.Companion.numberOfLeadingZeros(i: Int): Int = i.countLeadingZeroBits()

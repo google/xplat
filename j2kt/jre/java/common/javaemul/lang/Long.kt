@@ -53,6 +53,10 @@ fun Long.Companion.parseLong(s: String): Long = s.toLong()
 
 fun Long.Companion.parseLong(s: String, radix: Int): Long = s.toLong(radix)
 
+fun Long.Companion.rotateLeft(l: Long, bitCount: Int): Long = l.rotateLeft(bitCount)
+
+fun Long.Companion.rotateRight(l: Long, bitCount: Int): Long = l.rotateRight(bitCount)
+
 fun Long.Companion.hashCode(l: Long): Int = l.hashCode()
 
 fun Long.Companion.numberOfLeadingZeros(l: Long): Int = l.countLeadingZeroBits()
