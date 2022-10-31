@@ -21,7 +21,7 @@ import java.util.function.ToIntFunction
 import java.util.function.ToLongFunction
 import kotlin.comparisons.reversed as default_reversed
 
-interface Comparator<T> : kotlin.Comparator<T> {
+fun interface Comparator<T> : kotlin.Comparator<T> {
   override fun compare(a: T, b: T): Int
 
   fun reversed(): kotlin.Comparator<T> = default_reversed()
