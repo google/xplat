@@ -34,13 +34,22 @@
  */
 package java.math;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Static library that provides the basic arithmetic mutable operations for
- * {@link BigInteger}. The operations provided are listed below. <ul
- * type="circle"> <li>Addition.</li> <li>Subtraction.</li> <li>Comparison.</li>
- * </ul> In addition to this, some <i><b>Inplace</b></i> (mutable) methods are
- * provided.
+ * Static library that provides the basic arithmetic mutable operations for {@link BigInteger}. The
+ * operations provided are listed below.
+ *
+ * <ul
+ * type="circle">
+ *   <li>Addition.
+ *   <li>Subtraction.
+ *   <li>Comparison.
+ * </ul>
+ *
+ * In addition to this, some <i><b>Inplace</b></i> (mutable) methods are provided.
  */
+@NullMarked
 class Elementary {
 
   /**

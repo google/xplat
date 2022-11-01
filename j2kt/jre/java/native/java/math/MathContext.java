@@ -38,12 +38,14 @@ import static javaemul.internal.InternalPreconditions.checkCriticalArgument;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * Immutable objects describing settings such as rounding mode and digit
- * precision for the numerical operations provided by class {@link BigDecimal}.
+ * Immutable objects describing settings such as rounding mode and digit precision for the numerical
+ * operations provided by class {@link BigDecimal}.
  */
+@NullMarked
 public final class MathContext implements Serializable {
 
   /**

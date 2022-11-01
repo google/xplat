@@ -41,24 +41,22 @@ import java.io.Serializable;
 import java.util.Random;
 import javaemul.internal.LongUtils;
 import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * This class represents immutable integer numbers of arbitrary length. Large
- * numbers are typically used in security applications and therefore BigIntegers
- * offer dedicated functionality like the generation of large prime numbers or
- * the computation of modular inverse.
- * <p>
- * Since the class was modeled to offer all the functionality as the
- * {@link Integer} class does, it provides even methods that operate bitwise on
- * a two's complement representation of large integers. Note however that the
- * implementations favors an internal representation where magnitude and sign
- * are treated separately. Hence such operations are inefficient and should be
- * discouraged. In simple words: Do NOT implement any bit fields based on
- * BigInteger.
+ * This class represents immutable integer numbers of arbitrary length. Large numbers are typically
+ * used in security applications and therefore BigIntegers offer dedicated functionality like the
+ * generation of large prime numbers or the computation of modular inverse.
+ *
+ * <p>Since the class was modeled to offer all the functionality as the {@link Integer} class does,
+ * it provides even methods that operate bitwise on a two's complement representation of large
+ * integers. Note however that the implementations favors an internal representation where magnitude
+ * and sign are treated separately. Hence such operations are inefficient and should be discouraged.
+ * In simple words: Do NOT implement any bit fields based on BigInteger.
  */
-public class BigInteger extends Number implements Comparable<BigInteger>,
-    Serializable {
+@NullMarked
+public class BigInteger extends Number implements Comparable<BigInteger>, Serializable {
 
   /** The {@code BigInteger} constant 1. */
   public static final BigInteger ONE = new BigInteger(1, 1);
@@ -218,7 +216,7 @@ public class BigInteger extends Number implements Comparable<BigInteger>,
    *
    * <p>TODO(jat): consider changing to 24-bit integers for better performance in browsers.
    */
-  transient int digits[];
+  transient int digits[] = new int[0];
 
   /**
    * The length of this in measured in ints. Can be less than digits.length().

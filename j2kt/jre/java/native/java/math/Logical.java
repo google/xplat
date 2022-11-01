@@ -34,11 +34,21 @@
  */
 package java.math;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * The library implements some logical operations over {@code BigInteger}. The
- * operations provided are listed below. <ul type="circle"> <li>not</li> <li>and
- * </li> <li>andNot</li> <li>or</li> <li>xor</li> </ul>
+ * The library implements some logical operations over {@code BigInteger}. The operations provided
+ * are listed below.
+ *
+ * <ul type="circle">
+ *   <li>not
+ *   <li>and
+ *   <li>andNot
+ *   <li>or
+ *   <li>xor
+ * </ul>
  */
+@NullMarked
 class Logical {
 
   /**

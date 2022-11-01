@@ -34,10 +34,13 @@
  */
 package java.math;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Static library that provides {@link BigInteger} base conversion from/to any
- * integer represented in a {@link java.lang.String} Object.
+ * Static library that provides {@link BigInteger} base conversion from/to any integer represented
+ * in a {@link java.lang.String} Object.
  */
+@NullMarked
 class Conversion {
 
   /**

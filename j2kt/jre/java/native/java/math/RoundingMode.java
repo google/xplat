@@ -34,10 +34,10 @@
  */
 package java.math;
 
-/**
- * Specifies the rounding behavior for operations whose results cannot be
- * represented exactly.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Specifies the rounding behavior for operations whose results cannot be represented exactly. */
+@NullMarked
 public enum RoundingMode {
 
   /**

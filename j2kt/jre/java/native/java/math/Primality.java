@@ -36,10 +36,11 @@ package java.math;
 
 import java.util.Arrays;
 import java.util.Random;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * Provides primality probabilistic methods.
- */
+/** Provides primality probabilistic methods. */
+@NullMarked
 class Primality {
 
   /**
@@ -63,7 +64,7 @@ class Primality {
   // private static final int[][] offsetPrimes = {
   //   null, null, {0, 2}, {2, 2}, {4, 2}, {6, 5}, {11, 7}, {18, 13}, {31, 23}, {54, 43}, {97, 75}
   // };
-  private static final int[][] offsetPrimes = new int[11][];
+  private static final int[] @Nullable [] offsetPrimes = new int[11][];
 
   static {
     offsetPrimes[2] = new int[] {0, 2};

@@ -37,7 +37,7 @@ package java.math;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -47,6 +47,7 @@ import org.jspecify.nullness.Nullable;
  */
 // TODO(b/256117556): This implementation is optimized for J2cl and if there are actual long-term
 //   use cases, we should replace the small value double with a long.
+@NullMarked
 public class BigDecimal extends Number implements Comparable<BigDecimal>, Serializable {
 
   /** One more than the number of bits which can be stored in {@link #smallValue}. */
@@ -530,7 +531,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
    * The arbitrary precision integer (unscaled value) in the internal representation of {@code
    * BigDecimal}.
    */
-  private BigInteger intVal;
+  private @Nullable BigInteger intVal;
 
   /**
    * Represent the number of decimal digits in the unscaled value. This precision is calculated the
@@ -551,7 +552,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
   private transient double smallValue;
 
   /** The <code>String</code> representation is cached. */
-  private transient String toStringImage;
+  private transient @Nullable String toStringImage;
 
   /**
    * Constructs a new {@code BigDecimal} instance from the given big integer {@code val}. The scale
@@ -995,7 +996,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
    * @throws NullPointerException if {@code val == null}.
    */
   @Override
-  public int compareTo(@JsNonNull BigDecimal val) {
+  public int compareTo(BigDecimal val) {
     int thisSign = signum();
     int valueSign = val.signum();
 

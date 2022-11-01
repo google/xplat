@@ -34,14 +34,25 @@
  */
 package java.math;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Static library that provides all the <b>bit level</b> operations for
- * {@link BigInteger}. The operations are: <ul type="circle"> <li>Left Shifting</li>
- * <li>Right Shifting</li> <li>Bit clearing</li> <li>Bit setting</li> <li>Bit
- * counting</li> <li>Bit testing</li> <li>Getting of the lowest bit set</li>
- * </ul> All operations are provided in immutable way, and some in both mutable
- * and immutable.
+ * Static library that provides all the <b>bit level</b> operations for {@link BigInteger}. The
+ * operations are:
+ *
+ * <ul type="circle">
+ *   <li>Left Shifting
+ *   <li>Right Shifting
+ *   <li>Bit clearing
+ *   <li>Bit setting
+ *   <li>Bit counting
+ *   <li>Bit testing
+ *   <li>Getting of the lowest bit set
+ * </ul>
+ *
+ * All operations are provided in immutable way, and some in both mutable and immutable.
  */
+@NullMarked
 class BitLevel {
 
   /**

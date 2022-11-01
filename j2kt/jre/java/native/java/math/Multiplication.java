@@ -34,10 +34,10 @@
  */
 package java.math;
 
-/**
- * Static library that provides all multiplication of {@link BigInteger}
- * methods.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Static library that provides all multiplication of {@link BigInteger} methods. */
+@NullMarked
 class Multiplication {
 
   /**

@@ -34,26 +34,35 @@
  */
 package java.math;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /**
- * Static library that provides all operations related with division and modular
- * arithmetic to {@link BigInteger}. Some methods are provided in both mutable
- * and immutable way. There are several variants provided listed below:
+ * Static library that provides all operations related with division and modular arithmetic to
+ * {@link BigInteger}. Some methods are provided in both mutable and immutable way. There are
+ * several variants provided listed below:
  *
- * <ul type="circle"> <li><b>Division</b> <ul type="circle"> <li>
- * {@link BigInteger} division and remainder by {@link BigInteger}.</li> <li>
- * {@link BigInteger} division and remainder by {@code int}.</li> <li><i>gcd</i>
- * between {@link BigInteger} numbers.</li> </ul> </li> <li><b>Modular
- * arithmetic </b> <ul type="circle"> <li>Modular exponentiation between
- * {@link BigInteger} numbers.</li> <li>Modular inverse of a {@link BigInteger}
- * numbers.</li> </ul> </li> </ul>
+ * <ul type="circle">
+ *   <li><b>Division</b>
+ *       <ul type="circle">
+ *         <li>{@link BigInteger} division and remainder by {@link BigInteger}.
+ *         <li>{@link BigInteger} division and remainder by {@code int}.
+ *         <li><i>gcd</i> between {@link BigInteger} numbers.
+ *       </ul>
+ *   <li><b>Modular arithmetic </b>
+ *       <ul type="circle">
+ *         <li>Modular exponentiation between {@link BigInteger} numbers.
+ *         <li>Modular inverse of a {@link BigInteger} numbers.
+ *       </ul>
+ * </ul>
  */
+@NullMarked
 class Division {
 
   /**
-   * Divides the array 'a' by the array 'b' and gets the quotient and the
-   * remainder. Implements the Knuth's division algorithm. See D. Knuth, The Art
-   * of Computer Programming, vol. 2. Steps D1-D8 correspond the steps in the
-   * algorithm description.
+   * Divides the array 'a' by the array 'b' and gets the quotient and the remainder. Implements the
+   * Knuth's division algorithm. See D. Knuth, The Art of Computer Programming, vol. 2. Steps D1-D8
+   * correspond the steps in the algorithm description.
    *
    * @param quot the quotient
    * @param quotLength the quotient's length
@@ -63,8 +72,8 @@ class Division {
    * @param bLength the divisor's length
    * @return the remainder
    */
-  static int[] divide(int quot[], int quotLength, int a[], int aLength,
-      int b[], int bLength) {
+  static int[] divide(
+      int quot @Nullable [], int quotLength, int a[], int aLength, int b[], int bLength) {
 
     int normA[] = new int[aLength + 1]; // the normalized dividend
     // an extra byte is needed for correct shift
