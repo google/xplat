@@ -32,9 +32,10 @@ public class Strings {
   static byte[] AEBC_ISO = {(byte) 0xC4, (byte) 66, (byte) 67};
 
   static void testStrings() throws Exception {
+    testCharsets();
+    testJavaEmul();
     testString();
     testStringBuilder();
-    testJavaEmul();
     testCodePointMethods();
   }
 
@@ -43,11 +44,7 @@ public class Strings {
     assertEquals(AEBC, EmulatedCharset.UTF_8.getBytes(new char[] {'Ä', 'B', 'C'}, 0, 3));
   }
 
-  private static void testStringBuilder() {
-    testInsert();
-  }
-
-  private static void testString() throws UnsupportedEncodingException {
+  private static void testString() {
     char[] cArray = {'h', 'e', 'l', 'l', 'o'};
     assertEquals("ello", new String(cArray, 1, 4));
 
@@ -88,6 +85,13 @@ public class Strings {
     assertEquals("hello", strArray2[0]);
     assertEquals("hello2hello", strArray2[1]);
 
+    assertTrue("ABC".equalsIgnoreCase("abc"));
+    assertFalse("ABCD".equalsIgnoreCase("abc"));
+
+    assertTrue("---ABC---".matches(".*ABC.*"));
+  }
+
+  private static void testCharsets() throws UnsupportedEncodingException {
     assertEquals("ÄBC", new String(AEBC));
     assertEquals("ÄBC", new String(AEBC, "UTF-8"));
     assertEquals("ÄBC", new String(AEBC, StandardCharsets.UTF_8));
@@ -120,11 +124,6 @@ public class Strings {
       // This is expected.
     }
 
-    assertTrue("ABC".equalsIgnoreCase("abc"));
-    assertFalse("ABCD".equalsIgnoreCase("abc"));
-
-    assertTrue("---ABC---".matches(".*ABC.*"));
-
     assertEquals(AEBC, "ÄBC".getBytes());
     assertEquals(AEBC, "ÄBC".getBytes("UTF-8"));
     assertEquals(AEBC, "ÄBC".getBytes(StandardCharsets.UTF_8));
@@ -149,9 +148,12 @@ public class Strings {
     assertEquals(7, "😴😂☕😴😂☕".indexOf(0x1f602, 4));
     assertEquals(7, "😴😂☕😴😂☕".lastIndexOf(0x1f602));
     assertEquals(2, "😴😂☕😴😂☕".lastIndexOf(0x1f602, 6));
+
+    // No exception for illegal sequence in constructors.
+    assertEquals("\ufffdBC", new String(AEBC_ISO, StandardCharsets.UTF_8));
   }
 
-  private static void testInsert() {
+  private static void testStringBuilder() {
     StringBuilder strBuilder1 = new StringBuilder("0123");
     char[] cArray = {'h', 'e', 'l', 'l', 'o'};
 

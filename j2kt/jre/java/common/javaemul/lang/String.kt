@@ -49,10 +49,10 @@ operator fun String.Companion.invoke(
   charSet: Charset
 ): String =
   when (charSet) {
-    StandardCharsets.UTF_8 -> a.decodeToString(offset, offset + len, throwOnInvalidSequence = true)
+    StandardCharsets.UTF_8 -> a.decodeToString(offset, offset + len, throwOnInvalidSequence = false)
     StandardCharsets.US_ASCII -> a.decodeToStringUnmapped(offset, offset + len, ascii = true)
     StandardCharsets.ISO_8859_1 -> a.decodeToStringUnmapped(offset, offset + len, ascii = false)
-    else -> throw UnsupportedEncodingException(charSet.name())
+    else -> throw UnsupportedCharsetException(charSet.name())
   }
 
 operator fun String.Companion.invoke(a: ByteArray, charSet: Charset) = String(a, 0, a.size, charSet)
@@ -66,6 +66,9 @@ operator fun String.Companion.invoke(
   len: Int,
   charsetName: String
 ): String {
+  // In Java, UnsupportedCharsetException is an unchecked exception thrown by Charset.forName;
+  // Methods taking a character set name here are expected to throw the checked
+  // UnsupportedEncodingException instead.
   try {
     return String(a, offset, len, Charset.forName(charsetName))
   } catch (e: UnsupportedCharsetException) {
