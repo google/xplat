@@ -639,6 +639,12 @@ public class Array {
     Arrays.sort(shortUnsortedArr1);
     assertEquals(s1, shortUnsortedArr1[0]);
     assertEquals(s4, shortUnsortedArr1[3]);
+
+    String[] stringArray = {"b", "c", "d", "a"};
+    Arrays.sort(stringArray, 1, 4);
+    assertEquals("a", stringArray[1]);
+    Arrays.sort(stringArray);
+    assertEquals("a", stringArray[0]);
   }
 
   private static void testParallelSort() {

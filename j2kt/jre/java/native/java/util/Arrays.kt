@@ -681,6 +681,11 @@ object Arrays {
     x.sortWith(c, fromIndex, toIndex)
   }
 
+  fun sort(x: Array<Any>) = (x as Array<Comparable<Any>>).sort()
+
+  fun sort(x: Array<Any>, fromIndex: Int, toIndex: Int) =
+    (x as Array<Comparable<Any>>).sort(fromIndex, toIndex)
+
   fun parallelSort(array: ByteArray?) {
     requireNotNull(array)
     array.sort()
