@@ -19,15 +19,51 @@ import javaemul.internal.annotations.KtNative;
 import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
+// Note: this is emulated _and_ bridged because we need the bridges on the JVM as well, so
+// we cannot fold the bridge code into the emulation class (native/java.util.AbstractMap).
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractMap.html">the official
  * Java API doc</a> for details.
  */
-@KtNative(
-    value = "kotlin.collections.AbstractMutableMap",
-    bridgeWith = "javaemul.lang.JavaAbstractMap")
+@KtNative(value = "java.util.AbstractMap", bridgeWith = "javaemul.lang.JavaAbstractMap")
 public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullable Object>
     implements Map<K, V> {
+
+  /** A mutable {@link Map.Entry} shared by several {@link Map} implementations. */
+  @KtNative("java.util.AbstractMap.SimpleEntry")
+  public static class SimpleEntry<K extends @Nullable Object, V extends @Nullable Object>
+      implements Map.Entry<K, V> {
+    public SimpleEntry(K key, V value) {}
+
+    public SimpleEntry(Map.@JsNonNull Entry<? extends K, ? extends V> entry) {}
+
+    @Override
+    public native K getKey();
+
+    @Override
+    public native V getValue();
+
+    @Override
+    public native V setValue(V value);
+  }
+
+  /** An immutable {@link Map.Entry} shared by several {@link Map} implementations. */
+  @KtNative("java.util.AbstractMap.SimpleImmutableEntry")
+  public static class SimpleImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
+      implements Map.Entry<K, V> {
+    public SimpleImmutableEntry(K key, V value) {}
+
+    public SimpleImmutableEntry(Map.@JsNonNull Entry<? extends K, ? extends V> entry) {}
+
+    @Override
+    public native K getKey();
+
+    @Override
+    public native V getValue();
+
+    @Override
+    public native V setValue(V value);
+  }
 
   protected AbstractMap() {}
 
