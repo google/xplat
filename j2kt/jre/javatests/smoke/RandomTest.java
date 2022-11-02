@@ -21,6 +21,8 @@ import java.util.Random;
 
 public class RandomTest {
 
+  private RandomTest() {}
+
   static void testRandom() {
     Random random = new Random(123);
     int randomInt = random.nextInt();

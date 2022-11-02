@@ -29,6 +29,8 @@ import org.jspecify.nullness.NullMarked;
 public class ArraysTest {
   interface ExampleInterface {}
 
+  private ArraysTest() {}
+
   static class ExampleObject implements Comparable<ExampleObject>, ExampleInterface {
     public int val;
 

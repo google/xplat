@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 
 class RegexTest {
 
+  private RegexTest() {}
+
   static void testRegex() {
     testFind();
     testReplace();

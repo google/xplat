@@ -21,6 +21,8 @@ import java.security.SecureRandom;
 
 class SecurityTest {
 
+  private SecurityTest() {}
+
   static void testSecurity() {
     testSecureRandom();
   }

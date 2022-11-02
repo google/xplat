@@ -20,6 +20,8 @@ import static smoke.AssertsBase.assertTrue;
 
 public class SystemTest {
 
+  private SystemTest() {}
+
   static void testSystemTime() {
     long millisTimeStart = System.currentTimeMillis();
     long millisTimeEnd = 0;

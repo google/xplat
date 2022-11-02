@@ -21,6 +21,8 @@ import static smoke.Asserts.assertTrue;
 
 public class PrimitivesTest {
 
+  private PrimitivesTest() {}
+
   static void testPrimitives() throws Exception {
     testBoolean();
     testInt();

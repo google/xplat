@@ -22,6 +22,8 @@ import java.lang.reflect.Array;
 
 public class ReflectArrayTest {
 
+  private ReflectArrayTest() {}
+
   static void testReflectArray() {
     testGetLength();
     testNewInstance();

@@ -27,6 +27,8 @@ import javaemul.internal.EmulatedCharset;
 
 public class StringTest {
 
+  private StringTest() {}
+
   static byte[] ABC = {(byte) 65, (byte) 66, (byte) 67};
   static byte[] AEBC = {(byte) 0xC3, (byte) 0x84, (byte) 66, (byte) 67};
   static byte[] AEBC_ISO = {(byte) 0xC4, (byte) 66, (byte) 67};

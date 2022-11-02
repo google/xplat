@@ -26,6 +26,8 @@ import java.math.RoundingMode;
 
 public class MathTest {
 
+  private MathTest() {}
+
   static void testMath() {
     testBigDecimal();
     testBigInteger();
