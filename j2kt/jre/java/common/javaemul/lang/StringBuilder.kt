@@ -21,6 +21,11 @@ fun StringBuilder.appendCodePoint(codePoint: Int) =
   if (Char.charCount(codePoint) == 1) append(codePoint.toChar())
   else append(Char.toChars(codePoint))
 
+// Note: The offset+len methods are prefixed with java_ because it's an error to use the original
+// JRE methods in Kotlin JVM and Kotlin Native inherits those bans.
+fun StringBuilder.java_append(str: CharArray, offset: Int, len: Int) =
+  this.appendRange(str, offset, offset + len)
+
 fun StringBuilder.java_insert(offset: Int, str: CharArray, strOffset: Int, strLen: Int) =
   this.insertRange(offset, str, strOffset, strOffset + strLen)
 

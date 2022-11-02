@@ -56,6 +56,7 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
 
   public native StringBuilder append(char[] chars);
 
+  @KtName("java_append")
   public native StringBuilder append(char[] str, int offset, int len);
 
   @Override

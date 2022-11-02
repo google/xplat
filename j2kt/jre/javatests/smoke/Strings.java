@@ -169,6 +169,10 @@ public class Strings {
     assertEquals("0el123", strBuilder2.toString());
     strBuilder2.insert(6, charSeq, 0, 5);
     assertEquals("0el123hello", strBuilder2.toString());
+
+    StringBuilder strBuilder3 = new StringBuilder("H");
+    strBuilder3.append(cArray, 1, 4);
+    assertEquals("Hello", strBuilder3.toString());
   }
 
   private static void testCodePointMethods() {
