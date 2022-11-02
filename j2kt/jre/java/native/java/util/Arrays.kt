@@ -183,6 +183,9 @@ object Arrays {
 
   fun <T> copyOf(original: Array<T?>, newLength: Int): Array<T?> = original.copyOf(newLength)
 
+  fun <T, O> copyOf(original: Array<O?>, newLength: Int, newType: java.lang.Class<*>): Array<T?> =
+    copyOfRange(original, 0, newLength, newType)
+
   fun checkCopyOfRangeArguments(originalSize: Int, from: Int, to: Int) {
     if (from < 0 || from > originalSize) throw ArrayIndexOutOfBoundsException()
     if (from > to) throw IllegalArgumentException()
@@ -240,6 +243,21 @@ object Arrays {
     checkCopyOfRangeArguments(original.size, from, to)
     val copy = arrayOfNulls<T>(to - from)
     return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
+  }
+
+  // The type of array doesn't matter because the emulated java.util.Arrays is never used on the
+  // JVM.
+  fun <T, O> copyOfRange(
+    original: Array<O?>,
+    from: Int,
+    to: Int,
+    newType: java.lang.Class<*>
+  ): Array<T?> {
+    checkCopyOfRangeArguments(original.size, from, to)
+    val copy = arrayOfNulls<Any?>(to - from)
+    @Suppress("UNCHECKED_CAST")
+    return original.copyInto(copy, startIndex = from, endIndex = min(to, original.size))
+      as Array<T?>
   }
 
   fun deepEquals(a1: Array<Any?>?, a2: Array<Any?>?): Boolean {

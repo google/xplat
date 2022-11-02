@@ -27,7 +27,9 @@ import org.jspecify.nullness.NullMarked;
 
 @NullMarked
 public class Array {
-  static class ExampleObject implements Comparable<ExampleObject> {
+  interface ExampleInterface {}
+
+  static class ExampleObject implements Comparable<ExampleObject>, ExampleInterface {
     public int val;
 
     ExampleObject(int val) {
@@ -282,6 +284,14 @@ public class Array {
     assertSame(objArray2[2], objCopy[0]);
     assertSame(objArray2[3], objCopy[1]);
     assertSame(null, objCopy[2]);
+
+    // TODO(b/257034190): This fails for ExampleInterface[].class for jvm
+    ExampleInterface[] iCopy =
+        Arrays.copyOfRange(objArray2, 2, 5, new ExampleInterface[0].getClass());
+    assertEquals(3, iCopy.length);
+    assertSame(objArray2[2], iCopy[0]);
+    assertSame(objArray2[3], iCopy[1]);
+    assertSame(null, iCopy[2]);
   }
 
   private static void testEquals() {

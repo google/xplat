@@ -105,6 +105,9 @@ public class Arrays {
 
   public static native <T> @Nullable T[] copyOf(@Nullable T[] original, int newLength);
 
+  public static native <T, O> @Nullable T[] copyOf(
+      @Nullable O[] original, int newLength, Class<?> newType);
+
   public static native boolean[] copyOfRange(boolean[] original, int from, int to);
 
   public static native byte[] copyOfRange(byte[] original, int from, int to);
@@ -122,6 +125,12 @@ public class Arrays {
   public static native short[] copyOfRange(short[] original, int from, int to);
 
   public static native <T> @Nullable T[] copyOfRange(@Nullable T[] original, int from, int to);
+
+  // newType should be parameterized with T[], but the array parameterization is dropped in
+  // transpilation and then doesn't match. Instead, we just rely on the the return type. This only
+  // works because native arrays don't store the element type.
+  public static native <T, O> @Nullable T[] copyOfRange(
+      @Nullable O[] original, int from, int to, Class<?> newType);
 
   public static native boolean deepEquals(
       @Nullable Object @Nullable [] a1, @Nullable Object @Nullable [] a2);
