@@ -23,7 +23,7 @@ import static smoke.Asserts.fail;
 
 import org.jspecify.nullness.Nullable;
 
-public class Throwables {
+public class ThrowableTest {
   static void testThrowables() throws Exception {
     testBridgedException_initCause();
     testTranspiledException_initCause();

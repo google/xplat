@@ -18,9 +18,9 @@ package smoke;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-final class Logging {
+final class LoggingTest {
 
-  private Logging() {}
+  private LoggingTest() {}
 
   static void testLogging() {
     Logger logger = Logger.getLogger("j2kt tests");

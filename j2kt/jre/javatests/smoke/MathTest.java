@@ -24,7 +24,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class Math {
+public class MathTest {
 
   static void testMath() {
     testBigDecimal();

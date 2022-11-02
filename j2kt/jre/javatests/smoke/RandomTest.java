@@ -17,16 +17,14 @@ package smoke;
 
 import static smoke.Asserts.assertEquals;
 
-import java.security.SecureRandom;
+import java.util.Random;
 
-class Security {
+public class RandomTest {
 
-  static void testSecurity() {
-    testSecureRandom();
-  }
-
-  static void testSecureRandom() {
-    SecureRandom secureRandom = new SecureRandom();
-    assertEquals(0, secureRandom.nextInt(1));
+  static void testRandom() {
+    Random random = new Random(123);
+    int randomInt = random.nextInt();
+    random.setSeed(123);
+    assertEquals(randomInt, random.nextInt());
   }
 }

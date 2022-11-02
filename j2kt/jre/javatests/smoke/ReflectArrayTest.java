@@ -16,12 +16,11 @@
 package smoke;
 
 import static smoke.Asserts.assertEquals;
-import static smoke.Asserts.assertFalse;
 import static smoke.Asserts.assertTrue;
 
 import java.lang.reflect.Array;
 
-public class ReflectArray {
+public class ReflectArrayTest {
 
   static void testReflectArray() {
     testGetLength();

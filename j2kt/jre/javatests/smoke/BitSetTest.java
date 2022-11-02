@@ -13,18 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package smoke;
 
-import static smoke.Asserts.assertEquals;
+import static smoke.AssertsBase.assertTrue;
 
-import java.util.Random;
+import java.util.BitSet;
 
-public class RandomNumbers {
+/** Smoke test for BitSet. */
+public final class BitSetTest {
 
-  static void testRandom() {
-    Random random = new Random(123);
-    int randomInt = random.nextInt();
-    random.setSeed(123);
-    assertEquals(randomInt, random.nextInt());
+  private BitSetTest() {}
+
+  public static void testBitSets() {
+    BitSet bitset = new BitSet();
+    bitset.set(100, true);
+    
+    assertTrue(bitset.get(100));
+    assertTrue(!bitset.get(101));
+    assertTrue(!bitset.get(99));
+
+    assertTrue(bitset instanceof Cloneable);
   }
 }

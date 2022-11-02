@@ -18,7 +18,7 @@ package smoke;
 import static smoke.Asserts.assertEquals;
 import static smoke.AssertsBase.assertTrue;
 
-public class LangSystem {
+public class SystemTest {
 
   static void testSystemTime() {
     long millisTimeStart = System.currentTimeMillis();

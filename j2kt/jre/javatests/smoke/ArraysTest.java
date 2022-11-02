@@ -26,7 +26,7 @@ import java.util.List;
 import org.jspecify.nullness.NullMarked;
 
 @NullMarked
-public class Array {
+public class ArraysTest {
   interface ExampleInterface {}
 
   static class ExampleObject implements Comparable<ExampleObject>, ExampleInterface {

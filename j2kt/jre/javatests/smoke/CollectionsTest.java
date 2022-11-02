@@ -51,8 +51,8 @@ import java.util.stream.Stream;
 import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
-@SuppressWarnings("CollectionIncompatibleType")  // To test runtime behavior for incompatible types
-public class Collections {
+@SuppressWarnings("CollectionIncompatibleType") // To test runtime behavior for incompatible types
+public class CollectionsTest {
 
   public static void testCollections() {
     testAbstractMapSubclass_bridgedOverridesAreCalled();

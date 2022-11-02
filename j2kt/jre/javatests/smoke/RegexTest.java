@@ -21,7 +21,7 @@ import static smoke.Asserts.assertTrue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class Regex {
+class RegexTest {
 
   static void testRegex() {
     testFind();

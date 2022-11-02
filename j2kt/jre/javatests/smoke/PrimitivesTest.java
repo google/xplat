@@ -19,7 +19,7 @@ import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertFalse;
 import static smoke.Asserts.assertTrue;
 
-public class Primitives {
+public class PrimitivesTest {
 
   static void testPrimitives() throws Exception {
     testBoolean();
