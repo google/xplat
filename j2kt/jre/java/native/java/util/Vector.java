@@ -98,7 +98,7 @@ public class Vector<E> extends AbstractList<E>
   }
 
   @Override
-  public Object clone() {
+  public @JsNonNull Object clone() {
     return new Vector<E>(this);
   }
 

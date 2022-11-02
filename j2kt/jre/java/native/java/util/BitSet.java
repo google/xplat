@@ -19,6 +19,7 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkArraySize;
 
 import javaemul.internal.LongUtils;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -332,7 +333,8 @@ public class BitSet implements Cloneable {
     }
   }
 
-  public Object clone() {
+  @Override
+  public @JsNonNull Object clone() {
     return new BitSet(Arrays.copyOf(array, array.length));
   }
 

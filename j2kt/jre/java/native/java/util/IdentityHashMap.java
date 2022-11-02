@@ -78,7 +78,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
   private static final Object NULL_OBJECT = new Object(); // $NON-LOCK-1$
 
   static class IdentityHashMapEntry<K extends @Nullable Object, V extends @Nullable Object>
-      extends AbstractMapEntry<K, V> {
+      extends AbstractMapEntry<K, V> implements Cloneable {
     private final IdentityHashMap<K, V> map;
 
     IdentityHashMapEntry(IdentityHashMap<K, V> map, K theKey, V theValue) {
@@ -86,7 +86,8 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
       this.map = map;
     }
 
-    public Object clone() throws CloneNotSupportedException {
+    @Override
+    public @JsNonNull Object clone() throws CloneNotSupportedException {
       return new IdentityHashMapEntry<>(map, getKey(), getValue());
     }
 
@@ -599,6 +600,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
     return super.hashCode();
   }
 
+  @Override
   public Object clone() {
     return new IdentityHashMap<>(this);
   }

@@ -98,6 +98,7 @@ public class ArraysTest {
   static void testArrays() {
     testAsList();
     testBinarySearch();
+    testClone();
     testCopyOf();
     testCopyOfRange();
     testEquals();
@@ -162,6 +163,53 @@ public class ArraysTest {
     assertEquals(-3, Arrays.binarySearch(objArrayAlias, 0, 2, obj3, new ExampleObjectComparator()));
 
     assertEquals(2, Arrays.binarySearch(objArrayAlias, obj3, null));
+  }
+
+  private static void testClone() {
+    boolean[] boolCopy = boolArray4.clone();
+    assertEquals(boolArray4.length, boolCopy.length);
+    assertEquals(boolArray4[0], boolCopy[0]);
+    assertEquals(boolArray4[1], boolCopy[1]);
+
+    byte[] byteCopy = byteArray4.clone();
+    assertEquals(byteArray4.length, byteCopy.length);
+    assertEquals(byteArray4[0], byteCopy[0]);
+    assertEquals(byteArray4[1], byteCopy[1]);
+
+    char[] charCopy = charArray4.clone();
+    assertEquals(charArray4.length, charCopy.length);
+    assertEquals(charArray4[0], charCopy[0]);
+    assertEquals(charArray4[1], charCopy[1]);
+
+    double[] doubleCopy = doubleArray4.clone();
+    assertEquals(doubleArray4.length, doubleCopy.length);
+    assertEquals(doubleArray4[0], doubleCopy[0]);
+    assertEquals(doubleArray4[1], doubleCopy[1]);
+
+    float[] floatCopy = floatArray4.clone();
+    assertEquals(floatArray4.length, floatCopy.length);
+    assertEquals(floatArray4[0], floatCopy[0]);
+    assertEquals(floatArray4[1], floatCopy[1]);
+
+    int[] intCopy = intArray4.clone();
+    assertEquals(intArray4.length, intCopy.length);
+    assertEquals(intArray4[0], intCopy[0]);
+    assertEquals(intArray4[1], intCopy[1]);
+
+    long[] longCopy = longArray4.clone();
+    assertEquals(longArray4.length, longCopy.length);
+    assertEquals(longArray4[0], longCopy[0]);
+    assertEquals(longArray4[1], longCopy[1]);
+
+    short[] shortCopy = shortArray4.clone();
+    assertEquals(shortArray4.length, shortCopy.length);
+    assertEquals(shortArray4[0], shortCopy[0]);
+    assertEquals(shortArray4[1], shortCopy[1]);
+
+    ExampleObject[] objCopy = objArray4.clone();
+    assertEquals(objArray4.length, objCopy.length);
+    assertSame(objArray4[0], objCopy[0]);
+    assertSame(objArray4[1], objCopy[1]);
   }
 
   private static void testCopyOf() {

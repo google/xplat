@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import jsinterop.annotations.JsNonNull;
+
 /**
  * Maintains a last-in, first-out collection of objects. <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Stack.html">[Sun
@@ -25,7 +27,7 @@ package java.util;
 public class Stack<E> extends Vector<E> {
 
   @Override
-  public Object clone() {
+  public @JsNonNull Object clone() {
     Stack<E> s = new Stack<E>();
     s.addAll(this);
     return s;

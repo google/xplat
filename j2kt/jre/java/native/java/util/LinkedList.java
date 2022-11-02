@@ -20,6 +20,7 @@ import static javaemul.internal.InternalPreconditions.checkPositionIndex;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import java.io.Serializable;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -224,7 +225,8 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
     internalSize = 0;
   }
 
-  public Object clone() {
+  @Override
+  public @JsNonNull Object clone() {
     return new LinkedList<E>(this);
   }
 

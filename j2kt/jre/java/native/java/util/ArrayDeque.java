@@ -21,6 +21,7 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import javaemul.internal.ArrayHelper;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -214,7 +215,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
   }
 
   @Override
-  public Object clone() {
+  public @JsNonNull Object clone() {
     return new ArrayDeque<>(this);
   }
 

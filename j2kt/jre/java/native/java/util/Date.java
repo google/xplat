@@ -108,7 +108,7 @@ public class Date implements Cloneable, Comparable<Date>, Serializable {
   }
 
   @Override
-  public Object clone() {
+  public @JsNonNull Object clone() {
     return new Date(getTime());
   }
 
