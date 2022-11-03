@@ -25,8 +25,7 @@ public class ConsoleLogger {
   }
 
   public void log(String level, String message) {
-    // TODO(b/240294438): Enable when System.err is supported.
-    // System.err.println(message);
+    System.err.println(message);
   }
 
   public void log(String level, Throwable t) {

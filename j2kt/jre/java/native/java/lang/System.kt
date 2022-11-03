@@ -15,6 +15,7 @@
  */
 package java.lang
 
+import java.io.PrintStream
 import kotlin.native.identityHashCode
 import kotlin.system.getTimeMillis
 import kotlin.system.getTimeNanos
@@ -57,4 +58,18 @@ object System {
   fun gc(): Unit = Unit
 
   fun identityHashCode(o: Any?): Int = o.identityHashCode()
+
+  // TODO(b/257217399): Point to stderr
+  var err: PrintStream = PrintStream(null)
+
+  // TODO(b/257217399): Point to stdout
+  var out: PrintStream = PrintStream(null)
+
+  fun setErr(err: PrintStream) {
+    this.err = err
+  }
+
+  fun setOut(out: PrintStream) {
+    this.out = out
+  }
 }
