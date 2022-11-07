@@ -15,22 +15,31 @@
  */
 package java.util;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 
 /** Placeholder Locale implementation for testing purposes only */
+@NullMarked
 public class Locale {
   public static final Locale ROOT =
       new Locale() {
         @Override
-        public @JsNonNull String toString() {
+        public String toString() {
           return "";
+        }
+      };
+
+  public static final Locale ENGLISH =
+      new Locale() {
+        @Override
+        public String toString() {
+          return "en";
         }
       };
 
   public static final Locale US =
       new Locale() {
         @Override
-        public @JsNonNull String toString() {
+        public String toString() {
           return "en_US";
         }
       };
