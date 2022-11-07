@@ -18,96 +18,55 @@
 
 package java.util.concurrent.atomic;
 
-/**
- * GWT emulated version of {@link AtomicInteger}.  It's a thin wrapper
- * around the primitive {@code int}.
- */
+import javaemul.internal.annotations.KtName;
+import javaemul.internal.annotations.KtNative;
+
+/** Kotli version of {@link AtomicInteger} based on kotlinx_atomicfu. */
+@KtNative("java.util.concurrent.atomic.AtomicInteger")
 public class AtomicInteger extends Number implements java.io.Serializable {
 
-  private int value;
+  public AtomicInteger(int initialValue) {}
 
-  public AtomicInteger(int initialValue) {
-    value = initialValue;
-  }
+  public AtomicInteger() {}
 
-  public AtomicInteger() {
-  }
+  public native int get();
 
-  public final int get() {
-    return value;
-  }
+  public native void set(int newValue);
 
-  public final void set(int newValue) {
-    value = newValue;
-  }
+  public native void lazySet(int newValue);
 
-  public final void lazySet(int newValue) {
-    set(newValue);
-  }
+  public native int getAndSet(int newValue);
 
-  public final int getAndSet(int newValue) {
-    int current = value;
-    value = newValue;
-    return current;
-  }
+  public native boolean compareAndSet(int expect, int update);
 
-  public final boolean compareAndSet(int expect, int update) {
-    if (value == expect) {
-      value = update;
-      return true;
-    } else {
-      return false;
-    }
-  }
+  public native int getAndIncrement();
 
-  public final int getAndIncrement() {
-    return value++;
-  }
+  public native int getAndDecrement();
 
-  public final int getAndDecrement() {
-    return value--;
-  }
+  public native int getAndAdd(int delta);
 
-  public final int getAndAdd(int delta) {
-    int current = value;
-    value += delta;
-    return current;
-  }
+  public native int incrementAndGet();
 
-  public final int incrementAndGet() {
-    return ++value;
-  }
+  public native int decrementAndGet();
 
-  public final int decrementAndGet() {
-    return --value;
-  }
-
-  public final int addAndGet(int delta) {
-    value += delta;
-    return value;
-  }
-
-  @Override public String toString() {
-    return Integer.toString(value);
-  }
+  public native int addAndGet(int delta);
 
   @Override
-  public int intValue() {
-    return value;
-  }
+  public native String toString();
 
   @Override
-  public long longValue() {
-    return (long) value;
-  }
+  @KtName("toInt")
+  public native int intValue();
 
   @Override
-  public float floatValue() {
-    return (float) value;
-  }
+  @KtName("toLong")
+  public native long longValue();
 
   @Override
-  public double doubleValue() {
-    return (double) value;
-  }
+  @KtName("toFloat")
+  public native float floatValue();
+
+  @Override
+  @KtName("toDouble")
+  public native double doubleValue();
 }

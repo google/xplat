@@ -20,6 +20,7 @@ import kotlin.test.Test
 class TestHarness {
   @Test fun testArrayCopy() = SystemTest.testArrayCopy()
   @Test fun testArrays() = ArraysTest.testArrays()
+  @Test fun testAtomicInteger() = AtomicIntegerTest.testAtomic()
   @Test fun testBitSets() = BitSetTest.testBitSets()
   @Test fun testCollections() = CollectionsTest.testCollections()
   @Test fun testHashCode() = SystemTest.testHashCode()
