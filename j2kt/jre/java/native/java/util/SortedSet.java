@@ -15,7 +15,7 @@
  */
 package java.util;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,9 +24,10 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> element type.
  */
+@NullMarked
 public interface SortedSet<E extends @Nullable Object> extends Set<E> {
 
-  Comparator<? super E> comparator();
+  @Nullable Comparator<? super E> comparator();
 
   E first();
 
@@ -40,7 +41,7 @@ public interface SortedSet<E extends @Nullable Object> extends Set<E> {
 
   // TODO (b/237650063): Add implementation after Spliterators is implemented
   @Override
-  default @JsNonNull Spliterator<E> spliterator() {
+  default Spliterator<E> spliterator() {
     return null;
   }
 }

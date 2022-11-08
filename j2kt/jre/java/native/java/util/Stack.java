@@ -15,19 +15,20 @@
  */
 package java.util;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * Maintains a last-in, first-out collection of objects. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Stack.html">[Sun
- * docs]</a>
- * 
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Stack.html">[Sun docs]</a>
+ *
  * @param <E> element type.
  */
-public class Stack<E> extends Vector<E> {
+@NullMarked
+public class Stack<E extends @Nullable Object> extends Vector<E> {
 
   @Override
-  public @JsNonNull Object clone() {
+  public Object clone() {
     Stack<E> s = new Stack<E>();
     s.addAll(this);
     return s;

@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -22,6 +23,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> element type.
  */
+@NullMarked
 public interface NavigableSet<E extends @Nullable Object> extends SortedSet<E> {
   @Nullable E ceiling(E e);
 

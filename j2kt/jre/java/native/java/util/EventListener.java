@@ -15,9 +15,11 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * A tag interface that other "listener" interfaces can extend to indicate their
- * adherence to the observer pattern.
+ * A tag interface that other "listener" interfaces can extend to indicate their adherence to the
+ * observer pattern.
  */
-public interface EventListener {
-}
+@NullMarked
+public interface EventListener {}

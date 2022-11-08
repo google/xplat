@@ -21,7 +21,7 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import javaemul.internal.ArrayHelper;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -33,7 +33,9 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> the element type.
  */
-public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cloneable {
+@NullMarked
+public class ArrayDeque<E extends @Nullable Object> extends AbstractCollection<E>
+    implements Deque<E>, Cloneable {
 
   private final class IteratorImpl implements Iterator<E> {
     /**
@@ -215,12 +217,12 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
   }
 
   @Override
-  public @JsNonNull Object clone() {
+  public Object clone() {
     return new ArrayDeque<>(this);
   }
 
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(@Nullable Object o) {
     return contains(iterator(), o);
   }
 
@@ -333,7 +335,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
   }
 
   @Override
-  public boolean remove(Object o) {
+  public boolean remove(@Nullable Object o) {
     return removeFirstOccurrence(o);
   }
 
@@ -345,7 +347,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
   }
 
   @Override
-  public boolean removeFirstOccurrence(Object o) {
+  public boolean removeFirstOccurrence(@Nullable Object o) {
     return remove(iterator(), o);
   }
 
@@ -357,7 +359,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
   }
 
   @Override
-  public boolean removeLastOccurrence(Object o) {
+  public boolean removeLastOccurrence(@Nullable Object o) {
     return remove(descendingIterator(), o);
   }
 
@@ -372,7 +374,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
   }
 
   @Override
-  public <T> T[] toArray(T[] out) {
+  public <T extends @Nullable Object> T[] toArray(T[] out) {
     int size = size();
     if (out.length < size) {
       out = ArrayHelper.createFrom(out, size);
@@ -384,7 +386,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
     return out;
   }
 
-  private boolean contains(Iterator<E> it, Object o) {
+  private boolean contains(Iterator<E> it, @Nullable Object o) {
     if (o == null) {
       return false;
     }
@@ -397,7 +399,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
     return false;
   }
 
-  private boolean remove(Iterator<E> it, Object o) {
+  private boolean remove(Iterator<E> it, @Nullable Object o) {
     if (contains(it, o)) {
       it.remove();
       return true;
@@ -405,11 +407,11 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
     return false;
   }
 
-  private E peekFirstElement() {
+  private @Nullable E peekFirstElement() {
     return array[head];
   }
 
-  private E peekLastElement() {
+  private @Nullable E peekLastElement() {
     return array[(tail - 1) & (array.length - 1)];
   }
 
@@ -418,7 +420,7 @@ public class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cl
    * when ArrayDeque's array has been rolled over, i.e. {@code head == tail}. It is assumed that
    * {@code count < size()}.
    */
-  private void copyElements(Object[] dest, int count) {
+  private void copyElements(@Nullable Object[] dest, int count) {
     final int mask = array.length - 1;
     for (int i = head, dstIdx = 0; dstIdx < count; i = (i + 1) & mask, ++dstIdx) {
       dest[dstIdx] = array[i];

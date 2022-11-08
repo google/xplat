@@ -20,7 +20,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -34,6 +34,7 @@ import org.jspecify.nullness.Nullable;
     bridgeWith = "java.util.Comparator",
     companionObject = "java.util.Comparator")
 @FunctionalInterface
+@NullMarked
 public interface Comparator<T extends @Nullable Object> {
 
   int compare(T a, T b);
@@ -93,21 +94,19 @@ public interface Comparator<T extends @Nullable Object> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends @JsNonNull Comparable<? super T>> Comparator<T> naturalOrder() {
+  static <T extends Comparable<? super T>> Comparator<T> naturalOrder() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends @JsNonNull Object> Comparator<@Nullable T> nullsFirst(
-      Comparator<? super T> comparator) {
+  static <T> Comparator<@Nullable T> nullsFirst(Comparator<? super T> comparator) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends @JsNonNull Object> Comparator<@Nullable T> nullsLast(
-      Comparator<? super T> comparator) {
+  static <T> Comparator<@Nullable T> nullsLast(Comparator<? super T> comparator) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  static <T extends @JsNonNull Comparable<? super T>> Comparator<T> reverseOrder() {
+  static <T extends Comparable<? super T>> Comparator<T> reverseOrder() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }

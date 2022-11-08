@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,6 +24,7 @@ import org.jspecify.nullness.Nullable;
  * API doc</a> for details.
  */
 @KtNative("kotlin.collections.HashSet")
+@NullMarked
 public class HashSet<E extends @Nullable Object> implements Set<E> {
 
   public HashSet() {}
@@ -38,16 +39,16 @@ public class HashSet<E extends @Nullable Object> implements Set<E> {
   public native boolean add(E e);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<? extends E> c);
+  public native boolean addAll(Collection<? extends E> c);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean containsAll(Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean retainAll(Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   @Override
   public native void clear();
@@ -59,7 +60,7 @@ public class HashSet<E extends @Nullable Object> implements Set<E> {
   public native boolean isEmpty();
 
   @Override
-  public native @JsNonNull Iterator<E> iterator();
+  public native Iterator<E> iterator();
 
   @Override
   public native boolean remove(@Nullable Object o);

@@ -15,10 +15,11 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * See <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/EmptyStackException.html">the
+ * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/EmptyStackException.html">the
  * official Java API doc</a> for details.
  */
-public class EmptyStackException extends RuntimeException {
-}
+@NullMarked
+public class EmptyStackException extends RuntimeException {}

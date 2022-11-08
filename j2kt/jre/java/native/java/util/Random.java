@@ -35,10 +35,11 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 
 /** Kotlin Random is immutable. To implement setSeed, we need to wrap it. */
 @KtNative("java.util.Random")
+@NullMarked
 public class Random {
 
   public Random() {}
@@ -47,7 +48,7 @@ public class Random {
 
   public native boolean nextBoolean();
 
-  public native void nextBytes(byte @JsNonNull [] buf);
+  public native void nextBytes(byte[] buf);
 
   public native double nextDouble();
 

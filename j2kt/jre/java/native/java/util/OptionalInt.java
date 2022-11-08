@@ -20,12 +20,14 @@ import static javaemul.internal.InternalPreconditions.checkCriticalElement;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/OptionalInt.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/OptionalInt.html">the official
+ * Java API doc</a> for details.
  */
+@NullMarked
 public final class OptionalInt {
 
   public static OptionalInt empty() {

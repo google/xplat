@@ -16,12 +16,14 @@
 package java.util;
 
 import java.util.function.DoubleConsumer;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * See <a
  * href="https://docs.oracle.com/javase/8/docs/api/java/util/DoubleSummaryStatistics.html">the
  * official Java API doc</a> for details.
  */
+@NullMarked
 public class DoubleSummaryStatistics implements DoubleConsumer {
 
   private long count;

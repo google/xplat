@@ -19,7 +19,7 @@ import java.util.function.UnaryOperator;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,13 +27,14 @@ import org.jspecify.nullness.Nullable;
  * doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableList", bridgeWith = "javaemul.lang.JavaList")
+@NullMarked
 public interface List<E extends @Nullable Object> extends Collection<E> {
 
   void add(int index, E element);
 
   @KtName("java_addAll")
   @KtPropagateNullability
-  boolean addAll(int index, @JsNonNull Collection<? extends E> c);
+  boolean addAll(int index, Collection<? extends E> c);
 
   E get(int index);
 
@@ -46,11 +47,9 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   int lastIndexOf(@Nullable Object o);
 
   @KtPropagateNullability
-  @JsNonNull
   ListIterator<E> listIterator();
 
   @KtPropagateNullability
-  @JsNonNull
   ListIterator<E> listIterator(int from);
 
   @KtName("removeAt")
@@ -58,7 +57,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   @KtPropagateNullability
   @KtName("java_replaceAll")
-  default void replaceAll(@JsNonNull UnaryOperator<E> operator) {
+  default void replaceAll(UnaryOperator<E> operator) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
@@ -69,6 +68,5 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   }
 
   @KtPropagateNullability
-  @JsNonNull
   List<E> subList(int fromIndex, int toIndex);
 }

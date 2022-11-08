@@ -22,16 +22,17 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import javaemul.internal.Comparators;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * An unbounded priority queue based on a priority heap.
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html">
- * the official Java API doc</a> for details.
- * A priority queue does not permit {@code null} elements.
+ * An unbounded priority queue based on a priority heap. See <a
+ * href="https://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html">the official Java
+ * API doc</a> for details. A priority queue does not permit {@code null} elements.
  *
  * @param <E> element type.
  */
+@NullMarked
 public class PriorityQueue<E> extends AbstractQueue<E> {
 
   private static final int DEFAULT_INITIAL_CAPACITY = 11;
@@ -116,12 +117,12 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     heap.clear();
   }
 
-  public Comparator<? super E> comparator() {
+  public @Nullable Comparator<? super E> comparator() {
     return Comparators.naturalOrderToNull(cmp);
   }
 
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(@Nullable Object o) {
     return indexOf(o) != -1;
   }
 
@@ -174,12 +175,12 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
   }
 
   @Override
-  public E peek() {
+  public @Nullable E peek() {
     return heap.isEmpty() ? null : heap.get(0);
   }
 
   @Override
-  public E poll() {
+  public @Nullable E poll() {
     E value = peek();
     if (value != null) {
       removeAtIndex(0);
@@ -188,7 +189,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
   }
 
   @Override
-  public boolean remove(Object o) {
+  public boolean remove(@Nullable Object o) {
     int index = indexOf(o);
     if (index < 0) {
       return false;
@@ -290,7 +291,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     return smallestChild;
   }
 
-  private int indexOf(Object o) {
+  private int indexOf(@Nullable Object o) {
     return o == null ? -1 : heap.indexOf(o);
   }
 

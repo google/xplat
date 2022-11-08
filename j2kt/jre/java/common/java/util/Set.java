@@ -16,6 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -23,4 +24,5 @@ import org.jspecify.nullness.Nullable;
  * doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableSet", bridgeWith = "javaemul.lang.JavaSet")
+@NullMarked
 public interface Set<E extends @Nullable Object> extends Collection<E> {}

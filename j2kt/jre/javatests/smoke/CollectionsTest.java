@@ -48,10 +48,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @SuppressWarnings("CollectionIncompatibleType") // To test runtime behavior for incompatible types
+@NullMarked
 public class CollectionsTest {
 
   private CollectionsTest() {}
@@ -169,7 +170,7 @@ public class CollectionsTest {
 
   private static class TestMap<K, V> extends AbstractMap<K, V> {
 
-    private final Set<@JsNonNull Entry<K, V>> entrySet = new HashSet<>();
+    private final Set<Entry<K, V>> entrySet = new HashSet<>();
 
     public int getCalls = 0;
     public int containsKeyCalls = 0;
@@ -177,7 +178,7 @@ public class CollectionsTest {
     public int removeCalls = 0;
 
     @Override
-    public Set<@JsNonNull Entry<K, V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
       return entrySet;
     }
 
@@ -251,7 +252,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public boolean remove(Object key, Object value) {
+    public boolean remove(@Nullable Object key, @Nullable Object value) {
       return super.remove(key, value);
     }
 
@@ -346,12 +347,12 @@ public class CollectionsTest {
     // The following overrides are only there to check that the override (with the Java signatures
     // of the method) compiles.
     @Override
-    public boolean addAll(@JsNonNull Collection<? extends E> c) {
+    public boolean addAll(Collection<? extends E> c) {
       return super.addAll(c);
     }
 
     @Override
-    public boolean addAll(int index, @JsNonNull Collection<? extends E> c) {
+    public boolean addAll(int index, Collection<? extends E> c) {
       return super.addAll(index, c);
     }
 
@@ -361,7 +362,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+    public boolean containsAll(Collection<? extends @Nullable Object> c) {
       return super.containsAll(c);
     }
 
@@ -386,12 +387,12 @@ public class CollectionsTest {
     }
 
     @Override
-    public boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+    public boolean removeAll(Collection<? extends @Nullable Object> c) {
       return super.removeAll(c);
     }
 
     @Override
-    public boolean removeIf(@JsNonNull Predicate<? super E> filter) {
+    public boolean removeIf(Predicate<? super E> filter) {
       return super.removeIf(filter);
     }
 
@@ -401,7 +402,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+    public boolean retainAll(Collection<? extends @Nullable Object> c) {
       return super.retainAll(c);
     }
 
@@ -423,7 +424,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public <T extends @Nullable Object> T @JsNonNull [] toArray(T @JsNonNull [] a) {
+    public <T extends @Nullable Object> T[] toArray(T[] a) {
       toArrayTypedCalls++;
       return super.toArray(a);
     }

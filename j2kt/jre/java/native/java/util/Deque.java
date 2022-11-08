@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -23,7 +24,8 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> element type.
  */
-public interface Deque<E> extends Queue<E> {
+@NullMarked
+public interface Deque<E extends @Nullable Object> extends Queue<E> {
 
   void addFirst(E e);
 

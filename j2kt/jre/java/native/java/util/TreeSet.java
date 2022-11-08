@@ -19,16 +19,18 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
 import javaemul.internal.MapUtils;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Implements a set using a TreeMap. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/TreeSet.html">[Sun
- * docs]</a>
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/TreeSet.html">[Sun docs]</a>
  *
  * @param <E> element type.
  */
-public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Serializable {
+@NullMarked
+public class TreeSet<E extends @Nullable Object> extends AbstractSet<E>
+    implements NavigableSet<E>, Serializable {
 
   /**
    * TreeSet is stored as a TreeMap of the requested type to a constant Boolean.
@@ -44,7 +46,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
     boolean unused = addAll(c);
   }
 
-  public TreeSet(Comparator<? super E> c) {
+  public TreeSet(@Nullable Comparator<? super E> c) {
     map = new TreeMap<E, Boolean>(c);
   }
 
@@ -80,12 +82,12 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
   }
 
   @Override
-  public Comparator<? super E> comparator() {
+  public @Nullable Comparator<? super E> comparator() {
     return map.comparator();
   }
 
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(@Nullable Object o) {
     return map.containsKey(o);
   }
 
@@ -105,7 +107,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
   }
 
   @Override
-  public E floor(E e) {
+  public @Nullable E floor(E e) {
     return map.floorKey(e);
   }
 
@@ -120,7 +122,7 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
   }
 
   @Override
-  public E higher(E e) {
+  public @Nullable E higher(E e) {
     return map.higherKey(e);
   }
 
@@ -135,22 +137,22 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Seria
   }
 
   @Override
-  public E lower(E e) {
+  public @Nullable E lower(E e) {
     return map.lowerKey(e);
   }
 
   @Override
-  public E pollFirst() {
+  public @Nullable E pollFirst() {
     return MapUtils.getEntryKeyOrNull(map.pollFirstEntry());
   }
 
   @Override
-  public E pollLast() {
+  public @Nullable E pollLast() {
     return MapUtils.getEntryKeyOrNull(map.pollLastEntry());
   }
 
   @Override
-  public boolean remove(Object o) {
+  public boolean remove(@Nullable Object o) {
     return map.remove(o) != null;
   }
 

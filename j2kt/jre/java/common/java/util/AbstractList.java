@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -26,6 +26,7 @@ import org.jspecify.nullness.Nullable;
 @KtNative(
     value = "kotlin.collections.AbstractMutableList",
     bridgeWith = "javaemul.lang.JavaAbstractList")
+@NullMarked
 public abstract class AbstractList<E extends @Nullable Object> extends AbstractCollection<E>
     implements List<E> {
 
@@ -40,37 +41,37 @@ public abstract class AbstractList<E extends @Nullable Object> extends AbstractC
   public native void add(int index, E element);
 
   @Override
-  public native boolean addAll(int index, @JsNonNull Collection<? extends E> c);
+  public native boolean addAll(int index, Collection<? extends E> c);
 
   @Override
   public native int indexOf(@Nullable Object toFind);
 
   @Override
-  public native @JsNonNull Iterator<E> iterator();
+  public native Iterator<E> iterator();
 
   @Override
   public native int lastIndexOf(@Nullable Object toFind);
 
   @Override
-  public native @JsNonNull ListIterator<E> listIterator();
+  public native ListIterator<E> listIterator();
 
   @Override
-  public native @JsNonNull ListIterator<E> listIterator(int from);
+  public native ListIterator<E> listIterator(int from);
 
   @Override
   public native E remove(int index);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   protected native void removeRange(int fromIndex, int endIndex);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean retainAll(Collection<? extends @Nullable Object> c);
 
   @Override
   public native E set(int index, E e);
 
   @Override
-  public native @JsNonNull List<E> subList(int fromIndex, int toIndex);
+  public native List<E> subList(int fromIndex, int toIndex);
 }

@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // Note: this is emulated _and_ bridged because we need the bridges on the JVM as well, so
@@ -26,6 +26,7 @@ import org.jspecify.nullness.Nullable;
  * Java API doc</a> for details.
  */
 @KtNative(value = "java.util.AbstractMap", bridgeWith = "javaemul.lang.JavaAbstractMap")
+@NullMarked
 public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullable Object>
     implements Map<K, V> {
 
@@ -35,7 +36,7 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
       implements Map.Entry<K, V> {
     public SimpleEntry(K key, V value) {}
 
-    public SimpleEntry(Map.@JsNonNull Entry<? extends K, ? extends V> entry) {}
+    public SimpleEntry(Map.Entry<? extends K, ? extends V> entry) {}
 
     @Override
     public native K getKey();
@@ -53,7 +54,7 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
       implements Map.Entry<K, V> {
     public SimpleImmutableEntry(K key, V value) {}
 
-    public SimpleImmutableEntry(Map.@JsNonNull Entry<? extends K, ? extends V> entry) {}
+    public SimpleImmutableEntry(Map.Entry<? extends K, ? extends V> entry) {}
 
     @Override
     public native K getKey();
@@ -82,27 +83,26 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
   public native @Nullable V get(@Nullable Object key);
 
   @Override
-  public abstract @JsNonNull Set<@JsNonNull Entry<K, V>> entrySet();
+  public abstract Set<Entry<K, V>> entrySet();
 
   @Override
   public native boolean isEmpty();
 
   @Override
-  public native @JsNonNull Set<K> keySet();
+  public native Set<K> keySet();
 
   @Override
   public native @Nullable V put(K key, V value);
 
   @Override
-  public native void putAll(@JsNonNull Map<? extends K, ? extends V> map);
+  public native void putAll(Map<? extends K, ? extends V> map);
 
   @Override
   public native @Nullable V remove(@Nullable Object key);
 
-  @JsNonNull
   @Override
   public native int size();
 
   @Override
-  public native @JsNonNull Collection<V> values();
+  public native Collection<V> values();
 }

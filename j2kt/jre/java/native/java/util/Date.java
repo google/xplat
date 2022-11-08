@@ -16,14 +16,13 @@
 package java.util;
 
 import java.io.Serializable;
-import jsinterop.annotations.JsNonNull;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Represents a date and time.
- */
+/** Represents a date and time. */
+@NullMarked
 public class Date implements Cloneable, Comparable<Date>, Serializable {
 
   /**
@@ -108,12 +107,12 @@ public class Date implements Cloneable, Comparable<Date>, Serializable {
   }
 
   @Override
-  public @JsNonNull Object clone() {
+  public Object clone() {
     return new Date(getTime());
   }
 
   @Override
-  public int compareTo(@JsNonNull Date other) {
+  public int compareTo(Date other) {
     return Long.compare(getTime(), other.getTime());
   }
 

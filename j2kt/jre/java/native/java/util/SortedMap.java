@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,10 +25,11 @@ import org.jspecify.nullness.Nullable;
  * @param <K> key type.
  * @param <V> value type.
  */
+@NullMarked
 public interface SortedMap<K extends @Nullable Object, V extends @Nullable Object>
     extends Map<K, V> {
 
-  Comparator<? super K> comparator();
+  @Nullable Comparator<? super K> comparator();
 
   K firstKey();
 

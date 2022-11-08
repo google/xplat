@@ -16,15 +16,18 @@
 package java.util;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
+
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Skeletal implementation of the List interface. <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/AbstractSequentialList.html">[Sun
  * docs]</a>
- * 
+ *
  * @param <E> element type.
  */
+@NullMarked
 public abstract class AbstractSequentialList<E extends @Nullable Object> extends AbstractList<E> {
 
   // Should not be instantiated directly.

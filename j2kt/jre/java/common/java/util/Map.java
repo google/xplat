@@ -22,7 +22,7 @@ import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import javaemul.internal.annotations.KtProperty;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -30,6 +30,7 @@ import org.jspecify.nullness.Nullable;
  * doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableMap", bridgeWith = "javaemul.lang.JavaMap")
+@NullMarked
 public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   /** Represents an individual map entry. */
@@ -75,20 +76,20 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtName("java_compute")
   @KtPropagateNullability
   default @Nullable V compute(
-      K key, @JsNonNull BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+      K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtName("java_computeIfAbsent")
   @KtPropagateNullability
-  default V computeIfAbsent(K key, @JsNonNull Function<? super K, ? extends V> mappingFunction) {
+  default V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtName("java_computeIfPresent")
   @KtPropagateNullability
   default @Nullable V computeIfPresent(
-      K key, @JsNonNull BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+      K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
@@ -98,15 +99,14 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtName("java_containsValue")
   boolean containsValue(@Nullable Object value);
 
-  @JsNonNull
   @KtPropagateNullability
   @KtProperty
   @KtName("entries")
-  Set<@JsNonNull Entry<K, V>> entrySet();
+  Set<Entry<K, V>> entrySet();
 
   @KtName("java_forEach")
   @KtPropagateNullability
-  default void forEach(@JsNonNull BiConsumer<? super K, ? super V> action) {
+  default void forEach(BiConsumer<? super K, ? super V> action) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
@@ -121,7 +121,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   boolean isEmpty();
 
-  @JsNonNull
   @KtPropagateNullability
   @KtProperty
   @KtName("keys")
@@ -130,18 +129,16 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtPropagateNullability
   @KtName("java_merge")
   default @Nullable V merge(
-      K key,
-      V value,
-      @JsNonNull BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
+      K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled.");
   }
 
   @KtPropagateNullability
   @Nullable V put(K key, V value);
-  
+
   @KtName("java_putAll")
   @KtPropagateNullability
-  void putAll(@JsNonNull Map<? extends K, ? extends V> t);
+  void putAll(Map<? extends K, ? extends V> t);
 
   @KtName("java_putIfAbsent")
   @KtPropagateNullability
@@ -171,14 +168,13 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @KtName("java_replaceAll")
   @KtPropagateNullability
-  default void replaceAll(@JsNonNull BiFunction<? super K, ? super V, ? extends V> function) {
+  default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtProperty
   int size();
 
-  @JsNonNull
   @KtProperty
   @KtPropagateNullability
   Collection<V> values();

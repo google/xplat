@@ -16,9 +16,11 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Indicates that a data structure supports constant-time random access to its contained objects.
  */
 @KtNative("kotlin.collections.RandomAccess")
+@NullMarked
 public interface RandomAccess {}

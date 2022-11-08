@@ -20,18 +20,18 @@ import static javaemul.internal.InternalPreconditions.checkPositionIndex;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import java.io.Serializable;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Linked list implementation. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html">[Sun
- * docs]</a>
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/LinkedList.html">[Sun docs]</a>
  *
  * @param <E> element type.
  */
-public class LinkedList<E extends @Nullable Object> extends AbstractSequentialList<E> implements
-    Cloneable, List<E>, Deque<E>, Serializable {
+@NullMarked
+public class LinkedList<E extends @Nullable Object> extends AbstractSequentialList<E>
+    implements Cloneable, List<E>, Deque<E>, Serializable {
   /*
    * This implementation uses a doubly-linked list with a header/tail node.
    *
@@ -226,7 +226,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
   }
 
   @Override
-  public @JsNonNull Object clone() {
+  public Object clone() {
     return new LinkedList<E>(this);
   }
 

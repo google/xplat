@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -23,7 +24,8 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> element type.
  */
-public interface Queue<E> extends Collection<E> {
+@NullMarked
+public interface Queue<E extends @Nullable Object> extends Collection<E> {
 
   E element();
 

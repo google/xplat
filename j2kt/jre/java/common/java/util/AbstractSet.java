@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -26,6 +26,7 @@ import org.jspecify.nullness.Nullable;
 @KtNative(
     value = "kotlin.collections.AbstractMutableSet",
     bridgeWith = "javaemul.lang.JavaAbstractSet")
+@NullMarked
 public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> {
 
   protected AbstractSet() {}
@@ -34,7 +35,7 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean add(E e);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<? extends E> c);
+  public native boolean addAll(Collection<? extends E> c);
 
   @Override
   public native void clear();
@@ -43,20 +44,20 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean contains(@Nullable Object o);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean containsAll(Collection<?> c);
 
   @Override
   public native boolean isEmpty();
 
   @Override
-  public abstract @JsNonNull Iterator<E> iterator();
+  public abstract Iterator<E> iterator();
 
   @Override
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean removeAll(Collection<?> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean retainAll(Collection<?> c);
 }

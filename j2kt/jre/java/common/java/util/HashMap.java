@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // TODO(b/240106068): Native HashMap is final. But this class should be non-final.
@@ -25,6 +25,7 @@ import org.jspecify.nullness.Nullable;
  * API doc</a> for details.
  */
 @KtNative("kotlin.collections.HashMap")
+@NullMarked
 public final class HashMap<K extends @Nullable Object, V extends @Nullable Object>
     implements Map<K, V> {
 
@@ -34,7 +35,7 @@ public final class HashMap<K extends @Nullable Object, V extends @Nullable Objec
 
   public HashMap(int initialCapacity, float loadFactor) {}
 
-  public HashMap(@JsNonNull Map<? extends K, ? extends V> original) {}
+  public HashMap(Map<? extends K, ? extends V> original) {}
 
   @Override
   public native int size();
@@ -58,17 +59,17 @@ public final class HashMap<K extends @Nullable Object, V extends @Nullable Objec
   public native @Nullable V remove(@Nullable Object key);
 
   @Override
-  public native void putAll(@JsNonNull Map<? extends K, ? extends V> m);
+  public native void putAll(Map<? extends K, ? extends V> m);
 
   @Override
   public native void clear();
 
   @Override
-  public native @JsNonNull Set<K> keySet();
+  public native Set<K> keySet();
 
   @Override
-  public native @JsNonNull Collection<V> values();
+  public native Collection<V> values();
 
   @Override
-  public native @JsNonNull Set<@JsNonNull Entry<K, V>> entrySet();
+  public native Set<Entry<K, V>> entrySet();
 }

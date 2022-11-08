@@ -19,13 +19,14 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkArraySize;
 
 import javaemul.internal.LongUtils;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * Not yet implemented: public static BitSet valueOf(ByteBuffer) public static BitSet
  * valueOf(LongBuffer)
  */
+@NullMarked
 public class BitSet implements Cloneable {
   private static final int WORD_MASK = 0xffffffff;
   private static final int BITS_PER_WORD = 32;
@@ -334,7 +335,7 @@ public class BitSet implements Cloneable {
   }
 
   @Override
-  public @JsNonNull Object clone() {
+  public Object clone() {
     return new BitSet(Arrays.copyOf(array, array.length));
   }
 

@@ -17,8 +17,11 @@ package javaemul.internal;
 
 import java.util.Comparator;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 @KtNative("javaemul.internal.Comparators")
+@NullMarked
 public class Comparators {
   /*
    * This is a utility class that provides default Comparators. This class
@@ -26,9 +29,11 @@ public class Comparators {
    * having to know internals of each other.
    */
 
-  public static native <T> Comparator<T> nullToNaturalOrder(Comparator<T> cmp);
+  public static native <T extends @Nullable Object> Comparator<T> nullToNaturalOrder(
+      @Nullable Comparator<T> cmp);
 
-  public static native <T> Comparator<T> naturalOrderToNull(Comparator<T> cmp);
+  public static native <T extends @Nullable Object> @Nullable Comparator<T> naturalOrderToNull(
+      Comparator<T> cmp);
 
   private Comparators() {}
 }

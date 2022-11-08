@@ -26,17 +26,19 @@ import static javaemul.internal.InternalPreconditions.isApiChecked;
 import java.io.Serializable;
 import javaemul.internal.Comparators;
 import jsinterop.annotations.JsEnum;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A map whose entries are sorted by their keys. All optional operations such as {@link #put} and
  * {@link #remove} are supported.
  */
-public class TreeMap<K, V> extends AbstractMap<K, V>
-    implements SortedMap<K, V>, NavigableMap<K, V>, Serializable {
+@NullMarked
+public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMap<K, V> implements NavigableMap<K, V>, Serializable {
 
   private Comparator<? super K> comparator;
-  private Node<K, V> root;
+  private @Nullable Node<K, V> root;
   private int mapSize;
   private int modCount;
 
@@ -44,7 +46,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     this((Comparator<? super K>) null);
   }
 
-  public TreeMap(Comparator<? super K> comparator) {
+  public TreeMap(@Nullable Comparator<? super K> comparator) {
     this.comparator = Comparators.nullToNaturalOrder(comparator);
   }
 
@@ -69,18 +71,18 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     Entry<K, V> entry = findByObject(key);
     return entry != null ? entry.getValue() : null;
   }
 
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return findByObject(key) != null;
   }
 
   @Override
-  public V put(K key, V value) {
+  public @Nullable V put(K key, V value) {
     return putInternal(key, value);
   }
 
@@ -101,7 +103,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public V remove(Object key) {
+  public @Nullable V remove(@Nullable Object key) {
     Node<K, V> node = removeInternalByKey(key);
     return node != null ? node.getValue() : null;
   }
@@ -141,12 +143,12 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
   }
 
-  private V putInternal(K key, V value) {
+  private @Nullable V putInternal(K key, V value) {
     return find(key, Relation.CREATE).setValue(value);
   }
 
   /** Returns the node at or adjacent to the given key, creating it if requested. */
-  private Node<K, V> find(K key, Relation relation) {
+  private @Nullable Node<K, V> find(K key, Relation relation) {
     if (root == null) {
       if (relation == Relation.CREATE) {
         root = new Node<K, V>(null, key);
@@ -204,16 +206,15 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
   }
 
-  private K findKey(K key, Relation relation) {
+  private @Nullable K findKey(K key, Relation relation) {
     return getKeyOrNull(find(key, relation));
   }
 
-  private Entry<K, V> findEntry(K key, Relation relation) {
+  private @Nullable Entry<K, V> findEntry(K key, Relation relation) {
     return immutableCopy(find(key, relation));
   }
 
-  @SuppressWarnings("unchecked")
-  private Node<K, V> findByObject(Object key) {
+  private @Nullable Node<K, V> findByObject(@Nullable Object key) {
     Node<K, V> node = root;
     while (node != null) {
       int c = comparator.compare((K) key, node.getKey());
@@ -233,7 +234,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
    * comparator isn't consistent with equals (such as {@code String.CASE_INSENSITIVE_ORDER}), then
    * {@code remove()} and {@code contains()} will violate the collections API.
    */
-  private Node<K, V> findByEntry(Entry<?, ?> entry) {
+  private @Nullable Node<K, V> findByEntry(@Nullable Entry<?, ?> entry) {
     Node<K, V> mine = findByObject(entry.getKey());
     boolean valuesEqual = mine != null && Objects.equals(mine.getValue(), entry.getValue());
     return valuesEqual ? mine : null;
@@ -288,7 +289,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     structureChanged();
   }
 
-  private Node<K, V> removeInternalByKey(Object key) {
+  private @Nullable Node<K, V> removeInternalByKey(@Nullable Object key) {
     Node<K, V> node = findByObject(key);
     if (node != null) {
       removeInternal(node);
@@ -320,7 +321,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
    *
    * @param insert true if the node was unbalanced by an insert; false if it was by a removal.
    */
-  private void rebalance(Node<K, V> unbalanced, boolean insert) {
+  private void rebalance(@Nullable Node<K, V> unbalanced, boolean insert) {
     for (Node<K, V> node = unbalanced; node != null; node = node.parent) {
       Node<K, V> left = node.left;
       Node<K, V> right = node.right;
@@ -424,24 +425,24 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
    * Returns an immutable version of {@param entry}. Need this because we allow entry to be null, in
    * which case we return a null SimpleImmutableEntry.
    */
-  private SimpleImmutableEntry<K, V> immutableCopy(Entry<K, V> entry) {
+  private @Nullable SimpleImmutableEntry<K, V> immutableCopy(@Nullable Entry<K, V> entry) {
     return entry == null ? null : new SimpleImmutableEntry<K, V>(entry);
   }
 
-  private Node<K, V> getFirst() {
+  private @Nullable Node<K, V> getFirst() {
     return root == null ? null : root.first();
   }
 
-  private Node<K, V> getLast() {
+  private @Nullable Node<K, V> getLast() {
     return root == null ? null : root.last();
   }
 
   @Override
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return immutableCopy(getFirst());
   }
 
-  private Node<K, V> internalPollFirstEntry() {
+  private @Nullable Node<K, V> internalPollFirstEntry() {
     if (root == null) {
       return null;
     }
@@ -451,7 +452,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     return immutableCopy(internalPollFirstEntry());
   }
 
@@ -462,11 +463,11 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return immutableCopy(getLast());
   }
 
-  private Entry<K, V> internalPollLastEntry() {
+  private @Nullable Entry<K, V> internalPollLastEntry() {
     if (root == null) {
       return null;
     }
@@ -476,7 +477,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     return immutableCopy(internalPollLastEntry());
   }
 
@@ -487,47 +488,47 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public Entry<K, V> lowerEntry(K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return findEntry(key, Relation.LOWER);
   }
 
   @Override
-  public K lowerKey(K key) {
+  public @Nullable K lowerKey(K key) {
     return findKey(key, Relation.LOWER);
   }
 
   @Override
-  public Entry<K, V> floorEntry(K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return findEntry(key, Relation.FLOOR);
   }
 
   @Override
-  public K floorKey(K key) {
+  public @Nullable K floorKey(K key) {
     return findKey(key, Relation.FLOOR);
   }
 
   @Override
-  public Entry<K, V> ceilingEntry(K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return findEntry(key, Relation.CEILING);
   }
 
   @Override
-  public K ceilingKey(K key) {
+  public @Nullable K ceilingKey(K key) {
     return findKey(key, Relation.CEILING);
   }
 
   @Override
-  public Entry<K, V> higherEntry(K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return findEntry(key, Relation.HIGHER);
   }
 
   @Override
-  public K higherKey(K key) {
+  public @Nullable K higherKey(K key) {
     return findKey(key, Relation.HIGHER);
   }
 
   @Override
-  public Comparator<? super K> comparator() {
+  public @Nullable Comparator<? super K> comparator() {
     return javaemul.internal.Comparators.naturalOrderToNull(comparator);
   }
 
@@ -535,11 +536,11 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
    * View factory methods.
    */
 
-  private EntrySet entrySet;
-  private KeySet keySet;
+  private @Nullable EntrySet entrySet;
+  private @Nullable KeySet keySet;
 
   @Override
-  public Set<@JsNonNull Entry<K, V>> entrySet() {
+  public Set<Entry<K, V>> entrySet() {
     if (entrySet == null) {
       entrySet = new EntrySet();
     }
@@ -547,7 +548,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public @JsNonNull Set<K> keySet() {
+  public Set<K> keySet() {
     return navigableKeySet();
   }
 
@@ -603,13 +604,14 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     return new BoundedMap(false, null, Bound.NO_BOUND, null, Bound.NO_BOUND).navigableKeySet();
   }
 
-  private static class Node<K, V> extends SimpleEntry<K, V> {
-    Node<K, V> parent;
-    Node<K, V> left;
-    Node<K, V> right;
+  private static class Node<K extends @Nullable Object, V extends @Nullable Object>
+      extends SimpleEntry<K, V> {
+    @Nullable Node<K, V> parent;
+    @Nullable Node<K, V> left;
+    @Nullable Node<K, V> right;
     int height;
 
-    Node(Node<K, V> parent, K key) {
+    Node(@Nullable Node<K, V> parent, K key) {
       super(key, null);
       this.parent = parent;
       this.height = 1;
@@ -618,7 +620,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     /**
      * Returns the next node in an inorder traversal, or null if this is the last node in the tree.
      */
-    Node<K, V> next() {
+    @Nullable Node<K, V> next() {
       if (right != null) {
         return right.first();
       }
@@ -638,7 +640,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
      * Returns the previous node in an inorder traversal, or null if this is the first node in the
      * tree.
      */
-    Node<K, V> prev() {
+    @Nullable Node<K, V> prev() {
       if (left != null) {
         return left.last();
       }
@@ -655,7 +657,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     /** Returns the first node in this subtree. */
-    Node<K, V> first() {
+    @Nullable Node<K, V> first() {
       Node<K, V> node = this;
       Node<K, V> child = node.left;
       while (child != null) {
@@ -666,7 +668,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     /** Returns the last node in this subtree. */
-    Node<K, V> last() {
+    @Nullable Node<K, V> last() {
       Node<K, V> node = this;
       Node<K, V> child = node.right;
       while (child != null) {
@@ -681,12 +683,12 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
    * Walk the nodes of the tree left-to-right or right-to-left. Note that in descending iterations,
    * {@code next} will return the previous node.
    */
-  private abstract class MapIterator<T> implements Iterator<T> {
-    protected Node<K, V> next;
-    protected Node<K, V> last;
+  private abstract class MapIterator<T extends @Nullable Object> implements Iterator<T> {
+    protected @Nullable Node<K, V> next;
+    protected @Nullable Node<K, V> last;
     protected int expectedModCount = modCount;
 
-    MapIterator(Node<K, V> next) {
+    MapIterator(@Nullable Node<K, V> next) {
       this.next = next;
     }
 
@@ -724,29 +726,29 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
    * View implementations.
    */
 
-  private class EntrySet extends AbstractSet<Map.@JsNonNull Entry<K, V>> {
+  private class EntrySet extends AbstractSet<Map.Entry<K, V>> {
     @Override
     public int size() {
       return mapSize;
     }
 
     @Override
-    public Iterator<@JsNonNull Entry<K, V>> iterator() {
-      return new MapIterator<@JsNonNull Entry<K, V>>(getFirst()) {
+    public Iterator<Entry<K, V>> iterator() {
+      return new MapIterator<Entry<K, V>>(getFirst()) {
         @Override
-        public @JsNonNull Entry<K, V> next() {
+        public Entry<K, V> next() {
           return stepForward();
         }
       };
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       return o instanceof Entry && findByEntry((Entry<?, ?>) o) != null;
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       if (!(o instanceof Entry)) {
         return false;
       }
@@ -796,7 +798,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    public boolean remove(Object key) {
+    public boolean remove(@Nullable Object key) {
       return removeInternalByKey(key) != null;
     }
 
@@ -806,7 +808,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return TreeMap.this.comparator();
     }
 
@@ -825,32 +827,32 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    public K lower(K key) {
+    public @Nullable K lower(K key) {
       return lowerKey(key);
     }
 
     @Override
-    public K floor(K key) {
+    public @Nullable K floor(K key) {
       return floorKey(key);
     }
 
     @Override
-    public K ceiling(K key) {
+    public @Nullable K ceiling(K key) {
       return ceilingKey(key);
     }
 
     @Override
-    public K higher(K key) {
+    public @Nullable K higher(K key) {
       return higherKey(key);
     }
 
     @Override
-    public K pollFirst() {
+    public @Nullable K pollFirst() {
       return getKeyOrNull(internalPollFirstEntry());
     }
 
     @Override
-    public K pollLast() {
+    public @Nullable K pollLast() {
       return getKeyOrNull(internalPollLastEntry());
     }
 
@@ -909,12 +911,13 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
   private final class BoundedMap extends AbstractMap<K, V>
       implements NavigableMap<K, V>, Serializable {
     private final boolean ascending;
-    private final K from;
+    private final @Nullable K from;
     private final Bound fromBound;
-    private final K to;
+    private final @Nullable K to;
     private final Bound toBound;
 
-    BoundedMap(boolean ascending, K from, Bound fromBound, K to, Bound toBound) {
+    BoundedMap(
+        boolean ascending, @Nullable K from, Bound fromBound, @Nullable K to, Bound toBound) {
       /*
        * Validate the bounds. In addition to checking that from <= to, we
        * verify that the comparator supports our bound objects.
@@ -939,29 +942,28 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    public V get(Object key) {
+    public @Nullable V get(@Nullable Object key) {
       return isInBounds(key) ? TreeMap.this.get(key) : null;
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return isInBounds(key) && TreeMap.this.containsKey(key);
     }
 
     @Override
-    public V put(K key, V value) {
+    public @Nullable V put(K key, V value) {
       checkInBounds(key, fromBound, toBound);
       return putInternal(key, value);
     }
 
     @Override
-    public V remove(Object key) {
+    public @Nullable V remove(@Nullable Object key) {
       return isInBounds(key) ? TreeMap.this.remove(key) : null;
     }
 
     /** Returns true if the key is in bounds. */
-    @SuppressWarnings("unchecked")
-    private boolean isInBounds(Object key) {
+    private boolean isInBounds(@Nullable Object key) {
       return isInBounds((K) key, fromBound, toBound);
     }
 
@@ -998,7 +1000,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     /** Returns the entry if it is in bounds, or null if it is out of bounds. */
-    private Node<K, V> bound(Node<K, V> node, Bound fromBound, Bound toBound) {
+    private @Nullable Node<K, V> bound(@Nullable Node<K, V> node, Bound fromBound, Bound toBound) {
       return node != null && isInBounds(node.getKey(), fromBound, toBound) ? node : null;
     }
 
@@ -1007,12 +1009,12 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
      */
 
     @Override
-    public Entry<K, V> firstEntry() {
+    public @Nullable Entry<K, V> firstEntry() {
       return immutableCopy(endpoint(true));
     }
 
     @Override
-    public Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       Node<K, V> result = endpoint(true);
       if (result != null) {
         removeInternal(result);
@@ -1028,12 +1030,12 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    public Entry<K, V> lastEntry() {
+    public @Nullable Entry<K, V> lastEntry() {
       return immutableCopy(endpoint(false));
     }
 
     @Override
-    public Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       Node<K, V> result = endpoint(false);
       if (result != null) {
         removeInternal(result);
@@ -1051,7 +1053,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     /**
      * @param first true for the first element, false for the last.
      */
-    private Node<K, V> endpoint(boolean first) {
+    private @Nullable Node<K, V> endpoint(boolean first) {
       Node<K, V> node = null;
       if (ascending == first) {
         switch (fromBound) {
@@ -1096,7 +1098,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
      *
      * <p>bound is (A..C] findBounded(D, LOWER) becomes source.find(C, FLOOR)
      */
-    private Node<K, V> findBounded(K key, Relation relation) {
+    private @Nullable Node<K, V> findBounded(K key, Relation relation) {
       relation = relation.forOrder(ascending);
       Bound fromBoundForCheck = fromBound;
       Bound toBoundForCheck = toBound;
@@ -1128,56 +1130,56 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       return bound(find(key, relation), fromBoundForCheck, toBoundForCheck);
     }
 
-    private K findBoundedKey(K key, Relation relation) {
+    private @Nullable K findBoundedKey(K key, Relation relation) {
       return getKeyOrNull(findBounded(key, relation));
     }
 
-    private Entry<K, V> findBoundedEntry(K key, Relation relation) {
+    private @Nullable Entry<K, V> findBoundedEntry(K key, Relation relation) {
       return immutableCopy(findBounded(key, relation));
     }
 
     @Override
-    public Entry<K, V> lowerEntry(K key) {
+    public @Nullable Entry<K, V> lowerEntry(K key) {
       return findBoundedEntry(key, Relation.LOWER);
     }
 
     @Override
-    public K lowerKey(K key) {
+    public @Nullable K lowerKey(K key) {
       return findBoundedKey(key, Relation.LOWER);
     }
 
     @Override
-    public Entry<K, V> floorEntry(K key) {
+    public @Nullable Entry<K, V> floorEntry(K key) {
       return findBoundedEntry(key, Relation.FLOOR);
     }
 
     @Override
-    public K floorKey(K key) {
+    public @Nullable K floorKey(K key) {
       return findBoundedKey(key, Relation.FLOOR);
     }
 
     @Override
-    public Entry<K, V> ceilingEntry(K key) {
+    public @Nullable Entry<K, V> ceilingEntry(K key) {
       return findBoundedEntry(key, Relation.CEILING);
     }
 
     @Override
-    public K ceilingKey(K key) {
+    public @Nullable K ceilingKey(K key) {
       return findBoundedKey(key, Relation.CEILING);
     }
 
     @Override
-    public Entry<K, V> higherEntry(K key) {
+    public @Nullable Entry<K, V> higherEntry(K key) {
       return findBoundedEntry(key, Relation.HIGHER);
     }
 
     @Override
-    public K higherKey(K key) {
+    public @Nullable K higherKey(K key) {
       return findBoundedKey(key, Relation.HIGHER);
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       Comparator<? super K> forward = TreeMap.this.comparator();
       if (ascending) {
         return forward;
@@ -1190,11 +1192,11 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
      * View factory methods.
      */
 
-    private BoundedEntrySet entrySet;
-    private BoundedKeySet keySet;
+    private @Nullable BoundedEntrySet entrySet;
+    private @Nullable BoundedKeySet keySet;
 
     @Override
-    public Set<@JsNonNull Entry<K, V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
       if (entrySet == null) {
         entrySet = new BoundedEntrySet();
       }
@@ -1202,7 +1204,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    public @JsNonNull Set<K> keySet() {
+    public Set<K> keySet() {
       return navigableKeySet();
     }
 
@@ -1292,8 +1294,8 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
      * Bounded view implementations.
      */
 
-    private abstract class BoundedIterator<T> extends MapIterator<T> {
-      protected BoundedIterator(Node<K, V> next) {
+    private abstract class BoundedIterator<T extends @Nullable Object> extends MapIterator<T> {
+      protected BoundedIterator(@Nullable Node<K, V> next) {
         super(next);
       }
 
@@ -1312,7 +1314,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
     }
 
-    private final class BoundedEntrySet extends AbstractSet<@JsNonNull Entry<K, V>> {
+    private final class BoundedEntrySet extends AbstractSet<Entry<K, V>> {
       @Override
       public int size() {
         int count = 0;
@@ -1328,17 +1330,17 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
 
       @Override
-      public Iterator<@JsNonNull Entry<K, V>> iterator() {
-        return new BoundedIterator<@JsNonNull Entry<K, V>>(endpoint(true)) {
+      public Iterator<Entry<K, V>> iterator() {
+        return new BoundedIterator<Entry<K, V>>(endpoint(true)) {
           @Override
-          public @JsNonNull Entry<K, V> next() {
+          public Entry<K, V> next() {
             return ascending ? stepForward() : stepBackward();
           }
         };
       }
 
       @Override
-      public boolean contains(Object o) {
+      public boolean contains(@Nullable Object o) {
         if (!(o instanceof Entry)) {
           return false;
         }
@@ -1347,7 +1349,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
 
       @Override
-      public boolean remove(Object o) {
+      public boolean remove(@Nullable Object o) {
         if (!(o instanceof Entry)) {
           return false;
         }
@@ -1388,12 +1390,12 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
 
       @Override
-      public boolean contains(Object key) {
+      public boolean contains(@Nullable Object key) {
         return isInBounds(key) && findByObject(key) != null;
       }
 
       @Override
-      public boolean remove(Object key) {
+      public boolean remove(@Nullable Object key) {
         return isInBounds(key) && removeInternalByKey(key) != null;
       }
 
@@ -1407,7 +1409,7 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
 
       @Override
-      public K pollFirst() {
+      public @Nullable K pollFirst() {
         return getKeyOrNull(internalPollFirstEntry());
       }
 
@@ -1417,32 +1419,32 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
       }
 
       @Override
-      public K pollLast() {
+      public @Nullable K pollLast() {
         return getKeyOrNull(internalPollLastEntry());
       }
 
       @Override
-      public K lower(K key) {
+      public @Nullable K lower(K key) {
         return lowerKey(key);
       }
 
       @Override
-      public K floor(K key) {
+      public @Nullable K floor(K key) {
         return floorKey(key);
       }
 
       @Override
-      public K ceiling(K key) {
+      public @Nullable K ceiling(K key) {
         return ceilingKey(key);
       }
 
       @Override
-      public K higher(K key) {
+      public @Nullable K higher(K key) {
         return higherKey(key);
       }
 
       @Override
-      public Comparator<? super K> comparator() {
+      public @Nullable Comparator<? super K> comparator() {
         return BoundedMap.this.comparator();
       }
 
@@ -1487,7 +1489,8 @@ public class TreeMap<K, V> extends AbstractMap<K, V>
     }
   }
 
-  private static <K> K getKeyOrNull(Entry<K, ?> entry) {
+  private static <K extends @Nullable Object> @Nullable K getKeyOrNull(
+      @Nullable Entry<K, ?> entry) {
     return entry == null ? null : entry.getKey();
   }
 }

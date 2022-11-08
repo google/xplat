@@ -17,6 +17,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,6 +28,7 @@ import org.jspecify.nullness.Nullable;
  * @param <E> element type.
  */
 @KtNative("kotlin.collections.MutableListIterator")
+@NullMarked
 public interface ListIterator<E extends @Nullable Object> extends Iterator<E> {
 
   void add(E e);

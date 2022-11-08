@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -28,6 +28,7 @@ import org.jspecify.nullness.Nullable;
  * API doc</a> for details.
  */
 @KtNative(value = "kotlin.collections.MutableIterator", bridgeWith = "javaemul.lang.JavaIterator")
+@NullMarked
 public interface Iterator<E extends @Nullable Object> {
 
   boolean hasNext();
@@ -41,7 +42,7 @@ public interface Iterator<E extends @Nullable Object> {
 
   @KtPropagateNullability
   @KtName("java_forEachRemaining")
-  default void forEachRemaining(@JsNonNull Consumer<? super E> consumer) {
+  default void forEachRemaining(Consumer<? super E> consumer) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }

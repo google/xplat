@@ -17,12 +17,13 @@ package java.util;
 
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import org.jspecify.nullness.NullMarked;
 
 /**
- * See <a
- * href="https://docs.oracle.com/javase/8/docs/api/java/util/LongSummaryStatistics.html">the
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/LongSummaryStatistics.html">the
  * official Java API doc</a> for details.
  */
+@NullMarked
 public class LongSummaryStatistics implements LongConsumer, IntConsumer {
 
   private long count;

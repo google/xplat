@@ -20,14 +20,18 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /**
  * Skeletal implementation of the Queue interface. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/AbstractQueue.html">[Sun
- * docs]</a>
- * 
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/AbstractQueue.html">[Sun docs]</a>
+ *
  * @param <E> element type.
  */
-public abstract class AbstractQueue<E> extends AbstractCollection<E> implements Queue<E> {
+@NullMarked
+public abstract class AbstractQueue<E extends @Nullable Object> extends AbstractCollection<E>
+    implements Queue<E> {
 
   // Should not be instantiated directly.
   protected AbstractQueue() {

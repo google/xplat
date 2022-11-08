@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import javaemul.internal.Comparators;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -31,9 +31,11 @@ import org.jspecify.nullness.Nullable;
  * href="https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html">the official Java API
  * doc</a> for details.
  */
+@NullMarked
 public class Collections {
 
-  private static final class LifoQueue<E> extends AbstractQueue<E> implements Serializable {
+  private static final class LifoQueue<E extends @Nullable Object> extends AbstractQueue<E>
+      implements Serializable {
 
     private final Deque<E> deque;
 
@@ -179,8 +181,8 @@ public class Collections {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Set<Map.@JsNonNull Entry<K, V>> entrySet() {
-      return (Set<Map.@JsNonNull Entry<K, V>>) EMPTY_SET;
+    public Set<Map.Entry<K, V>> entrySet() {
+      return (Set<Map.Entry<K, V>>) EMPTY_SET;
     }
 
     @Override
@@ -190,7 +192,7 @@ public class Collections {
 
     @Override
     @SuppressWarnings("unchecked")
-    public @JsNonNull Set<K> keySet() {
+    public Set<K> keySet() {
       return (Set<K>) EMPTY_SET;
     }
 
@@ -201,7 +203,7 @@ public class Collections {
 
     @Override
     @SuppressWarnings("unchecked")
-    public @JsNonNull Collection<V> values() {
+    public Collection<V> values() {
       return (List<V>) EMPTY_LIST;
     }
   }
@@ -372,7 +374,7 @@ public class Collections {
     }
 
     @Override
-    public boolean addAll(@JsNonNull Collection<? extends T> c) {
+    public boolean addAll(Collection<? extends T> c) {
       throw new UnsupportedOperationException();
     }
 
@@ -387,7 +389,7 @@ public class Collections {
     }
 
     @Override
-    public boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+    public boolean containsAll(Collection<? extends @Nullable Object> c) {
       return coll.containsAll(c);
     }
 
@@ -407,17 +409,17 @@ public class Collections {
     }
 
     @Override
-    public boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+    public boolean removeAll(Collection<? extends @Nullable Object> c) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c) {
+    public boolean retainAll(Collection<? extends @Nullable Object> c) {
       throw new UnsupportedOperationException();
     }
 
-    // @Override
-    public boolean removeIf(@JsNonNull Predicate<? super T> p) {
+    @Override
+    public boolean removeIf(Predicate<? super T> p) {
       throw new UnsupportedOperationException();
     }
 
@@ -432,7 +434,7 @@ public class Collections {
     }
 
     @Override
-    public <E extends @Nullable Object> E @JsNonNull [] toArray(E @JsNonNull [] a) {
+    public <E extends @Nullable Object> E[] toArray(E[] a) {
       return coll.toArray(a);
     }
 
@@ -457,12 +459,12 @@ public class Collections {
     }
 
     @Override
-    public boolean addAll(int index, @JsNonNull Collection<? extends T> c) {
+    public boolean addAll(int index, Collection<? extends T> c) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return list.equals(o);
     }
 
@@ -522,7 +524,7 @@ public class Collections {
     }
 
     @Override
-    public @JsNonNull List<T> subList(int fromIndex, int toIndex) {
+    public List<T> subList(int fromIndex, int toIndex) {
       return new UnmodifiableList<T>(list.subList(fromIndex, toIndex));
     }
   }
@@ -542,7 +544,7 @@ public class Collections {
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(@Nullable Object o) {
           return entry.equals(o);
         }
 
@@ -574,7 +576,8 @@ public class Collections {
 
       @SuppressWarnings("unchecked")
       public UnmodifiableEntrySet(Set<? extends Map.Entry<? extends K, ? extends V>> s) {
-        super((Set<? extends Entry<K, V>>) s);
+        // Need to cast to raw in order to work around a limitation in the type system
+        super((Set) s);
       }
 
       @Override
@@ -583,7 +586,7 @@ public class Collections {
       }
 
       @Override
-      public boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> o) {
+      public boolean containsAll(Collection<? extends @Nullable Object> o) {
         return coll.containsAll(o);
       }
 
@@ -591,14 +594,14 @@ public class Collections {
       @SuppressWarnings("unchecked")
       public Iterator<Map.Entry<K, V>> iterator() {
         final Iterator<Map.Entry<K, V>> it = (Iterator<Entry<K, V>>) coll.iterator();
-        return new Iterator<Map.@JsNonNull Entry<K, V>>() {
+        return new Iterator<Map.Entry<K, V>>() {
           @Override
           public boolean hasNext() {
             return it.hasNext();
           }
 
           @Override
-          public Map.@JsNonNull Entry<K, V> next() {
+          public Map.Entry<K, V> next() {
             return new UnmodifiableEntry<K, V>(it.next());
           }
 
@@ -618,7 +621,7 @@ public class Collections {
 
       @Override
       @SuppressWarnings("unchecked")
-      public <T extends @Nullable Object> T @JsNonNull [] toArray(T @JsNonNull [] a) {
+      public <T extends @Nullable Object> T[] toArray(T[] a) {
         Object[] result = super.toArray(a);
         wrap(result, coll.size());
         return (T[]) result;
@@ -663,15 +666,15 @@ public class Collections {
     }
 
     @Override
-    public Set<Map.@JsNonNull Entry<K, V>> entrySet() {
+    public Set<Map.Entry<K, V>> entrySet() {
       if (entrySet == null) {
         entrySet = new UnmodifiableEntrySet<K, V>(map.entrySet());
       }
-      return (Set<Map.@JsNonNull Entry<K, V>>) entrySet;
+      return entrySet;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return map.equals(o);
     }
 
@@ -691,7 +694,7 @@ public class Collections {
     }
 
     @Override
-    public @JsNonNull Set<K> keySet() {
+    public Set<K> keySet() {
       if (keySet == null) {
         keySet = new UnmodifiableSet<K>(map.keySet());
       }
@@ -704,7 +707,7 @@ public class Collections {
     }
 
     @Override
-    public void putAll(@JsNonNull Map<? extends K, ? extends V> t) {
+    public void putAll(Map<? extends K, ? extends V> t) {
       throw new UnsupportedOperationException();
     }
 
@@ -724,7 +727,7 @@ public class Collections {
     }
 
     @Override
-    public @JsNonNull Collection<V> values() {
+    public Collection<V> values() {
       if (valuesCollection == null) {
         valuesCollection = new UnmodifiableCollection<V>(map.values());
       }
@@ -772,7 +775,7 @@ public class Collections {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return sortedMap.equals(o);
     }
 
@@ -823,7 +826,7 @@ public class Collections {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       return sortedSet.equals(o);
     }
 
@@ -1146,8 +1149,7 @@ public class Collections {
     return arrayList;
   }
 
-  public static <T extends @Nullable Object & Comparable<? super T>> T max(
-      Collection<? extends T> coll) {
+  public static <T extends Comparable<? super T>> T max(Collection<? extends T> coll) {
     return max(coll, null);
   }
 
@@ -1171,11 +1173,12 @@ public class Collections {
     return max;
   }
 
-  public static <T extends Object & Comparable<? super T>> T min(Collection<? extends T> coll) {
+  public static <T extends Comparable<? super T>> T min(Collection<? extends T> coll) {
     return min(coll, null);
   }
 
-  public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
+  public static <T extends @Nullable Object> T min(
+      Collection<? extends T> coll, Comparator<? super T> comp) {
     return max(coll, reverseOrder(comp));
   }
 
@@ -1184,7 +1187,7 @@ public class Collections {
     return new SetFromMap<E>(map);
   }
 
-  public static <T extends @Nullable Object> @JsNonNull List<T> nCopies(int n, T o) {
+  public static <T extends @Nullable Object> List<T> nCopies(int n, T o) {
     ArrayList<T> list = new ArrayList<>();
     for (int i = 0; i < n; ++i) {
       list.add(o);
@@ -1223,11 +1226,12 @@ public class Collections {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> Comparator<T> reverseOrder() {
+  public static <T extends @Nullable Object> Comparator<T> reverseOrder() {
     return (Comparator<T>) Comparator.<Comparable>reverseOrder();
   }
 
-  public static <T> Comparator<T> reverseOrder(Comparator<T> cmp) {
+  public static <T extends @Nullable Object> @Nullable Comparator<T> reverseOrder(
+      @Nullable Comparator<T> cmp) {
     return cmp == null ? reverseOrder() : cmp.reversed();
   }
 
@@ -1328,11 +1332,12 @@ public class Collections {
     return unmodifiableMap(map);
   }
 
-  public static <T> void sort(List<T> target) {
+  public static <T extends Comparable<? super T>> void sort(List<T> target) {
     target.sort(null);
   }
 
-  public static <T> void sort(List<T> target, Comparator<? super T> c) {
+  public static <T extends @Nullable Object> void sort(
+      List<T> target, @Nullable Comparator<? super T> c) {
     target.sort(c);
   }
 

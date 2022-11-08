@@ -21,7 +21,8 @@ import java.io.Serializable;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * To keep performance characteristics in line with Java community expectations, <code>Vector</code>
@@ -31,7 +32,8 @@ import jsinterop.annotations.JsNonNull;
  *
  * @param <E> element type.
  */
-public class Vector<E> extends AbstractList<E>
+@NullMarked
+public class Vector<E extends @Nullable Object> extends AbstractList<E>
     implements List<E>, RandomAccess, Cloneable, Serializable {
 
   private transient ArrayList<E> arrayList;
@@ -74,12 +76,12 @@ public class Vector<E> extends AbstractList<E>
   }
 
   @Override
-  public boolean addAll(@JsNonNull Collection<? extends E> c) {
+  public boolean addAll(Collection<? extends E> c) {
     return arrayList.addAll(c);
   }
 
   @Override
-  public boolean addAll(int index, @JsNonNull Collection<? extends E> c) {
+  public boolean addAll(int index, Collection<? extends E> c) {
     checkArrayElementIndex(index, size() + 1);
     return arrayList.addAll(index, c);
   }
@@ -98,12 +100,12 @@ public class Vector<E> extends AbstractList<E>
   }
 
   @Override
-  public @JsNonNull Object clone() {
+  public Object clone() {
     return new Vector<E>(this);
   }
 
   @Override
-  public boolean contains(Object elem) {
+  public boolean contains(@Nullable Object elem) {
     return arrayList.contains(elem);
   }
 
@@ -112,7 +114,7 @@ public class Vector<E> extends AbstractList<E>
     return arrayList.containsAll(c);
   }
 
-  public void copyInto(Object[] objs) {
+  public void copyInto(@Nullable Object[] objs) {
     int i = -1;
     int n = size();
     while (++i < n) {
@@ -149,11 +151,11 @@ public class Vector<E> extends AbstractList<E>
   }
 
   @Override
-  public int indexOf(Object elem) {
+  public int indexOf(@Nullable Object elem) {
     return arrayList.indexOf(elem);
   }
 
-  public int indexOf(Object elem, int index) {
+  public int indexOf(@Nullable Object elem, int index) {
     checkArrayIndexOutOfBounds(index >= 0, index);
     for (; index < arrayList.size(); ++index) {
       if (Objects.equals(elem, arrayList.get(index))) {
@@ -183,11 +185,11 @@ public class Vector<E> extends AbstractList<E>
   }
 
   @Override
-  public int lastIndexOf(Object o) {
+  public int lastIndexOf(@Nullable Object o) {
     return arrayList.lastIndexOf(o);
   }
 
-  public int lastIndexOf(Object o, int index) {
+  public int lastIndexOf(@Nullable Object o, int index) {
     checkArrayIndexOutOfBounds(index < size(), index);
     for (; index >= 0; --index) {
       if (Objects.equals(o, arrayList.get(index))) {
@@ -226,7 +228,7 @@ public class Vector<E> extends AbstractList<E>
   }
 
   @Override
-  public void replaceAll(@JsNonNull UnaryOperator<E> op) {
+  public void replaceAll(UnaryOperator<E> op) {
     arrayList.replaceAll(op);
   }
 
@@ -257,23 +259,22 @@ public class Vector<E> extends AbstractList<E>
   }
 
   @Override
-  public void sort(Comparator<? super E> c) {
+  public void sort(@Nullable Comparator<? super E> c) {
     arrayList.sort(c);
   }
 
   @Override
-  @JsNonNull
   public List<E> subList(int fromIndex, int toIndex) {
     return arrayList.subList(fromIndex, toIndex);
   }
 
   @Override
-  public Object[] toArray() {
+  public @Nullable Object[] toArray() {
     return arrayList.toArray();
   }
 
   @Override
-  public <T> T[] toArray(T[] a) {
+  public <T extends @Nullable Object> T[] toArray(T[] a) {
     return arrayList.toArray(a);
   }
 

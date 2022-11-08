@@ -15,13 +15,19 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /** Basic {@link Map.Entry} implementation that implements hashCode, equals, and toString. */
-abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
+@NullMarked
+abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable Object>
+    implements Map.Entry<K, V> {
   private final K entryKey;
   private V entryValue;
 
   /** A mutable {@link Map.Entry} shared by several {@link Map} implementations. */
-  public static class SimpleEntry<K, V> extends AbstractMapEntry<K, V> {
+  public static class SimpleEntry<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMapEntry<K, V> {
     public SimpleEntry(K key, V value) {
       super(key, value);
     }
@@ -32,7 +38,8 @@ abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
   }
 
   /** An immutable {@link Map.Entry} shared by several {@link Map} implementations. */
-  public static class SimpleImmutableEntry<K, V> extends AbstractMapEntry<K, V> {
+  public static class SimpleImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMapEntry<K, V> {
     public SimpleImmutableEntry(K key, V value) {
       super(key, value);
     }
@@ -70,7 +77,7 @@ abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (!(other instanceof Map.Entry)) {
       return false;
     }

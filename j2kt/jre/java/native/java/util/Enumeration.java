@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -23,6 +24,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> the type being enumerated.
  */
+@NullMarked
 public interface Enumeration<E extends @Nullable Object> {
 
   boolean hasMoreElements();

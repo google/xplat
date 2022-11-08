@@ -15,9 +15,10 @@
  */
 package java.util;
 
-/**
- * Available as a superclass of event objects.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Available as a superclass of event objects. */
+@NullMarked
 public class EventObject {
 
   protected transient Object source;

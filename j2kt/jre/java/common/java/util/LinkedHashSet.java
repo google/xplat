@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,11 +24,12 @@ import org.jspecify.nullness.Nullable;
  * Java API doc</a> for details.
  */
 @KtNative("kotlin.collections.LinkedHashSet")
+@NullMarked
 public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
 
   public LinkedHashSet() {}
 
-  public LinkedHashSet(@JsNonNull Collection<? extends E> c) {}
+  public LinkedHashSet(Collection<? extends E> c) {}
 
   public LinkedHashSet(int initialCapacity) {}
 
@@ -44,7 +45,7 @@ public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
   public native boolean contains(@Nullable Object o);
 
   @Override
-  public native @JsNonNull Iterator<E> iterator();
+  public native Iterator<E> iterator();
 
   @Override
   public native boolean add(E e);
@@ -53,16 +54,16 @@ public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean containsAll(Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<? extends E> c);
+  public native boolean addAll(Collection<? extends E> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean retainAll(Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   @Override
   public native void clear();

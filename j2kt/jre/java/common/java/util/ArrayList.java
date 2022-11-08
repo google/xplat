@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -24,11 +24,12 @@ import org.jspecify.nullness.Nullable;
  * Java API doc</a> for details.
  */
 @KtNative("kotlin.collections.ArrayList")
+@NullMarked
 public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAccess {
 
   public ArrayList() {}
 
-  public ArrayList(@JsNonNull Collection<? extends E> c) {}
+  public ArrayList(Collection<? extends E> c) {}
 
   public ArrayList(int initialCapacity) {}
 
@@ -39,10 +40,10 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native void add(int index, E e);
 
   @Override
-  public native boolean addAll(@JsNonNull Collection<? extends E> c);
+  public native boolean addAll(Collection<? extends E> c);
 
   @Override
-  public native boolean addAll(int index, @JsNonNull Collection<? extends E> c);
+  public native boolean addAll(int index, Collection<? extends E> c);
 
   @Override
   public native void clear();
@@ -51,7 +52,7 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native boolean contains(@Nullable Object o);
 
   @Override
-  public native boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean containsAll(Collection<? extends @Nullable Object> c);
 
   public native void ensureCapacity(int minCapacity);
 
@@ -62,7 +63,7 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native int indexOf(@Nullable Object o);
 
   @Override
-  public native @JsNonNull Iterator<E> iterator();
+  public native Iterator<E> iterator();
 
   @Override
   public native boolean isEmpty();
@@ -71,10 +72,10 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native int lastIndexOf(@Nullable Object o);
 
   @Override
-  public native @JsNonNull ListIterator<E> listIterator();
+  public native ListIterator<E> listIterator();
 
   @Override
-  public native @JsNonNull ListIterator<E> listIterator(int index);
+  public native ListIterator<E> listIterator(int index);
 
   @Override
   public native E remove(int index);
@@ -83,10 +84,10 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  public native boolean retainAll(Collection<? extends @Nullable Object> c);
 
   @Override
   public native E set(int index, E e);
@@ -95,7 +96,7 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native int size();
 
   @Override
-  public native @JsNonNull List<E> subList(int fromIndex, int toIndex);
+  public native List<E> subList(int fromIndex, int toIndex);
 
   public native void trimToSize();
 }

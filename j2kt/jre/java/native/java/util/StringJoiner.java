@@ -15,12 +15,14 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/StringJoiner.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/StringJoiner.html">the official
+ * Java API doc</a> for details.
  */
+@NullMarked
 public final class StringJoiner {
 
   private final String delimiter;

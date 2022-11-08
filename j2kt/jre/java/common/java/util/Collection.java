@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtPropagateNullability;
 import javaemul.internal.annotations.KtProperty;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -31,13 +31,14 @@ import org.jspecify.nullness.Nullable;
 @KtNative(
     value = "kotlin.collections.MutableCollection",
     bridgeWith = "javaemul.lang.JavaCollection")
-public interface Collection<E> extends Iterable<E> {
+@NullMarked
+public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   boolean add(E e);
 
   @KtName("java_addAll")
   @KtPropagateNullability
-  boolean addAll(@JsNonNull Collection<? extends E> c);
+  boolean addAll(Collection<? extends E> c);
 
   void clear();
 
@@ -47,17 +48,16 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_containsAll")
   @KtPropagateNullability
-  boolean containsAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  boolean containsAll(Collection<?> c);
 
   boolean isEmpty();
 
   @Override
   @KtPropagateNullability
-  @JsNonNull
   Iterator<E> iterator();
 
   @KtPropagateNullability
-  default @JsNonNull Stream<E> parallelStream() {
+  default Stream<E> parallelStream() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
@@ -67,17 +67,17 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_removeAll")
   @KtPropagateNullability
-  boolean removeAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  boolean removeAll(Collection<?> c);
 
   @KtName("java_removeIf")
   @KtPropagateNullability
-  default boolean removeIf(@JsNonNull Predicate<? super E> filter) {
+  default boolean removeIf(Predicate<? super E> filter) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtName("java_retainAll")
   @KtPropagateNullability
-  boolean retainAll(@JsNonNull Collection<? extends @Nullable Object> c);
+  boolean retainAll(Collection<?> c);
 
   @KtProperty
   int size();
@@ -93,7 +93,7 @@ public interface Collection<E> extends Iterable<E> {
 
   @KtName("java_toArray")
   @KtPropagateNullability
-  default @Nullable Object @JsNonNull [] toArray() {
+  default @Nullable Object[] toArray() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
@@ -101,7 +101,7 @@ public interface Collection<E> extends Iterable<E> {
   // even though `T` is not necessarily nullable. This is to remain consistent with JSpecify.
   @KtName("java_toArray")
   @KtPropagateNullability
-  default <T extends @Nullable Object> T @JsNonNull [] toArray(T @JsNonNull [] a) {
+  default <T extends @Nullable Object> T[] toArray(T[] a) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 }

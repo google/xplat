@@ -19,13 +19,15 @@ package java.util.logging;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- *  An emulation of the java.util.logging.LogManager class. See
- *  <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/LogManger.html">
- *  The Java API doc for details</a>
+ * An emulation of the java.util.logging.LogManager class. See <a
+ * href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/LogManger.html">The Java API doc
+ * for details</a>
  */
+@NullMarked
 public class LogManager {
 
   private static @Nullable LogManager singleton;
