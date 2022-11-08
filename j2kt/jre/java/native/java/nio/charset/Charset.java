@@ -17,10 +17,11 @@ package java.nio.charset;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /** Partial emulation of the corresponding JRE-Class */
+@NullMarked
 public abstract class Charset {
 
   private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
@@ -35,7 +36,7 @@ public abstract class Charset {
     return canonicalName;
   }
 
-  public static @JsNonNull Charset forName(String name)
+  public static Charset forName(String name)
       throws UnsupportedCharsetException, IllegalArgumentException {
     if (name == null) {
       throw new IllegalArgumentException();

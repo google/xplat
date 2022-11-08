@@ -17,8 +17,10 @@ package javaemul.internal;
 
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import org.jspecify.nullness.NullMarked;
 
 /** Provides Charset implementations (currently UTF-8 only) */
+@NullMarked
 public class EmulatedCharset extends Charset {
 
   public static final EmulatedCharset UTF_8 = new EmulatedCharset("UTF-8");

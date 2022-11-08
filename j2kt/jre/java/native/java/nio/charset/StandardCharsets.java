@@ -16,8 +16,10 @@
 package java.nio.charset;
 
 import javaemul.internal.EmulatedCharset;
+import org.jspecify.nullness.NullMarked;
 
 /** Partial emulation of the corresponding JRE-Class */
+@NullMarked
 public final class StandardCharsets {
 
   public static final Charset ISO_8859_1 = EmulatedCharset.ISO_8859_1;
