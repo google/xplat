@@ -17,9 +17,10 @@
 
 package java.nio;
 
-/**
- * This class wraps a char sequence to be a char buffer.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** This class wraps a char sequence to be a char buffer. */
+@NullMarked
 final class CharSequenceAdapter extends CharBuffer {
 
   static CharSequenceAdapter copy(CharSequenceAdapter other) {

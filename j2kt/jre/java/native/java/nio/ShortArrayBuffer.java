@@ -17,10 +17,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * ShortArrayBuffer, ReadWriteShortArrayBuffer and ReadOnlyShortArrayBuffer compose the
  * implementation of array based short buffers.
  */
+@NullMarked
 abstract class ShortArrayBuffer extends ShortBuffer {
 
   protected final short[] backingArray;

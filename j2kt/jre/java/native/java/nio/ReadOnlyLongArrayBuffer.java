@@ -17,10 +17,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * LongArrayBuffer, ReadWriteLongArrayBuffer and ReadOnlyLongArrayBuffer compose the implementation
  * of array based long buffers.
  */
+@NullMarked
 final class ReadOnlyLongArrayBuffer extends LongArrayBuffer {
 
   static ReadOnlyLongArrayBuffer copy(LongArrayBuffer other, int markOfOther) {

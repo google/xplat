@@ -16,10 +16,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * HeapByteBuffer, ReadWriteHeapByteBuffer and ReadOnlyHeapByteBuffer compose the implementation of
  * array based byte buffers.
  */
+@NullMarked
 final class ReadWriteHeapByteBuffer extends HeapByteBuffer {
 
   static ReadWriteHeapByteBuffer copy(HeapByteBuffer other, int markOfOther) {

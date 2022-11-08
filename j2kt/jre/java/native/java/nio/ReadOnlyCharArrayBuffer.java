@@ -17,10 +17,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * CharArrayBuffer, ReadWriteCharArrayBuffer and ReadOnlyCharArrayBuffer compose the implementation
  * of array based char buffers.
  */
+@NullMarked
 final class ReadOnlyCharArrayBuffer extends CharArrayBuffer {
 
   static ReadOnlyCharArrayBuffer copy(CharArrayBuffer other, int markOfOther) {

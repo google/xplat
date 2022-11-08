@@ -17,11 +17,11 @@
 
 package java.nio;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * A buffer of ints.
- */
+/** A buffer of ints. */
+@NullMarked
 public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> {
 
   public static IntBuffer allocate(int capacity) {
@@ -70,7 +70,7 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
   public abstract IntBuffer compact();
 
   @Override
-  public int compareTo(@JsNonNull IntBuffer otherBuffer) {
+  public int compareTo(IntBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -94,7 +94,7 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
   public abstract IntBuffer duplicate();
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (!(other instanceof IntBuffer)) {
       return false;
     }

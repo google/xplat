@@ -17,11 +17,11 @@
 
 package java.nio;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * A buffer of shorts.
- */
+/** A buffer of shorts. */
+@NullMarked
 public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuffer> {
 
   public static ShortBuffer allocate(int capacity) {
@@ -70,7 +70,7 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
   public abstract ShortBuffer compact();
 
   @Override
-  public int compareTo(@JsNonNull ShortBuffer otherBuffer) {
+  public int compareTo(ShortBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -92,7 +92,7 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
   public abstract ShortBuffer duplicate();
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (!(other instanceof ShortBuffer)) {
       return false;
     }

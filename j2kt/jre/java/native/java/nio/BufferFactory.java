@@ -17,7 +17,10 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /** Provide factory service of buffer classes. */
+@NullMarked
 final class BufferFactory {
 
   public static ByteBuffer newByteBuffer(byte[] array) {

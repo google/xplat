@@ -17,10 +17,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * DoubleArrayBuffer, ReadWriteDoubleArrayBuffer and ReadOnlyDoubleArrayBuffer compose the
  * implementation of array based double buffers.
  */
+@NullMarked
 final class ReadWriteDoubleArrayBuffer extends DoubleArrayBuffer {
 
   static ReadWriteDoubleArrayBuffer copy(DoubleArrayBuffer other, int markOfOther) {

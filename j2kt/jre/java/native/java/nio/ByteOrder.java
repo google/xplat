@@ -16,9 +16,10 @@
 
 package java.nio;
 
-/**
- * Defines byte order constants.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Defines byte order constants. */
+@NullMarked
 public final class ByteOrder {
     /**
      * This constant represents big endian.

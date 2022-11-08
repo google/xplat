@@ -17,11 +17,11 @@
 
 package java.nio;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * A buffer of longs.
- */
+/** A buffer of longs. */
+@NullMarked
 public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer> {
 
   public static LongBuffer allocate(int capacity) {
@@ -70,7 +70,7 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
   public abstract LongBuffer compact();
 
   @Override
-  public int compareTo(@JsNonNull LongBuffer otherBuffer) {
+  public int compareTo(LongBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -94,7 +94,7 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
   public abstract LongBuffer duplicate();
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (!(other instanceof LongBuffer)) {
       return false;
     }

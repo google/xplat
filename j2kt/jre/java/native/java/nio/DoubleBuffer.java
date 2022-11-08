@@ -17,11 +17,11 @@
 
 package java.nio;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * A buffer of doubles.
- */
+/** A buffer of doubles. */
+@NullMarked
 public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBuffer> {
 
   public static DoubleBuffer allocate(int capacity) {
@@ -69,7 +69,7 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
 
   @SuppressWarnings("IdentityBinaryExpression")
   @Override
-  public int compareTo(@JsNonNull DoubleBuffer otherBuffer) {
+  public int compareTo(DoubleBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -94,7 +94,7 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
 
   @Override
   @SuppressWarnings("IdentityBinaryExpression")
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (!(other instanceof DoubleBuffer)) {
       return false;
     }

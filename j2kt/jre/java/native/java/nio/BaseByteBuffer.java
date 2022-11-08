@@ -16,10 +16,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Serves as the root of other byte buffer impl classes, implements common methods that can be
  * shared by child classes.
  */
+@NullMarked
 abstract class BaseByteBuffer extends ByteBuffer {
 
   protected BaseByteBuffer(int capacity) {

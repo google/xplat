@@ -17,10 +17,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * FloatArrayBuffer, ReadWriteFloatArrayBuffer and ReadOnlyFloatArrayBuffer compose the
  * implementation of array based float buffers.
  */
+@NullMarked
 final class ReadOnlyFloatArrayBuffer extends FloatArrayBuffer {
 
   static ReadOnlyFloatArrayBuffer copy(FloatArrayBuffer other, int markOfOther) {

@@ -17,10 +17,13 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * IntArrayBuffer, ReadWriteIntArrayBuffer and ReadOnlyIntArrayBuffer compose the implementation of
  * array based int buffers.
  */
+@NullMarked
 final class ReadOnlyIntArrayBuffer extends IntArrayBuffer {
 
   static ReadOnlyIntArrayBuffer copy(IntArrayBuffer other, int markOfOther) {

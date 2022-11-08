@@ -16,34 +16,36 @@
 
 package java.nio;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * A buffer is a list of elements of a specific primitive type.
- * <p>
- * A buffer can be described by the following properties:
+ *
+ * <p>A buffer can be described by the following properties:
+ *
  * <ul>
- * <li>Capacity: the number of elements a buffer can hold. Capacity may not be
- * negative and never changes.</li>
- * <li>Position: a cursor of this buffer. Elements are read or written at the
- * position if you do not specify an index explicitly. Position may not be
- * negative and not greater than the limit.</li>
- * <li>Limit: controls the scope of accessible elements. You can only read or
- * write elements from index zero to <code>limit - 1</code>. Accessing
- * elements out of the scope will cause an exception. Limit may not be negative
- * and not greater than capacity.</li>
- * <li>Mark: used to remember the current position, so that you can reset the
- * position later. Mark may not be negative and no greater than position.</li>
- * <li>A buffer can be read-only or read-write. Trying to modify the elements
- * of a read-only buffer will cause a <code>ReadOnlyBufferException</code>,
- * while changing the position, limit and mark of a read-only buffer is OK.</li>
- * <li>A buffer can be direct or indirect. A direct buffer will try its best to
- * take advantage of native memory APIs and it may not stay in the Java heap,
- * thus it is not affected by garbage collection.</li>
+ *   <li>Capacity: the number of elements a buffer can hold. Capacity may not be negative and never
+ *       changes.
+ *   <li>Position: a cursor of this buffer. Elements are read or written at the position if you do
+ *       not specify an index explicitly. Position may not be negative and not greater than the
+ *       limit.
+ *   <li>Limit: controls the scope of accessible elements. You can only read or write elements from
+ *       index zero to <code>limit - 1</code>. Accessing elements out of the scope will cause an
+ *       exception. Limit may not be negative and not greater than capacity.
+ *   <li>Mark: used to remember the current position, so that you can reset the position later. Mark
+ *       may not be negative and no greater than position.
+ *   <li>A buffer can be read-only or read-write. Trying to modify the elements of a read-only
+ *       buffer will cause a <code>ReadOnlyBufferException</code>, while changing the position,
+ *       limit and mark of a read-only buffer is OK.
+ *   <li>A buffer can be direct or indirect. A direct buffer will try its best to take advantage of
+ *       native memory APIs and it may not stay in the Java heap, thus it is not affected by garbage
+ *       collection.
  * </ul>
- * <p>
- * Buffers are not thread-safe. If concurrent access to a buffer instance is
- * required, then the callers are responsible to take care of the
- * synchronization issues.
+ *
+ * <p>Buffers are not thread-safe. If concurrent access to a buffer instance is required, then the
+ * callers are responsible to take care of the synchronization issues.
  */
+@NullMarked
 public abstract class Buffer {
 
     /**

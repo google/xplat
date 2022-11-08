@@ -17,11 +17,11 @@
 
 package java.nio;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * A buffer of floats.
- */
+/** A buffer of floats. */
+@NullMarked
 public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuffer> {
 
   public static FloatBuffer allocate(int capacity) {
@@ -71,7 +71,7 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
 
   @SuppressWarnings("IdentityBinaryExpression")
   @Override
-  public int compareTo(@JsNonNull FloatBuffer otherBuffer) {
+  public int compareTo(FloatBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -95,7 +95,7 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
 
   @Override
   @SuppressWarnings("IdentityBinaryExpression")
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (!(other instanceof FloatBuffer)) {
       return false;
     }

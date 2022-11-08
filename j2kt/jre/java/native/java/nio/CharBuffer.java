@@ -18,12 +18,12 @@
 package java.nio;
 
 import java.io.IOException;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * A buffer of chars.
- */
+/** A buffer of chars. */
 // TODO(b/242760952): Make CharBuffer implement CharSequence
+@NullMarked
 public abstract class CharBuffer extends Buffer
     implements Comparable<CharBuffer>, Appendable, Readable {
 
@@ -96,7 +96,7 @@ public abstract class CharBuffer extends Buffer
   public abstract CharBuffer compact();
 
   @Override
-  public int compareTo(@JsNonNull CharBuffer otherBuffer) {
+  public int compareTo(CharBuffer otherBuffer) {
     int compareRemaining =
         (remaining() < otherBuffer.remaining()) ? remaining() : otherBuffer.remaining();
     int thisPos = position;
@@ -118,7 +118,7 @@ public abstract class CharBuffer extends Buffer
   public abstract CharBuffer duplicate();
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (!(other instanceof CharBuffer)) {
       return false;
     }
@@ -287,7 +287,7 @@ public abstract class CharBuffer extends Buffer
   }
 
   @Override
-  public int read(@JsNonNull CharBuffer target) throws IOException {
+  public int read(CharBuffer target) throws IOException {
     int remaining = remaining();
     if (target == this) {
       if (remaining == 0) {
