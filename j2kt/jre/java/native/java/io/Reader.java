@@ -15,9 +15,10 @@
  */
 package java.io;
 
-/**
- * Reads a stream of characters.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Reads a stream of characters. */
+@NullMarked
 public abstract class Reader {
   /**
    * The maximum buffer size to incrementally read in {@link #skip}.

@@ -21,37 +21,37 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * A readable source of bytes.
  *
- * <p>Most clients will use input streams that read data from the file system
- * ({@link FileInputStream}), the network ({@link java.net.Socket#getInputStream()}/{@link
- * java.net.HttpURLConnection#getInputStream()}), or from an in-memory byte
- * array ({@link ByteArrayInputStream}).
+ * <p>Most clients will use input streams that read data from the file system ({@link
+ * FileInputStream}), the network ({@link java.net.Socket#getInputStream()}/{@link
+ * java.net.HttpURLConnection#getInputStream()}), or from an in-memory byte array ({@link
+ * ByteArrayInputStream}).
  *
- * <p>Use {@link InputStreamReader} to adapt a byte stream like this one into a
- * character stream.
+ * <p>Use {@link InputStreamReader} to adapt a byte stream like this one into a character stream.
  *
- * <p>Most clients should wrap their input stream with {@link
- * BufferedInputStream}. Callers that do only bulk reads may omit buffering.
+ * <p>Most clients should wrap their input stream with {@link BufferedInputStream}. Callers that do
+ * only bulk reads may omit buffering.
  *
- * <p>Some implementations support marking a position in the input stream and
- * resetting back to this position later. Implementations that don't return
- * false from {@link #markSupported()} and throw an {@link IOException} when
- * {@link #reset()} is called.
+ * <p>Some implementations support marking a position in the input stream and resetting back to this
+ * position later. Implementations that don't return false from {@link #markSupported()} and throw
+ * an {@link IOException} when {@link #reset()} is called.
  *
  * <h3>Subclassing InputStream</h3>
- * Subclasses that decorate another input stream should consider subclassing
- * {@link FilterInputStream}, which delegates all calls to the source input
- * stream.
  *
- * <p>All input stream subclasses should override <strong>both</strong> {@link
- * #read() read()} and {@link #read(byte[],int,int) read(byte[],int,int)}. The
- * three argument overload is necessary for bulk access to the data. This is
- * much more efficient than byte-by-byte access.
+ * Subclasses that decorate another input stream should consider subclassing {@link
+ * FilterInputStream}, which delegates all calls to the source input stream.
+ *
+ * <p>All input stream subclasses should override <strong>both</strong> {@link #read() read()} and
+ * {@link #read(byte[],int,int) read(byte[],int,int)}. The three argument overload is necessary for
+ * bulk access to the data. This is much more efficient than byte-by-byte access.
  *
  * @see OutputStream
  */
+@NullMarked
 public abstract class InputStream extends Object implements Closeable {
 
     /**

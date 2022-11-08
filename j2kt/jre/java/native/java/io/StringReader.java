@@ -17,9 +17,10 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkArgument;
 
-/**
- * Reads characters from a string.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Reads characters from a string. */
+@NullMarked
 public class StringReader extends Reader {
   private final String text;
   private int position;

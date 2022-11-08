@@ -19,11 +19,13 @@
 
 package java.io;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Defines an interface for classes that can (or need to) be flushed, typically
- * before some output processing is considered to be finished and the object
- * gets closed.
+ * Defines an interface for classes that can (or need to) be flushed, typically before some output
+ * processing is considered to be finished and the object gets closed.
  */
+@NullMarked
 public interface Flushable {
     /**
      * Flushes the object by writing out any buffered data to the underlying

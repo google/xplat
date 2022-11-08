@@ -19,14 +19,16 @@
 
 package java.io;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * A specialized {@link OutputStream} for class for writing content to an
- * (internal) byte array. As bytes are written to this stream, the byte array
- * may be expanded to hold more bytes. When the writing is considered to be
- * finished, a copy of the byte array can be requested from the class.
+ * A specialized {@link OutputStream} for class for writing content to an (internal) byte array. As
+ * bytes are written to this stream, the byte array may be expanded to hold more bytes. When the
+ * writing is considered to be finished, a copy of the byte array can be requested from the class.
  *
  * @see ByteArrayInputStream
  */
+@NullMarked
 public class ByteArrayOutputStream extends OutputStream {
     /**
      * The byte array containing the bytes written.

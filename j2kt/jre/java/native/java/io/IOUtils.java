@@ -17,11 +17,14 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Provides a series of utilities to be reused between IO classes.
  *
- * TODO(chehayeb): move these checks to InternalPreconditions.
+ * <p>TODO(chehayeb): move these checks to InternalPreconditions.
  */
+@NullMarked
 final class IOUtils {
 
   /**

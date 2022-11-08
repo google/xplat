@@ -19,12 +19,14 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.nio.charset.Charset;
 import javaemul.internal.EmulatedCharset;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/io/OutputStreamWriter.html">the
  * official Java API doc</a> for details.
  */
+@NullMarked
 public class OutputStreamWriter extends Writer {
 
   private final OutputStream out;

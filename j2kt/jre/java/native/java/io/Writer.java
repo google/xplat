@@ -18,12 +18,14 @@ package java.io;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.util.Objects;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/io/Writer.html">the official Java API
  * doc</a> for details.
  */
+@NullMarked
 public abstract class Writer implements Appendable, Closeable, Flushable {
 
   protected Writer() {}

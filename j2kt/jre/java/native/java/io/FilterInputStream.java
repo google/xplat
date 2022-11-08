@@ -19,18 +19,19 @@
 
 package java.io;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * Wraps an existing {@link InputStream} and performs some transformation on
- * the input data while it is being read. Transformations can be anything from a
- * simple byte-wise filtering input data to an on-the-fly compression or
- * decompression of the underlying stream. Input streams that wrap another input
- * stream and provide some additional functionality on top of it usually inherit
- * from this class.
+ * Wraps an existing {@link InputStream} and performs some transformation on the input data while it
+ * is being read. Transformations can be anything from a simple byte-wise filtering input data to an
+ * on-the-fly compression or decompression of the underlying stream. Input streams that wrap another
+ * input stream and provide some additional functionality on top of it usually inherit from this
+ * class.
  *
  * @see FilterOutputStream
  */
+@NullMarked
 public class FilterInputStream extends InputStream {
 
   /** The source input stream that is filtered. */

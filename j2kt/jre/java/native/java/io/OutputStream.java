@@ -21,37 +21,36 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * A writable sink for bytes.
  *
- * <p>Most clients will use output streams that write data to the file system
- * ({@link FileOutputStream}), the network ({@link java.net.Socket#getOutputStream()}/{@link
- * java.net.HttpURLConnection#getOutputStream()}), or to an in-memory byte array
- * ({@link ByteArrayOutputStream}).
+ * <p>Most clients will use output streams that write data to the file system ({@link
+ * FileOutputStream}), the network ({@link java.net.Socket#getOutputStream()}/{@link
+ * java.net.HttpURLConnection#getOutputStream()}), or to an in-memory byte array ({@link
+ * ByteArrayOutputStream}).
  *
- * <p>Use {@link OutputStreamWriter} to adapt a byte stream like this one into a
- * character stream.
+ * <p>Use {@link OutputStreamWriter} to adapt a byte stream like this one into a character stream.
  *
- * <p>Most clients should wrap their output stream with {@link
- * BufferedOutputStream}. Callers that do only bulk writes may omit buffering.
+ * <p>Most clients should wrap their output stream with {@link BufferedOutputStream}. Callers that
+ * do only bulk writes may omit buffering.
  *
  * <h3>Subclassing OutputStream</h3>
- * Subclasses that decorate another output stream should consider subclassing
- * {@link FilterOutputStream}, which delegates all calls to the target output
- * stream.
  *
- * <p>All output stream subclasses should override <strong>both</strong> {@link
- * #write(int)} and {@link #write(byte[],int,int) write(byte[],int,int)}. The
- * three argument overload is necessary for bulk access to the data. This is
- * much more efficient than byte-by-byte access.
+ * Subclasses that decorate another output stream should consider subclassing {@link
+ * FilterOutputStream}, which delegates all calls to the target output stream.
+ *
+ * <p>All output stream subclasses should override <strong>both</strong> {@link #write(int)} and
+ * {@link #write(byte[],int,int) write(byte[],int,int)}. The three argument overload is necessary
+ * for bulk access to the data. This is much more efficient than byte-by-byte access.
  *
  * @see InputStream
- *
- * <p>The implementation provided by this class behaves as described in the Java
- * API documentation except for {@link write(int)} which throws an exception of
- * type {@link java.lang.UnsupportedOperationException} instead of being
- * abstract.
+ *     <p>The implementation provided by this class behaves as described in the Java API
+ *     documentation except for {@link write(int)} which throws an exception of type {@link
+ *     java.lang.UnsupportedOperationException} instead of being abstract.
  */
+@NullMarked
 public abstract class OutputStream implements Closeable, Flushable {
 
     /**

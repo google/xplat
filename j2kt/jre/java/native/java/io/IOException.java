@@ -15,9 +15,11 @@
  */
 package java.io;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /** Emulation of the corresponding JRE-Class */
+@NullMarked
 public class IOException extends Exception {
 
   public IOException() {

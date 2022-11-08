@@ -15,7 +15,8 @@
  */
 package java.io;
 
-/**
- * Provided for interoperability. The Java serialization protocol is explicitly not supported.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Provided for interoperability. The Java serialization protocol is explicitly not supported. */
+@NullMarked
 public interface Serializable {}

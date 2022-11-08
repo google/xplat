@@ -19,9 +19,10 @@
 
 package java.io;
 
-/**
- * An {@code AutoCloseable} whose close method may throw an {@link IOException}.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** An {@code AutoCloseable} whose close method may throw an {@link IOException}. */
+@NullMarked
 public interface Closeable extends AutoCloseable {
 
     /**

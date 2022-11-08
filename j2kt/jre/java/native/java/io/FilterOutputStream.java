@@ -19,18 +19,19 @@
 
 package java.io;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * Wraps an existing {@link OutputStream} and performs some transformation on
- * the output data while it is being written. Transformations can be anything
- * from a simple byte-wise filtering output data to an on-the-fly compression or
- * decompression of the underlying stream. Output streams that wrap another
- * output stream and provide some additional functionality on top of it usually
- * inherit from this class.
+ * Wraps an existing {@link OutputStream} and performs some transformation on the output data while
+ * it is being written. Transformations can be anything from a simple byte-wise filtering output
+ * data to an on-the-fly compression or decompression of the underlying stream. Output streams that
+ * wrap another output stream and provide some additional functionality on top of it usually inherit
+ * from this class.
  *
  * @see FilterOutputStream
  */
+@NullMarked
 public class FilterOutputStream extends OutputStream {
 
   /** The target output stream for this filter stream. */

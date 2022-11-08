@@ -15,18 +15,20 @@
  */
 package java.io;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/io/PrintStream.html">the official Java
  * API doc</a> for details.
  */
+@NullMarked
 public class PrintStream extends FilterOutputStream {
 
   /** Indicates whether or not this PrintStream has incurred an error. */
   private boolean ioError = false;
 
-  public PrintStream(OutputStream out) {
+  public PrintStream(@Nullable OutputStream out) {
     super(out);
   }
 

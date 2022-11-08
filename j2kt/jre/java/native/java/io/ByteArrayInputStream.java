@@ -19,11 +19,14 @@
 
 package java.io;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * A specialized {@link InputStream } for reading the contents of a byte array.
  *
  * @see ByteArrayOutputStream
  */
+@NullMarked
 public class ByteArrayInputStream extends InputStream {
     /**
      * The {@code byte} array containing the bytes to stream over.
