@@ -15,11 +15,15 @@
  */
 package javaemul.internal;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /** Class must exist as it is always loaded during tranpilation. */
+@NullMarked
 public final class ArrayHelper {
 
   @SuppressWarnings("unchecked")
-  public static <T> T[] createFrom(T[] array, int newLength) {
+  public static <T extends @Nullable Object> @Nullable T[] createFrom(T[] array, int newLength) {
     // This works because the code only runs on Kotlin Native and not on the JVM.
     return (T[]) new Object[newLength];
   }

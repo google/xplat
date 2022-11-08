@@ -15,7 +15,10 @@
  */
 package javaemul.internal;
 
+import org.jspecify.nullness.NullMarked;
+
 /** Class must exist as it is always loaded during tranpilation. */
+@NullMarked
 class Enums {
 
   private static class BoxedLightEnum<T> {}

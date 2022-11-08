@@ -19,10 +19,14 @@ import static java.lang.System.getProperty;
 
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * A utility class that provides utility functions to do precondition checks inside GWT-SDK.
+ *
  * <p>Following table summarizes the grouping of the checks:
+ *
  * <pre>
  * ┌────────┬─────────────────────────────────────────────────────┬───────────────────────────────┐
  * │Group   │Description                                          │Common Exception Types         │
@@ -48,7 +52,8 @@ import java.util.NoSuchElementException;
  * └────────┴─────────────────────────────────────────────────────┴───────────────────────────────┘
  * </pre>
  *
- * <p> Following table summarizes predefined check levels:
+ * <p>Following table summarizes predefined check levels:
+ *
  * <pre>
  * ┌────────────────┬──────────┬─────────┬─────────┬─────────┬─────────┐
  * │Check level     │  BOUNDS  │   API   │ NUMERIC |  TYPE   │CRITICAL │
@@ -65,11 +70,12 @@ import java.util.NoSuchElementException;
  *
  * <p>Please note that, in development mode (jre.checkedMode=ENABLED), these checks will always be
  * performed regardless of configuration but will be converted to AssertionError if check is
- * disabled. This so that any reliance on related exceptions could be detected early on.
- * For this detection to work properly; it is important for apps to share the same config in
- * all environments.
+ * disabled. This so that any reliance on related exceptions could be detected early on. For this
+ * detection to work properly; it is important for apps to share the same config in all
+ * environments.
  */
 // Some parts adapted from Guava
+@NullMarked
 public final class InternalPreconditions {
 
   private static final String CHECK_TYPE = getProperty("jre.checks.type");
@@ -382,10 +388,8 @@ public final class InternalPreconditions {
     }
   }
 
-  /**
-   * Ensures that an object reference passed as a parameter to the calling method is not null.
-   */
-  public static <T> T checkNotNull(T reference) {
+  /** Ensures that an object reference passed as a parameter to the calling method is not null. */
+  public static <T> T checkNotNull(@Nullable T reference) {
     if (IS_API_CHECKED) {
       checkCriticalNotNull(reference);
     } else if (IS_ASSERTED) {
@@ -399,17 +403,15 @@ public final class InternalPreconditions {
     return reference;
   }
 
-  public static <T> T checkCriticalNotNull(T reference) {
+  public static <T extends @Nullable Object> T checkCriticalNotNull(@Nullable T reference) {
     if (reference == null) {
       throw new NullPointerException();
     }
     return reference;
   }
 
-  /**
-   * Ensures that an object reference passed as a parameter to the calling method is not null.
-   */
-  public static void checkNotNull(Object reference, Object errorMessage) {
+  /** Ensures that an object reference passed as a parameter to the calling method is not null. */
+  public static void checkNotNull(@Nullable Object reference, Object errorMessage) {
     if (IS_API_CHECKED) {
       checkCriticalNotNull(reference, errorMessage);
     } else if (IS_ASSERTED) {
@@ -421,7 +423,7 @@ public final class InternalPreconditions {
     }
   }
 
-  public static void checkCriticalNotNull(Object reference, Object errorMessage) {
+  public static void checkCriticalNotNull(@Nullable Object reference, Object errorMessage) {
     if (reference == null) {
       throw new NullPointerException(String.valueOf(errorMessage));
     }

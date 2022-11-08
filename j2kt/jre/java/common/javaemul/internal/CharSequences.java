@@ -14,9 +14,11 @@
 package javaemul.internal;
 
 import jsinterop.annotations.JsType;
+import org.jspecify.nullness.NullMarked;
 
 /** Provides devirtualized method implementations for CharSequence. */
 @JsType(namespace = "vmbootstrap")
+@NullMarked
 class CharSequences {
 
   // Note that the casts needs to follow instanceof immediately for RemoveUnneededCasts to kick in.

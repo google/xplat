@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Google Inc.
+ * Copyright 2022 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package javaemul.internal;
+@NullMarked
+package smoke;
 
 import org.jspecify.nullness.NullMarked;
-
-/** Exists solely to make j2cl happy. */
-@NullMarked
-abstract class WasmArray {
-
-  static class OfObject extends WasmArray {}
-
-  static class OfByte extends WasmArray {}
-
-  static class OfShort extends WasmArray {}
-
-  static class OfChar extends WasmArray {}
-
-  static class OfInt extends WasmArray {}
-
-  static class OfLong extends WasmArray {}
-
-  static class OfFloat extends WasmArray {}
-
-  static class OfDouble extends WasmArray {}
-
-  static class OfBoolean extends WasmArray {}
-}

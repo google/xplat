@@ -15,9 +15,12 @@
  */
 package javaemul.internal;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Defines utility static functions to abstract from the Long emulation library used in JavaScript.
  */
+@NullMarked
 public class LongUtils {
 
   public static long fromBits(int lowBits, int highBits) {

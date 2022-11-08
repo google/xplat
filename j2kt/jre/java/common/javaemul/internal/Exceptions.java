@@ -15,7 +15,11 @@
  */
 package javaemul.internal;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /** Exception utilities. */
+@NullMarked
 public class Exceptions {
 
   /**
@@ -23,7 +27,8 @@ public class Exceptions {
    * exception occurred during the resource initialization or in the try block, it is passed in here
    * so that we can add suppressed exceptions to it if the resource fails to close.
    */
-  public static Throwable safeClose(AutoCloseable resource, Throwable currentException) {
+  public static @Nullable Throwable safeClose(
+      @Nullable AutoCloseable resource, @Nullable Throwable currentException) {
     if (resource == null) {
       return currentException;
     }

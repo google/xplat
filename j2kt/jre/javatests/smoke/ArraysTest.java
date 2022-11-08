@@ -23,9 +23,7 @@ import static smoke.Asserts.assertTrue;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import org.jspecify.nullness.NullMarked;
 
-@NullMarked
 public class ArraysTest {
   interface ExampleInterface {}
 

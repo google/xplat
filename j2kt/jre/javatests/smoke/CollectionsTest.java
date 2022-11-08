@@ -48,11 +48,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @SuppressWarnings("CollectionIncompatibleType") // To test runtime behavior for incompatible types
-@NullMarked
 public class CollectionsTest {
 
   private CollectionsTest() {}

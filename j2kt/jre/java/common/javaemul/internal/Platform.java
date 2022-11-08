@@ -15,7 +15,10 @@
  */
 package javaemul.internal;
 
+import org.jspecify.nullness.NullMarked;
+
 /** Abstraction of JS/WASM/KT platforms */
+@NullMarked
 public class Platform {
   // TODO(b/237503140): Implement the native function to make BigDecimal not just transpile but also
   // compile.
