@@ -15,17 +15,21 @@
  */
 package java.security;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /**
  * A generic security exception type - <a
  * href="http://java.sun.com/j2se/1.4.2/docs/api/java/security/NoSuchAlgorithmException.html">[Sun's
  * docs]</a>.
  */
+@NullMarked
 public class NoSuchAlgorithmException extends GeneralSecurityException {
 
   public NoSuchAlgorithmException() {
   }
-  
-  public NoSuchAlgorithmException(String msg) {
+
+  public NoSuchAlgorithmException(@Nullable String msg) {
     super(msg);
   }
 }

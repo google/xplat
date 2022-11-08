@@ -18,12 +18,14 @@ package java.util.logging;
 
 import java.io.Serializable;
 import java.util.Locale;
+import org.jspecify.nullness.NullMarked;
 
 /**
- *  An emulation of the java.util.logging.Level class. See
- *  <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/Level.html">
- *  The Java API doc for details</a>
+ * An emulation of the java.util.logging.Level class. See <a
+ * href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/Level.html">The Java API doc for
+ * details</a>
  */
+@NullMarked
 public class Level implements Serializable {
 
   public static Level ALL = new LevelAll();

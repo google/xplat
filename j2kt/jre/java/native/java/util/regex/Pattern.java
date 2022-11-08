@@ -16,9 +16,11 @@
 package java.util.regex;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 
 /** JRE Pattern class stub in Javadoc order. The actual wrapper is in the parallel Kotlin class. */
 @KtNative("java.util.regex.Pattern")
+@NullMarked
 public class Pattern {
 
   public static /* final */ int CANON_EQ;

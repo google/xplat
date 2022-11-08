@@ -15,7 +15,10 @@
  */
 package java.util.regex;
 
+import org.jspecify.nullness.NullMarked;
+
 /** Pattern syntax error information. */
+@NullMarked
 public class PatternSyntaxException extends IllegalArgumentException {
 
   private final String regex;

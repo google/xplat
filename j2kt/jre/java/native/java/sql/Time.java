@@ -15,10 +15,13 @@
  */
 package java.sql;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * An implementation of java.sql.Time. Derived from
  * http://java.sun.com/j2se/1.5.0/docs/api/java/sql/Time.html
  */
+@NullMarked
 public class Time extends java.util.Date {
   public static Time valueOf(String s) {
     String[] split = s.split(":");

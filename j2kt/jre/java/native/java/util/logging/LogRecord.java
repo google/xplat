@@ -17,13 +17,15 @@
 package java.util.logging;
 
 import java.io.Serializable;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- *  An emulation of the java.util.logging.LogRecord class. See
- *  <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/LogRecord.html">
- *  The Java API doc for details</a>
+ * An emulation of the java.util.logging.LogRecord class. See <a
+ * href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/LogRecord.html">The Java API doc
+ * for details</a>
  */
+@NullMarked
 public class LogRecord implements Serializable {
   private Level level = Level.OFF;
   private String loggerName = "";

@@ -16,11 +16,14 @@
 
 package java.util.logging;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- *  An emulation of the java.util.logging.Formatter class. See 
- *  <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/Formatter.html"> 
- *  The Java API doc for details</a>
+ * An emulation of the java.util.logging.Formatter class. See <a
+ * href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/Formatter.html">The Java API doc
+ * for details</a>
  */
+@NullMarked
 public abstract class Formatter {
   public abstract String format(LogRecord record);
   

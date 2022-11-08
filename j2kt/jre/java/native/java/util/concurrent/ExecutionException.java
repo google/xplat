@@ -18,11 +18,11 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Emulation of ExecutionException.
- */
+/** Emulation of ExecutionException. */
+@NullMarked
 public class ExecutionException extends Exception {
   protected ExecutionException() { }
 

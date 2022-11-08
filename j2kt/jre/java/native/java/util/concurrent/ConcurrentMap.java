@@ -19,6 +19,7 @@
 package java.util.concurrent;
 
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -27,12 +28,14 @@ import org.jspecify.nullness.Nullable;
  * @param <K> key type
  * @param <V> value type
  */
-public interface ConcurrentMap<K, V> extends Map<K, V> {
+@NullMarked
+public interface ConcurrentMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends Map<K, V> {
   @Override
   @Nullable V putIfAbsent(K key, V value);
 
   @Override
-  boolean remove(Object key, Object value);
+  boolean remove(@Nullable Object key, @Nullable Object value);
 
   @Override
   @Nullable V replace(K key, V value);

@@ -18,18 +18,20 @@
 
 package java.util.concurrent;
 
-/**
- * GWT emulation of RejectedExecutionException.
- */
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
+/** GWT emulation of RejectedExecutionException. */
+@NullMarked
 public class RejectedExecutionException extends RuntimeException {
   public RejectedExecutionException() {
   }
 
-  public RejectedExecutionException(String message) {
+  public RejectedExecutionException(@Nullable String message) {
     super(message);
   }
 
-  public RejectedExecutionException(String message, Throwable cause) {
+  public RejectedExecutionException(@Nullable String message, Throwable cause) {
     super(message, cause);
   }
 

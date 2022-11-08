@@ -16,14 +16,16 @@
 
 package java.text;
 
-/**
- * Emulation of {@code java.text.ParseException}.
- */
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
+/** Emulation of {@code java.text.ParseException}. */
+@NullMarked
 public class ParseException extends Exception {
 
   private final int errorOffset;
 
-  public ParseException(String s, int errorOffset) {
+  public ParseException(@Nullable String s, int errorOffset) {
     super(s);
     this.errorOffset = errorOffset;
   }

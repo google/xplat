@@ -18,6 +18,7 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -25,6 +26,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <V> result of call
  */
+@NullMarked
 public interface Callable<V extends @Nullable Object> {
   V call() throws Exception;
 }

@@ -18,11 +18,11 @@ package java.util.regex
 import kotlin.text.Regex
 
 /** Kotlin Pattern implementation backed by kotlin.text.Regex. */
-class Pattern(pattern: String?, private val flags: Int) {
+class Pattern(pattern: String, private val flags: Int) {
   internal val regex: Regex
   init {
     try {
-      regex = Regex(pattern!!, flagsToOptions(flags))
+      regex = Regex(pattern, flagsToOptions(flags))
     } catch (e: RuntimeException) {
       throw PatternSyntaxException(e.message ?: "", pattern, -1)
     }
@@ -30,12 +30,12 @@ class Pattern(pattern: String?, private val flags: Int) {
 
   fun flags() = flags
 
-  fun matcher(input: CharSequence?): Matcher = Matcher(this, input!!)
+  fun matcher(input: CharSequence): Matcher = Matcher(this, input)
 
-  fun split(input: CharSequence?): Array<String?>? = regex.split(input!!).toTypedArray()
+  fun split(input: CharSequence): Array<String> = regex.split(input).toTypedArray()
 
-  fun split(input: CharSequence?, limit: Int): Array<String?>? =
-    regex.split(input!!, limit).toTypedArray()
+  fun split(input: CharSequence, limit: Int): Array<String?> =
+    regex.split(input, limit).toTypedArray()
 
   fun pattern() = regex.pattern
 

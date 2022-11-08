@@ -16,10 +16,10 @@
 package java.security;
 
 import java.util.Arrays;
+import org.jspecify.nullness.NullMarked;
 
-/**
- * SHA256 implementation for GWT.
- */
+/** SHA256 implementation for GWT. */
+@NullMarked
 public class SHA256Digest extends MessageDigest {
 
   private static final int WORD_LENGTH = 32;

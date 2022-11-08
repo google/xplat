@@ -16,10 +16,10 @@
 package java.util.logging;
 
 import javaemul.internal.ConsoleLogger;
+import org.jspecify.nullness.NullMarked;
 
-/**
- * A simple console logger used in super dev mode.
- */
+/** A simple console logger used in super dev mode. */
+@NullMarked
 class SimpleConsoleLogHandler extends Handler {
 
   @Override

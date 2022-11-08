@@ -15,9 +15,11 @@
  */
 package java.util.concurrent;
 
-/**
- * Emulation of Flow.
- */
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
+/** Emulation of Flow. */
+@NullMarked
 public final class Flow {
 
   private Flow() { }
@@ -28,7 +30,7 @@ public final class Flow {
    * @param <T> the published item type
    */
   @FunctionalInterface
-  public interface Publisher<T> {
+  public interface Publisher<T extends @Nullable Object> {
     void subscribe(Subscriber<? super T> subscriber);
   }
 
@@ -37,7 +39,7 @@ public final class Flow {
    *
    * @param <T> the subscribed item type
    */
-  public interface Subscriber<T> {
+  public interface Subscriber<T extends @Nullable Object> {
     void onSubscribe(Subscription subscription);
 
     void onNext(T item);
@@ -62,8 +64,8 @@ public final class Flow {
    * @param <T> the subscribed item type
    * @param <R> the published item type
    */
-  public interface Processor<T,R> extends Subscriber<T>, Publisher<R> {
-  }
+  public interface Processor<T extends @Nullable Object, R extends @Nullable Object>
+      extends Subscriber<T>, Publisher<R> {}
 
   private static final int DEFAULT_BUFFER_SIZE = 256;
 

@@ -12,10 +12,13 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * GWT emulation of TimeUnit, created by removing unsupported operations from
- * Doug Lea's public domain version.
+ * GWT emulation of TimeUnit, created by removing unsupported operations from Doug Lea's public
+ * domain version.
  */
+@NullMarked
 public enum TimeUnit {
   NANOSECONDS {
     public long toNanos(long d)   { return d; }

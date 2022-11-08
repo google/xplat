@@ -18,10 +18,13 @@
 
 package java.util.concurrent.atomic;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * GWT emulated version of {@link AtomicLong}.  It's a thin wrapper
- * around the primitive {@code long}.
+ * GWT emulated version of {@link AtomicLong}. It's a thin wrapper around the primitive {@code
+ * long}.
  */
+@NullMarked
 public class AtomicLong extends Number implements java.io.Serializable {
 
   private long value;

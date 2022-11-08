@@ -18,11 +18,11 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Emulation of CancellationException.
- */
+/** Emulation of CancellationException. */
+@NullMarked
 public class CancellationException extends IllegalStateException {
 
   public CancellationException() { }

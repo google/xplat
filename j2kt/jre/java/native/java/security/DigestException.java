@@ -15,17 +15,21 @@
  */
 package java.security;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /**
  * A generic security exception type - <a
  * href="http://java.sun.com/j2se/1.4.2/docs/api/java/security/DigestException.html">[Sun's
  * docs]</a>.
  */
+@NullMarked
 public class DigestException extends GeneralSecurityException {
 
   public DigestException() {
   }
-  
-  public DigestException(String msg) {
+
+  public DigestException(@Nullable String msg) {
     super(msg);
   }
 }

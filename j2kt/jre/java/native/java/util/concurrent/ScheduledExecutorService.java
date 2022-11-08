@@ -18,11 +18,11 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Emulation of ScheduledExecutorService.
- */
+/** Emulation of ScheduledExecutorService. */
+@NullMarked
 public interface ScheduledExecutorService extends ExecutorService {
 
   ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);

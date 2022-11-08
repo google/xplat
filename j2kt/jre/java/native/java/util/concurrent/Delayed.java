@@ -12,9 +12,10 @@
 
 package java.util.concurrent;
 
-/**
- * Emulation of Delayed.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Emulation of Delayed. */
+@NullMarked
 public interface Delayed extends Comparable<Delayed> {
  long getDelay(TimeUnit unit);
 }

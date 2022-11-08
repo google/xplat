@@ -18,11 +18,11 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Emulation of TimeoutException.
- */
+/** Emulation of TimeoutException. */
+@NullMarked
 public class TimeoutException extends Exception {
   public TimeoutException() { }
 

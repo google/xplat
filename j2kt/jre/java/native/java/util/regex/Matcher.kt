@@ -90,8 +90,8 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    *
    * @return the `Matcher` itself.
    */
-  fun reset(input: CharSequence?): Matcher {
-    return reset(input, 0, input!!.length)
+  fun reset(input: CharSequence): Matcher {
+    return reset(input, 0, input.length)
   }
 
   /**
@@ -106,8 +106,8 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    *
    * @return the matcher itself.
    */
-  private fun reset(input: CharSequence?, start: Int, end: Int): Matcher {
-    if (start < 0 || end < 0 || start > input!!.length || end > input!!.length || start > end) {
+  private fun reset(input: CharSequence, start: Int, end: Int): Matcher {
+    if (start < 0 || end < 0 || start > input.length || end > input.length || start > end) {
       throw IndexOutOfBoundsException()
     }
     this.input = input!!.toString()
@@ -127,7 +127,6 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * @return the `Matcher` itself.
    */
   fun usePattern(pattern: Pattern): Matcher {
-    requireNotNull(pattern)
     this.pattern = pattern
     matchResult = null
     return this

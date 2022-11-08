@@ -18,6 +18,7 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -25,4 +26,5 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <V> value type returned by the future.
  */
+@NullMarked
 public interface RunnableFuture<V extends @Nullable Object> extends Runnable, Future<V> {}

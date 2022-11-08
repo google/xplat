@@ -16,6 +16,7 @@
 
 package java.util.concurrent.atomic;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -23,6 +24,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <V> The type of object referred to by this reference
  */
+@NullMarked
 public class AtomicReference<V extends @Nullable Object> {
 
   private V value;

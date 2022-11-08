@@ -18,9 +18,10 @@
 
 package java.util.concurrent;
 
-/**
- * Emulation of Executor.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** Emulation of Executor. */
+@NullMarked
 public interface Executor {
   void execute(Runnable command);
 }

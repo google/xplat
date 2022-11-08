@@ -17,7 +17,9 @@ package java.security;
 
 import java.util.Random;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 
 /** Secure random number generator. */
 @KtNative("java.security.SecureRandom")
+@NullMarked
 public final class SecureRandom extends Random {}

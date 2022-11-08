@@ -16,11 +16,12 @@
 package java.util.regex;
 
 import javaemul.internal.annotations.KtNative;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /** JRE Matcher stub; see Matcher.kt for the actual wrapper. */
 @KtNative("java.util.regex.Matcher")
+@NullMarked
 public class Matcher {
 
   private Matcher() {}
@@ -86,5 +87,5 @@ public class Matcher {
   @Override
   public native String toString();
 
-  public native Matcher usePattern(@JsNonNull Pattern newPattern);
+  public native Matcher usePattern(Pattern newPattern);
 }

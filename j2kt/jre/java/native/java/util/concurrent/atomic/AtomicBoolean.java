@@ -18,9 +18,10 @@
 
 package java.util.concurrent.atomic;
 
-/**
- * GWT emulation of AtomicBoolean.
- */
+import org.jspecify.nullness.NullMarked;
+
+/** GWT emulation of AtomicBoolean. */
+@NullMarked
 public class AtomicBoolean implements java.io.Serializable {
   private boolean value;
 

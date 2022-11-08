@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -29,6 +30,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <V> the element type.
  */
+@NullMarked
 public class AtomicReferenceArray<V extends @Nullable Object> {
 
   private final List<V> values;

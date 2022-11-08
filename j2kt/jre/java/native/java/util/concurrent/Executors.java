@@ -12,11 +12,11 @@
 
 package java.util.concurrent;
 
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Emulation of executors.
- */
+/** Emulation of executors. */
+@NullMarked
 public class Executors {
 
   public static <T extends @Nullable Object> Callable<T> callable(Runnable task, T result) {

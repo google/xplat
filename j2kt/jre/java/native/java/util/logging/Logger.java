@@ -18,13 +18,15 @@ package java.util.logging;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- *  An emulation of the java.util.logging.Logger class. See
- *  <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/Logger.html">
- *  The Java API doc for details</a>
+ * An emulation of the java.util.logging.Logger class. See <a
+ * href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/Logger.html">The Java API doc for
+ * details</a>
  */
+@NullMarked
 public class Logger {
   public static final String GLOBAL_LOGGER_NAME = "global";
 

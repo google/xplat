@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
@@ -37,7 +37,9 @@ import org.jspecify.nullness.Nullable;
  * @param <K> key type
  * @param <V> value type
  */
-public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
+@NullMarked
+public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   private final Map<K, V> backingMap;
 
@@ -65,7 +67,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
   }
 
-  public boolean remove(Object key, Object value) {
+  public boolean remove(@Nullable Object key, @Nullable Object value) {
     if (containsKey(key) && get(key).equals(value)) {
       remove(key);
       return true;
@@ -135,7 +137,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
   }
 
   @Override
-  public Set<@JsNonNull Entry<K, V>> entrySet() {
+  public Set<Entry<K, V>> entrySet() {
     return backingMap.entrySet();
   }
 

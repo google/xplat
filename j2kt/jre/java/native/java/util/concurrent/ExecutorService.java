@@ -20,11 +20,11 @@ package java.util.concurrent;
 
 import java.util.Collection;
 import java.util.List;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * Emulation of ExecutorService.
- */
+/** Emulation of ExecutorService. */
+@NullMarked
 public interface ExecutorService extends Executor {
 
   void shutdown();

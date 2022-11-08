@@ -15,11 +15,14 @@
  */
 package java.security;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Message Digest Service Provider Interface - <a
  * href="http://java.sun.com/j2se/1.4.2/docs/api/java/security/MessageDigestSpi.html">[Sun's
  * docs]</a>.
  */
+@NullMarked
 public abstract class MessageDigestSpi {
 
   protected abstract byte[] engineDigest();

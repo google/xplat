@@ -15,14 +15,15 @@
  */
 package java.sql;
 
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * An implementation of java.sql.Timestame. Derived from
- * http://java.sun.com/j2se/1.5.0/docs/api/java/sql/Timestamp.html. This is
- * basically just regular Date decorated with a nanoseconds field.
+ * http://java.sun.com/j2se/1.5.0/docs/api/java/sql/Timestamp.html. This is basically just regular
+ * Date decorated with a nanoseconds field.
  */
+@NullMarked
 public class Timestamp extends java.util.Date {
 
   public static Timestamp valueOf(String s) {
@@ -110,7 +111,7 @@ public class Timestamp extends java.util.Date {
   }
 
   @Override
-  public int compareTo(java.util.@JsNonNull Date o) {
+  public int compareTo(java.util.Date o) {
     if (o instanceof Timestamp) {
       return compareTo((Timestamp) o);
     } else {
@@ -118,7 +119,7 @@ public class Timestamp extends java.util.Date {
     }
   }
 
-  public int compareTo(@JsNonNull Timestamp o) {
+  public int compareTo(Timestamp o) {
     int cmp = Long.compare(getTime(), o.getTime());
     return cmp == 0 ? Integer.compare(getNanos(), o.getNanos()) : cmp;
   }

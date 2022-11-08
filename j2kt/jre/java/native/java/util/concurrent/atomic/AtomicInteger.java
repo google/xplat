@@ -20,9 +20,11 @@ package java.util.concurrent.atomic;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.nullness.NullMarked;
 
 /** Kotli version of {@link AtomicInteger} based on kotlinx_atomicfu. */
 @KtNative("java.util.concurrent.atomic.AtomicInteger")
+@NullMarked
 public class AtomicInteger extends Number implements java.io.Serializable {
 
   public AtomicInteger(int initialValue) {}

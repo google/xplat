@@ -15,11 +15,13 @@
  */
 package java.security;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Message Digest algorithm - <a href=
- * "http://java.sun.com/j2se/1.4.2/docs/api/java/security/MessageDigest.html"
- * >[Sun's docs]</a>.
+ * "http://java.sun.com/j2se/1.4.2/docs/api/java/security/MessageDigest.html" >[Sun's docs]</a>.
  */
+@NullMarked
 public abstract class MessageDigest extends MessageDigestSpi {
 
   private static class Md5Digest extends MessageDigest {

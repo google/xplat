@@ -15,10 +15,13 @@
  */
 package java.sql;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * An implementation of java.sql.Date. Derived from
  * http://java.sun.com/j2se/1.5.0/docs/api/java/sql/Date.html
  */
+@NullMarked
 public class Date extends java.util.Date {
   public static Date valueOf(String s) {
     String[] split = s.split("-");
