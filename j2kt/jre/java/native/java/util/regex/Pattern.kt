@@ -34,7 +34,7 @@ class Pattern(pattern: String, private val flags: Int) {
 
   fun split(input: CharSequence): Array<String> = regex.split(input).toTypedArray()
 
-  fun split(input: CharSequence, limit: Int): Array<String?> =
+  fun split(input: CharSequence, limit: Int): Array<String> =
     regex.split(input, limit).toTypedArray()
 
   fun pattern() = regex.pattern
