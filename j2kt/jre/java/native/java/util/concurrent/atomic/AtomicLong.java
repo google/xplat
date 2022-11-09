@@ -18,99 +18,57 @@
 
 package java.util.concurrent.atomic;
 
+import javaemul.internal.annotations.KtName;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
-/**
- * GWT emulated version of {@link AtomicLong}. It's a thin wrapper around the primitive {@code
- * long}.
- */
+/** JRE AtomicLong stub; see AtomicLong.kt for the actual wrapper. */
+@KtNative("java.util.concurrent.atomic.AtomicLong")
 @NullMarked
 public class AtomicLong extends Number implements java.io.Serializable {
 
-  private long value;
+  public AtomicLong(long initialValue) {}
 
-  public AtomicLong(long initialValue) {
-    this.value = initialValue;
-  }
+  public AtomicLong() {}
 
-  public AtomicLong() {
-  }
+  public native long get();
 
-  public final long get() {
-    return value;
-  }
+  public native void set(long newValue);
 
-  public final void set(long newValue) {
-    value = newValue;
-  }
+  public native void lazySet(long newValue);
 
-  public final void lazySet(long newValue) {
-    set(newValue);
-  }
+  public native long getAndSet(long newValue);
 
-  public final long getAndSet(long newValue) {
-    long current = value;
-    value = newValue;
-    return current;
-  }
+  public native boolean compareAndSet(long expect, long update);
 
-  public final boolean compareAndSet(long expect, long update) {
-    if (value == expect) {
-      value = update;
-      return true;
-    } else {
-      return false;
-    }
-  }
+  public native long getAndIncrement();
 
-  public final long getAndIncrement() {
-    return value++;
-  }
+  public native long getAndDecrement();
 
-  public final long getAndDecrement() {
-    return value--;
-  }
+  public native long getAndAdd(long delta);
 
-  public final long getAndAdd(long delta) {
-    long current = value;
-    value += delta;
-    return current;
-  }
+  public native long incrementAndGet();
 
-  public final long incrementAndGet() {
-    return ++value;
-  }
+  public native long decrementAndGet();
 
-  public final long decrementAndGet() {
-    return --value;
-  }
-
-  public final long addAndGet(long delta) {
-    value += delta;
-    return value;
-  }
-
-  @Override public String toString() {
-    return Long.toString(value);
-  }
+  public native long addAndGet(long delta);
 
   @Override
-  public int intValue() {
-    return (int) value;
-  }
+  public native String toString();
 
   @Override
-  public long longValue() {
-    return value;
-  }
+  @KtName("toInt")
+  public native int intValue();
 
   @Override
-  public float floatValue() {
-    return (float) value;
-  }
+  @KtName("toLong")
+  public native long longValue();
 
   @Override
-  public double doubleValue() {
-    return (double) value;
-  }
+  @KtName("toFloat")
+  public native float floatValue();
+
+  @Override
+  @KtName("toDouble")
+  public native double doubleValue();
 }
