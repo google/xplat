@@ -18,53 +18,30 @@
 
 package java.util.concurrent.atomic;
 
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 /** GWT emulation of AtomicBoolean. */
+@KtNative("java.util.concurrent.atomic.AtomicBoolean")
 @NullMarked
 public class AtomicBoolean implements java.io.Serializable {
-  private boolean value;
 
-  public AtomicBoolean(boolean initialValue) {
-    value = initialValue;
-  }
+  public AtomicBoolean(boolean initialValue) {}
 
-  public AtomicBoolean() {
-  }
+  public AtomicBoolean() {}
 
-  public final boolean get() {
-    return value;
-  }
+  public final native boolean get();
 
-  public final boolean compareAndSet(boolean expect, boolean update) {
-    if (get() == expect) {
-      set(update);
-      return true;
-    }
+  public final native boolean compareAndSet(boolean expect, boolean update);
 
-    return false;
-  }
+  public native boolean weakCompareAndSet(boolean expect, boolean update);
 
-  public boolean weakCompareAndSet(boolean expect, boolean update) {
-    return compareAndSet(expect, update);
-  }
+  public final native void set(boolean newValue);
 
-  public final void set(boolean newValue) {
-    value = newValue;
-  }
+  public final native void lazySet(boolean newValue);
 
-  public final void lazySet(boolean newValue) {
-    set(newValue);
-  }
-
-  public final boolean getAndSet(boolean newValue) {
-    boolean current = get();
-    set(newValue);
-    return current;
-  }
+  public final native boolean getAndSet(boolean newValue);
 
   @Override
-  public String toString() {
-    return Boolean.toString(get());
-  }
+  public native String toString();
 }

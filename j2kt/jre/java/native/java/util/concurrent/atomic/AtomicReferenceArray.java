@@ -18,10 +18,7 @@
 
 package java.util.concurrent.atomic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -30,53 +27,28 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <V> the element type.
  */
+@KtNative("java.util.concurrent.atomic.AtomicReferenceArray")
 @NullMarked
 public class AtomicReferenceArray<V extends @Nullable Object> {
 
-  private final List<V> values;
+  public AtomicReferenceArray(V[] array) {}
 
-  public AtomicReferenceArray(V[] array) {
-    values = new ArrayList<V>(Arrays.asList(array));
-  }
+  public AtomicReferenceArray(int length) {}
 
-  public AtomicReferenceArray(int length) {
-    values = new ArrayList<V>(Collections.<V>nCopies(length, null));
-  }
+  public native boolean compareAndSet(int i, V expect, V update);
 
-  public boolean compareAndSet(int i, V expect, V update) {
-    if (values.get(i) == expect) {
-      values.set(i, update);
-      return true;
-    }
-    return false;
-  }
+  public native V get(int i);
 
-  public V get(int i) {
-    return values.get(i);
-  }
+  public native V getAndSet(int i, V x);
 
-  public V getAndSet(int i, V x) {
-    return values.set(i, x);
-  }
+  public native void lazySet(int i, V x);
 
-  public void lazySet(int i, V x) {
-    values.set(i, x);
-  }
+  public native int length();
 
-  public int length() {
-    return values.size();
-  }
+  public native void set(int i, V x);
 
-  public void set(int i, V x) {
-    values.set(i, x);
-  }
-
-  public boolean weakCompareAndSet(int i, V expect, V update) {
-    return compareAndSet(i, expect, update);
-  }
+  public native boolean weakCompareAndSet(int i, V expect, V update);
 
   @Override
-  public String toString() {
-    return values.toString();
-  }
+  public native String toString();
 }

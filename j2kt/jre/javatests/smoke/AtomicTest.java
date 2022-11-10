@@ -17,15 +17,22 @@ package smoke;
 
 import static smoke.Asserts.assertEquals;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import org.jspecify.nullness.Nullable;
 
 public class AtomicTest {
   private AtomicTest() {}
 
   static void testAtomic() {
+    testBoolean();
     testInt();
     testLong();
+    testReference();
+    testReferenceArray();
   }
 
   private static void testInt() {
@@ -42,6 +49,37 @@ public class AtomicTest {
 
     atomicLong.set(5678L);
     assertEquals(atomicLong.get(), 5678L);
+  }
+
+  private static void testReference() {
+    AtomicReference<String> ref = new AtomicReference<>("");
+    ref.set("Hello world!");
+    String result = ref.get();
+    assertEquals("Hello world!", result);
+
+    AtomicReference<@Nullable String> nullableRef = new AtomicReference<>();
+    nullableRef.set("Hello world!");
+    @Nullable String nullableResult = nullableRef.get();
+    assertEquals("Hello world!", nullableResult);
+  }
+
+  private static void testReferenceArray() {
+    AtomicReferenceArray<String> array = new AtomicReferenceArray<>(new String[] {""});
+    array.set(0, "Hello world!");
+    String result = array.get(0);
+    assertEquals("Hello world!", result);
+
+    AtomicReferenceArray<@Nullable String> nullableArray = new AtomicReferenceArray<>(1);
+    nullableArray.set(0, "Hello world!");
+    @Nullable String nullableResult = nullableArray.get(0);
+    assertEquals("Hello world!", nullableResult);
+  }
+
+  private static void testBoolean() {
+    AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+    boolean initialValue = atomicBoolean.getAndSet(true);
+    assertEquals(false, initialValue);
+    assertEquals(true, atomicBoolean.get());
   }
 
   /**

@@ -16,6 +16,7 @@
 
 package java.util.concurrent.atomic;
 
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -24,51 +25,26 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <V> The type of object referred to by this reference
  */
+@KtNative("java.util.concurrent.atomic.AtomicReference")
 @NullMarked
 public class AtomicReference<V extends @Nullable Object> {
 
-  private V value;
+  public AtomicReference() {}
 
-  public AtomicReference() {
-  }
+  public AtomicReference(V initialValue) {}
 
-  public AtomicReference(V initialValue) {
-    value = initialValue;
-  }
+  public final native boolean compareAndSet(V expect, V update);
 
-  public final boolean compareAndSet(V expect, V update) {
-    if (value == expect) {
-      value = update;
-      return true;
-    } else {
-      return false;
-    }
-  }
+  public final native V get();
 
-  public final V get() {
-    return value;
-  }
+  public final native V getAndSet(V newValue);
 
-  public final V getAndSet(V newValue) {
-    V oldValue = value;
-    value = newValue;
-    return oldValue;
-  }
+  public final native void lazySet(V newValue);
 
-  public final void lazySet(V newValue) {
-    set(newValue);
-  }
+  public final native void set(V newValue);
 
-  public final void set(V newValue) {
-    value = newValue;
-  }
-
-  public final boolean weakCompareAndSet(V expect, V update) {
-    return compareAndSet(expect, update);
-  }
+  public final native boolean weakCompareAndSet(V expect, V update);
 
   @Override
-  public String toString() {
-    return String.valueOf(value);
-  }
+  public native String toString();
 }
