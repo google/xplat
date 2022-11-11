@@ -16,13 +16,14 @@
 package java.util;
 
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a
- * href="http://docs.oracle.com/javase/8/docs/api/java/util/Objects.html">the
- * official Java API doc</a> for details.
+ * See <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Objects.html">the official Java
+ * API doc</a> for details.
  */
+@NullMarked
 public final class Objects {
   private Objects() {
   }
@@ -87,11 +88,6 @@ public final class Objects {
 
   public static boolean equals(@Nullable Object a, @Nullable Object b) {
     return (a == b) || (a != null && a.equals(b));
-  }
-
-  @SuppressWarnings("StringEquality")
-  public static boolean equals(@Nullable String a, @Nullable String b) {
-    return a == b;
   }
 
   public static int hashCode(@Nullable Object o) {

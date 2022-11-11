@@ -15,16 +15,17 @@
  */
 package java.util;
 
-/**
- * Thrown when the subject of an observer cannot support additional observers.
- * 
- */
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
+/** Thrown when the subject of an observer cannot support additional observers. */
+@NullMarked
 public class TooManyListenersException extends Exception {
 
   public TooManyListenersException() {
   }
 
-  public TooManyListenersException(String message) {
+  public TooManyListenersException(@Nullable String message) {
     super(message);
   }
 }

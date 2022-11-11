@@ -15,27 +15,31 @@
  */
 package java.util;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /**
- * See <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/MissingResourceException.html">the
+ * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/MissingResourceException.html">the
  * official Java API doc</a> for details.
  */
+@NullMarked
 public class MissingResourceException extends RuntimeException {
-  private String className;
+  private @Nullable String className;
 
-  private String key;
+  private @Nullable String key;
 
-  public MissingResourceException(String s, String className, String key) {
+  public MissingResourceException(
+      @Nullable String s, @Nullable String className, @Nullable String key) {
     super(s);
     this.key = key;
     this.className = className;
   }
 
-  public String getClassName() {
+  public @Nullable String getClassName() {
     return className;
   }
 
-  public String getKey() {
+  public @Nullable String getKey() {
     return key;
   }
 }

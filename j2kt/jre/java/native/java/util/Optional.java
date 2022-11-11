@@ -23,14 +23,16 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html">
- * the official Java API doc</a> for details.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html">the official Java
+ * API doc</a> for details.
  *
  * @param <T> type of the wrapped reference
  */
+@NullMarked
 public final class Optional<T> {
 
   @SuppressWarnings("unchecked")
@@ -50,7 +52,7 @@ public final class Optional<T> {
 
   private final @Nullable T ref;
 
-  private Optional(T ref) {
+  private Optional(@Nullable T ref) {
     this.ref = ref;
   }
 
