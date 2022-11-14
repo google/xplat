@@ -20,7 +20,12 @@ import static smoke.Asserts.assertFalse;
 import static smoke.Asserts.assertTrue;
 import static smoke.Asserts.fail;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import javaemul.internal.EmulatedCharset;
@@ -38,12 +43,25 @@ public class StringTest {
     testJavaEmul();
     testString();
     testStringBuilder();
+    testStringReader();
+    testStringWriter();
     testCodePointMethods();
   }
 
   // TODO(b/236003566): Test OutputStreamWriter instead after cl/438505991 is submitted.
   private static void testJavaEmul() {
     assertEquals(AEBC, EmulatedCharset.UTF_8.getBytes(new char[] {'Ä', 'B', 'C'}, 0, 3));
+  }
+
+  private static void testStringReader() throws IOException {
+    Reader reader = new StringReader("Hello World");
+    assertEquals((int) 'H', reader.read());
+  }
+
+  private static void testStringWriter() throws IOException {
+    Writer writer = new StringWriter();
+    writer.write("Hello World");
+    assertEquals("Hello World", writer.toString());
   }
 
   private static void testString() {

@@ -27,7 +27,6 @@ import org.jspecify.nullness.Nullable;
  */
 @NullMarked
 public abstract class Writer implements Appendable, Closeable, Flushable {
-
   protected Writer() {}
 
   protected Writer(Object lock) {}
