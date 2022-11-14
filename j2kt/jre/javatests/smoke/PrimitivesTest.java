@@ -138,6 +138,8 @@ public class PrimitivesTest {
     assertEquals(
         0x7ff8000000000001L,
         Double.doubleToRawLongBits(Double.longBitsToDouble(0x7ff8000000000001L)));
+
+    assertEquals(30, Math.getExponent(1234567890d));
   }
 
   private static void testShort() {
@@ -222,6 +224,8 @@ public class PrimitivesTest {
     assertTrue(Float.isNaN(Float.intBitsToFloat(0x7fc00001)));
     assertEquals(0x7fc00000, Float.floatToIntBits(Float.intBitsToFloat(0x7fc00001)));
     assertEquals(0x7fc00001, Float.floatToRawIntBits(Float.intBitsToFloat(0x7fc00001)));
+
+    assertEquals(13, Math.getExponent(12345f));
   }
 
   private static void testCharacter() {

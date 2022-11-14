@@ -28,6 +28,15 @@ operator fun Float.Companion.invoke(f: Float): Float = f
 val Float.Companion.TYPE: Class<Float>
   get() = Float::class.javaPrimitiveType!!
 
+val Float.Companion.MAX_EXPONENT: Int
+  get() = 127
+
+val Float.Companion.MIN_EXPONENT: Int
+  get() = -126
+
+val Float.Companion.MIN_NORMAL: Float
+  get() = 1.1754943508222875e-38F // 0x1.0p-126f
+
 fun Float.Companion.valueOf(f: Float): Float = f
 
 fun Float.Companion.valueOf(s: String): Float = s.toFloat()

@@ -32,6 +32,13 @@ import kotlin.math.withSign
  * This is only meant to be used in generated code. See regular JRE documentation for javadoc.
  */
 object Math {
+  private const val FLOAT_MANTISSA_BITS: Int = 23
+  private const val FLOAT_EXPONENT_BIAS: Int = 127
+  private const val FLOAT_EXPONENT_MASK: Int = 0x7f800000
+  private const val DOUBLE_MANTISSA_BITS: Int = 52
+  private const val DOUBLE_EXPONENT_BIAS: Int = 1023
+  private const val DOUBLE_EXPONENT_MASK: Long = 0x7ff0000000000000L
+
   const val E: Double = kotlin.math.E
 
   const val PI: Double = kotlin.math.PI
@@ -207,9 +214,15 @@ object Math {
 
   fun copySign(magnitude: Float, sign: Float): Float = magnitude.withSign(sign)
 
-  fun getExponent(d: Double): Double = TODO("b/226319599: Implement missing Math methods.")
+  fun getExponent(d: Double): Int {
+    var bits = d.toRawBits() and DOUBLE_EXPONENT_MASK shr DOUBLE_MANTISSA_BITS
+    return bits.toInt() - DOUBLE_EXPONENT_BIAS
+  }
 
-  fun getExponent(f: Float): Float = TODO("b/226319599: Implement missing Math methods.")
+  fun getExponent(f: Float): Int {
+    var bits = f.toRawBits() and FLOAT_EXPONENT_MASK shr FLOAT_MANTISSA_BITS
+    return bits - FLOAT_EXPONENT_BIAS
+  }
 
   fun nextAfter(start: Double, direction: Double): Double = start.nextTowards(direction)
 

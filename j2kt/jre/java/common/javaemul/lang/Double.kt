@@ -25,6 +25,15 @@ import kotlin.jvm.javaPrimitiveType
  */
 operator fun Double.Companion.invoke(d: Double): Double = d
 
+val Double.Companion.MAX_EXPONENT: Int
+  get() = 1023
+
+val Double.Companion.MIN_EXPONENT: Int
+  get() = -1022
+
+val Double.Companion.MIN_NORMAL: Double
+  get() = 2.2250738585072014e-308 // 0x1.0p-1022
+
 val Double.Companion.TYPE: Class<Double>
   get() = Double::class.javaPrimitiveType!!
 
