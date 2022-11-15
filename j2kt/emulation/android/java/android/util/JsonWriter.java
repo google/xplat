@@ -396,12 +396,16 @@ public final class JsonWriter implements Closeable {
           out.write("\\f");
           break;
         case '\u2028':
+          out.write("\\u2028");
+          break;
         case '\u2029':
-          out.write(String.format("\\u%04x", (int) c));
+          out.write("\\u2029");
           break;
         default:
           if (c <= 0x1F) {
-            out.write(String.format("\\u%04x", (int) c));
+            out.write("\\u00");
+            out.write(Character.forDigit(c / 16, 16));
+            out.write(Character.forDigit(c % 16, 16));
           } else {
             out.write(c);
           }
