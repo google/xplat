@@ -55,4 +55,6 @@ public final class System {
   public static native @Nullable String getProperty(String key);
 
   public static native @Nullable String getProperty(String key, @Nullable String def);
+
+  public static native String lineSeparator();
 }

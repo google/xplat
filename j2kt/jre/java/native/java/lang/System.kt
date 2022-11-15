@@ -72,4 +72,6 @@ object System {
   fun setOut(out: PrintStream) {
     this.out = out
   }
+
+  fun lineSeparator(): String = "\n"
 }

@@ -17,6 +17,8 @@
 
 package java.lang;
 
+import java.io.PrintWriter;
+import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
@@ -62,8 +64,9 @@ public class Throwable {
 
   // TODO(b/223584513): Temporarily disabled to avoid PrintStream dependency
   // public native void printStackTrace(PrintStream err);
-  //
-  // public native void printStackTrace(PrintWriter err);
+
+  @KtName("java_printStackTrace")
+  public native void printStackTrace(PrintWriter err);
 
   @Override
   public native String toString();

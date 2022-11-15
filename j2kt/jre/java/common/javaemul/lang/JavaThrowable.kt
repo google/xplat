@@ -15,6 +15,8 @@
  */
 package javaemul.lang
 
+import java.io.PrintWriter
+
 // Bridge type for transpiled subclasses of Throwable
 open class JavaThrowable(message: String? = null) : Throwable(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
@@ -30,6 +32,8 @@ open class JavaThrowable(message: String? = null) : Throwable(message), InitCaus
   }
 
   override fun initCause(cause: Throwable?): Throwable = super<InitCauseCapable>.initCause(cause)
+
+  fun java_printStackTrace(writer: PrintWriter) = default_printStackTrace(writer)
 }
 
 fun Throwable.getSuppressed(): Array<Throwable> = suppressedExceptions.toTypedArray()
@@ -40,3 +44,12 @@ fun Throwable.initCause(cause: Throwable?): Throwable =
   // initCause is generally called inside a constructor or right after calling one, so this
   // restriction should not be too bad in practice:
   else throw UnsupportedOperationException("Cannot initCause for native exception")
+
+// This is renamed because Kotlin's stackTraceToString is implemented in terms of printStackTrace.
+// If we don't rename the method, we'll end up with infinite recursion in Kotlin/JVM.
+fun Throwable.java_printStackTrace(writer: PrintWriter) =
+  if (this is JavaThrowable) java_printStackTrace(writer) else default_printStackTrace(writer)
+
+private fun Throwable.default_printStackTrace(writer: PrintWriter) {
+  writer.write(stackTraceToString())
+}

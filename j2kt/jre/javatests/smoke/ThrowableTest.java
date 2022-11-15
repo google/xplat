@@ -21,6 +21,8 @@ import static smoke.Asserts.assertSame;
 import static smoke.Asserts.assertTrue;
 import static smoke.Asserts.fail;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import org.jspecify.nullness.Nullable;
 
 public class ThrowableTest {
@@ -28,6 +30,7 @@ public class ThrowableTest {
     testBridgedException_initCause();
     testTranspiledException_initCause();
     testAssertionError_constructors();
+    testPrintStackTrace();
   }
 
   private static void testBridgedException_initCause() throws Exception {
@@ -108,5 +111,16 @@ public class ThrowableTest {
     Exception cause = new RuntimeException();
     assertionError = new AssertionError(cause);
     assertSame(cause, assertionError.getCause());
+  }
+
+  private static void testPrintStackTrace() throws Exception {
+    StringWriter stringWriter = new StringWriter();
+    Throwable throwable = new RuntimeException("exception message 123");
+    throwable.printStackTrace(new PrintWriter(stringWriter));
+    String stackTrace = stringWriter.toString();
+
+    assertTrue(stackTrace.contains("RuntimeException"));
+    assertTrue(stackTrace.contains("exception message 123"));
+    assertTrue(stackTrace.contains("testPrintStackTrace"));
   }
 }

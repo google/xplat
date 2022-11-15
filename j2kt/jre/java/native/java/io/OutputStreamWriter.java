@@ -33,6 +33,10 @@ public class OutputStreamWriter extends Writer {
 
   private final Charset charset;
 
+  public OutputStreamWriter(OutputStream out) {
+    this(out, Charset.defaultCharset());
+  }
+
   public OutputStreamWriter(OutputStream out, String charsetName) {
     this(out, Charset.forName(charsetName));
   }

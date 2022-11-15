@@ -15,7 +15,6 @@
  */
 package java.io;
 
-import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.util.Objects;
 import org.jspecify.nullness.NullMarked;
@@ -27,9 +26,15 @@ import org.jspecify.nullness.Nullable;
  */
 @NullMarked
 public abstract class Writer implements Appendable, Closeable, Flushable {
-  protected Writer() {}
+  protected Object lock;
 
-  protected Writer(Object lock) {}
+  protected Writer() {
+    this.lock = this;
+  }
+
+  protected Writer(Object lock) {
+    this.lock = lock;
+  }
 
   @Override
   public abstract void close() throws IOException;
@@ -38,31 +43,29 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
   public abstract void flush() throws IOException;
 
   public void write(char[] buf) throws IOException {
-    // Ensure we throw a NullPointerException instead of a JavascriptException in case the
-    // given buffer is null.
-    checkNotNull(buf);
     write(buf, 0, buf.length);
   }
 
   public abstract void write(char[] buf, int offset, int count) throws IOException;
 
   public void write(int oneChar) throws IOException {
-    char[] oneCharArray = new char[1];
-    oneCharArray[0] = (char) oneChar;
-    write(oneCharArray);
+    synchronized (lock) {
+      char[] oneCharArray = new char[1];
+      oneCharArray[0] = (char) oneChar;
+      write(oneCharArray);
+    }
   }
 
   public void write(String str) throws IOException {
-    // Ensure we throw a NullPointerException instead of a JavascriptException in case the
-    // given string is null.
-    checkNotNull(str);
     write(str, 0, str.length());
   }
 
   public void write(String str, int offset, int count) throws IOException {
     char[] buf = new char[count];
     str.getChars(offset, offset + count, buf, 0);
-    write(buf, 0, buf.length);
+    synchronized (lock) {
+      write(buf, 0, buf.length);
+    }
   }
 
   @Override
