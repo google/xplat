@@ -19,7 +19,7 @@ import java.util.Spliterator
 import java.util.Spliterators
 import java.util.function.Consumer
 
-interface JavaIterable<T> : MutableIterable<T> {
+fun interface JavaIterable<T> : MutableIterable<T> {
   fun java_forEach(consumer: Consumer<in T>) {
     default_forEach(consumer)
   }
