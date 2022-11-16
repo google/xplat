@@ -31,6 +31,7 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import javaemul.internal.Comparators
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArrayBounds
+import kotlin.Comparator as KotlinComparator
 import kotlin.math.min
 
 /**
@@ -151,7 +152,7 @@ object Arrays {
     fromIndex: Int,
     toIndex: Int,
     key: T,
-    comparator: Comparator<in T>?
+    comparator: KotlinComparator<in T>?
   ): Int {
     requireNotNull(sortedArray)
     checkCriticalArrayBounds(fromIndex, toIndex, sortedArray.size)
@@ -159,7 +160,7 @@ object Arrays {
     return sortedArray.asList().binarySearch(key, comparator, fromIndex, toIndex)
   }
 
-  fun <T> binarySearch(sortedArray: Array<T>?, key: T, c: Comparator<in T>?): Int {
+  fun <T> binarySearch(sortedArray: Array<T>?, key: T, c: KotlinComparator<in T>?): Int {
     requireNotNull(sortedArray)
     val c = Comparators.nullToNaturalOrder(c)
     return sortedArray.asList().binarySearch(key, c)
@@ -689,12 +690,12 @@ object Arrays {
     array.sort(fromIndex, toIndex)
   }
 
-  fun <T> sort(x: Array<T>, c: Comparator<in T>?) {
+  fun <T> sort(x: Array<T>, c: KotlinComparator<in T>?) {
     val c = Comparators.nullToNaturalOrder(c)
     x.sortWith(c)
   }
 
-  fun <T> sort(x: Array<T>, fromIndex: Int, toIndex: Int, c: Comparator<in T>?) {
+  fun <T> sort(x: Array<T>, fromIndex: Int, toIndex: Int, c: KotlinComparator<in T>?) {
     val c = Comparators.nullToNaturalOrder(c)
     x.sortWith(c, fromIndex, toIndex)
   }
@@ -779,7 +780,7 @@ object Arrays {
     array.sort()
   }
 
-  fun <T> parallelSort(array: Array<T>?, c: Comparator<in T>?) {
+  fun <T> parallelSort(array: Array<T>?, c: KotlinComparator<in T>?) {
     requireNotNull(array)
     val c = Comparators.nullToNaturalOrder(c)
     array.sortWith(c)
@@ -790,7 +791,7 @@ object Arrays {
     array.sort(fromIndex, toIndex)
   }
 
-  fun <T> parallelSort(array: Array<T>?, fromIndex: Int, toIndex: Int, c: Comparator<in T>?) {
+  fun <T> parallelSort(array: Array<T>?, fromIndex: Int, toIndex: Int, c: KotlinComparator<in T>?) {
     requireNotNull(array)
     val c = Comparators.nullToNaturalOrder(c)
     array.sortWith(c, fromIndex, toIndex)
