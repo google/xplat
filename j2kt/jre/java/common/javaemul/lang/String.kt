@@ -20,6 +20,7 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
 import java.util.Locale
+import java.util.regex.Pattern
 import kotlin.text.CharacterCodingException
 
 // The CharArray constructors are deliberately using nullable CharArray parameters to avoid
@@ -155,6 +156,9 @@ fun String.lastIndexOf(codePoint: Int, fromIndex: Int = Int.MAX_VALUE): Int {
     return lastIndexOf(String.fromCodePoint(codePoint), fromIndex)
   }
 }
+
+fun String.replaceAll(regex: String, replacement: String): String =
+  Pattern.compile(regex).matcher(this).replaceAll(replacement)
 
 fun String.java_matches(regex: String) = Regex(regex).matches(this)
 

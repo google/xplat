@@ -85,9 +85,10 @@ public class StringTest {
     "abcde".getChars(1, 4, dstCharArray, 0);
     assertEquals("bcd", new String(dstCharArray));
 
-    CharSequence target = "aa", replacement = "c";
-    String targetStr = "aaabaa";
-    assertEquals("cabc", targetStr.replace(target, replacement));
+    assertEquals("cabc", "aaabaa".replace(/* target= */ "aa", /* replacement= */ "c"));
+    assertEquals(
+        "1<br>2<br>3<br><br>4",
+        "1\n2\r\n3\n\n4".replaceAll(/* regex= */ "\r?\n|\r", /* replacement= */ "<br>"));
 
     String str1 = "hello1hello2hello";
     String[] strArray1 = str1.split("[12]");
