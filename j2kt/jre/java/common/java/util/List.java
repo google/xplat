@@ -36,6 +36,11 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   @KtPropagateNullability
   boolean addAll(int index, Collection<? extends E> c);
 
+  @Override
+  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   E get(int index);
 
   @KtPropagateNullability

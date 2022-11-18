@@ -25,4 +25,9 @@ import org.jspecify.nullness.Nullable;
  */
 @KtNative(value = "kotlin.collections.MutableSet", bridgeWith = "javaemul.lang.JavaSet")
 @NullMarked
-public interface Set<E extends @Nullable Object> extends Collection<E> {}
+public interface Set<E extends @Nullable Object> extends Collection<E> {
+  @Override
+  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+}

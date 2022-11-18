@@ -38,6 +38,9 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean addAll(Collection<? extends E> c);
 
   @Override
+  public native boolean $kotlin_addAll(KotlinCollection<? extends E> c);
+
+  @Override
   public native void clear();
 
   @Override

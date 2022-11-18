@@ -40,6 +40,12 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   @KtPropagateNullability
   boolean addAll(Collection<? extends E> c);
 
+  /** Only for bookkeeping in the transpiler. Do not call */
+  @KtName("addAll")
+  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   void clear();
 
   @KtPropagateNullability
