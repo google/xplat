@@ -38,9 +38,6 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
   public native boolean addAll(Collection<? extends E> c);
 
   @Override
-  public native boolean $kotlin_addAll(KotlinCollection<? extends E> c);
-
-  @Override
   public native void clear();
 
   @Override

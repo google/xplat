@@ -44,9 +44,6 @@ public abstract class AbstractList<E extends @Nullable Object> extends AbstractC
   public native boolean addAll(int index, Collection<? extends E> c);
 
   @Override
-  public native boolean $kotlin_addAll(KotlinCollection<? extends E> c);
-
-  @Override
   public native int indexOf(@Nullable Object toFind);
 
   @Override
