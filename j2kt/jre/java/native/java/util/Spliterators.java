@@ -253,11 +253,11 @@ public final class Spliterators {
       return 0;
     }
 
-    public void forEachRemaining(C consumer) {
+    protected final void forEachRemainingBase(C consumer) {
       checkNotNull(consumer);
     }
 
-    public boolean tryAdvance(C consumer) {
+    protected final boolean tryAdvanceBase(C consumer) {
       checkNotNull(consumer);
       return false;
     }
@@ -275,7 +275,12 @@ public final class Spliterators {
 
       @Override
       public void forEachRemaining(Consumer<? super T> consumer) {
-        checkNotNull(consumer);
+        super.forEachRemainingBase(consumer);
+      }
+
+      @Override
+      public boolean tryAdvance(Consumer<? super T> consumer) {
+        return super.tryAdvanceBase(consumer);
       }
     }
 
@@ -287,7 +292,12 @@ public final class Spliterators {
 
       @Override
       public void forEachRemaining(DoubleConsumer consumer) {
-        checkNotNull(consumer);
+        super.forEachRemainingBase(consumer);
+      }
+
+      @Override
+      public boolean tryAdvance(DoubleConsumer consumer) {
+        return super.tryAdvanceBase(consumer);
       }
     }
 
@@ -299,7 +309,12 @@ public final class Spliterators {
 
       @Override
       public void forEachRemaining(IntConsumer consumer) {
-        checkNotNull(consumer);
+        super.forEachRemainingBase(consumer);
+      }
+
+      @Override
+      public boolean tryAdvance(IntConsumer consumer) {
+        return super.tryAdvanceBase(consumer);
       }
     }
 
@@ -311,7 +326,12 @@ public final class Spliterators {
 
       @Override
       public void forEachRemaining(LongConsumer consumer) {
-        checkNotNull(consumer);
+        super.forEachRemainingBase(consumer);
+      }
+
+      @Override
+      public boolean tryAdvance(LongConsumer consumer) {
+        return super.tryAdvanceBase(consumer);
       }
     }
   }
@@ -642,7 +662,7 @@ public final class Spliterators {
       return limit - index;
     }
 
-    public void forEachRemaining(C consumer) {
+    protected final void forEachRemainingBase(C consumer) {
       checkNotNull(consumer);
       while (index < limit) {
         consume(consumer, index++);
@@ -654,7 +674,7 @@ public final class Spliterators {
       return null;
     }
 
-    public boolean tryAdvance(C consumer) {
+    protected final boolean tryAdvanceBase(C consumer) {
       checkNotNull(consumer);
       if (index < limit) {
         consume(consumer, index++);
@@ -688,7 +708,12 @@ public final class Spliterators {
 
     @Override
     public void forEachRemaining(Consumer<? super T> consumer) {
-      checkNotNull(consumer);
+      super.forEachRemainingBase(consumer);
+    }
+
+    @Override
+    public boolean tryAdvance(Consumer<? super T> consumer) {
+      return super.tryAdvanceBase(consumer);
     }
 
     @SuppressWarnings("unchecked")
@@ -715,7 +740,12 @@ public final class Spliterators {
 
     @Override
     public void forEachRemaining(DoubleConsumer consumer) {
-      checkNotNull(consumer);
+      super.forEachRemainingBase(consumer);
+    }
+
+    @Override
+    public boolean tryAdvance(DoubleConsumer action) {
+      return super.tryAdvanceBase(action);
     }
 
     @Override
@@ -741,7 +771,12 @@ public final class Spliterators {
 
     @Override
     public void forEachRemaining(IntConsumer consumer) {
-      checkNotNull(consumer);
+      super.forEachRemainingBase(consumer);
+    }
+
+    @Override
+    public boolean tryAdvance(IntConsumer action) {
+      return super.tryAdvanceBase(action);
     }
 
     @Override
@@ -767,7 +802,12 @@ public final class Spliterators {
 
     @Override
     public void forEachRemaining(LongConsumer consumer) {
-      checkNotNull(consumer);
+      super.forEachRemainingBase(consumer);
+    }
+
+    @Override
+    public boolean tryAdvance(LongConsumer action) {
+      return super.tryAdvanceBase(action);
     }
 
     @Override
