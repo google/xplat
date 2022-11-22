@@ -40,15 +40,33 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   @KtPropagateNullability
   boolean addAll(Collection<? extends E> c);
 
+  /** Only for bookkeeping in the transpiler. Do not call */
+  @KtName("addAll")
+  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   void clear();
 
   @KtPropagateNullability
   @KtName("java_contains")
   boolean contains(@Nullable Object o);
 
+  /** Only for bookkeeping in the transpiler. Do not call */
+  @KtName("contains")
+  default boolean $kotlin_contains(E e) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   @KtName("java_containsAll")
   @KtPropagateNullability
   boolean containsAll(Collection<?> c);
+
+  /** Only for bookkeeping in the transpiler. Do not call */
+  @KtName("containsAll")
+  default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   boolean isEmpty();
 
@@ -65,9 +83,20 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   @KtPropagateNullability
   boolean remove(@Nullable Object o);
 
+  /** Only for bookkeeping in the transpiler. Do not call */
+  @KtName("remove")
+  default boolean $kotlin_remove(E e) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   @KtName("java_removeAll")
   @KtPropagateNullability
   boolean removeAll(Collection<?> c);
+
+  @KtName("removeAll")
+  default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   @KtName("java_removeIf")
   @KtPropagateNullability
@@ -78,6 +107,11 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   @KtName("java_retainAll")
   @KtPropagateNullability
   boolean retainAll(Collection<?> c);
+
+  @KtName("retainAll")
+  default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   @KtProperty
   int size();

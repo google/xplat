@@ -36,6 +36,21 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   @KtPropagateNullability
   boolean addAll(int index, Collection<? extends E> c);
 
+  @Override
+  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @Override
+  default boolean $kotlin_contains(E e) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @Override
+  default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   E get(int index);
 
   @KtPropagateNullability
@@ -52,8 +67,23 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   @KtPropagateNullability
   ListIterator<E> listIterator(int from);
 
+  @Override
+  default boolean $kotlin_remove(E e) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
+  @Override
+  default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
+
   @KtName("removeAt")
   E remove(int index);
+
+  @Override
+  default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 
   @KtPropagateNullability
   @KtName("java_replaceAll")

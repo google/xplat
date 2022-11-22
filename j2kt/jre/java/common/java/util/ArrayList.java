@@ -84,10 +84,19 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native boolean remove(@Nullable Object o);
 
   @Override
+  public native boolean $kotlin_remove(E e);
+
+  @Override
   public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   @Override
+  public native boolean $kotlin_removeAll(KotlinCollection<? extends E> c);
+
+  @Override
   public native boolean retainAll(Collection<? extends @Nullable Object> c);
+
+  @Override
+  public native boolean $kotlin_retainAll(KotlinCollection<? extends E> c);
 
   @Override
   public native E set(int index, E e);
