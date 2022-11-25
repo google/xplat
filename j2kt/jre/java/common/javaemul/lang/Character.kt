@@ -113,6 +113,10 @@ fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
   return 1
 }
 
+fun Char.Companion.toUpperCase(c: Char) = c.uppercaseChar()
+
+fun Char.Companion.toLowerCase(c: Char) = c.lowercaseChar()
+
 private fun Char.Companion.getLowSurrogate(codePoint: Int) =
   (MIN_LOW_SURROGATE + ((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) and 1023)).toChar()
 

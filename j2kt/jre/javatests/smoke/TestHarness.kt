@@ -22,6 +22,7 @@ class TestHarness {
   @Test fun testArrays() = ArraysTest.testArrays()
   @Test fun testAtomic() = AtomicTest.testAtomic()
   @Test fun testBitSets() = BitSetTest.testBitSets()
+  @Test fun testCharacter() = CharacterTest.testCharacter()
   @Test fun testCollections() = CollectionsTest.testCollections()
   @Test fun testHashCode() = SystemTest.testHashCode()
   @Test fun testLogging() = LoggingTest.testLogging()
