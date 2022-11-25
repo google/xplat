@@ -79,6 +79,10 @@ operator fun String.Companion.invoke(
 
 operator fun String.Companion.invoke(s: String) = s + ""
 
+// TODO(b/259213718): Implement
+fun String.Companion.format(format: String, vararg values: Any?): String =
+  throw UnsupportedOperationException()
+
 fun String.Companion.valueOf(c: Char): String = c.toString()
 
 fun String.Companion.valueOf(a: Any?): String = a.toString()
