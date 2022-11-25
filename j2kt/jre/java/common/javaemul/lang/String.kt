@@ -160,6 +160,14 @@ fun String.lastIndexOf(codePoint: Int, fromIndex: Int = Int.MAX_VALUE): Int {
 fun String.replaceAll(regex: String, replacement: String): String =
   Pattern.compile(regex).matcher(this).replaceAll(replacement)
 
+fun String.regionMatches(
+  ignoreCase: Boolean,
+  thisOffset: Int,
+  other: String,
+  otherOffset: Int,
+  length: Int
+): Boolean = regionMatches(thisOffset, other, otherOffset, length, ignoreCase = ignoreCase)
+
 fun String.java_matches(regex: String) = Regex(regex).matches(this)
 
 fun String.java_split(regularExpression: String): Array<String> {

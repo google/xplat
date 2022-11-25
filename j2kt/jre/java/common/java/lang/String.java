@@ -128,10 +128,10 @@ public final class String implements Comparable<String>, CharSequence {
   @KtProperty
   public native int length();
 
-  public native boolean regionMatches(int thisStart, String string, int start, int length);
+  public native boolean regionMatches(int thisOffset, String other, int otherOffset, int length);
 
   public native boolean regionMatches(
-      boolean ignoreCase, int thisStart, String string, int start, int length);
+      boolean ignoreCase, int thisOffset, String other, int otherOffset, int length);
 
   public native String replace(char oldChar, char newChar);
 

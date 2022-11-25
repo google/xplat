@@ -40,12 +40,13 @@ public class StringTest {
 
   static void testStrings() throws Exception {
     testCharsets();
+    testCodePointMethods();
     testJavaEmul();
     testString();
     testStringBuilder();
     testStringReader();
     testStringWriter();
-    testCodePointMethods();
+    testRegionMatches();
   }
 
   // TODO(b/236003566): Test OutputStreamWriter instead after cl/438505991 is submitted.
@@ -211,5 +212,11 @@ public class StringTest {
 
     assertEquals(
         "Ä😂", new StringBuilder().appendCodePoint(0xc4).appendCodePoint(0x1f602).toString());
+  }
+
+  private static void testRegionMatches() {
+    assertTrue("HelloWorld".regionMatches(1, "WelloNorth", 1, 4));
+    assertTrue("HelloWorld".regionMatches(true, 1, "WELLONORTH", 1, 4));
+    assertFalse("HelloWorld".regionMatches(false, 1, "WELLONORTH", 1, 4));
   }
 }
