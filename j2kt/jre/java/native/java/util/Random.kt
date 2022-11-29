@@ -46,6 +46,8 @@ open class Random internal constructor(var ktRandom: kotlin.random.Random) {
 
   constructor(seed: Long) : this(kotlin.random.Random(seed))
 
+  protected fun nextBits(bits: Int) = ktRandom.nextBits(bits)
+
   fun nextBoolean() = ktRandom.nextBoolean()
 
   fun nextBytes(buf: ByteArray) = ktRandom.nextBytes(buf)

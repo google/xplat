@@ -46,6 +46,10 @@ public class Random {
 
   public Random(long seed) {}
 
+  // Note: In contrast to the standard JRE, overriding this method does not change the behaviour
+  // of the other methods.
+  protected native int next(int bits);
+
   public native boolean nextBoolean();
 
   public native void nextBytes(byte[] buf);
