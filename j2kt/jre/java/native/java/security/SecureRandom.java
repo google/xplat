@@ -22,4 +22,8 @@ import org.jspecify.nullness.NullMarked;
 /** Secure random number generator. */
 @KtNative("java.security.SecureRandom")
 @NullMarked
-public final class SecureRandom extends Random {}
+public final class SecureRandom extends Random {
+  public SecureRandom() {}
+
+  public SecureRandom(byte[] seed) {}
+}

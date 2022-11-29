@@ -25,10 +25,16 @@ class SecurityTest {
 
   static void testSecurity() {
     testSecureRandom();
+    testSecureRandomWithSeed();
   }
 
   static void testSecureRandom() {
     SecureRandom secureRandom = new SecureRandom();
+    assertEquals(0, secureRandom.nextInt(1));
+  }
+
+  static void testSecureRandomWithSeed() {
+    SecureRandom secureRandom = new SecureRandom(new byte[] {1, 2, 3, 4});
     assertEquals(0, secureRandom.nextInt(1));
   }
 }
