@@ -32,6 +32,10 @@ public class ThreadLocal<T extends @Nullable Object> {
 
   private @Nullable T value;
 
+  public ThreadLocal() {
+    value = initialValue();
+  }
+
   public @Nullable T get() {
     return value;
   }
@@ -42,6 +46,10 @@ public class ThreadLocal<T extends @Nullable Object> {
 
   public void remove() {
     value = null;
+  }
+
+  protected T initialValue() {
+    return null;
   }
 
   public static <S extends @Nullable Object> ThreadLocal<S> withInitial(
