@@ -48,7 +48,7 @@ public class ThreadLocal<T extends @Nullable Object> {
     value = null;
   }
 
-  protected T initialValue() {
+  protected @Nullable T initialValue() {
     return null;
   }
 
