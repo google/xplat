@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,9 +17,16 @@ package java.util;
 
 import org.jspecify.nullness.NullMarked;
 
-/** Placeholder Locale implementation for testing purposes only */
+/**
+ * A very simple emulation of Locale for shared-code patterns like {@code
+ * String.toUpperCase(Locale.US)}.
+ *
+ * <p>Note: Any changes to this class should put into account the assumption that was made in rest
+ * of the JRE emulation.
+ */
 @NullMarked
 public class Locale {
+
   public static final Locale ROOT =
       new Locale() {
         @Override
@@ -43,4 +50,23 @@ public class Locale {
           return "en_US";
         }
       };
+
+  private static final Locale defaultLocale =
+      new Locale() {
+        @Override
+        public String toString() {
+          return "unknown";
+        }
+      };
+
+  /**
+   * Returns an instance that represents the browser's default locale (not necessarily the one
+   * defined by 'gwt.locale').
+   */
+  public static Locale getDefault() {
+    return defaultLocale;
+  }
+
+  // Hidden as we don't support manual creation of Locales.
+  private Locale() {}
 }
