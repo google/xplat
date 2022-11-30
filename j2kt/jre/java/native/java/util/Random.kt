@@ -46,17 +46,20 @@ open class Random internal constructor(var ktRandom: kotlin.random.Random) {
 
   constructor(seed: Long) : this(kotlin.random.Random(seed))
 
-  protected fun nextBits(bits: Int) = ktRandom.nextBits(bits)
+  open protected fun next(bits: Int) = ktRandom.nextBits(bits)
 
-  fun nextBoolean() = ktRandom.nextBoolean()
+  open fun nextBoolean() = ktRandom.nextBoolean()
 
-  fun nextBytes(buf: ByteArray) = ktRandom.nextBytes(buf)
+  open fun nextBytes(buf: ByteArray) {
+    // Note can not just be = ktRandom.nextBytes(buf) as return type is not Unit.
+    ktRandom.nextBytes(buf)
+  }
 
-  fun nextDouble() = ktRandom.nextDouble()
+  open fun nextDouble() = ktRandom.nextDouble()
 
-  fun nextFloat() = ktRandom.nextFloat()
+  open fun nextFloat() = ktRandom.nextFloat()
 
-  fun nextGaussian(): Double {
+  open fun nextGaussian(): Double {
     return synchronized(this) {
       if (haveNextNextGaussian) {
         // if X1 has been returned, return the second Gaussian
@@ -83,13 +86,13 @@ open class Random internal constructor(var ktRandom: kotlin.random.Random) {
     }
   }
 
-  fun nextInt() = ktRandom.nextInt()
+  open fun nextInt() = ktRandom.nextInt()
 
-  fun nextInt(n: Int) = ktRandom.nextInt(n)
+  open fun nextInt(n: Int) = ktRandom.nextInt(n)
 
-  fun nextLong() = ktRandom.nextLong()
+  open fun nextLong() = ktRandom.nextLong()
 
-  fun setSeed(seed: Long) {
+  open fun setSeed(seed: Long) {
     synchronized(this) {
       haveNextNextGaussian = false
       ktRandom = kotlin.random.Random(seed)
