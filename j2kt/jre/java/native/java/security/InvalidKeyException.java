@@ -20,44 +20,40 @@ package java.security;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * {@code GeneralSecurityException} is a general security exception and the superclass for all
- * security specific exceptions.
- */
+/** {@code InvalidKeyException} indicates exceptional conditions, caused by an invalid key. */
 @NullMarked
-public class GeneralSecurityException extends Exception {
+public class InvalidKeyException extends KeyException {
 
-  private static final long serialVersionUID = 894798122053539237L;
+  private static final long serialVersionUID = 5698479920593359816L;
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the given message.
+   * Constructs a new instance of {@code InvalidKeyException} with the given message.
    *
    * @param msg the detail message for this exception.
    */
-  public GeneralSecurityException(@Nullable String msg) {
+  public InvalidKeyException(@Nullable String msg) {
     super(msg);
   }
 
-  /** Constructs a new instance of {@code GeneralSecurityException}. */
-  public GeneralSecurityException() {}
+  /** Constructs a new instance of {@code InvalidKeyException}. */
+  public InvalidKeyException() {}
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the given message and the
-   * cause.
+   * Constructs a new instance of {@code InvalidKeyException} with the given message and the cause.
    *
    * @param message the detail message for this exception.
    * @param cause the exception which is the cause for this exception.
    */
-  public GeneralSecurityException(@Nullable String message, @Nullable Throwable cause) {
+  public InvalidKeyException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the cause.
+   * Constructs a new instance of {@code InvalidKeyException} with the cause.
    *
    * @param cause the exception which is the cause for this exception.
    */
-  public GeneralSecurityException(@Nullable Throwable cause) {
+  public InvalidKeyException(@Nullable Throwable cause) {
     super(cause);
   }
 }

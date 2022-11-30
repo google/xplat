@@ -20,44 +20,40 @@ package java.security;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/**
- * {@code GeneralSecurityException} is a general security exception and the superclass for all
- * security specific exceptions.
- */
+/** {@code KeyException} is the common superclass of all key related exceptions. */
 @NullMarked
-public class GeneralSecurityException extends Exception {
+public class KeyException extends GeneralSecurityException {
 
-  private static final long serialVersionUID = 894798122053539237L;
+  private static final long serialVersionUID = -7483676942812432108L;
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the given message.
+   * Constructs a new instance of {@code KeyException} with the given message.
    *
    * @param msg the detail message for this exception.
    */
-  public GeneralSecurityException(@Nullable String msg) {
+  public KeyException(@Nullable String msg) {
     super(msg);
   }
 
-  /** Constructs a new instance of {@code GeneralSecurityException}. */
-  public GeneralSecurityException() {}
+  /** Constructs a new instance of {@code KeyException}. */
+  public KeyException() {}
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the given message and the
-   * cause.
+   * Constructs a new instance of {@code KeyException} with the given message and the cause.
    *
    * @param message the detail message for this exception.
    * @param cause the exception which is the cause for this exception.
    */
-  public GeneralSecurityException(@Nullable String message, @Nullable Throwable cause) {
+  public KeyException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the cause.
+   * Constructs a new instance of {@code KeyException} with the cause.
    *
    * @param cause the exception which is the cause for this exception.
    */
-  public GeneralSecurityException(@Nullable Throwable cause) {
+  public KeyException(@Nullable Throwable cause) {
     super(cause);
   }
 }

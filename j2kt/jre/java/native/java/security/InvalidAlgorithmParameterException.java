@@ -21,43 +21,42 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
- * {@code GeneralSecurityException} is a general security exception and the superclass for all
- * security specific exceptions.
+ * {@code InvalidAlgorithmParameterException} indicates the occurrence of invalid algorithm
+ * parameters.
  */
 @NullMarked
-public class GeneralSecurityException extends Exception {
-
-  private static final long serialVersionUID = 894798122053539237L;
+public class InvalidAlgorithmParameterException extends GeneralSecurityException {
+  private static final long serialVersionUID = 2864672297499471472L;
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the given message.
+   * Constructs a new instance of {@code InvalidAlgorithmParameterException} with the given message.
    *
    * @param msg the detail message for this exception.
    */
-  public GeneralSecurityException(@Nullable String msg) {
+  public InvalidAlgorithmParameterException(@Nullable String msg) {
     super(msg);
   }
 
-  /** Constructs a new instance of {@code GeneralSecurityException}. */
-  public GeneralSecurityException() {}
+  /** Constructs a new instance of {@code InvalidAlgorithmParameterException}. */
+  public InvalidAlgorithmParameterException() {}
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the given message and the
-   * cause.
+   * Constructs a new instance of {@code InvalidAlgorithmParameterException} with the given message
+   * and the cause.
    *
    * @param message the detail message for this exception.
    * @param cause the exception which is the cause for this exception.
    */
-  public GeneralSecurityException(@Nullable String message, @Nullable Throwable cause) {
+  public InvalidAlgorithmParameterException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 
   /**
-   * Constructs a new instance of {@code GeneralSecurityException} with the cause.
+   * Constructs a new instance of {@code InvalidAlgorithmParameterException} with the cause.
    *
    * @param cause the exception which is the cause for this exception.
    */
-  public GeneralSecurityException(@Nullable Throwable cause) {
+  public InvalidAlgorithmParameterException(@Nullable Throwable cause) {
     super(cause);
   }
 }
