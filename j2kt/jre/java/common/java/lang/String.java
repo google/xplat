@@ -210,7 +210,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native int offsetByCodePoints(int index, int codePointOffset);
 
-  public static native String format(String format, Object... args);
+  public static native String format(String format, @Nullable Object... args);
 
-  public static native String format(Locale locale, String format, Object... args);
+  public static native String format(Locale locale, String format, @Nullable Object... args);
 }

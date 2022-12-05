@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
+import java.util.Formatter
 import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.text.CharacterCodingException
@@ -79,9 +80,8 @@ operator fun String.Companion.invoke(
 
 operator fun String.Companion.invoke(s: String) = s + ""
 
-// TODO(b/259213718): Implement
 fun String.Companion.format(format: String, vararg values: Any?): String =
-  throw UnsupportedOperationException()
+  Formatter().format(format, *values).toString()
 
 fun String.Companion.valueOf(c: Char): String = c.toString()
 

@@ -47,6 +47,7 @@ public class StringTest {
     testStringReader();
     testStringWriter();
     testRegionMatches();
+    testStringFormat();
   }
 
   // TODO(b/236003566): Test OutputStreamWriter instead after cl/438505991 is submitted.
@@ -218,5 +219,16 @@ public class StringTest {
     assertTrue("HelloWorld".regionMatches(1, "WelloNorth", 1, 4));
     assertTrue("HelloWorld".regionMatches(true, 1, "WELLONORTH", 1, 4));
     assertFalse("HelloWorld".regionMatches(false, 1, "WELLONORTH", 1, 4));
+  }
+
+  private static void testStringFormat() {
+    assertEquals("hello, world", String.format("hello, world"));
+
+    // TODO(b/259213718): Format specifiers has not been implemented.
+
+    // Make sure null argument works. The following assertion works in Native build but fails in JVM
+    // build because of extra arguments (which are ignored according to spec).
+    // TODO(b/259213718): Uncomment after supporting format specifiers
+    // assertEquals("null test!", String.format("null test!", null, "test"));
   }
 }
