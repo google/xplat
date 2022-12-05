@@ -40,4 +40,6 @@ fun Boolean.booleanValue(): Boolean = this
 
 fun Boolean.Companion.hashCode(b: Boolean): Int = b.hashCode()
 
+fun Boolean.Companion.parseBoolean(s: String): Boolean = s.equals("true", ignoreCase = true)
+
 fun Boolean.Companion.toString(b: Boolean): String = b.toString()
