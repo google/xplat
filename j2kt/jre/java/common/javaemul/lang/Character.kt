@@ -113,6 +113,8 @@ fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
   return 1
 }
 
+fun Char.Companion.toString(c: Char): String = c.toString()
+
 fun Char.Companion.toUpperCase(c: Char) = c.uppercaseChar()
 
 fun Char.Companion.toLowerCase(c: Char) = c.lowercaseChar()
