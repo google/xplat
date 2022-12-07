@@ -15,6 +15,9 @@
  */
 package javaemul.lang
 
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T> uninitializedArrayOf(size: Int): Array<T> = arrayOfNulls<T>(size) as Array<T>
+
 fun <T> Array<T>.clone(): Array<T> = copyOf()
 
 fun BooleanArray.clone(): BooleanArray = copyOf()
