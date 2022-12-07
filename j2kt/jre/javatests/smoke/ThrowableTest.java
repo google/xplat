@@ -26,7 +26,7 @@ import java.io.StringWriter;
 import org.jspecify.nullness.Nullable;
 
 public class ThrowableTest {
-  static void testThrowables() throws Exception {
+  public static void testThrowables() throws Exception {
     testBridgedException_initCause();
     testTranspiledException_initCause();
     testAssertionError_constructors();

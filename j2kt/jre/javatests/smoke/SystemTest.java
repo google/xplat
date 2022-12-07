@@ -22,7 +22,7 @@ public class SystemTest {
 
   private SystemTest() {}
 
-  static void testSystemTime() {
+  public static void testSystemTime() {
     long millisTimeStart = System.currentTimeMillis();
     long millisTimeEnd = 0;
     for (int i = 0; i < 100000; i++) {
@@ -38,7 +38,7 @@ public class SystemTest {
     assertTrue(nanoTimeStart > 0 && nanoTimeEnd > nanoTimeStart);
   }
 
-  static void testArrayCopy() {
+  public static void testArrayCopy() {
     int[] intArraySrc = {1, 2, 3, 4, 5};
     int[] intArrayDst = {0, 0, 0, 0, 0};
     System.arraycopy(intArraySrc, 0, intArrayDst, 1, 2);
@@ -63,7 +63,7 @@ public class SystemTest {
     }
   }
 
-  static void testHashCode() {
+  public static void testHashCode() {
     ExampleObject obj = new ExampleObject(1);
     assertEquals(System.identityHashCode(obj), System.identityHashCode(obj));
   }

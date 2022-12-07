@@ -23,7 +23,7 @@ class SecurityTest {
 
   private SecurityTest() {}
 
-  static void testSecurity() {
+  public static void testSecurity() {
     testSecureRandom();
     testSecureRandomWithSeed();
   }

@@ -23,7 +23,7 @@ public class RandomTest {
 
   private RandomTest() {}
 
-  static void testRandom() {
+  public static void testRandom() {
     Random random = new Random(123);
     int randomInt = random.nextInt();
     random.setSeed(123);

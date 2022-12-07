@@ -24,7 +24,7 @@ public class ReflectArrayTest {
 
   private ReflectArrayTest() {}
 
-  static void testReflectArray() {
+  public static void testReflectArray() {
     testGetLength();
     testNewInstance();
   }

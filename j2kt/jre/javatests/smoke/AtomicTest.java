@@ -27,7 +27,7 @@ import org.jspecify.nullness.Nullable;
 public class AtomicTest {
   private AtomicTest() {}
 
-  static void testAtomic() {
+  public static void testAtomic() {
     testBoolean();
     testInt();
     testLong();

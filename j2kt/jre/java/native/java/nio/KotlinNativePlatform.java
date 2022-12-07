@@ -21,5 +21,5 @@ import javaemul.internal.annotations.KtNative;
 /** Helper class for ByteOrder compilation */
 @KtNative("kotlin.native.Platform")
 public final class KotlinNativePlatform {
-  static boolean isLittleEndian;
+  public static boolean isLittleEndian;
 }

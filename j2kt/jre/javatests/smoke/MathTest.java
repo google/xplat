@@ -28,7 +28,7 @@ public class MathTest {
 
   private MathTest() {}
 
-  static void testMath() {
+  public static void testMath() {
     testBigDecimal();
     testBigInteger();
     testRoundingMode();

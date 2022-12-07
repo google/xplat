@@ -25,7 +25,7 @@ class RegexTest {
 
   private RegexTest() {}
 
-  static void testRegex() {
+  public static void testRegex() {
     testFind();
     testReplace();
   }

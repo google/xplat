@@ -23,7 +23,7 @@ public class PrimitivesTest {
 
   private PrimitivesTest() {}
 
-  static void testPrimitives() throws Exception {
+  public static void testPrimitives() throws Exception {
     testBoolean();
     testInt();
     testLong();

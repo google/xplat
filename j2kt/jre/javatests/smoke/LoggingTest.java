@@ -22,7 +22,7 @@ final class LoggingTest {
 
   private LoggingTest() {}
 
-  static void testLogging() {
+  public static void testLogging() {
     Logger logger = Logger.getLogger("j2kt tests");
     logger.log(Level.FINE, "Testing");
   }

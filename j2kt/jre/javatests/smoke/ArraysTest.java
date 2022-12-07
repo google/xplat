@@ -95,7 +95,7 @@ public class ArraysTest {
   static short[] shortArray4 = {s1, s2};
   static ExampleObject[] objArray4 = {obj1, obj2};
 
-  static void testArrays() {
+  public static void testArrays() {
     testAsList();
     testBinarySearch();
     testClone();
