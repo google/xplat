@@ -76,6 +76,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native int compareToIgnoreCase(String string);
 
+  @KtName("plus")
   public native String concat(String string);
 
   public static native String copyValueOf(char[] data);

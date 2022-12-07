@@ -102,6 +102,8 @@ public class StringTest {
     assertEquals(str1, new String(str1));
     assertFalse(str1 == new String(str1));
 
+    assertEquals("Hello, World", "Hello".concat(", World"));
+
     String str2 = "hello1hello2hello";
     String[] strArray2 = str2.split("[12]", 2);
     assertEquals(2, strArray2.length);
