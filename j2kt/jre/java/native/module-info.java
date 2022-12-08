@@ -18,6 +18,7 @@ module java.base {
   exports java.lang.reflect;
   exports java.lang;
   exports java.math;
+  exports java.nio;
   exports java.nio.charset;
   exports java.security;
   exports java.sql;
