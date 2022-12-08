@@ -16,11 +16,12 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtOut;
 
 /**
  * Representation of the readonly Kotlin collection interface. Only for use by the JRE emulation.
  */
 @KtNative("kotlin.collections.Collection")
-interface KotlinCollection<E> {
+interface KotlinCollection<@KtOut E> {
   // Methods omitted (type is only used in native method parameter/return types).
 }

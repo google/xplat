@@ -20,6 +20,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtOut;
 import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -30,7 +31,7 @@ import org.jspecify.nullness.Nullable;
  */
 @KtNative(value = "kotlin.collections.MutableIterable", bridgeWith = "javaemul.lang.JavaIterable")
 @NullMarked
-public interface Iterable<T extends @Nullable Object> {
+public interface Iterable<@KtOut T extends @Nullable Object> {
 
   @KtPropagateNullability
   Iterator<T> iterator();

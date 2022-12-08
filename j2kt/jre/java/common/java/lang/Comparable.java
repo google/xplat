@@ -17,12 +17,13 @@
 
 package java.lang;
 
+import javaemul.internal.annotations.KtIn;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 @KtNative("kotlin.Comparable")
 @NullMarked
-public interface Comparable<T> {
+public interface Comparable<@KtIn T> {
 
   int compareTo(T another);
 }
