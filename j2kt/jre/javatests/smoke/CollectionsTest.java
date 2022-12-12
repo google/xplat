@@ -303,7 +303,7 @@ public class CollectionsTest {
     Collection<String> stringCollection = Arrays.asList("Hello", "World");
     String[] stringArray1 = new String[1];
     String[] stringArray2 = new String[2];
-    String[] stringArray3 = new String[3];
+    @Nullable String[] stringArray3 = new @Nullable String[3];
 
     Object[] toArrayResult = stringCollection.toArray();
     assertEquals(new Object[] {"Hello", "World"}, toArrayResult);
@@ -319,7 +319,7 @@ public class CollectionsTest {
 
     stringArray3[2] = "unmodified"; // We expect this to get nulled by toArray.
     assertTrue(stringArray3 == stringCollection.toArray(stringArray3));
-    assertEquals(new String[] {"Hello", "World", null}, stringArray3);
+    assertEquals(new @Nullable String[] {"Hello", "World", null}, stringArray3);
   }
 
   private static class TestList<E> extends AbstractList<E> {
