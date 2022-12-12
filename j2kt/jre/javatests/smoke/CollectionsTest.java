@@ -102,6 +102,7 @@ public class CollectionsTest {
     // Map and HashMap are mapped to separate native types, we test bridged methods with each type
     // as the target because they are dispatched statically.
     HashMap<String, Integer> hashMap = new HashMap<>();
+    AbstractMap<String, Integer> abstractMap = hashMap; // Checking the class hierarchy
     Map<String, Integer> map = hashMap;
     map.put("a", 1);
     hashMap.put("b", 2);

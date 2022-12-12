@@ -15,19 +15,21 @@
  */
 package java.util;
 
+import java.io.Serializable;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // TODO(b/240106068): Native HashMap is final. But this class should be non-final.
+// We need to add bridges for java_get etc. before it is safe to remove final.
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html">the official Java
  * API doc</a> for details.
  */
-@KtNative("kotlin.collections.HashMap")
+@KtNative("java.util.HashMap")
 @NullMarked
 public final class HashMap<K extends @Nullable Object, V extends @Nullable Object>
-    implements Map<K, V> {
+    extends AbstractMap<K, V> implements Cloneable, Serializable {
 
   public HashMap() {}
 
@@ -72,4 +74,7 @@ public final class HashMap<K extends @Nullable Object, V extends @Nullable Objec
 
   @Override
   public native Set<Entry<K, V>> entrySet();
+
+  @Override
+  public native Object clone() throws CloneNotSupportedException;
 }
