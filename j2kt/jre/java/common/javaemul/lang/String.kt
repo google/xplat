@@ -83,6 +83,9 @@ operator fun String.Companion.invoke(s: String) = s + ""
 fun String.Companion.format(format: String, vararg values: Any?): String =
   Formatter().format(format, *values).toString()
 
+fun String.Companion.format(locale: Locale?, format: String, vararg values: Any?): String =
+  Formatter().format(locale, format, *values).toString()
+
 fun String.Companion.valueOf(c: Char): String = c.toString()
 
 fun String.Companion.valueOf(a: Any?): String = a.toString()

@@ -213,5 +213,6 @@ public final class String implements Comparable<String>, CharSequence {
 
   public static native String format(String format, @Nullable Object... args);
 
-  public static native String format(Locale locale, String format, @Nullable Object... args);
+  public static native String format(
+      @Nullable Locale locale, String format, @Nullable Object... args);
 }

@@ -31,6 +31,10 @@ val Char.Companion.TYPE: Class<Char>
 // TODO(b/233944334): Duplicate method for JVM.
 val Char.Companion.MIN_SUPPLEMENTARY_CODE_POINT: Int
   inline get() = 0x10000
+val Char.Companion.MIN_CODE_POINT: Int
+  inline get() = 0x0000
+val Char.Companion.MAX_CODE_POINT: Int
+  inline get() = 0x10FFFF
 
 fun Char.Companion.valueOf(c: Char): Char = c
 
@@ -84,6 +88,9 @@ fun Char.Companion.codePointAt(
   else hiSurrogate.code
 }
 
+fun Char.Companion.isValidCodePoint(codePoint: Int): Boolean =
+  MIN_CODE_POINT <= codePoint && codePoint <= MAX_CODE_POINT
+
 fun Char.Companion.isSurrogatePair(high: Char, low: Char): Boolean =
   high.isHighSurrogate() && low.isLowSurrogate()
 
@@ -102,7 +109,7 @@ fun Char.Companion.toChars(codePoint: Int): CharArray =
 
 fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
   // TODO(b/228304843): Add InternalPreconditions for Kotlin.
-  // checkCriticalArgument(codePoint >= 0 && codePoint <= MAX_CODE_POINT);
+  // checkCriticalArgument(Char.isValidCodePoint(codePoint));
 
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) {
     dst[dstIndex] = getHighSurrogate(codePoint)

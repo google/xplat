@@ -26,6 +26,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import javaemul.internal.EmulatedCharset;
@@ -215,6 +216,10 @@ public class StringTest {
 
     assertEquals(
         "Ä😂", new StringBuilder().appendCodePoint(0xc4).appendCodePoint(0x1f602).toString());
+
+    assertTrue(Character.isValidCodePoint(0));
+    assertTrue(Character.isValidCodePoint(0x10ffff));
+    assertFalse(Character.isValidCodePoint(0x10ffff + 1));
   }
 
   private static void testRegionMatches() {
@@ -226,11 +231,52 @@ public class StringTest {
   private static void testStringFormat() {
     assertEquals("hello, world", String.format("hello, world"));
 
-    // TODO(b/259213718): Format specifiers has not been implemented.
+    assertEquals("hello, world!", String.format("%s", "hello, world!"));
 
-    // Make sure null argument works. The following assertion works in Native build but fails in JVM
-    // build because of extra arguments (which are ignored according to spec).
-    // TODO(b/259213718): Uncomment after supporting format specifiers
-    // assertEquals("null test!", String.format("null test!", null, "test"));
+    assertEquals("hello, 1234!", String.format("hello, %d!", 1234));
+    assertEquals("hello, 0001!", String.format("hello, %04d!", 1));
+
+    // Default precision is 6
+    assertEquals("hello, 123.456700!", String.format("hello, %f!", 123.4567));
+
+    // Test if padding works
+    assertEquals("hello, 123.45678900!", String.format("hello, %.8f!", 123.456789));
+    assertEquals("hello,     123.4560!", String.format("hello, %12.4f!", 123.456));
+
+    // Test octal and hex format specifier
+    assertEquals(
+        "123456 to octal = 361100, to hex = 1e240",
+        String.format("%1$d to octal = %1$o, to hex = %1$x", 123456));
+
+    // Test if rounding works
+    assertEquals("hello, 123.46!", String.format("hello, %.2f!", 123.456789));
+    assertEquals("hello, 2.0000!", String.format("hello, %.4f!", 1.99999999));
+    assertEquals("hello, 1.23!", String.format("hello, %.2f!", 1.2349999));
+    assertEquals("hello, 2!", String.format("hello, %.0f!", 1.50001));
+    assertEquals("hello, 1!", String.format("hello, %.0f!", 1.49999));
+
+    // If the '#' flag is given, then the decimal separator will always be present.
+    assertEquals("hello, 2.!", String.format("hello, %#.0f!", 1.50001));
+
+    // NaN and Infinity
+    assertEquals(
+        "NaN, Infinity, and -Infinity", String.format("%f, %f, and %f", 0d / 0, 1d / 0, -1d / 0));
+
+    // Test BigDecimal argument
+    assertEquals(
+        "hello, 123456.789012!", String.format("hello, %f!", new BigDecimal("123456.789012")));
+
+    // Test argument index
+    assertEquals("C A B D B", String.format("%3$s %1$s %2$s %4$s %2$s", "A", "B", "C", "D"));
+    assertEquals("C A A B C D", String.format("%3$s %s %<s %s %s %s", "A", "B", "C", "D"));
+
+    // Test uppercase conversion
+    assertEquals("ALTERNATING CAPS", String.format("%S", "aLtErNaTiNg cApS"));
+
+    // Test Int to Unicode character conversion
+    assertEquals("Face with 😂 Tears of Joy", String.format("Face with %c Tears of Joy", 0x1f602));
+
+    // Make sure null argument works.
+    assertEquals("null test!", String.format("%s %s!", null, "test"));
   }
 }

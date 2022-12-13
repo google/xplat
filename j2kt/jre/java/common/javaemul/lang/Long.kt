@@ -47,6 +47,8 @@ fun Long.Companion.toString(l: Long): String = l.toString()
 
 fun Long.Companion.toString(l: Long, radix: Int): String = l.toString(radix)
 
+fun Long.Companion.toOctalString(l: Long): String = l.toULong().toString(8)
+
 fun Long.Companion.toHexString(l: Long): String = l.toULong().toString(16)
 
 fun Long.Companion.parseLong(s: String): Long = s.toLong()
