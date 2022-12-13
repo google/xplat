@@ -261,11 +261,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
    * @throws NumberFormatException if {@code val} is infinite or {@code val} is not a number
    */
   public static BigDecimal valueOf(double val) {
-    if (Double.isInfinite(val) || Double.isNaN(val)) {
-      // math.03=Infinity or NaN
-      throw new NumberFormatException("Infinite or NaN"); // $NON-NLS-1$
-    }
-    return new BigDecimal(Double.toString(val));
+    return new BigDecimal(val);
   }
 
   /**
@@ -700,7 +696,6 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
     int trailingZeros;
     // Extracting the exponent, note that the bias is 1023
     int scale = 1075 - (int) ((bits >> 52) & 0x7FFL);
-    this.scale = scale;
     // Extracting the 52 bits of the mantissa.
     long mantissa =
         (scale == 1075)
@@ -742,6 +737,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
       smallValue = mantissa;
       bitLength = mantissaBits;
     }
+    this.scale = scale;
   }
 
   /**

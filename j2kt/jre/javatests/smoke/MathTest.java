@@ -38,6 +38,9 @@ public class MathTest {
     assertEquals(0.5, BigDecimal.valueOf(0.5).doubleValue());
     assertEquals(BigDecimal.ONE, BigDecimal.valueOf(1));
     assertEquals(1, BigDecimal.ONE.intValue());
+
+    assertEquals(123.456789123456789, new BigDecimal(123.456789123456789).doubleValue());
+    assertEquals(1.99999999, BigDecimal.valueOf(1.99999999).doubleValue());
   }
 
   static void testBigInteger() {
