@@ -23,7 +23,7 @@ import org.jspecify.nullness.Nullable;
  * API doc</a> for details.
  */
 @NullMarked
-public class PrintStream extends FilterOutputStream {
+public class PrintStream extends FilterOutputStream implements Appendable {
 
   /** Indicates whether or not this PrintStream has incurred an error. */
   private boolean ioError = false;
@@ -183,6 +183,16 @@ public class PrintStream extends FilterOutputStream {
     }
   }
 
+  private void write(char[] buf) {
+    for (char ch : buf) {
+      write(ch);
+    }
+  }
+
+  private void write(String s) {
+    write(s.toCharArray());
+  }
+
   public boolean checkError() {
     flush();
     return ioError;
@@ -198,5 +208,28 @@ public class PrintStream extends FilterOutputStream {
 
   private void newline() {
     print('\n');
+  }
+
+  @Override
+  public PrintStream append(@Nullable CharSequence csq) {
+    if (csq == null) {
+      print("null");
+    } else {
+      print(csq.toString());
+    }
+    return this;
+  }
+
+  @Override
+  public PrintStream append(@Nullable CharSequence csq, int start, int end) {
+    CharSequence cs = (csq == null ? "null" : csq);
+    write(cs.subSequence(start, end).toString());
+    return this;
+  }
+
+  @Override
+  public PrintStream append(char c) {
+    print(c);
+    return this;
   }
 }

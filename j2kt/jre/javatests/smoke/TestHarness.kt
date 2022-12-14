@@ -25,6 +25,7 @@ class TestHarness {
   @Test fun testCharacter() = CharacterTest.testCharacter()
   @Test fun testCollections() = CollectionsTest.testCollections()
   @Test fun testHashCode() = SystemTest.testHashCode()
+  @Test fun testIo() = IoTest.testIo()
   @Test fun testLogging() = LoggingTest.testLogging()
   @Test fun testMath() = MathTest.testMath()
   @Test fun testPrimitives() = PrimitivesTest.testPrimitives()

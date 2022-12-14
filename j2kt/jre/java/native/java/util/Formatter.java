@@ -38,6 +38,7 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -194,7 +195,21 @@ public final class Formatter implements Closeable, Flushable {
     locale = l;
   }
 
-  // TODO(b/259213718): Add a constructor that accepts {@code PrintStream}.
+  /**
+   * Constructs a {@code Formatter} whose output is written to the specified {@code PrintStream}.
+   *
+   * <p>The charset of the {@code Formatter} is the default charset.
+   *
+   * <p>The {@code Locale} used is the user's default locale. See "<a
+   * href="../util/Locale.html#default_locale">Be wary of the default locale</a>".
+   *
+   * @param ps the {@code PrintStream} used as destination of the {@code Formatter}. If {@code ps}
+   *     is {@code null}, then a {@code NullPointerException} will be raised.
+   */
+  public Formatter(PrintStream ps) {
+    out = ps;
+    locale = Locale.getDefault();
+  }
 
   private void checkNotClosed() {
     if (closed) {
