@@ -15,6 +15,8 @@
  */
 package javaemul.lang
 
+import java.util.Spliterator
+
 interface JavaSet<E> : MutableSet<E>, JavaCollection<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 
@@ -27,4 +29,6 @@ interface JavaSet<E> : MutableSet<E>, JavaCollection<E> {
   override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
+
+  override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
 }

@@ -75,4 +75,7 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
 
   @Override
   public native boolean $kotlin_retainAll(KotlinCollection<? extends E> c);
+
+  @Override
+  public native Spliterator<E> spliterator();
 }

@@ -55,4 +55,9 @@ public interface Set<E extends @Nullable Object> extends Collection<E> {
   default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
+
+  @Override
+  default Spliterator<E> spliterator() {
+    throw new IllegalStateException("Native interface method should not be transpiled");
+  }
 }

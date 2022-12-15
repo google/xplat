@@ -15,6 +15,8 @@
  */
 package javaemul.lang
 
+import java.util.Spliterator
+
 /** Bridge class for java.util.AbstractList. */
 abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   override fun addAll(index: Int, c: Collection<E>) = super<JavaList>.addAll(index, c)
@@ -34,6 +36,8 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   override fun removeAll(c: Collection<E>): Boolean = super<JavaList>.removeAll(c)
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaList>.retainAll(c)
+
+  override fun spliterator(): Spliterator<E> = super<JavaList>.spliterator()
 
   override fun java_addAll(index: Int, c: MutableCollection<out E>): Boolean =
     super<AbstractMutableList>.addAll(index, c)

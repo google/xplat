@@ -15,6 +15,8 @@
  */
 package javaemul.lang
 
+import java.util.Spliterator
+
 abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaCollection<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 
@@ -27,6 +29,8 @@ abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaC
   override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
+
+  override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
 
   override fun add(e: E): Boolean = throw UnsupportedOperationException()
 
