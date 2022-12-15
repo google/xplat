@@ -17,6 +17,8 @@
 
 package java.io;
 
+import java.util.Formatter;
+import java.util.Locale;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -124,29 +126,25 @@ public class PrintWriter extends Writer {
     }
   }
 
-  // TODO(b/259213718): Add Formatter to the JRE emulation.
-  // public PrintWriter format(String format, Object... args) {
-  //   return format(Locale.getDefault(), format, args);
-  // }
-  //
-  // public PrintWriter format(Locale l, String format, Object... args) {
-  //   if (format == null) {
-  //     throw new NullPointerException("format == null");
-  //   }
-  //   new Formatter(this, l).format(format, args);
-  //   if (autoFlush) {
-  //     flush();
-  //   }
-  //   return this;
-  // }
-  //
-  // public PrintWriter printf(String format, Object... args) {
-  //   return format(format, args);
-  // }
-  //
-  // public PrintWriter printf(Locale l, String format, Object... args) {
-  //   return format(l, format, args);
-  // }
+  public PrintWriter format(String format, @Nullable Object... args) {
+    return format(Locale.getDefault(), format, args);
+  }
+
+  public PrintWriter format(Locale l, String format, @Nullable Object... args) {
+    new Formatter(this, l).format(format, args);
+    if (autoFlush) {
+      flush();
+    }
+    return this;
+  }
+
+  public PrintWriter printf(String format, @Nullable Object... args) {
+    return format(format, args);
+  }
+
+  public PrintWriter printf(Locale l, String format, @Nullable Object... args) {
+    return format(l, format, args);
+  }
 
   public void print(char[] charArray) {
     print(new String(charArray, 0, charArray.length));

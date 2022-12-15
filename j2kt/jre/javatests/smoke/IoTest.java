@@ -19,6 +19,7 @@ import static smoke.Asserts.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Formatter;
 
 public class IoTest {
@@ -27,6 +28,7 @@ public class IoTest {
 
   public static void testIo() {
     testPrintStream();
+    testPrintWriter();
   }
 
   private static void testPrintStream() {
@@ -47,5 +49,13 @@ public class IoTest {
       ps.flush();
       assertEquals("hello, 1234 world", os.toString());
     }
+  }
+
+  private static void testPrintWriter() {
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    PrintWriter writer = new PrintWriter(os);
+    writer.printf("%d %s", 1234, null);
+    writer.flush();
+    assertEquals("1234 null", os.toString());
   }
 }
