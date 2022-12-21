@@ -23,19 +23,15 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.jspecify.nullness.Nullable;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class AtomicTest {
-  private AtomicTest() {}
 
-  public static void testAtomic() {
-    testBoolean();
-    testInt();
-    testLong();
-    testReference();
-    testReferenceArray();
-  }
-
-  private static void testInt() {
+  @Test
+  public void testInt() {
     AtomicInteger atomicInt = new AtomicInteger(1234);
     testNumber(atomicInt, 1234);
 
@@ -43,7 +39,8 @@ public class AtomicTest {
     assertEquals(atomicInt.get(), 5678);
   }
 
-  private static void testLong() {
+  @Test
+  public void testLong() {
     AtomicLong atomicLong = new AtomicLong(1234L);
     testNumber(atomicLong, 1234);
 
@@ -51,7 +48,8 @@ public class AtomicTest {
     assertEquals(atomicLong.get(), 5678L);
   }
 
-  private static void testReference() {
+  @Test
+  public void testReference() {
     AtomicReference<String> ref = new AtomicReference<>("");
     ref.set("Hello world!");
     String result = ref.get();
@@ -63,7 +61,8 @@ public class AtomicTest {
     assertEquals("Hello world!", nullableResult);
   }
 
-  private static void testReferenceArray() {
+  @Test
+  public void testReferenceArray() {
     AtomicReferenceArray<String> array = new AtomicReferenceArray<>(new String[] {""});
     array.set(0, "Hello world!");
     String result = array.get(0);
@@ -75,7 +74,8 @@ public class AtomicTest {
     assertEquals("Hello world!", nullableResult);
   }
 
-  private static void testBoolean() {
+  @Test
+  public void testBoolean() {
     AtomicBoolean atomicBoolean = new AtomicBoolean(false);
     boolean initialValue = atomicBoolean.getAndSet(true);
     assertEquals(false, initialValue);

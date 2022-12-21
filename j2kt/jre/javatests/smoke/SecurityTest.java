@@ -18,22 +18,21 @@ package smoke;
 import static smoke.Asserts.assertEquals;
 
 import java.security.SecureRandom;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-class SecurityTest {
+@RunWith(JUnit4.class)
+public class SecurityTest {
 
-  private SecurityTest() {}
-
-  public static void testSecurity() {
-    testSecureRandom();
-    testSecureRandomWithSeed();
-  }
-
-  static void testSecureRandom() {
+  @Test
+  public void testSecureRandom() {
     SecureRandom secureRandom = new SecureRandom();
     assertEquals(0, secureRandom.nextInt(1));
   }
 
-  static void testSecureRandomWithSeed() {
+  @Test
+  public void testSecureRandomWithSeed() {
     SecureRandom secureRandom = new SecureRandom(new byte[] {1, 2, 3, 4});
     assertEquals(0, secureRandom.nextInt(1));
   }

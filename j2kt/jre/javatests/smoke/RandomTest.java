@@ -18,12 +18,15 @@ package smoke;
 import static smoke.Asserts.assertEquals;
 
 import java.util.Random;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class RandomTest {
 
-  private RandomTest() {}
-
-  public static void testRandom() {
+  @Test
+  public void testRandom() {
     Random random = new Random(123);
     int randomInt = random.nextInt();
     random.setSeed(123);

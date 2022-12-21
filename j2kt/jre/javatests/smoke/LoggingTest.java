@@ -17,12 +17,15 @@ package smoke;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-final class LoggingTest {
+@RunWith(JUnit4.class)
+public final class LoggingTest {
 
-  private LoggingTest() {}
-
-  public static void testLogging() {
+  @Test
+  public void testLogging() {
     Logger logger = Logger.getLogger("j2kt tests");
     logger.log(Level.FINE, "Testing");
   }

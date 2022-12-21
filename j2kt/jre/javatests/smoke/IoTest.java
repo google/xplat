@@ -21,17 +21,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Formatter;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class IoTest {
-
-  private IoTest() {}
-
-  public static void testIo() {
-    testPrintStream();
-    testPrintWriter();
-  }
-
-  private static void testPrintStream() {
+  @Test
+  public void testPrintStream() {
     {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintStream ps = new PrintStream(os);
@@ -51,7 +48,8 @@ public class IoTest {
     }
   }
 
-  private static void testPrintWriter() {
+  @Test
+  public void testPrintWriter() {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     PrintWriter writer = new PrintWriter(os);
     writer.printf("%d %s", 1234, null);

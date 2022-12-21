@@ -20,24 +20,23 @@ import static smoke.Asserts.assertTrue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-class RegexTest {
+@RunWith(JUnit4.class)
+public class RegexTest {
 
-  private RegexTest() {}
-
-  public static void testRegex() {
-    testFind();
-    testReplace();
-  }
-
-  static void testFind() {
+  @Test
+  public void testFind() {
     Pattern pattern = Pattern.compile("Hello.World");
     Matcher matcher = pattern.matcher("~~~Hello-World~~~");
     assertTrue(matcher.find());
     assertEquals(3, matcher.start());
   }
 
-  static void testReplace() {
+  @Test
+  public void testReplace() {
     Pattern pattern = Pattern.compile("cat");
     Matcher matcher = pattern.matcher("one cat two cats in the yard");
     assertEquals("one dog two cats in the yard", matcher.replaceFirst("dog"));

@@ -13,22 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package smoke;
 
-import static smoke.Asserts.assertEquals;
-
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-/** Smoke test for Character. */
-@RunWith(JUnit4.class)
-public final class CharacterTest {
-
-  @Test
-  public void testCharacter() {
-    assertEquals('U', Character.toUpperCase('u'));
-    assertEquals('l', Character.toLowerCase('L'));
-  }
-}
+@RunWith(Suite.class)
+@SuiteClasses({
+  ArraysTest.class,
+  AtomicTest.class,
+  BitSetTest.class,
+  CharacterTest.class,
+  CollectionsTest.class,
+  IoTest.class,
+  LoggingTest.class,
+  MathTest.class,
+  PrimitivesTest.class,
+  RandomTest.class,
+  ReflectArrayTest.class,
+  RegexTest.class,
+  SecurityTest.class,
+  StringTest.class,
+  SystemTest.class,
+  ThrowableTest.class,
+})
+public class TestHarness {}

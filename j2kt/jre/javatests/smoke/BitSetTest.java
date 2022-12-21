@@ -19,13 +19,16 @@ package smoke;
 import static smoke.AssertsBase.assertTrue;
 
 import java.util.BitSet;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /** Smoke test for BitSet. */
+@RunWith(JUnit4.class)
 public final class BitSetTest {
 
-  private BitSetTest() {}
-
-  public static void testBitSets() {
+  @Test
+  public void testBitSets() {
     BitSet bitset = new BitSet();
     bitset.set(100, true);
     

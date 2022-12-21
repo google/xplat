@@ -19,23 +19,15 @@ import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertFalse;
 import static smoke.Asserts.assertTrue;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
 public class PrimitivesTest {
 
-  private PrimitivesTest() {}
-
-  public static void testPrimitives() throws Exception {
-    testBoolean();
-    testInt();
-    testLong();
-    testDouble();
-    testShort();
-    testByte();
-    testFloat();
-    testCharacter();
-    testDecode();
-  }
-
-  private static void testBoolean() {
+  @Test
+  public void testBoolean() {
     assertEquals((Object) true, Boolean.TRUE);
     assertEquals((Object) false, Boolean.FALSE);
     assertTrue(Boolean.TRUE.booleanValue());
@@ -46,7 +38,8 @@ public class PrimitivesTest {
     assertTrue((Object) Boolean.FALSE == (Object) Boolean.valueOf(false));
   }
 
-  private static void testInt() {
+  @Test
+  public void testInt() {
     assertEquals((Object) 9, Integer.valueOf(9));
     assertEquals((Object) 9, Integer.valueOf("9"));
     assertEquals((Object) 14, Integer.valueOf("16", 8));
@@ -75,7 +68,8 @@ public class PrimitivesTest {
     assertEquals(0, Integer.signum(0));
   }
 
-  private static void testLong() {
+  @Test
+  public void testLong() {
     assertEquals((Object) 9L, Long.valueOf(9));
     assertEquals((Object) 9L, Long.valueOf("9"));
     assertEquals((Object) 14L, Long.valueOf("16", 8));
@@ -105,7 +99,8 @@ public class PrimitivesTest {
     assertEquals(0, Long.signum(0));
   }
 
-  private static void testDouble() {
+  @Test
+  public void testDouble() {
     Double dNan = Double.NaN, dInf = Double.POSITIVE_INFINITY;
 
     assertEquals((Object) 9.5, Double.valueOf(9.5));
@@ -142,7 +137,8 @@ public class PrimitivesTest {
     assertEquals(30, Math.getExponent(1234567890d));
   }
 
-  private static void testShort() {
+  @Test
+  public void testShort() {
     short a = 9, b = 16, c = 14;
 
     assertEquals((Object) a, Short.valueOf(a));
@@ -166,7 +162,8 @@ public class PrimitivesTest {
     assertEquals(8, a & 0xA);
   }
 
-  private static void testByte() {
+  @Test
+  public void testByte() {
     byte a = 9, b = 16, c = 14;
 
     assertEquals((Object) a, Byte.valueOf(a));
@@ -190,7 +187,8 @@ public class PrimitivesTest {
     assertEquals(8, a & 0xA);
   }
 
-  private static void testFloat() {
+  @Test
+  public void testFloat() {
     float a = 9, b = 16, fNan = Float.NaN, fInf = Float.POSITIVE_INFINITY;
 
     assertEquals((Object) 9F, Float.valueOf(a));
@@ -228,7 +226,8 @@ public class PrimitivesTest {
     assertEquals(13, Math.getExponent(12345f));
   }
 
-  private static void testCharacter() {
+  @Test
+  public void testCharacter() {
     assertEquals((Object) 'a', Character.valueOf('a'));
 
     assertEquals(0, Character.compare('a', 'a'));
@@ -288,7 +287,8 @@ public class PrimitivesTest {
     assertEquals(-65, -'A');
   }
 
-  private static void testDecode() throws Exception {
+  @Test
+  public void testDecode() throws Exception {
     assertEquals(123, Integer.decode("123"));
     assertEquals(123, Integer.decode("+123"));
     assertEquals(-123, Integer.decode("-123"));

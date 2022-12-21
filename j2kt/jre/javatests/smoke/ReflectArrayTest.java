@@ -19,24 +19,23 @@ import static smoke.Asserts.assertEquals;
 import static smoke.Asserts.assertTrue;
 
 import java.lang.reflect.Array;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ReflectArrayTest {
 
-  private ReflectArrayTest() {}
-
-  public static void testReflectArray() {
-    testGetLength();
-    testNewInstance();
-  }
-
-  private static void testGetLength() {
+  @Test
+  public void testGetLength() {
     assertEquals(0, Array.getLength(new byte[0]));
     assertEquals(1, Array.getLength(new boolean[1]));
     assertEquals(2, Array.getLength(new String[2]));
     assertEquals(3, Array.getLength(new int[3]));
   }
 
-  private static void testNewInstance() {
+  @Test
+  public void testNewInstance() {
     Object testArray = Array.newInstance(String.class, 5);
     assertEquals(5, ((Object[]) testArray).length);
     assertEquals(

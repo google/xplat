@@ -18,11 +18,15 @@ package smoke;
 import static smoke.Asserts.assertEquals;
 import static smoke.AssertsBase.assertTrue;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
 public class SystemTest {
 
-  private SystemTest() {}
-
-  public static void testSystemTime() {
+  @Test
+  public void testSystemTime() {
     long millisTimeStart = System.currentTimeMillis();
     long millisTimeEnd = 0;
     for (int i = 0; i < 100000; i++) {
@@ -38,7 +42,8 @@ public class SystemTest {
     assertTrue(nanoTimeStart > 0 && nanoTimeEnd > nanoTimeStart);
   }
 
-  public static void testArrayCopy() {
+  @Test
+  public void testArrayCopy() {
     int[] intArraySrc = {1, 2, 3, 4, 5};
     int[] intArrayDst = {0, 0, 0, 0, 0};
     System.arraycopy(intArraySrc, 0, intArrayDst, 1, 2);
@@ -63,7 +68,8 @@ public class SystemTest {
     }
   }
 
-  public static void testHashCode() {
+  @Test
+  public void testHashCode() {
     ExampleObject obj = new ExampleObject(1);
     assertEquals(System.identityHashCode(obj), System.identityHashCode(obj));
   }

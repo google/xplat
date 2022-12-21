@@ -49,32 +49,16 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import org.jspecify.nullness.Nullable;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 @SuppressWarnings("CollectionIncompatibleType") // To test runtime behavior for incompatible types
+@RunWith(JUnit4.class)
 public class CollectionsTest {
 
-  private CollectionsTest() {}
-
-  public static void testCollections() {
-    testAbstractMapSubclass_bridgedOverridesAreCalled();
-    testArrayDeque();
-    testIdentityHashMap();
-    testJavaMapSignatures();
-    testMapMerge();
-    testToArrayNativeList();
-    testToArrayPolymorphism();
-    testListSort();
-    testListSortComparator();
-    testEnumSet();
-    testEnumMap();
-    testRemoveIf();
-    testStack();
-    testTreeMap();
-    testTreeSet();
-    testVector();
-  }
-
-  private static void testArrayDeque() {
+  @Test
+  public void testArrayDeque() {
     ArrayDeque<String> deque = new ArrayDeque<>();
     assertEquals(0, deque.size());
     deque.add("a");
@@ -98,7 +82,8 @@ public class CollectionsTest {
     assertEquals(0, deque.size());
   }
 
-  private static void testJavaMapSignatures() {
+  @Test
+  public void testJavaMapSignatures() {
     // Map and HashMap are mapped to separate native types, we test bridged methods with each type
     // as the target because they are dispatched statically.
     HashMap<String, Integer> hashMap = new HashMap<>();
@@ -150,7 +135,8 @@ public class CollectionsTest {
     assertEquals(0, hashMap.size());
   }
 
-  private static void testMapMerge() {
+  @Test
+  public void testMapMerge() {
     Map<String, Integer> map = new HashMap<>();
     BiFunction<Integer, Integer, Integer> adder = (a, b) -> a + b;
 
@@ -271,7 +257,8 @@ public class CollectionsTest {
     }
   }
 
-  private static void testAbstractMapSubclass_bridgedOverridesAreCalled() {
+  @Test
+  public void testAbstractMapSubclass_bridgedOverridesAreCalled() {
     TestMap<Integer, String> testMap = new TestMap<>();
     Map<Integer, String> map = testMap; // This will be typed as plain MutableMap in Kotlin output
 
@@ -300,7 +287,8 @@ public class CollectionsTest {
     assertEquals(2, testMap.removeCalls);
   }
 
-  private static void testToArrayNativeList() {
+  @Test
+  public void testToArrayNativeList() {
     Collection<String> stringCollection = Arrays.asList("Hello", "World");
     String[] stringArray1 = new String[1];
     String[] stringArray2 = new String[2];
@@ -429,7 +417,8 @@ public class CollectionsTest {
     }
   }
 
-  private static void testRemoveIf() {
+  @Test
+  public void testRemoveIf() {
     ArrayList<String> list = new ArrayList<>();
     list.add("A");
     list.add("B");
@@ -440,7 +429,8 @@ public class CollectionsTest {
     assertEquals(1, list.size());
   }
 
-  private static void testStack() {
+  @Test
+  public void testStack() {
     Stack<String> stack = new Stack<>();
     assertEquals(0, stack.size());
     stack.push("A");
@@ -459,7 +449,8 @@ public class CollectionsTest {
     assertEquals(0, stack.size());
   }
 
-  private static void testToArrayPolymorphism() {
+  @Test
+  public void testToArrayPolymorphism() {
     TestList<String> testList = new TestList<>("content");
 
     Object[] untypedResult = testList.toArray();
@@ -476,7 +467,8 @@ public class CollectionsTest {
     assertTrue(Arrays.equals(new String[] {"content"}, typedResult));
   }
 
-  private static void testVector() {
+  @Test
+  public void testVector() {
     Vector<String> list = new Vector<>();
     list.add("A");
     list.add("B");
@@ -487,7 +479,8 @@ public class CollectionsTest {
     assertEquals(1, list.size());
   }
 
-  private static void testListSort() {
+  @Test
+  public void testListSort() {
     List<Integer> list = new ArrayList<>();
     list.add(1);
     list.add(4);
@@ -497,7 +490,8 @@ public class CollectionsTest {
     assertEquals(new Integer[] {1, 2, 3, 4}, list.toArray());
   }
 
-  private static void testListSortComparator() {
+  @Test
+  public void testListSortComparator() {
     List<Integer> list = new ArrayList<>();
     list.add(1);
     list.add(4);
@@ -512,20 +506,23 @@ public class CollectionsTest {
     ORANGE
   }
 
-  private static void testEnumSet() {
+  @Test
+  public void testEnumSet() {
     EnumSet<Fruit> enumSet = EnumSet.of(Fruit.APPLE);
     assertTrue(enumSet.contains(Fruit.APPLE));
     assertFalse(enumSet.contains(Fruit.ORANGE));
   }
 
-  private static void testEnumMap() {
+  @Test
+  public void testEnumMap() {
     EnumMap<Fruit, String> enumMap = new EnumMap<>(Fruit.class);
     enumMap.put(Fruit.APPLE, "apple");
     assertEquals(enumMap.get(Fruit.APPLE), "apple");
     assertEquals(enumMap.get(Fruit.ORANGE), null);
   }
 
-  private static void testTreeMap() {
+  @Test
+  public void testTreeMap() {
     NavigableMap<String, String> map = new TreeMap<>();
     map.put("foo", "1");
     map.put("bar", "2");
@@ -534,7 +531,8 @@ public class CollectionsTest {
     assertEquals(new String[] {"bar", "baz", "foo"}, map.keySet().toArray());
   }
 
-  private static void testTreeSet() {
+  @Test
+  public void testTreeSet() {
     NavigableSet<Integer> set = new TreeSet<>();
     set.add(3);
     set.add(1);
@@ -566,7 +564,8 @@ public class CollectionsTest {
     }
   }
 
-  private static void testIdentityHashMap() {
+  @Test
+  public void testIdentityHashMap() {
     IdentityHashMap<IdentityHashMapTestObject, String> identityHashMap = new IdentityHashMap<>();
     IdentityHashMapTestObject i1 = new IdentityHashMapTestObject(1);
     IdentityHashMapTestObject i1Prime = new IdentityHashMapTestObject(1);

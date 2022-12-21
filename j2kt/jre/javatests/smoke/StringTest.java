@@ -30,44 +30,38 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import javaemul.internal.EmulatedCharset;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class StringTest {
-
-  private StringTest() {}
 
   static byte[] ABC = {(byte) 65, (byte) 66, (byte) 67};
   static byte[] AEBC = {(byte) 0xC3, (byte) 0x84, (byte) 66, (byte) 67};
   static byte[] AEBC_ISO = {(byte) 0xC4, (byte) 66, (byte) 67};
 
-  public static void testStrings() throws Exception {
-    testCharsets();
-    testCodePointMethods();
-    testJavaEmul();
-    testString();
-    testStringBuilder();
-    testStringReader();
-    testStringWriter();
-    testRegionMatches();
-    testStringFormat();
-  }
-
   // TODO(b/236003566): Test OutputStreamWriter instead after cl/438505991 is submitted.
-  private static void testJavaEmul() {
+  @Test
+  public void testJavaEmul() {
     assertEquals(AEBC, EmulatedCharset.UTF_8.getBytes(new char[] {'Ä', 'B', 'C'}, 0, 3));
   }
 
-  private static void testStringReader() throws IOException {
+  @Test
+  public void testStringReader() throws IOException {
     Reader reader = new StringReader("Hello World");
     assertEquals((int) 'H', reader.read());
   }
 
-  private static void testStringWriter() throws IOException {
+  @Test
+  public void testStringWriter() throws IOException {
     Writer writer = new StringWriter();
     writer.write("Hello World");
     assertEquals("Hello World", writer.toString());
   }
 
-  private static void testString() {
+  @Test
+  public void testString() {
     char[] cArray = {'h', 'e', 'l', 'l', 'o'};
     assertEquals("ello", new String(cArray, 1, 4));
 
@@ -117,7 +111,8 @@ public class StringTest {
     assertTrue("---ABC---".matches(".*ABC.*"));
   }
 
-  private static void testCharsets() throws UnsupportedEncodingException {
+  @Test
+  public void testCharsets() throws UnsupportedEncodingException {
     assertEquals("ÄBC", new String(AEBC));
     assertEquals("ÄBC", new String(AEBC, "UTF-8"));
     assertEquals("ÄBC", new String(AEBC, StandardCharsets.UTF_8));
@@ -179,7 +174,8 @@ public class StringTest {
     assertEquals("\ufffdBC", new String(AEBC_ISO, StandardCharsets.UTF_8));
   }
 
-  private static void testStringBuilder() {
+  @Test
+  public void testStringBuilder() {
     StringBuilder strBuilder1 = new StringBuilder("0123");
     char[] cArray = {'h', 'e', 'l', 'l', 'o'};
 
@@ -201,7 +197,8 @@ public class StringTest {
     assertEquals("Hello", strBuilder3.toString());
   }
 
-  private static void testCodePointMethods() {
+  @Test
+  public void testCodePointMethods() {
     assertEquals(0xc4, "Ä".codePointAt(0));
     assertEquals(0x1f602, "😂".codePointAt(0));
     assertEquals(0xde02, "😂".codePointAt(1));
@@ -222,13 +219,15 @@ public class StringTest {
     assertFalse(Character.isValidCodePoint(0x10ffff + 1));
   }
 
-  private static void testRegionMatches() {
+  @Test
+  public void testRegionMatches() {
     assertTrue("HelloWorld".regionMatches(1, "WelloNorth", 1, 4));
     assertTrue("HelloWorld".regionMatches(true, 1, "WELLONORTH", 1, 4));
     assertFalse("HelloWorld".regionMatches(false, 1, "WELLONORTH", 1, 4));
   }
 
-  private static void testStringFormat() {
+  @Test
+  public void testStringFormat() {
     assertEquals("hello, world", String.format("hello, world"));
 
     assertEquals("hello, world!", String.format("%s", "hello, world!"));

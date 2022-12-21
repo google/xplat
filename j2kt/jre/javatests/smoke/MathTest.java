@@ -23,18 +23,15 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class MathTest {
 
-  private MathTest() {}
-
-  public static void testMath() {
-    testBigDecimal();
-    testBigInteger();
-    testRoundingMode();
-  }
-
-  static void testBigDecimal() {
+  @Test
+  public void testBigDecimal() {
     assertEquals(0.5, BigDecimal.valueOf(0.5).doubleValue());
     assertEquals(BigDecimal.ONE, BigDecimal.valueOf(1));
     assertEquals(1, BigDecimal.ONE.intValue());
@@ -43,7 +40,8 @@ public class MathTest {
     assertEquals(1.99999999, BigDecimal.valueOf(1.99999999).doubleValue());
   }
 
-  static void testBigInteger() {
+  @Test
+  public void testBigInteger() {
     assertEquals(0, BigInteger.ZERO.intValue());
     assertEquals(1, BigInteger.ONE.intValue());
     assertEquals(10, BigInteger.TEN.intValue());
@@ -52,7 +50,8 @@ public class MathTest {
     assertFalse(new BigInteger("35742549198872617291353508656626642568").isProbablePrime(10));
   }
 
-  static void testRoundingMode() {
+  @Test
+  public void testRoundingMode() {
     String s = "precision=5 roundingMode=HALF_UP";
     assertEquals(new MathContext(5, RoundingMode.HALF_UP), new MathContext(s));
     assertEquals(s, new MathContext(5, RoundingMode.HALF_UP).toString());

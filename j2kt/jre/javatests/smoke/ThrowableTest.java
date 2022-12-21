@@ -24,16 +24,15 @@ import static smoke.Asserts.fail;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.jspecify.nullness.Nullable;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ThrowableTest {
-  public static void testThrowables() throws Exception {
-    testBridgedException_initCause();
-    testTranspiledException_initCause();
-    testAssertionError_constructors();
-    testPrintStackTrace();
-  }
 
-  private static void testBridgedException_initCause() throws Exception {
+  @Test
+  public void testBridgedException_initCause() throws Exception {
     NumberFormatException nfe = new NumberFormatException(); // Native but bridged exception
     assertNull(nfe.getCause());
 
@@ -59,7 +58,8 @@ public class ThrowableTest {
     }
   }
 
-  private static void testTranspiledException_initCause() throws Exception {
+  @Test
+  public void testTranspiledException_initCause() throws Exception {
     Exception exception = new TranspiledException();
     assertNull(exception.getCause());
 
@@ -85,7 +85,8 @@ public class ThrowableTest {
     }
   }
 
-  private static void testAssertionError_constructors() throws Exception {
+  @Test
+  public void testAssertionError_constructors() throws Exception {
     AssertionError assertionError = new AssertionError(null);
     // assertEquals("null", assertionError.getMessage());
     assertNull(assertionError.getCause());
@@ -113,7 +114,8 @@ public class ThrowableTest {
     assertSame(cause, assertionError.getCause());
   }
 
-  private static void testPrintStackTrace() throws Exception {
+  @Test
+  public void testPrintStackTrace() throws Exception {
     StringWriter stringWriter = new StringWriter();
     Throwable throwable = new RuntimeException("exception message 123");
     throwable.printStackTrace(new PrintWriter(stringWriter));
