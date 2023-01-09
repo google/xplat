@@ -53,6 +53,8 @@ fun Double.Companion.isNaN(d: Double): Boolean = d.isNaN()
 
 fun Double.Companion.isInfinite(d: Double): Boolean = d.isInfinite()
 
+fun Double.Companion.isFinite(d: Double): Boolean = d.isFinite()
+
 fun Double.Companion.doubleToLongBits(value: Double): Long = value.toBits()
 
 fun Double.Companion.doubleToRawLongBits(value: Double): Long = value.toRawBits()

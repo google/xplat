@@ -84,6 +84,8 @@ public final class Double extends Number implements Comparable<Double> {
 
   public static native boolean isInfinite(double d);
 
+  public static native boolean isFinite(double d);
+
   public native boolean isNaN();
 
   public static native boolean isNaN(double d);
