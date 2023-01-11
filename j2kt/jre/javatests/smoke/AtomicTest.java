@@ -15,7 +15,7 @@
  */
 package smoke;
 
-import static smoke.Asserts.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,6 +29,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class AtomicTest {
+  private static final float EPSILON = 1E-6f;
 
   @Test
   public void testInt() {
@@ -88,9 +89,9 @@ public class AtomicTest {
    */
   private static <T extends Number> void testNumber(T n, Integer value) {
     assertEquals(n.byteValue(), value.byteValue());
-    assertEquals(n.doubleValue(), value.doubleValue());
-    assertEquals(n.floatValue(), value.floatValue());
-    assertEquals(n.intValue(), value);
+    assertEquals(n.doubleValue(), value.doubleValue(), EPSILON);
+    assertEquals(n.floatValue(), value.floatValue(), EPSILON);
+    assertEquals(n.intValue(), value.intValue());
     assertEquals(n.longValue(), value.longValue());
     assertEquals(n.shortValue(), value.shortValue());
     assertEquals(n.toString(), value.toString());

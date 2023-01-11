@@ -15,9 +15,9 @@
  */
 package smoke;
 
-import static smoke.Asserts.assertEquals;
-import static smoke.Asserts.assertFalse;
-import static smoke.Asserts.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -29,15 +29,16 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class MathTest {
+  private static final float EPSILON = 1E-6f;
 
   @Test
   public void testBigDecimal() {
-    assertEquals(0.5, BigDecimal.valueOf(0.5).doubleValue());
+    assertEquals(0.5, BigDecimal.valueOf(0.5).doubleValue(), EPSILON);
     assertEquals(BigDecimal.ONE, BigDecimal.valueOf(1));
     assertEquals(1, BigDecimal.ONE.intValue());
 
-    assertEquals(123.456789123456789, new BigDecimal(123.456789123456789).doubleValue());
-    assertEquals(1.99999999, BigDecimal.valueOf(1.99999999).doubleValue());
+    assertEquals(123.456789123456789, new BigDecimal(123.456789123456789).doubleValue(), EPSILON);
+    assertEquals(1.99999999, BigDecimal.valueOf(1.99999999).doubleValue(), EPSILON);
   }
 
   @Test

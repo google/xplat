@@ -15,10 +15,11 @@
  */
 package smoke;
 
-import static smoke.Asserts.assertEquals;
-import static smoke.Asserts.assertFalse;
-import static smoke.Asserts.assertTrue;
-import static smoke.Asserts.fail;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -44,7 +45,7 @@ public class StringTest {
   // TODO(b/236003566): Test OutputStreamWriter instead after cl/438505991 is submitted.
   @Test
   public void testJavaEmul() {
-    assertEquals(AEBC, EmulatedCharset.UTF_8.getBytes(new char[] {'Ä', 'B', 'C'}, 0, 3));
+    assertArrayEquals(AEBC, EmulatedCharset.UTF_8.getBytes(new char[] {'Ä', 'B', 'C'}, 0, 3));
   }
 
   @Test
@@ -145,15 +146,15 @@ public class StringTest {
       // This is expected.
     }
 
-    assertEquals(AEBC, "ÄBC".getBytes());
-    assertEquals(AEBC, "ÄBC".getBytes("UTF-8"));
-    assertEquals(AEBC, "ÄBC".getBytes(StandardCharsets.UTF_8));
+    assertArrayEquals(AEBC, "ÄBC".getBytes());
+    assertArrayEquals(AEBC, "ÄBC".getBytes("UTF-8"));
+    assertArrayEquals(AEBC, "ÄBC".getBytes(StandardCharsets.UTF_8));
 
-    assertEquals(AEBC_ISO, "ÄBC".getBytes("ISO-8859-1"));
-    assertEquals(AEBC_ISO, "ÄBC".getBytes(StandardCharsets.ISO_8859_1));
+    assertArrayEquals(AEBC_ISO, "ÄBC".getBytes("ISO-8859-1"));
+    assertArrayEquals(AEBC_ISO, "ÄBC".getBytes(StandardCharsets.ISO_8859_1));
 
-    assertEquals(ABC, "ABC".getBytes("ASCII"));
-    assertEquals(ABC, "ABC".getBytes(StandardCharsets.US_ASCII));
+    assertArrayEquals(ABC, "ABC".getBytes("ASCII"));
+    assertArrayEquals(ABC, "ABC".getBytes(StandardCharsets.US_ASCII));
 
     assertEquals(-1, "ABCDEABCDE".indexOf('F'));
     assertEquals(-1, "ABCDEABCDE".indexOf(0x1f602));
@@ -206,10 +207,10 @@ public class StringTest {
     assertEquals(1, Character.charCount(0xc4));
     assertEquals(2, Character.charCount(0x1f602));
 
-    assertEquals(new char[] {0xd83d, 0xde02}, Character.toChars(0x1f602));
+    assertArrayEquals(new char[] {0xd83d, 0xde02}, Character.toChars(0x1f602));
     char[] charsOut = new char[3];
     Character.toChars(0x1f602, charsOut, 1);
-    assertEquals(new char[] {0, 0xd83d, 0xde02}, charsOut);
+    assertArrayEquals(new char[] {0, 0xd83d, 0xde02}, charsOut);
 
     assertEquals(
         "Ä😂", new StringBuilder().appendCodePoint(0xc4).appendCodePoint(0x1f602).toString());

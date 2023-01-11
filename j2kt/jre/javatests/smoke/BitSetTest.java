@@ -16,7 +16,7 @@
 
 package smoke;
 
-import static smoke.AssertsBase.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 import java.util.BitSet;
 import org.junit.Test;

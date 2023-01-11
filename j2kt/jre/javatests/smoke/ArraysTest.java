@@ -15,10 +15,10 @@
  */
 package smoke;
 
-import static smoke.Asserts.assertEquals;
-import static smoke.Asserts.assertFalse;
-import static smoke.Asserts.assertSame;
-import static smoke.Asserts.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -29,6 +29,9 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class ArraysTest {
+
+  private static final float EPSILON = 1E-6f;
+
   interface ExampleInterface {}
 
   static class ExampleObject implements Comparable<ExampleObject>, ExampleInterface {
@@ -168,13 +171,13 @@ public class ArraysTest {
 
     double[] doubleCopy = doubleArray4.clone();
     assertEquals(doubleArray4.length, doubleCopy.length);
-    assertEquals(doubleArray4[0], doubleCopy[0]);
-    assertEquals(doubleArray4[1], doubleCopy[1]);
+    assertEquals(doubleArray4[0], doubleCopy[0], EPSILON);
+    assertEquals(doubleArray4[1], doubleCopy[1], EPSILON);
 
     float[] floatCopy = floatArray4.clone();
     assertEquals(floatArray4.length, floatCopy.length);
-    assertEquals(floatArray4[0], floatCopy[0]);
-    assertEquals(floatArray4[1], floatCopy[1]);
+    assertEquals(floatArray4[0], floatCopy[0], EPSILON);
+    assertEquals(floatArray4[1], floatCopy[1], EPSILON);
 
     int[] intCopy = intArray4.clone();
     assertEquals(intArray4.length, intCopy.length);
@@ -219,15 +222,15 @@ public class ArraysTest {
 
     double[] doubleCopy = Arrays.copyOf(doubleArray4, 3);
     assertEquals(3, doubleCopy.length);
-    assertEquals(doubleArray4[0], doubleCopy[0]);
-    assertEquals(doubleArray4[1], doubleCopy[1]);
-    assertEquals(0.0, doubleCopy[2]);
+    assertEquals(doubleArray4[0], doubleCopy[0], EPSILON);
+    assertEquals(doubleArray4[1], doubleCopy[1], EPSILON);
+    assertEquals(0.0, doubleCopy[2], EPSILON);
 
     float[] floatCopy = Arrays.copyOf(floatArray4, 3);
     assertEquals(3, floatCopy.length);
-    assertEquals(floatArray4[0], floatCopy[0]);
-    assertEquals(floatArray4[1], floatCopy[1]);
-    assertEquals(0f, floatCopy[2]);
+    assertEquals(floatArray4[0], floatCopy[0], EPSILON);
+    assertEquals(floatArray4[1], floatCopy[1], EPSILON);
+    assertEquals(0f, floatCopy[2], EPSILON);
 
     int[] intCopy = Arrays.copyOf(intArray4, 3);
     assertEquals(3, intCopy.length);
@@ -286,15 +289,15 @@ public class ArraysTest {
 
     doubleCopy = Arrays.copyOfRange(doubleArray2, 2, 5);
     assertEquals(3, doubleCopy.length);
-    assertEquals(doubleArray2[2], doubleCopy[0]);
-    assertEquals(doubleArray2[3], doubleCopy[1]);
-    assertEquals(0.0, doubleCopy[2]);
+    assertEquals(doubleArray2[2], doubleCopy[0], EPSILON);
+    assertEquals(doubleArray2[3], doubleCopy[1], EPSILON);
+    assertEquals(0.0, doubleCopy[2], EPSILON);
 
     floatCopy = Arrays.copyOfRange(floatArray2, 2, 5);
     assertEquals(3, floatCopy.length);
-    assertEquals(floatArray2[2], floatCopy[0]);
-    assertEquals(floatArray2[3], floatCopy[1]);
-    assertEquals(0.0f, floatCopy[2]);
+    assertEquals(floatArray2[2], floatCopy[0], EPSILON);
+    assertEquals(floatArray2[3], floatCopy[1], EPSILON);
+    assertEquals(0.0f, floatCopy[2], EPSILON);
 
     intCopy = Arrays.copyOfRange(intArray2, 2, 5);
     assertEquals(3, intCopy.length);
@@ -331,6 +334,7 @@ public class ArraysTest {
 
   @Test
   public void testEquals() {
+    // This test is about testing Arrays.equals. Don't simplify these to use assertArrayEquals.
     assertTrue(Arrays.equals(boolArray2, boolArray3));
     assertTrue(Arrays.equals(byteArray2, byteArray3));
     assertTrue(Arrays.equals(charArray2, charArray3));
@@ -405,23 +409,23 @@ public class ArraysTest {
 
     double[] doubleFillArr1 = {4, 3, 1, 2};
     Arrays.fill(doubleFillArr1, 1);
-    assertEquals(1.0, doubleFillArr1[0]);
-    assertEquals(1.0, doubleFillArr1[3]);
+    assertEquals(1.0, doubleFillArr1[0], EPSILON);
+    assertEquals(1.0, doubleFillArr1[3], EPSILON);
 
     double[] doubleFillArr2 = {4, 3, 1, 2};
     Arrays.fill(doubleFillArr2, 0, 2, 3);
-    assertEquals(3.0, doubleFillArr2[0]);
-    assertEquals(2.0, doubleFillArr2[3]);
+    assertEquals(3.0, doubleFillArr2[0], EPSILON);
+    assertEquals(2.0, doubleFillArr2[3], EPSILON);
 
     float[] floatFillArr1 = {4F, 3F, 1F, 2F};
     Arrays.fill(floatFillArr1, 1F);
-    assertEquals(1F, floatFillArr1[0]);
-    assertEquals(1F, floatFillArr1[3]);
+    assertEquals(1F, floatFillArr1[0], EPSILON);
+    assertEquals(1F, floatFillArr1[3], EPSILON);
 
     float[] floatFillArr2 = {4F, 3F, 1F, 2F};
     Arrays.fill(floatFillArr2, 0, 2, 3F);
-    assertEquals(3F, floatFillArr2[0]);
-    assertEquals(2F, floatFillArr2[3]);
+    assertEquals(3F, floatFillArr2[0], EPSILON);
+    assertEquals(2F, floatFillArr2[3], EPSILON);
 
     int[] intFillArr1 = {4, 3, 1, 2};
     Arrays.fill(intFillArr1, 1);
@@ -490,8 +494,8 @@ public class ArraysTest {
         (x, y) -> {
           return x + y;
         });
-    assertEquals(1.0, doublePrefixArr1[0]);
-    assertEquals(10.0, doublePrefixArr1[3]);
+    assertEquals(1.0, doublePrefixArr1[0], EPSILON);
+    assertEquals(10.0, doublePrefixArr1[3], EPSILON);
     Arrays.parallelPrefix(
         doublePrefixArr2,
         1,
@@ -499,8 +503,8 @@ public class ArraysTest {
         (x, y) -> {
           return x + y;
         });
-    assertEquals(1.0, doublePrefixArr2[0]);
-    assertEquals(9.0, doublePrefixArr2[3]);
+    assertEquals(1.0, doublePrefixArr2[0], EPSILON);
+    assertEquals(9.0, doublePrefixArr2[3], EPSILON);
 
     int[] intPrefixArr1 = {1, 2, 3, 4};
     int[] intPrefixArr2 = {1, 2, 3, 4};
@@ -577,8 +581,8 @@ public class ArraysTest {
         d -> {
           return (d > 2) ? d : 0;
         });
-    assertEquals(0.0, doubleArray4[0]);
-    assertEquals(3.0, doubleArray4[3]);
+    assertEquals(0.0, doubleArray4[0], EPSILON);
+    assertEquals(3.0, doubleArray4[3], EPSILON);
 
     long[] longArray4 = {1L, 2L, 3L, 4L};
     Arrays.setAll(
@@ -616,8 +620,8 @@ public class ArraysTest {
         d -> {
           return (d > 2) ? d : 0;
         });
-    assertEquals(0.0, doubleArray5[0]);
-    assertEquals(3.0, doubleArray5[3]);
+    assertEquals(0.0, doubleArray5[0], EPSILON);
+    assertEquals(3.0, doubleArray5[3], EPSILON);
 
     long[] longArray5 = {1L, 2L, 3L, 4L};
     Arrays.parallelSetAll(
@@ -658,19 +662,19 @@ public class ArraysTest {
 
     double[] doubleUnsortedArr1 = {4, 3, 1, 2};
     Arrays.sort(doubleUnsortedArr1, 1, 3);
-    assertEquals(4.0, doubleUnsortedArr1[0]);
-    assertEquals(1.0, doubleUnsortedArr1[1]);
+    assertEquals(4.0, doubleUnsortedArr1[0], EPSILON);
+    assertEquals(1.0, doubleUnsortedArr1[1], EPSILON);
     Arrays.sort(doubleUnsortedArr1);
-    assertEquals(1.0, doubleUnsortedArr1[0]);
-    assertEquals(4.0, doubleUnsortedArr1[3]);
+    assertEquals(1.0, doubleUnsortedArr1[0], EPSILON);
+    assertEquals(4.0, doubleUnsortedArr1[3], EPSILON);
 
     float[] floatUnsortedArr1 = {4F, 3F, 1F, 2F};
     Arrays.sort(floatUnsortedArr1, 1, 3);
-    assertEquals(4F, floatUnsortedArr1[0]);
-    assertEquals(1F, floatUnsortedArr1[1]);
+    assertEquals(4F, floatUnsortedArr1[0], EPSILON);
+    assertEquals(1F, floatUnsortedArr1[1], EPSILON);
     Arrays.sort(floatUnsortedArr1);
-    assertEquals(1F, floatUnsortedArr1[0]);
-    assertEquals(4F, floatUnsortedArr1[3]);
+    assertEquals(1F, floatUnsortedArr1[0], EPSILON);
+    assertEquals(4F, floatUnsortedArr1[3], EPSILON);
 
     int[] intUnsortedArr1 = {4, 3, 1, 2};
     Arrays.sort(intUnsortedArr1, 1, 3);
@@ -731,19 +735,19 @@ public class ArraysTest {
 
     double[] doubleUnsortedArr2 = {4, 3, 1, 2};
     Arrays.parallelSort(doubleUnsortedArr2, 1, 3);
-    assertEquals(4.0, doubleUnsortedArr2[0]);
-    assertEquals(1.0, doubleUnsortedArr2[1]);
+    assertEquals(4.0, doubleUnsortedArr2[0], EPSILON);
+    assertEquals(1.0, doubleUnsortedArr2[1], EPSILON);
     Arrays.parallelSort(doubleUnsortedArr2);
-    assertEquals(1.0, doubleUnsortedArr2[0]);
-    assertEquals(4.0, doubleUnsortedArr2[3]);
+    assertEquals(1.0, doubleUnsortedArr2[0], EPSILON);
+    assertEquals(4.0, doubleUnsortedArr2[3], EPSILON);
 
     float[] floatUnsortedArr2 = {4F, 3F, 1F, 2F};
     Arrays.parallelSort(floatUnsortedArr2, 1, 3);
-    assertEquals(4F, floatUnsortedArr2[0]);
-    assertEquals(1F, floatUnsortedArr2[1]);
+    assertEquals(4F, floatUnsortedArr2[0], EPSILON);
+    assertEquals(1F, floatUnsortedArr2[1], EPSILON);
     Arrays.parallelSort(floatUnsortedArr2);
-    assertEquals(1F, floatUnsortedArr2[0]);
-    assertEquals(4F, floatUnsortedArr2[3]);
+    assertEquals(1F, floatUnsortedArr2[0], EPSILON);
+    assertEquals(4F, floatUnsortedArr2[3], EPSILON);
 
     int[] intUnsortedArr2 = {4, 3, 1, 2};
     Arrays.parallelSort(intUnsortedArr2, 1, 3);

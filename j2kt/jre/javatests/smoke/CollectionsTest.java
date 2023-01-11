@@ -16,10 +16,10 @@
 package smoke;
 
 import static java.util.Comparator.reverseOrder;
-import static smoke.Asserts.assertEquals;
-import static smoke.Asserts.assertFalse;
-import static smoke.Asserts.assertNull;
-import static smoke.Asserts.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractList;
 import java.util.AbstractMap;
@@ -146,8 +146,8 @@ public class CollectionsTest {
     map.merge("a", 3, adder);
 
     assertEquals(2, map.size());
-    assertEquals(1 + 2 + 3, map.get("a"));
-    assertEquals(1, map.get("b"));
+    assertEquals(1 + 2 + 3, map.get("a").intValue());
+    assertEquals(1, map.get("b").intValue());
 
     map.merge("a", 42, (a, b) -> null);
     assertEquals(1, map.size());

@@ -15,7 +15,7 @@
  */
 package smoke;
 
-import static smoke.Asserts.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

@@ -15,9 +15,9 @@
  */
 package smoke;
 
-import static smoke.Asserts.assertEquals;
-import static smoke.Asserts.assertFalse;
-import static smoke.Asserts.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +25,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class PrimitivesTest {
+  private static final float EPSILON = 1E-6f;
 
   @Test
   public void testBoolean() {
@@ -103,8 +104,8 @@ public class PrimitivesTest {
   public void testDouble() {
     Double dNan = Double.NaN, dInf = Double.POSITIVE_INFINITY;
 
-    assertEquals((Object) 9.5, Double.valueOf(9.5));
-    assertEquals((Object) 9.5, Double.valueOf("9.5"));
+    assertEquals(9.5, Double.valueOf(9.5), EPSILON);
+    assertEquals(9.5, Double.valueOf("9.5"), EPSILON);
 
     assertTrue(Double.compare(9.5, 9.5) == 0);
     assertTrue(Double.compare(9.5, 16.0) < 0);
@@ -112,7 +113,7 @@ public class PrimitivesTest {
 
     assertEquals("9.5", Double.toString(9.5));
 
-    assertEquals((Object) 16.0, Double.parseDouble("16"));
+    assertEquals(16.0, Double.parseDouble("16"), EPSILON);
 
     // Alternate condition for JS
     assertTrue(Double.hashCode(8) == 1075838976 || Double.hashCode(8) == 8);
@@ -123,7 +124,7 @@ public class PrimitivesTest {
     assertTrue(Double.isInfinite(dInf));
     assertFalse(Double.isInfinite(0.0));
 
-    assertEquals(3.1711515E-317, Double.longBitsToDouble(6418482L));
+    assertEquals(3.1711515E-317, Double.longBitsToDouble(6418482L), EPSILON);
     assertEquals(0x7ff8000000000000L, Double.doubleToLongBits(Double.NaN));
     assertEquals(0x7ff8000000000000L, Double.doubleToRawLongBits(Double.NaN));
 
@@ -201,7 +202,7 @@ public class PrimitivesTest {
     // Alternate condition for JS
     assertTrue(Float.toString(a).equals("9") || Float.toString(a).equals("9.0"));
 
-    assertEquals(16F, Float.parseFloat("16"));
+    assertEquals(16F, Float.parseFloat("16"), EPSILON);
 
     // Alternate condition for JS
     assertTrue(Float.hashCode(9) == 1091567616 || Float.hashCode(9) == 9);
@@ -212,7 +213,7 @@ public class PrimitivesTest {
     assertTrue(Float.isInfinite(fInf));
     assertFalse(Float.isInfinite(0));
 
-    assertEquals(1.729997E-39F, Float.intBitsToFloat(1234567));
+    assertEquals(1.729997E-39F, Float.intBitsToFloat(1234567), EPSILON);
 
     assertEquals(1234613304, Float.floatToIntBits(1234567F));
 
@@ -289,21 +290,21 @@ public class PrimitivesTest {
 
   @Test
   public void testDecode() throws Exception {
-    assertEquals(123, Integer.decode("123"));
-    assertEquals(123, Integer.decode("+123"));
-    assertEquals(-123, Integer.decode("-123"));
-    assertEquals(0123, Integer.decode("0123"));
-    assertEquals(+0123, Integer.decode("+0123"));
-    assertEquals(-0123, Integer.decode("-0123"));
-    assertEquals(0x123, Integer.decode("0x123"));
-    assertEquals(+0x123, Integer.decode("+0x123"));
-    assertEquals(-0x123, Integer.decode("-0x123"));
-    assertEquals(0x123, Integer.decode("#123"));
-    assertEquals(+0x123, Integer.decode("+#123"));
-    assertEquals(-0x123, Integer.decode("-#123"));
+    assertEquals(123, Integer.decode("123").intValue());
+    assertEquals(123, Integer.decode("+123").intValue());
+    assertEquals(-123, Integer.decode("-123").intValue());
+    assertEquals(0123, Integer.decode("0123").intValue());
+    assertEquals(+0123, Integer.decode("+0123").intValue());
+    assertEquals(-0123, Integer.decode("-0123").intValue());
+    assertEquals(0x123, Integer.decode("0x123").intValue());
+    assertEquals(+0x123, Integer.decode("+0x123").intValue());
+    assertEquals(-0x123, Integer.decode("-0x123").intValue());
+    assertEquals(0x123, Integer.decode("#123").intValue());
+    assertEquals(+0x123, Integer.decode("+#123").intValue());
+    assertEquals(-0x123, Integer.decode("-#123").intValue());
 
-    assertEquals((byte) 0100, Byte.decode("0100"));
-    assertEquals((short) 0x1234, Short.decode("0x1234"));
-    assertEquals(0xaaaabbbbccccL, Long.decode("#aaaabbbbcccc"));
+    assertEquals((byte) 0100, Byte.decode("0100").byteValue());
+    assertEquals((short) 0x1234, Short.decode("0x1234").shortValue());
+    assertEquals(0xaaaabbbbccccL, Long.decode("#aaaabbbbcccc").longValue());
   }
 }

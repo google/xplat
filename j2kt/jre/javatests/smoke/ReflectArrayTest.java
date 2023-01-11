@@ -15,8 +15,8 @@
  */
 package smoke;
 
-import static smoke.Asserts.assertEquals;
-import static smoke.Asserts.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Array;
 import org.junit.Test;
