@@ -43,6 +43,7 @@ public class Object {
   public Object() {}
 
   // TODO(b/222269323): Decide what to do with clone(). This does not exist in kotlin.Any.
+  @KtPropagateNullability
   protected native Object clone() throws CloneNotSupportedException;
 
   @KtPropagateNullability
