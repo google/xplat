@@ -23,15 +23,23 @@ import org.jspecify.nullness.NullMarked;
 @NullMarked
 public class Pattern {
 
-  public static /* final */ int CANON_EQ;
-  public static /* final */ int CASE_INSENSITIVE;
-  public static /* final */ int COMMENTS;
-  public static /* final */ int DOTALL;
-  public static /* final */ int LITERAL;
-  public static /* final */ int MULTILINE;
-  public static /* final */ int UNICODE_CASE;
-  public static /* final */ int UNICODE_CHARACTER_CLASS;
-  public static /* final */ int UNIX_LINES;
+  public static final int UNIX_LINES = 0x01;
+
+  public static final int CASE_INSENSITIVE = 0x02;
+
+  public static final int COMMENTS = 0x04;
+
+  public static final int MULTILINE = 0x08;
+
+  public static final int LITERAL = 0x10;
+
+  public static final int DOTALL = 0x20;
+
+  public static final int UNICODE_CASE = 0x40;
+
+  public static final int CANON_EQ = 0x80;
+
+  public static final int UNICODE_CHARACTER_CLASS = 0x100;
 
   public static native Pattern compile(String regex);
 

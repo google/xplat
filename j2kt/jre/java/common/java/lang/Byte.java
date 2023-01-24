@@ -26,9 +26,9 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class Byte extends Number implements Comparable<Byte> {
 
-  public static /* final */ byte MAX_VALUE;
+  public static final byte MAX_VALUE = 127;
 
-  public static /* final */ byte MIN_VALUE;
+  public static final byte MIN_VALUE = -128;
 
   @KtName("SIZE_BITS")
   public static final int SIZE = 8;
@@ -36,7 +36,7 @@ public final class Byte extends Number implements Comparable<Byte> {
   @KtName("SIZE_BYTES")
   public static final int BYTES = 1;
 
-  public static /* final */ Class<Byte> TYPE;
+  public static final Class<Byte> TYPE = null;
 
   public Byte(byte value) {}
 

@@ -24,7 +24,7 @@ import org.jspecify.nullness.NullMarked;
 @NullMarked
 public final class Void {
 
-  public static /* final */ Class<Void> TYPE;
+  public static final Class<Void> TYPE = null;
 
   private Void() {}
 }

@@ -26,23 +26,23 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class Float extends Number implements Comparable<Float> {
 
-  public static /* final */ float MAX_VALUE;
+  public static final float MAX_VALUE = 0x1.fffffeP+127f;
 
-  public static /* final */ float MIN_VALUE;
+  public static final float MIN_VALUE = 0x0.000002P-126f;
 
-  public static /* final */ float NaN;
+  public static final float NaN = 0.0f / 0.0f;
 
-  public static /* final */ float POSITIVE_INFINITY;
+  public static final float POSITIVE_INFINITY = 1.0f / 0.0f;
 
-  public static /* final */ float NEGATIVE_INFINITY;
+  public static final float NEGATIVE_INFINITY = -1.0f / 0.0f;
 
-  public static /* final */ float MIN_NORMAL;
+  public static final float MIN_NORMAL = 0x1.0p-126f;
 
-  public static /* final */ int MAX_EXPONENT;
+  public static final int MAX_EXPONENT = 127;
 
-  public static /* final */ int MIN_EXPONENT;
+  public static final int MIN_EXPONENT = -126;
 
-  public static /* final */ Class<Float> TYPE;
+  public static final Class<Float> TYPE = null;
 
   @KtName("SIZE_BITS")
   public static final int SIZE = 32;

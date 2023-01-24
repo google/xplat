@@ -25,9 +25,9 @@ import org.jspecify.nullness.NullMarked;
 @KtNative("java.lang.Math")
 @NullMarked
 public final class Math {
-  public static /* final */ double E;
+  public static final double E = 2.718281828459045;
 
-  public static /* final */ double PI;
+  public static final double PI = 3.141592653589793;
 
   private Math() {}
 

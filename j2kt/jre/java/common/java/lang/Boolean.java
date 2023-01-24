@@ -26,11 +26,11 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class Boolean implements Comparable<Boolean> {
 
-  public static /* final */ Class<Boolean> TYPE;
+  public static final Class<Boolean> TYPE = null;
 
-  public static /* final */ Boolean TRUE;
+  public static final Boolean TRUE = true;
 
-  public static /* final */ Boolean FALSE;
+  public static final Boolean FALSE = false;
 
   public Boolean(@Nullable String string) {}
 

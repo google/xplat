@@ -26,23 +26,23 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class Double extends Number implements Comparable<Double> {
 
-  public static /* final */ double MAX_VALUE;
+  public static final double MAX_VALUE = 0x1.fffffffffffffP+1023;
 
-  public static /* final */ double MIN_VALUE;
+  public static final double MIN_VALUE = 0x0.0000000000001P-1022;
 
-  public static /* final */ double NaN;
+  public static final double NaN = 0.0d / 0.0;
 
-  public static /* final */ double POSITIVE_INFINITY;
+  public static final double POSITIVE_INFINITY = 1.0 / 0.0;
 
-  public static /* final */ double NEGATIVE_INFINITY;
+  public static final double NEGATIVE_INFINITY = -1.0 / 0.0;
 
-  public static /* final */ double MIN_NORMAL;
+  public static final double MIN_NORMAL = 0x1.0p-1022;
 
-  public static /* final */ int MAX_EXPONENT;
+  public static final int MAX_EXPONENT = 1023;
 
-  public static /* final */ int MIN_EXPONENT;
+  public static final int MIN_EXPONENT = -1022;
 
-  public static /* final */ Class<Double> TYPE;
+  public static final Class<Double> TYPE = null;
 
   @KtName("SIZE_BITS")
   public static final int SIZE = 64;

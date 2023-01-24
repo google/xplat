@@ -32,7 +32,7 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class String implements Comparable<String>, CharSequence {
 
-  public static /* final */ Comparator<String> CASE_INSENSITIVE_ORDER;
+  public static final Comparator<String> CASE_INSENSITIVE_ORDER = null;
 
   public String() {}
 

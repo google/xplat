@@ -26,9 +26,9 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class Short extends Number implements Comparable<Short> {
 
-  public static /* final */ short MAX_VALUE;
+  public static final short MAX_VALUE = 32767;
 
-  public static /* final */ short MIN_VALUE;
+  public static final short MIN_VALUE = -32768;
 
   @KtName("SIZE_BITS")
   public static final int SIZE = 16;
@@ -36,7 +36,7 @@ public final class Short extends Number implements Comparable<Short> {
   @KtName("SIZE_BYTES")
   public static final int BYTES = SIZE / Byte.SIZE;
 
-  public static /* final */ Class<Short> TYPE;
+  public static final Class<Short> TYPE = null;
 
   public Short(String string) throws NumberFormatException {}
 
