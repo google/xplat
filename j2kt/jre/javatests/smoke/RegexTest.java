@@ -36,6 +36,14 @@ public class RegexTest {
   }
 
   @Test
+  public void testFlagTranslation() {
+    Pattern pattern = Pattern.compile("Hello.#\nWorld", Pattern.COMMENTS);
+    Matcher matcher = pattern.matcher("~~~Hello-World~~~");
+    assertTrue(matcher.find());
+    assertEquals(3, matcher.start());
+  }
+
+  @Test
   public void testReplace() {
     Pattern pattern = Pattern.compile("cat");
     Matcher matcher = pattern.matcher("one cat two cats in the yard");

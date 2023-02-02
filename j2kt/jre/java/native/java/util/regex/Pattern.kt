@@ -22,7 +22,25 @@ class Pattern(pattern: String, private val flags: Int) {
   internal val regex: Regex
   init {
     try {
-      regex = Regex(pattern, flagsToOptions(flags))
+      val expr = StringBuilder()
+      val options = mutableSetOf<RegexOption>()
+      var flag = 1
+      while (flag <= 256) {
+        when (flags and flag) {
+          0 -> {} // Flag not set
+          CASE_INSENSITIVE -> options.add(RegexOption.IGNORE_CASE)
+          COMMENTS -> expr.append("(?x)")
+          DOTALL -> expr.append("(?s)")
+          MULTILINE -> options.add(RegexOption.MULTILINE)
+          UNICODE_CASE -> expr.append("(?u)")
+          UNICODE_CHARACTER_CLASS -> expr.append("(?U)")
+          UNIX_LINES -> expr.append("(?d)")
+          else -> throw IllegalStateException("Unsupported flag $flag")
+        }
+        flag *= 2
+      }
+      expr.append(pattern)
+      regex = Regex(expr.toString(), options)
     } catch (e: RuntimeException) {
       throw PatternSyntaxException(e.message ?: "", pattern, -1)
     }
@@ -52,21 +70,6 @@ class Pattern(pattern: String, private val flags: Int) {
     const val UNICODE_CASE = 64
     const val UNICODE_CHARACTER_CLASS = 256
     const val UNIX_LINES = 1
-
-    private fun flagsToOptions(flags: Int): Set<RegexOption> {
-      val builder = mutableSetOf<RegexOption>()
-      var flag = 1
-      while (flag <= 256) {
-        when (flags and flag) {
-          0 -> {} // Flag not set
-          CASE_INSENSITIVE -> builder.add(RegexOption.IGNORE_CASE)
-          MULTILINE -> builder.add(RegexOption.MULTILINE)
-          else -> throw IllegalStateException("Unsupported flag $flag")
-        }
-        flag *= 2
-      }
-      return builder.toSet()
-    }
 
     fun compile(regex: String) = Pattern(regex, 0)
 
