@@ -15,7 +15,7 @@
  */
 package java.lang
 
-import kotlin.Boolean
+import javaemul.internal.InternalPreconditions.Companion.checkCriticalArithmetic
 import kotlin.math.IEEErem
 import kotlin.math.nextTowards
 import kotlin.math.nextUp
@@ -147,12 +147,12 @@ object Math {
   }
 
   fun negateExact(x: Int): Int {
-    checkCriticalArithmetic(x == Int.MIN_VALUE)
+    checkCriticalArithmetic(x != Int.MIN_VALUE)
     return -x
   }
 
   fun negateExact(x: Long): Long {
-    checkCriticalArithmetic(x == Long.MIN_VALUE)
+    checkCriticalArithmetic(x != Long.MIN_VALUE)
     return -x
   }
 
@@ -245,10 +245,4 @@ object Math {
   }
 
   fun scalb(f: Float, scaleFactor: Int): Float = scalb(f.toDouble(), scaleFactor).toFloat()
-
-  private fun checkCriticalArithmetic(expression: Boolean) {
-    if (!expression) {
-      throw ArithmeticException()
-    }
-  }
 }
