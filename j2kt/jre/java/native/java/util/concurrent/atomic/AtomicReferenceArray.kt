@@ -15,13 +15,19 @@
  * limitations under the License.
  */
 // CHECKSTYLE_ON
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util.concurrent.atomic
+
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
 /**
  * GWT emulated version of {@link AtomicReferenceArray}.
  *
  * @param <V> the element type.
  */
+@ObjCName("J2ktJavaUtilConcurrentAtomicReferenceArray", exact = true)
 class AtomicReferenceArray<V> internal constructor(private val values: List<AtomicReference<V>>) {
 
   constructor(array: Array<V>) : this(array.map { AtomicReference<V>(it) })

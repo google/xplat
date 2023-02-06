@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
+@ObjCName("J2ktJavaLangIllegalArgumentException", exact = true)
 open class IllegalArgumentException(message: String? = null) :
   kotlin.IllegalArgumentException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()

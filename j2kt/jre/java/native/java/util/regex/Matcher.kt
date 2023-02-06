@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util.regex
 
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.math.max
+import kotlin.native.ObjCName
 
 /** The result of applying a `Pattern` to a given input. */
+@ObjCName("J2ktJavaUtilRegexMatcher", exact = true)
 class Matcher(var pattern: Pattern, var input: CharSequence) {
 
   /**
@@ -87,7 +92,6 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * [Pattern] in the string will start at the beginning of the input.
    *
    * @param input the new input sequence.
-   *
    * @return the `Matcher` itself.
    */
   fun reset(input: CharSequence): Matcher {
@@ -103,7 +107,6 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * @param input the input sequence.
    * @param start the start of the region.
    * @param end the end of the region.
-   *
    * @return the matcher itself.
    */
   private fun reset(input: CharSequence, start: Int, end: Int): Matcher {
@@ -123,7 +126,6 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * find an occurrence of the [Pattern] in the string will start at the beginning of the input.
    *
    * @param pattern the new `Pattern`.
-   *
    * @return the `Matcher` itself.
    */
   fun usePattern(pattern: Pattern): Matcher {
@@ -183,8 +185,8 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * the given character in the input.
    *
    * @param start The index in the input at which the find operation is to begin. If this is less
-   * than the start of the region, it is automatically adjusted to that value. If it is beyond the
-   * end of the region, the method will fail.
+   *   than the start of the region, it is automatically adjusted to that value. If it is beyond the
+   *   end of the region, the method will fail.
    * @return true if (and only if) a match has been found.
    */
   fun find(start: Int): Boolean {
@@ -243,7 +245,7 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * Returns the index of the first character of the text that matched a given group.
    *
    * @param group the group, ranging from 0 to groupCount() - 1, with 0 representing the whole
-   * pattern.
+   *   pattern.
    * @return the character index.
    * @throws IllegalStateException if no successful match has been made.
    */
@@ -259,7 +261,7 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * Returns the index of the first character following the text that matched a given group.
    *
    * @param group the group, ranging from 0 to groupCount() - 1, with 0 representing the whole
-   * pattern.
+   *   pattern.
    * @return the character index.
    * @throws IllegalStateException if no successful match has been made.
    */

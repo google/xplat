@@ -13,12 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package javaemul.lang
 
 import java.util.Spliterator
 import java.util.Spliterators
 import java.util.function.Consumer
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
+@ObjCName("JavaemulLangJavaIterable", exact = true)
 fun interface JavaIterable<T> : MutableIterable<T> {
   fun java_forEach(consumer: Consumer<in T>) {
     default_forEach(consumer)

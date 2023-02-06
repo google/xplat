@@ -13,6 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package javaemul.lang
 
 import java.lang.reflect.Array as JavaLangReflectArray
@@ -20,9 +22,12 @@ import java.util.Spliterator
 import java.util.function.Predicate
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaObjectType
+import kotlin.native.ObjCName
 
 /** Bridge class for java.util.Collection. */
+@ObjCName("JavaemulLangJavaCollection", exact = true)
 interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
   // TODO(b/243046587): Rewrite to handle case in which c is not mutable
   override fun addAll(c: Collection<E>): Boolean = java_addAll(c as MutableCollection<E>)

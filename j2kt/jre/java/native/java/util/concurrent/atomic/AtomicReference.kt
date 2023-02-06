@@ -14,8 +14,12 @@
  * the License.
  */
 
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util.concurrent.atomic
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
 
@@ -24,6 +28,7 @@ import kotlinx.atomicfu.atomic
  *
  * @param <V> The type of object referred to by this reference
  */
+@ObjCName("J2ktJavaUtilConcurrentAtomicReference", exact = true)
 class AtomicReference<V> internal constructor(private val atomicValue: AtomicRef<V>) {
 
   constructor(initialValue: V) : this(atomic<V>(initialValue))

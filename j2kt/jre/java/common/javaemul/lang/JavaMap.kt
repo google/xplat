@@ -13,12 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package javaemul.lang
 
 import java.util.function.BiConsumer
 import java.util.function.BiFunction
 import java.util.function.Function
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
+@ObjCName("JavaemulLangJavaMap", exact = true)
 interface JavaMap<K, V> : MutableMap<K, V> {
 
   override fun containsKey(key: K): Boolean = java_containsKey(key)

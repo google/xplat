@@ -13,6 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util
 
 import java.util.function.Function
@@ -20,7 +22,10 @@ import java.util.function.ToDoubleFunction
 import java.util.function.ToIntFunction
 import java.util.function.ToLongFunction
 import kotlin.comparisons.reversed as default_reversed
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
+@ObjCName("J2ktJavaUtilComparator", exact = true)
 fun interface Comparator<T> : kotlin.Comparator<T> {
   override fun compare(a: T, b: T): Int
 

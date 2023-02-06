@@ -13,11 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package javaemul.lang
 
 import java.util.Spliterator
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
 /** Bridge class for java.util.AbstractList. */
+@ObjCName("JavaemulLangJavaAbstractList", exact = true)
 abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   override fun addAll(index: Int, c: Collection<E>) = super<JavaList>.addAll(index, c)
 

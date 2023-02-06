@@ -13,10 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package javaemul.lang
 
 import java.util.Spliterator
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
+@ObjCName("JavaemulLangJavaAbstractCollection", exact = true)
 abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaCollection<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 

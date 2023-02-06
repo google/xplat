@@ -14,6 +14,8 @@
  * the License.
  */
 
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util
 
 import java.util.function.BinaryOperator
@@ -32,13 +34,16 @@ import java.util.stream.StreamSupport
 import javaemul.internal.Comparators
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArrayBounds
 import kotlin.Comparator as KotlinComparator
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.math.min
+import kotlin.native.ObjCName
 
 /**
  * Utility methods related to native arrays. See <a
  * href="https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html"> the official Java API
  * doc</a> for details.
  */
+@ObjCName("J2ktJavaUtilArrays", exact = true)
 object Arrays {
   // TODO(b/239034072): Revisit set after varargs are fixed
   fun <T> asList(vararg elements: T): MutableList<T> {

@@ -15,7 +15,7 @@
  */
 package javaemul.internal
 
-object Comparators {
+internal object Comparators {
 
   /**
    * Returns the given comparator if it is non-null; a natural order comparator otherwise. This

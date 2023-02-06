@@ -13,11 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package javaemul.lang
 
 import java.util.AbstractMap
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
 /** Bridge type for `java.util.AbstractMap` */
+@ObjCName("JavaemulLangJavaAbstractMap", exact = true)
 abstract class JavaAbstractMap<K, V> : AbstractMap<K, V>(), JavaMap<K, V> {
   override fun containsKey(key: K): Boolean = super<JavaMap>.containsKey(key)
 

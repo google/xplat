@@ -16,12 +16,17 @@
  */
 // CHECKSTYLE_ON
 
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util.concurrent.atomic
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import kotlinx.atomicfu.AtomicBoolean
 import kotlinx.atomicfu.atomic
 
 /** GWT emulation of AtomicBoolean. */
+@ObjCName("J2ktJavaUtilConcurrentAtomicBoolean", exact = true)
 class AtomicBoolean internal constructor(private val atomicBool: AtomicBoolean) :
   java.io.Serializable {
 

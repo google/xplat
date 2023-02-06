@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
+@ObjCName("J2ktJavaLangException", exact = true)
 open class Exception(message: String? = null) : kotlin.Exception(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

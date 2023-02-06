@@ -13,9 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
 
 package java.util.concurrent.atomic
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
+
+@ObjCName("J2ktJavaUtilConcurrentAtomicInteger", exact = true)
 open class AtomicInteger internal constructor(private val ktAtomicInt: kotlinx.atomicfu.AtomicInt) :
   kotlin.Number() {
 

@@ -13,14 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
 import java.io.PrintStream
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import kotlin.native.identityHashCode
 import kotlin.system.getTimeMillis
 import kotlin.system.getTimeNanos
 
 // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
+@ObjCName("J2ktJavaLangSystem", exact = true)
 object System {
   fun getProperty(name: String?, def: String?): String? = getProperty(name) ?: def
 

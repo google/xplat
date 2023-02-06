@@ -13,11 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package javaemul.lang
 
 import java.io.PrintWriter
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
-// Bridge type for transpiled subclasses of Throwable
+// Bridge type for transpiled subclasses of Throwable.
+@ObjCName("JavaemulLangJavaThrowable", exact = true)
 open class JavaThrowable(message: String? = null) : Throwable(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

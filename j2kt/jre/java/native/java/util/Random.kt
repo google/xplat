@@ -32,12 +32,17 @@
  *
  * INCLUDES MODIFICATIONS BY RICHARD ZSCHECH AS WELL AS GOOGLE.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util
 
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.math.ln
 import kotlin.math.sqrt
+import kotlin.native.ObjCName
 import kotlin.synchronized
 
+@ObjCName("J2ktJavaUtilRandom", exact = true)
 open class Random internal constructor(var ktRandom: kotlin.random.Random) {
   var haveNextNextGaussian = false
   var nextNextGaussian = 0.0

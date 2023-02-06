@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
+@ObjCName("J2ktJavaUtilConcurrentModificationException", exact = true)
 open class ConcurrentModificationException(message: String? = null) :
   kotlin.ConcurrentModificationException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()

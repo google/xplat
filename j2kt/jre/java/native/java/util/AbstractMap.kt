@@ -13,13 +13,18 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.util
 
 import java.lang.UnsupportedOperationException
 import kotlin.collections.AbstractMutableMap as KotlinAbstractMutableMap
 import kotlin.collections.Map
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
 // TODO(b/255291878): We should transpile J2CL's AbstractMap instead.
+@ObjCName("J2ktJavaUtilAbstractMap", exact = true)
 abstract class AbstractMap<K, V> protected constructor() : KotlinAbstractMutableMap<K, V>() {
   /** A mutable [Map.Entry] shared by several [Map] implementations. */
   open class SimpleEntry<K, V>(key: K, value: V) : AbstractEntry<K, V>(key, value) {
