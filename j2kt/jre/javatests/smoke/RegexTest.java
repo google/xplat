@@ -50,4 +50,19 @@ public class RegexTest {
     assertEquals("one dog two cats in the yard", matcher.replaceFirst("dog"));
     assertEquals("one dog two dogs in the yard", matcher.replaceAll("dog"));
   }
+
+  @Test
+  public void testSplit() {
+    Pattern pattern = Pattern.compile("cat");
+    String[] parts = pattern.split("one cat two cats in the yard", -1);
+    assertEquals(3, parts.length);
+    assertEquals("one ", parts[0]);
+    assertEquals(" two ", parts[1]);
+    assertEquals("s in the yard", parts[2]);
+
+    parts = pattern.split("one cat two cats in the yard", 2);
+    assertEquals(2, parts.length);
+    assertEquals("one ", parts[0]);
+    assertEquals(" two cats in the yard", parts[1]);
+  }
 }

@@ -18,6 +18,7 @@
 package java.util.regex
 
 import kotlin.experimental.ExperimentalObjCName
+import kotlin.math.max
 import kotlin.native.ObjCName
 import kotlin.text.Regex
 
@@ -58,7 +59,7 @@ class Pattern(pattern: String, private val flags: Int) {
   fun split(input: CharSequence): Array<String> = regex.split(input).toTypedArray()
 
   fun split(input: CharSequence, limit: Int): Array<String> =
-    regex.split(input, limit).toTypedArray()
+    regex.split(input, max(0, limit)).toTypedArray()
 
   fun pattern() = regex.pattern
 
