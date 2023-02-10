@@ -26,6 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
   BitSetTest.class,
   CharacterTest.class,
   CollectionsTest.class,
+  ErasureTest.class,
   IoTest.class,
   LoggingTest.class,
   MathTest.class,
