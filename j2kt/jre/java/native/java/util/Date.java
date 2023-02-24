@@ -16,40 +16,19 @@
 package java.util;
 
 import java.io.Serializable;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /** Represents a date and time. */
 @NullMarked
+@KtNative("java.util.Date")
 public class Date implements Cloneable, Comparable<Date>, Serializable {
 
-  /**
-   * Encapsulates static data to avoid Date itself having a static initializer.
-   */
-  private static class StringData {
-    public static final String[] DAYS = {
-        "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
-    public static final String[] MONTHS = {
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
-        "Nov", "Dec"};
-  }
-
-  public static long parse(String s) {
-    double parsed = NativeDate.parse(s);
-    if (Double.isNaN(parsed)) {
-      throw new IllegalArgumentException();
-    }
-    return (long) parsed;
-  }
+  public static native long parse(String s);
 
   // CHECKSTYLE_OFF: Matching the spec.
-  public static long UTC(int year, int month, int date, int hrs, int min,
-      int sec) {
-    return (long) NativeDate.UTC(year + 1900, month, date, hrs, min, sec, 0);
-  }
+  public static native long UTC(int year, int month, int date, int hrs, int min, int sec);
 
   // CHECKSTYLE_ON
 
@@ -58,283 +37,72 @@ public class Date implements Cloneable, Comparable<Date>, Serializable {
    *
    * @return a two-character base 10 representation of the number
    */
-  protected static String padTwo(int number) {
-    if (number < 10) {
-      return "0" + number;
-    } else {
-      return String.valueOf(number);
-    }
-  }
+  protected static native String padTwo(int number);
 
-  /**
-   * JavaScript Date instance.
-   */
-  private final NativeDate jsdate;
+  public Date() {}
 
-  public Date() {
-    jsdate = new NativeDate();
-  }
+  public Date(int year, int month, int date) {}
 
-  public Date(int year, int month, int date) {
-    this(year, month, date, 0, 0, 0);
-  }
+  public Date(int year, int month, int date, int hrs, int min) {}
 
-  public Date(int year, int month, int date, int hrs, int min) {
-    this(year, month, date, hrs, min, 0);
-  }
+  public Date(int year, int month, int date, int hrs, int min, int sec) {}
 
-  public Date(int year, int month, int date, int hrs, int min, int sec) {
-    jsdate = new NativeDate();
-    jsdate.setFullYear(year + 1900, month, date);
-    jsdate.setHours(hrs, min, sec, 0);
-    fixDaylightSavings(hrs);
-  }
+  public Date(long date) {}
 
-  public Date(long date) {
-    jsdate = new NativeDate(date);
-  }
+  public Date(String date) {}
 
-  public Date(String date) {
-    this(Date.parse(date));
-  }
+  public native boolean after(Date when);
 
-  public boolean after(Date when) {
-    return getTime() > when.getTime();
-  }
-
-  public boolean before(Date when) {
-    return getTime() < when.getTime();
-  }
+  public native boolean before(Date when);
 
   @Override
-  public Object clone() {
-    return new Date(getTime());
-  }
+  public native Object clone();
 
   @Override
-  public int compareTo(Date other) {
-    return Long.compare(getTime(), other.getTime());
-  }
+  public native int compareTo(Date other);
 
   @Override
-  public boolean equals(@Nullable Object obj) {
-    return ((obj instanceof Date) && (getTime() == ((Date) obj).getTime()));
-  }
+  public native boolean equals(@Nullable Object obj);
 
-  public int getDate() {
-    return jsdate.getDate();
-  }
+  public native int getDate();
 
-  public int getDay() {
-    return jsdate.getDay();
-  }
+  public native int getDay();
 
-  public int getHours() {
-    return jsdate.getHours();
-  }
+  public native int getHours();
 
-  public int getMinutes() {
-    return jsdate.getMinutes();
-  }
+  public native int getMinutes();
 
-  public int getMonth() {
-    return jsdate.getMonth();
-  }
+  public native int getMonth();
 
-  public int getSeconds() {
-    return jsdate.getSeconds();
-  }
+  public native int getSeconds();
 
-  public long getTime() {
-    return (long) jsdate.getTime();
-  }
+  public native long getTime();
 
-  public int getTimezoneOffset() {
-    return jsdate.getTimezoneOffset();
-  }
+  public native int getTimezoneOffset();
 
-  public int getYear() {
-    return jsdate.getFullYear() - 1900;
-  }
+  public native int getYear();
 
   @Override
-  public int hashCode() {
-    long time = getTime();
-    return (int) (time ^ (time >>> 32));
-  }
+  public native int hashCode();
 
-  public void setDate(int date) {
-    int hours = jsdate.getHours();
-    jsdate.setDate(date);
-    fixDaylightSavings(hours);
-  }
+  public native void setDate(int date);
 
-  public void setHours(int hours) {
-    jsdate.setHours(hours);
-    fixDaylightSavings(hours);
-  }
+  public native void setHours(int hours);
 
-  public void setMinutes(int minutes) {
-    int hours = getHours() + minutes / 60;
-    jsdate.setMinutes(minutes);
-    fixDaylightSavings(hours);
-  }
+  public native void setMinutes(int minutes);
 
-  public void setMonth(int month) {
-    int hours = jsdate.getHours();
-    jsdate.setMonth(month);
-    fixDaylightSavings(hours);
-  }
+  public native void setMonth(int month);
 
-  public void setSeconds(int seconds) {
-    int hours = getHours() + seconds / (60 * 60);
-    jsdate.setSeconds(seconds);
-    fixDaylightSavings(hours);
-  }
+  public native void setSeconds(int seconds);
 
-  public void setTime(long time) {
-    jsdate.setTime(time);
-  }
+  public native void setTime(long time);
 
-  public void setYear(int year) {
-    int hours = jsdate.getHours();
-    jsdate.setFullYear(year + 1900);
-    fixDaylightSavings(hours);
-  }
+  public native void setYear(int year);
 
-  public String toGMTString() {
-    return jsdate.getUTCDate() + " " + StringData.MONTHS[jsdate.getUTCMonth()]
-        + " " + jsdate.getUTCFullYear() + " " + padTwo(jsdate.getUTCHours())
-        + ":" + padTwo(jsdate.getUTCMinutes()) + ":"
-        + padTwo(jsdate.getUTCSeconds()) + " GMT";
-  }
+  public native String toGMTString();
 
-  public String toLocaleString() {
-    return jsdate.toLocaleString();
-  }
+  public native String toLocaleString();
 
   @Override
-  public String toString() {
-    // Compute timezone offset. The value that getTimezoneOffset returns is
-    // backwards for the transformation that we want.
-    int offset = -jsdate.getTimezoneOffset();
-    String hourOffset = ((offset >= 0) ? "+" : "") + (offset / 60);
-    String minuteOffset = padTwo(Math.abs(offset) % 60);
-
-    return StringData.DAYS[jsdate.getDay()] + " "
-        + StringData.MONTHS[jsdate.getMonth()] + " " + padTwo(jsdate.getDate())
-        + " " + padTwo(jsdate.getHours()) + ":" + padTwo(jsdate.getMinutes())
-        + ":" + padTwo(jsdate.getSeconds()) + " GMT" + hourOffset
-        + minuteOffset + " " + jsdate.getFullYear();
-  }
-
-  private static final long ONE_HOUR_IN_MILLISECONDS = 60 * 60 * 1000;
-
-  /*
-   * Some browsers have the following behavior:
-   *
-   * GAP
-   * // Assume a U.S. time zone with daylight savings
-   * // Set a non-existent time: 2:00 am Sunday March 8, 2009
-   * var date = new Date(2009, 2, 8, 2, 0, 0);
-   * var hours = date.getHours(); // returns 1
-   *
-   * The equivalent Java code will return 3.
-   *
-   * OVERLAP
-   * // Assume a U.S. time zone with daylight savings
-   * // Set to an ambiguous time: 1:30 am Sunday November 1, 2009
-   * var date = new Date(2009, 10, 1, 1, 30, 0);
-   * var nextHour = new Date(date.getTime() + 60*60*1000);
-   * var hours = nextHour.getHours(); // returns 1
-   *
-   * The equivalent Java code will return 2.
-   *
-   * To compensate, fixDaylightSavings adjusts the date to match Java semantics.
-   */
-
-  /**
-   * Detects if the requested time falls into a non-existent time range due to local time advancing
-   * into daylight savings time or is ambiguous due to going out of daylight savings. If so, adjust
-   * accordingly.
-   */
-  private void fixDaylightSavings(int requestedHours) {
-    requestedHours %= 24;
-    if (jsdate.getHours() != requestedHours) {
-      // Hours passed to the constructor don't match the hours in the created JavaScript Date; this
-      // might be due either because they are outside 0-24 range, there was overflow from
-      // minutes:secs:millis or because we are in the situation GAP and has to be fixed.
-      NativeDate copy = new NativeDate(jsdate.getTime());
-      copy.setDate(copy.getDate() + 1);
-      int timeDiff = jsdate.getTimezoneOffset() - copy.getTimezoneOffset();
-
-      // If the time zone offset is changing, advance the hours and
-      // minutes from the initially requested time by the change amount
-      if (timeDiff > 0) {
-        // The requested time falls into a non-existent time range due to
-        // local time advancing into daylight savings time. If so, push the requested
-        // time forward out of the non-existent range.
-        int timeDiffHours = timeDiff / 60;
-        int timeDiffMinutes = timeDiff % 60;
-        int day = jsdate.getDate();
-        int badHours = jsdate.getHours();
-        if (badHours + timeDiffHours >= 24) {
-          day++;
-        }
-        NativeDate newTime = new NativeDate(jsdate.getFullYear(), jsdate.getMonth(),
-            day, requestedHours + timeDiffHours, jsdate.getMinutes() + timeDiffMinutes,
-            jsdate.getSeconds(), jsdate.getMilliseconds());
-        jsdate.setTime(newTime.getTime());
-      }
-    }
-
-    // Check for situation OVERLAP by advancing the clock by 1 hour and see if getHours() returns
-    // the same. This solves issues like Safari returning '3/21/2015 23:00' when time is set to
-    // '2/22/2015'.
-    double originalTimeInMillis = jsdate.getTime();
-    jsdate.setTime(originalTimeInMillis + ONE_HOUR_IN_MILLISECONDS);
-    if (jsdate.getHours() != requestedHours) {
-      // We are not in the duplicated hour, so revert the change.
-      jsdate.setTime(originalTimeInMillis);
-    }
-  }
-
-  @JsType(isNative = true, name = "Date", namespace = JsPackage.GLOBAL)
-  private static class NativeDate {
-    // CHECKSTYLE_OFF: Matching the spec.
-    public static native double UTC(int year, int month, int dayOfMonth, int hours,
-        int minutes, int seconds, int millis);
-    // CHECKSTYLE_ON
-    public static native double parse(String dateString);
-    public NativeDate() { }
-    public NativeDate(double milliseconds) { }
-    public NativeDate(int year, int month, int dayOfMonth, int hours,
-        int minutes, int seconds, int millis) { }
-    public native int getDate();
-    public native int getDay();
-    public native int getFullYear();
-    public native int getHours();
-    public native int getMilliseconds();
-    public native int getMinutes();
-    public native int getMonth();
-    public native int getSeconds();
-    public native double getTime();
-    public native int getTimezoneOffset();
-    public native int getUTCDate();
-    public native int getUTCFullYear();
-    public native int getUTCHours();
-    public native int getUTCMinutes();
-    public native int getUTCMonth();
-    public native int getUTCSeconds();
-    public native void setDate(int dayOfMonth);
-    public native void setFullYear(int year);
-    public native void setFullYear(int year, int month, int day);
-    public native void setHours(int hours);
-    public native void setHours(int hours, int mins, int secs, int ms);
-    public native void setMinutes(int minutes);
-    public native void setMonth(int month);
-    public native void setSeconds(int seconds);
-    public native void setTime(double milliseconds);
-    public native String toLocaleString();
-  }
+  public native String toString();
 }
