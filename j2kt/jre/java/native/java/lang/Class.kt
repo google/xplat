@@ -34,6 +34,7 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
   fun getSimpleName(): kotlin.String = kClass.simpleName ?: ""
   fun isPrimitive(): kotlin.Boolean = isPrimitive0
   fun isArray(): kotlin.Boolean = getComponentType() != null
+  fun isInstance(obj: Any?): kotlin.Boolean = !isPrimitive0 && kClass.isInstance(obj)
   fun getComponentType(): Class<*>? = arrayComponentTypeMap[kClass]
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()

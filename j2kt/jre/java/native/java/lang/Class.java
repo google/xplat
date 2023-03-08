@@ -40,6 +40,8 @@ public final class Class<T> {
 
   public native boolean isInterface();
 
+  public native boolean isInstance(@Nullable Object obj);
+
   public native boolean isPrimitive();
 
   public native T @Nullable [] getEnumConstants();
