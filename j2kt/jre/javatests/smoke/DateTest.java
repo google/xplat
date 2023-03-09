@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google Inc.
+ * Copyright 2023 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,24 @@
  */
 package smoke;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(Suite.class)
-@SuiteClasses({
-  ArraysTest.class,
-  AtomicTest.class,
-  BitSetTest.class,
-  CharacterTest.class,
-  ClassTest.class,
-  CollectionsTest.class,
-  DateTest.class,
-  ErasureTest.class,
-  IoTest.class,
-  LoggingTest.class,
-  MathTest.class,
-  PrimitivesTest.class,
-  RandomTest.class,
-  ReflectArrayTest.class,
-  RegexTest.class,
-  SecurityTest.class,
-  StringTest.class,
-  SystemTest.class,
-  ThrowableTest.class,
-})
-public class TestHarness {}
+import java.util.Date;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+/** Smoke test for Date. */
+@RunWith(JUnit4.class)
+public class DateTest {
+
+  @Test
+  @SuppressWarnings("JavaUtilDate")
+  public void testDateUTC() {
+    long utcMillisSinceEpoch = Date.UTC(99, 1, 24, 14, 31, 45);
+    Date utcDate = new Date(utcMillisSinceEpoch);
+    String dateStr = utcDate.toGMTString();
+    System.out.println(dateStr);
+    assertEquals("24 Feb 1999 14:31:45 GMT", dateStr);
+  }
+}
