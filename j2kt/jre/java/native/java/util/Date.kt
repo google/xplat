@@ -18,8 +18,6 @@
 package java.util
 
 import java.io.Serializable
-import javaemul.lang.compare
-import javaemul.lang.valueOf
 import kotlin.Cloneable
 import kotlin.Comparable
 import kotlin.OptIn
@@ -86,7 +84,7 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
   }
 
   open override fun compareTo(other: Date): Int {
-    return Long.compare(getTime(), other.getTime())
+    return getTime().compareTo(other.getTime())
   }
 
   open override fun equals(obj: Any?): Boolean {
@@ -288,11 +286,7 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
 
     @ObjCName("padTwo")
     fun padTwo(@ObjCName("withInt") number: Int): String {
-      if (number < 10) {
-        return "0" + number
-      } else {
-        return String.valueOf(number)
-      }
+      return if (number < 10) "0" + number else number.toString()
     }
 
     private const val ONE_HOUR_IN_MILLISECONDS: Long = 3600000L
