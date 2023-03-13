@@ -37,7 +37,7 @@ public class SecureRandom() :
     object : kotlin.random.Random() {
       override fun nextBits(bits: Int): Int = memScoped {
         val intVar: IntVar = alloc<IntVar>()
-        SecRandomCopyBytes(kSecRandomDefault, 4, intVar.ptr)
+        SecRandomCopyBytes(kSecRandomDefault, 4UL, intVar.ptr)
         return if (bits == 32) intVar.value else intVar.value and ((1 shl bits) - 1)
       }
     }
