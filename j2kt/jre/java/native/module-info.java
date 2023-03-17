@@ -28,6 +28,7 @@ module java.base {
   exports java.util.concurrent.atomic;
   exports java.util.function;
   exports java.util.logging;
+  exports java.util.regex;
   exports java.util.stream;
   exports javax.annotation.processing;
   // TODO(goktug): Provide a public API for array stamping and stop exporting this.
