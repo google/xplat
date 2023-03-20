@@ -37,6 +37,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.function.UnaryOperator;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -196,9 +197,9 @@ public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream
 
   Stream<T> filter(Predicate<? super T> predicate);
 
-  Optional<T> findAny();
+  Optional<@JsNonNull T> findAny();
 
-  Optional<T> findFirst();
+  Optional<@JsNonNull T> findFirst();
 
   <R extends @Nullable Object> Stream<R> flatMap(
       Function<? super T, ? extends Stream<? extends R>> mapper);
@@ -223,15 +224,15 @@ public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream
 
   LongStream mapToLong(ToLongFunction<? super T> mapper);
 
-  Optional<T> max(Comparator<? super T> comparator);
+  Optional<@JsNonNull T> max(Comparator<? super T> comparator);
 
-  Optional<T> min(Comparator<? super T> comparator);
+  Optional<@JsNonNull T> min(Comparator<? super T> comparator);
 
   boolean noneMatch(Predicate<? super T> predicate);
 
   Stream<T> peek(Consumer<? super T> action);
 
-  Optional<T> reduce(BinaryOperator<T> accumulator);
+  Optional<@JsNonNull T> reduce(BinaryOperator<T> accumulator);
 
   T reduce(T identity, BinaryOperator<T> accumulator);
 

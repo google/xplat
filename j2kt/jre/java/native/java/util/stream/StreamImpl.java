@@ -45,6 +45,7 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -187,7 +188,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public Optional<T> reduce(BinaryOperator<T> accumulator) {
+    public Optional<@JsNonNull T> reduce(BinaryOperator<T> accumulator) {
       terminate();
       return Optional.empty();
     }
@@ -214,13 +215,13 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public Optional<T> min(Comparator<? super T> comparator) {
+    public Optional<@JsNonNull T> min(Comparator<? super T> comparator) {
       terminate();
       return Optional.empty();
     }
 
     @Override
-    public Optional<T> max(Comparator<? super T> comparator) {
+    public Optional<@JsNonNull T> max(Comparator<? super T> comparator) {
       terminate();
       return Optional.empty();
     }
@@ -250,13 +251,13 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     }
 
     @Override
-    public Optional<T> findFirst() {
+    public Optional<@JsNonNull T> findFirst() {
       terminate();
       return Optional.empty();
     }
 
     @Override
-    public Optional<T> findAny() {
+    public Optional<@JsNonNull T> findAny() {
       terminate();
       return Optional.empty();
     }
@@ -608,7 +609,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   }
 
   @Override
-  public Optional<T> findFirst() {
+  public Optional<@JsNonNull T> findFirst() {
     terminate();
     ValueConsumer<T> holder = new ValueConsumer<T>();
     if (spliterator.tryAdvance(holder)) {
@@ -618,7 +619,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   }
 
   @Override
-  public Optional<T> findAny() {
+  public Optional<@JsNonNull T> findAny() {
     return findFirst();
   }
 
@@ -640,12 +641,12 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   }
 
   @Override
-  public Optional<T> min(final Comparator<? super T> comparator) {
+  public Optional<@JsNonNull T> min(final Comparator<? super T> comparator) {
     return reduce(BinaryOperator.minBy(comparator));
   }
 
   @Override
-  public Optional<T> max(final Comparator<? super T> comparator) {
+  public Optional<@JsNonNull T> max(final Comparator<? super T> comparator) {
     return reduce(BinaryOperator.maxBy(comparator));
   }
 
@@ -655,7 +656,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
   }
 
   @Override
-  public Optional<T> reduce(BinaryOperator<T> accumulator) {
+  public Optional<@JsNonNull T> reduce(BinaryOperator<T> accumulator) {
     ValueConsumer<T> consumer = new ValueConsumer<T>();
     if (!spliterator.tryAdvance(consumer)) {
       terminate();

@@ -38,6 +38,7 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -203,12 +204,12 @@ public final class Collectors {
         downstream.finisher());
   }
 
-  public static <T extends @Nullable Object> Collector<T, ?, Optional<T>> maxBy(
+  public static <T extends @Nullable Object> Collector<T, ?, Optional<@JsNonNull T>> maxBy(
       Comparator<? super T> comparator) {
     return reducing(BinaryOperator.maxBy(comparator));
   }
 
-  public static <T extends @Nullable Object> Collector<T, ?, Optional<T>> minBy(
+  public static <T extends @Nullable Object> Collector<T, ?, Optional<@JsNonNull T>> minBy(
       final Comparator<? super T> comparator) {
     return reducing(BinaryOperator.minBy(comparator));
   }
@@ -233,7 +234,7 @@ public final class Collectors {
     };
   }
 
-  public static <T extends @Nullable Object> Collector<T, ?, Optional<T>> reducing(
+  public static <T extends @Nullable Object> Collector<T, ?, Optional<@JsNonNull T>> reducing(
       BinaryOperator<T> op) {
     return reducing(Optional.empty(), Optional::of, (a, b) -> {
       if (!a.isPresent()) {
