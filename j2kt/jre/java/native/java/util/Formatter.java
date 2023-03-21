@@ -112,11 +112,11 @@ public final class Formatter implements Closeable, Flushable {
    * <p>The {@code Locale} used is the user's default locale. See "<a
    * href="../util/Locale.html#default_locale">Be wary of the default locale</a>".
    *
-   * @param a the output destination of the {@code Formatter}. If {@code a} is {@code null}, then a
-   *     {@code StringBuilder} will be used.
+   * @param appendable the output destination of the {@code Formatter}. If {@code a} is {@code
+   *     null}, then a {@code StringBuilder} will be used.
    */
-  public Formatter(Appendable a) {
-    this(a, Locale.getDefault());
+  public Formatter(@Nullable Appendable appendable) {
+    this(appendable, Locale.getDefault());
   }
 
   /**
@@ -125,29 +125,29 @@ public final class Formatter implements Closeable, Flushable {
    * <p>The output is written to a {@code StringBuilder} which can be acquired by invoking {@link
    * #out()} and whose content can be obtained by calling {@code toString}.
    *
-   * @param l the {@code Locale} of the {@code Formatter}. If {@code l} is {@code null}, then no
-   *     localization will be used.
+   * @param locale the {@code Locale} of the {@code Formatter}. If {@code l} is {@code null}, then
+   *     no localization will be used.
    */
-  public Formatter(Locale l) {
-    this(new StringBuilder(), l);
+  public Formatter(@Nullable Locale locale) {
+    this(new StringBuilder(), locale);
   }
 
   /**
    * Constructs a {@code Formatter} with the specified {@code Locale} and whose output will be
    * written to the specified {@code Appendable}.
    *
-   * @param a the output destination of the {@code Formatter}. If {@code a} is {@code null}, then a
-   *     {@code StringBuilder} will be used.
-   * @param l the {@code Locale} of the {@code Formatter}. If {@code l} is {@code null}, then no
-   *     localization will be used.
+   * @param appendable the output destination of the {@code Formatter}. If {@code a} is {@code
+   *     null}, then a {@code StringBuilder} will be used.
+   * @param locale the {@code Locale} of the {@code Formatter}. If {@code l} is {@code null}, then
+   *     no localization will be used.
    */
-  public Formatter(Appendable a, Locale l) {
-    if (a == null) {
+  public Formatter(@Nullable Appendable appendable, @Nullable Locale locale) {
+    if (appendable == null) {
       out = new StringBuilder();
     } else {
-      out = a;
+      out = appendable;
     }
-    locale = l;
+    this.locale = locale;
   }
 
   /**
@@ -161,8 +161,7 @@ public final class Formatter implements Closeable, Flushable {
    * @param os the stream to be used as the destination of the {@code Formatter}.
    */
   public Formatter(OutputStream os) {
-    out = new BufferedWriter(new OutputStreamWriter(os, Charset.defaultCharset()));
-    locale = Locale.getDefault();
+    this(os, Charset.defaultCharset(), Locale.getDefault());
   }
 
   /**
@@ -177,7 +176,7 @@ public final class Formatter implements Closeable, Flushable {
    * @throws UnsupportedEncodingException if the charset with the specified name is not supported.
    */
   public Formatter(OutputStream os, String csn) throws UnsupportedEncodingException {
-    this(os, csn, Locale.getDefault());
+    this(os, Charset.forName(csn), Locale.getDefault());
   }
 
   /**
@@ -186,13 +185,17 @@ public final class Formatter implements Closeable, Flushable {
    *
    * @param os the stream to be used as the destination of the {@code Formatter}.
    * @param csn the name of the charset for the {@code Formatter}.
-   * @param l the {@code Locale} of the {@code Formatter}. If {@code l} is {@code null}, then no
-   *     localization will be used.
+   * @param locale the {@code Locale} of the {@code Formatter}. If {@code l} is {@code null}, then
+   *     no localization will be used.
    * @throws UnsupportedEncodingException if the charset with the specified name is not supported.
    */
-  public Formatter(OutputStream os, String csn, Locale l) throws UnsupportedEncodingException {
-    out = new BufferedWriter(new OutputStreamWriter(os, csn));
-    locale = l;
+  public Formatter(OutputStream os, String csn, @Nullable Locale locale)
+      throws UnsupportedEncodingException {
+    this(os, Charset.forName(csn), locale);
+  }
+
+  private Formatter(OutputStream os, Charset cs, @Nullable Locale locale) {
+    this(new BufferedWriter(new OutputStreamWriter(os, cs)), locale);
   }
 
   /**
@@ -207,8 +210,7 @@ public final class Formatter implements Closeable, Flushable {
    *     is {@code null}, then a {@code NullPointerException} will be raised.
    */
   public Formatter(PrintStream ps) {
-    out = ps;
-    locale = Locale.getDefault();
+    this(ps, Locale.getDefault());
   }
 
   private void checkNotClosed() {
@@ -223,7 +225,7 @@ public final class Formatter implements Closeable, Flushable {
    * @return the {@code Locale} for the {@code Formatter} or {@code null} for no {@code Locale}.
    * @throws FormatterClosedException if the {@code Formatter} has been closed.
    */
-  public Locale locale() {
+  public @Nullable Locale locale() {
     checkNotClosed();
     return locale;
   }
@@ -299,7 +301,7 @@ public final class Formatter implements Closeable, Flushable {
    *
    * @return the last {@code IOException} thrown by the {@code Formatter}'s output destination.
    */
-  public IOException ioException() {
+  public @Nullable IOException ioException() {
     return lastIOException;
   }
 
