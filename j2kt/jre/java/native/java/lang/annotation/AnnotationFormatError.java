@@ -15,12 +15,13 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Indicates the annotation parser determined the annotation was malformed when
- * reading from the class file <a
+ * Indicates the annotation parser determined the annotation was malformed when reading from the
+ * class file <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/AnnotationFormatError.html">[Sun
  * docs]</a>.
  */
-public class AnnotationFormatError extends Error {
-
-}
+@NullMarked
+public class AnnotationFormatError extends Error {}

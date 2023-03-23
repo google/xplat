@@ -15,6 +15,8 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Indicates that a field defining a constant value may be referenced from native code. <a
  * href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Native.html">[Oracle
@@ -23,5 +25,5 @@ package java.lang.annotation;
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Native {
-}
+@NullMarked
+public @interface Native {}

@@ -15,6 +15,8 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Annotation which indicates an annotation type is automatically inherited <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Inherited.html">[Sun
@@ -23,5 +25,5 @@ package java.lang.annotation;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-public @interface Inherited {
-}
+@NullMarked
+public @interface Inherited {}

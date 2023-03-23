@@ -15,15 +15,17 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Annotation which indicates the kinds of program element to which an
- * annotation type is applicable <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Target.html">[Sun
+ * Annotation which indicates the kinds of program element to which an annotation type is applicable
+ * <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Target.html">[Sun
  * docs]</a>.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
+@NullMarked
 public @interface Target {
   ElementType[] value();
 }

@@ -15,11 +15,13 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
- * Indicates an attempt to access an element of an annotation that has changed
- * since it was compiled or serialized <a
+ * Indicates an attempt to access an element of an annotation that has changed since it was compiled
+ * or serialized <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/AnnotationTypeMismatchException.html">[Sun
  * docs]</a>.
  */
-public class AnnotationTypeMismatchException extends RuntimeException {
-}
+@NullMarked
+public class AnnotationTypeMismatchException extends RuntimeException {}

@@ -49,7 +49,7 @@ public class Object {
   @KtPropagateNullability
   public native boolean equals(@Nullable Object o);
 
-  public final native Class<?> getClass();
+  public final native Class<? extends Object> getClass();
 
   public native int hashCode();
 

@@ -15,11 +15,14 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Enumerates annotation retention policies <a
  * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/RetentionPolicy.html">[Sun
  * docs]</a>.
  */
+@NullMarked
 public enum RetentionPolicy {
   CLASS, RUNTIME, SOURCE,
 }

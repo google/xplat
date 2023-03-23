@@ -15,14 +15,16 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Annotation which indicates how long annotations should be retained <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Retention.html">[Sun
- * doc]</a>.
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/Retention.html">[Sun doc]</a>.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
+@NullMarked
 public @interface Retention {
   RetentionPolicy value();
 }

@@ -15,11 +15,14 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Enumerates types of declared elements in a Java program <a
  * href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/ElementType.html">[Oracle
  * docs]</a>.
  */
+@NullMarked
 public enum ElementType {
   ANNOTATION_TYPE, CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE,
   PARAMETER, TYPE, TYPE_PARAMETER, TYPE_USE,

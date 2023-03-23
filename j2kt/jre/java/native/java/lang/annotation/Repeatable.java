@@ -15,6 +15,8 @@
  */
 package java.lang.annotation;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Indicates that the annotation type whose declaration it (meta-)annotates is repeatable. <a
  * href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Repeatable.html">[Oracle
@@ -23,6 +25,7 @@ package java.lang.annotation;
 @Documented
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@NullMarked
 public @interface Repeatable {
   Class<? extends Annotation> value();
 }
