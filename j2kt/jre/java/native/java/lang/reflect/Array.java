@@ -18,6 +18,8 @@ package java.lang.reflect;
 import static javaemul.internal.InternalPreconditions.checkArgument;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
+import org.jspecify.nullness.Nullable;
+
 /**
  * See <a
  * href="http://java.sun.com/javase/6/docs/api/java/lang/reflect/Array.html">the
@@ -405,9 +407,6 @@ public final class Array {
   // A middle ground for J2CL could be to treat this method special in the compiler and fail the
   // compile if its not called with a compile time constant for the class literal.
 
-  // Not implemented:
-  // public static Object newInstance(Class<?> componentType, int... dimensions)
-
   public static Object newInstance(Class<?> componentType, int length) {
     if (componentType == null) {
       throw new NullPointerException();
@@ -437,6 +436,40 @@ public final class Array {
     } else {
       return new Object[length];
     }
+  }
+
+  public static Object newInstance(Class<?> componentType, int... dimensions) {
+    if (dimensions.length == 0) {
+      throw new IllegalArgumentException();
+    }
+    return newInstance(componentType, dimensions, 0);
+  }
+
+  /**
+   * Internal helper to recursively implement newInstance(Class, int...). Creates the inner arrays
+   * for {@code newIntance(componentType, dimensions} at depth {@code index}.
+   *
+   * <p>Returns the same result as
+   *
+   * <pre>{@code
+   * newInstance(componentType, Arrays.copyOfRange(dimensions, index, dimensions.length))
+   * }</pre>
+   *
+   * without actually copying {@code dimensions}
+   */
+  private static Object newInstance(Class<?> componentType, int[] dimensions, int index) {
+    if (dimensions[index] < 0) {
+      throw new NegativeArraySizeException();
+    }
+    int nextIndex = index + 1;
+    if (nextIndex == dimensions.length) { // Innermost array. Terminate recursion.
+      return newInstance(componentType, dimensions[index]);
+    }
+    @Nullable Object[] result = new @Nullable Object[dimensions[index]];
+    for (int i = 0; i < result.length; i++) {
+      result[i] = newInstance(componentType, dimensions, nextIndex);
+    }
+    return result;
   }
 
   private Array() {

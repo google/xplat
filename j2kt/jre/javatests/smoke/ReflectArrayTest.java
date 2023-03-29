@@ -17,8 +17,10 @@ package smoke;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Array;
+import org.jspecify.nullness.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -27,7 +29,7 @@ import org.junit.runners.JUnit4;
 public class ReflectArrayTest {
 
   @Test
-  public void testGetLength() {
+  public void getLength() {
     assertEquals(0, Array.getLength(new byte[0]));
     assertEquals(1, Array.getLength(new boolean[1]));
     assertEquals(2, Array.getLength(new String[2]));
@@ -35,7 +37,7 @@ public class ReflectArrayTest {
   }
 
   @Test
-  public void testNewInstance() {
+  public void newInstance() {
     Object testArray = Array.newInstance(String.class, 5);
     assertEquals(5, ((Object[]) testArray).length);
     assertEquals(
@@ -59,5 +61,37 @@ public class ReflectArrayTest {
     assertTrue(Array.newInstance(Float.class, 1) instanceof Object[]);
     assertTrue(Array.newInstance(Double.class, 1) instanceof Object[]);
     assertTrue(Array.newInstance(Boolean.class, 1) instanceof Object[]);
+  }
+
+  @Test
+  public void newInstance_dimensions() {
+    @Nullable String[][][] testArray = (String[][][]) Array.newInstance(String.class, 3, 5, 8);
+    assertEquals(
+        new String[1][1][0].getClass().getComponentType(), testArray.getClass().getComponentType());
+    assertEquals(3, testArray.length);
+    assertEquals(5, testArray[0].length);
+    assertEquals(8, testArray[2][4].length);
+    assertEquals(
+        new String[0].getClass().getComponentType(), testArray[2][4].getClass().getComponentType());
+  }
+
+  @Test
+  public void newInstance_dimensionsMissing() {
+    try {
+      Array.newInstance(Object.class);
+      fail("Expected IllegalArgumentException.");
+    } catch (IllegalArgumentException e) {
+      // expected
+    }
+  }
+
+  @Test
+  public void newInstance_dimensionsNegative() {
+    try {
+      Array.newInstance(Object.class, 4, -1);
+      fail("Expected NegativeArraySizeException.");
+    } catch (NegativeArraySizeException e) {
+      // expected
+    }
   }
 }
