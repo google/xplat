@@ -128,8 +128,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @KtPropagateNullability
   @KtName("java_merge")
-  default @Nullable V merge(
-      K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
+  default V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled.");
   }
 

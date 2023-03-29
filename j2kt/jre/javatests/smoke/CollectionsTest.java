@@ -49,6 +49,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import org.jspecify.nullness.Nullable;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -137,8 +138,9 @@ public class CollectionsTest {
 
   @Test
   public void testMapMerge() {
-    Map<String, Integer> map = new HashMap<>();
-    BiFunction<Integer, Integer, Integer> adder = (a, b) -> a + b;
+    // TODO(b/275568112): value is nullable so we can test a remapper function that returns null.
+    Map<String, @Nullable Integer> map = new HashMap<>();
+    BiFunction<Integer, Integer, @Nullable Integer> adder = (a, b) -> a + b;
 
     map.merge("a", 1, adder);
     map.merge("b", 1, adder);
@@ -221,8 +223,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public @Nullable V merge(
-        K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remap) {
+    public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remap) {
       return super.merge(key, value, remap);
     }
 
@@ -479,7 +480,8 @@ public class CollectionsTest {
     assertEquals(1, list.size());
   }
 
-  @Test
+  // TODO(b/275568193): Consider allowing null comparator.
+  @Ignore
   public void testListSort() {
     List<Integer> list = new ArrayList<>();
     list.add(1);

@@ -259,7 +259,7 @@ public class Vector<E extends @Nullable Object> extends AbstractList<E>
   }
 
   @Override
-  public void sort(@Nullable Comparator<? super E> c) {
+  public void sort(Comparator<? super E> c) {
     arrayList.sort(c);
   }
 

@@ -18,7 +18,6 @@
 package javaemul.lang
 
 import java.util.function.UnaryOperator
-import javaemul.internal.Comparators
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
@@ -45,7 +44,8 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
 
-  fun sort(c: Comparator<in E>?) = sortWith(Comparators.nullToNaturalOrder(c))
+  // TODO(b/275568193): Consider allowing c == null
+  fun sort(c: Comparator<in E>) = sortWith(c)
 
   fun java_addAll(index: Int, c: MutableCollection<out E>): Boolean
 
@@ -56,13 +56,14 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
   fun java_replaceAll(operator: UnaryOperator<E>) = default_replaceAll(operator)
 }
 
+// TODO(b/275568193): Consider allowing c == null
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.sort(c: Comparator<in E>?) {
+fun <E> MutableList<E>.sort(c: Comparator<in E>) {
   if (this is JavaList) {
     val list = this as JavaList<E> // kotlinc type inference fails without the temp variable
     list.sort(c)
   } else {
-    sortWith(Comparators.nullToNaturalOrder(c))
+    sortWith(c)
   }
 }
 
