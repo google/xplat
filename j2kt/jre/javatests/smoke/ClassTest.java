@@ -15,8 +15,11 @@
  */
 package smoke;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +27,28 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class ClassTest {
+
+  @Test
+  public void cast() throws Exception {
+    Object o = "test";
+    assertEquals("test", String.class.cast(o));
+  }
+
+  @Test
+  public void cast_null() throws Exception {
+    assertNull(String.class.cast(null));
+  }
+
+  @Test
+  public void cast_fail() throws Exception {
+    Object o = "test";
+    try {
+      Integer i = Integer.class.cast(o);
+      fail("Expected ClassCastException");
+    } catch (ClassCastException e) {
+      // expected
+    }
+  }
 
   @Test
   public void isArray() throws Exception {

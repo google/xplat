@@ -26,6 +26,8 @@ public final class Class<T> {
 
   private Class() {}
 
+  public native @Nullable T cast(@Nullable Object obj);
+
   public native String getName();
 
   public native @Nullable String getCanonicalName();

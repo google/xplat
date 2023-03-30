@@ -29,6 +29,8 @@ import kotlin.reflect.KClass
  */
 @ObjCName("J2ktJavaLangClass", exact = true)
 class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) {
+  fun cast(obj: Any?): T? =
+    if (obj == null || kClass.isInstance(obj)) obj as T? else throw ClassCastException()
   fun getName(): kotlin.String = kClass.qualifiedName ?: ""
   fun getCanonicalName(): kotlin.String? = kClass.qualifiedName
   fun getSimpleName(): kotlin.String = kClass.simpleName ?: ""
