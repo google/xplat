@@ -40,8 +40,7 @@ public class Throwable {
   // protected Throwable(@Nullable String detailMessage, @Nullable Throwable cause,
   //     boolean enableSuppression, boolean writableStackTrace) {}
 
-  // J2KT: Disabled
-  // public native Throwable fillInStackTrace();
+  public native Throwable fillInStackTrace();
 
   @KtProperty
   public native @Nullable String getMessage();
@@ -50,11 +49,11 @@ public class Throwable {
   @KtProperty
   public native @Nullable String getLocalizedMessage();
 
-  @KtProperty
+  @KtName("java_getStackTrace")
   public native StackTraceElement[] getStackTrace();
 
-  // J2KT: Disabled
-  // public native void setStackTrace(StackTraceElement[] trace);
+  @KtName("java_setStackTrace")
+  public native void setStackTrace(StackTraceElement[] trace);
 
   /**
    * Writes a printable representation of this {@code Throwable}'s stack trace to the {@code

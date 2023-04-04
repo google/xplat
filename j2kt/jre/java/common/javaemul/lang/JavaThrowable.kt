@@ -18,10 +18,13 @@
 package javaemul.lang
 
 import java.io.PrintWriter
+import java.lang.StackTraceElement
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 // Bridge type for transpiled subclasses of Throwable.
+// TODO(b/276846862): We may want to wrap native stack trace elements in StackTraceElement
+//   and emulating the "original" StackTraceElement as far as possible.
 @ObjCName("JavaemulLangJavaThrowable", exact = true)
 open class JavaThrowable(message: String? = null) : Throwable(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
@@ -39,6 +42,10 @@ open class JavaThrowable(message: String? = null) : Throwable(message), InitCaus
   override fun initCause(cause: Throwable?): Throwable = super<InitCauseCapable>.initCause(cause)
 
   fun java_printStackTrace(writer: PrintWriter) = default_printStackTrace(writer)
+
+  fun java_getStackTrace(): Array<StackTraceElement> = default_getStackTrace()
+
+  fun java_setStackTrace(trace: Array<StackTraceElement>) = default_setStackTrace(trace)
 }
 
 fun Throwable.getSuppressed(): Array<Throwable> = suppressedExceptions.toTypedArray()
@@ -55,6 +62,17 @@ fun Throwable.initCause(cause: Throwable?): Throwable =
 fun Throwable.java_printStackTrace(writer: PrintWriter) =
   if (this is JavaThrowable) java_printStackTrace(writer) else default_printStackTrace(writer)
 
+fun Throwable.java_getStackTrace(): Array<StackTraceElement> =
+  if (this is JavaThrowable) java_getStackTrace() else default_getStackTrace()
+
+fun Throwable.java_setStackTrace(trace: Array<StackTraceElement>) =
+  if (this is JavaThrowable) java_setStackTrace(trace) else default_setStackTrace(trace)
+
 private fun Throwable.default_printStackTrace(writer: PrintWriter) {
   writer.write(stackTraceToString())
 }
+
+private fun Throwable.default_getStackTrace(): Array<StackTraceElement> =
+  emptyArray<StackTraceElement>()
+
+private fun Throwable.default_setStackTrace(trace: Array<StackTraceElement>) {}

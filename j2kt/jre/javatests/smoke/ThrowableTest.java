@@ -125,4 +125,11 @@ public class ThrowableTest {
     assertTrue(stackTrace.contains("exception message 123"));
     assertTrue(stackTrace.contains("testPrintStackTrace"));
   }
+
+  @Test
+  public void testStackTraceAccess() throws Exception {
+    Throwable throwable = new RuntimeException("exception message 123");
+    StackTraceElement[] stackTrace = throwable.getStackTrace();
+    throwable.setStackTrace(stackTrace);
+  }
 }
