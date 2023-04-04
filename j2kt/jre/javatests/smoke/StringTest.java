@@ -199,6 +199,29 @@ public class StringTest {
   }
 
   @Test
+  public void testStringBuffer() {
+    StringBuffer strBuffer1 = new StringBuffer("0123");
+    char[] cArray = {'h', 'e', 'l', 'l', 'o'};
+
+    strBuffer1.insert(1, cArray, 1, 3);
+    assertEquals("0ell123", strBuffer1.toString());
+    strBuffer1.insert(6, cArray, 0, 5);
+    assertEquals("0ell12hello3", strBuffer1.toString());
+
+    StringBuffer strBuffer2 = new StringBuffer("0123");
+    CharSequence charSeq = "hello";
+
+    strBuffer2.insert(1, charSeq, 1, 3);
+    assertEquals("0el123", strBuffer2.toString());
+    strBuffer2.insert(6, charSeq, 0, 5);
+    assertEquals("0el123hello", strBuffer2.toString());
+
+    StringBuffer strBuffer3 = new StringBuffer("H");
+    strBuffer3.append(cArray, 1, 4);
+    assertEquals("Hello", strBuffer3.toString());
+  }
+
+  @Test
   public void testCodePointMethods() {
     assertEquals(0xc4, "Ä".codePointAt(0));
     assertEquals(0x1f602, "😂".codePointAt(0));

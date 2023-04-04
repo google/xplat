@@ -75,6 +75,7 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
   @KtName("deleteRange")
   public native StringBuilder delete(int start, int end);
 
+  @KtName("deleteAt")
   public native StringBuilder deleteCharAt(int index);
 
   public native void ensureCapacity(int minimumCapacity);

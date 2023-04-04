@@ -19,6 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtPropagateNullability;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 
@@ -32,6 +33,7 @@ public interface CharSequence {
   @KtName("get")
   char charAt(int index);
 
+  @KtPropagateNullability
   CharSequence subSequence(int start, int end);
 
   @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Google Inc.
+ * Copyright 2023 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,179 +15,205 @@
  */
 package java.lang;
 
-import static javaemul.internal.InternalPreconditions.checkNotNull;
-
 import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-/**
- * A fast way to create strings using multiple appends.
- *
- * <p>This class is an exact clone of {@link StringBuilder} except for the name. Any change made to
- * one should be mirrored in the other.
- */
 @NullMarked
-public final class StringBuffer extends AbstractStringBuilder {
+public final class StringBuffer implements CharSequence, Appendable {
+
+  private final StringBuilder stringBuilder;
+
+  private StringBuffer(StringBuilder stringBuilder) {
+    this.stringBuilder = stringBuilder;
+  }
 
   public StringBuffer() {
-    super("");
+    this(new StringBuilder());
   }
 
   public StringBuffer(CharSequence s) {
-    super(s.toString());
+    this(new StringBuilder(s));
   }
 
-  /**
-   * This implementation does not track capacity; using this constructor is
-   * functionally equivalent to using the zero-argument constructor.
-   */
-  @SuppressWarnings("unused")
-  public StringBuffer(int ignoredCapacity) {
-    super("");
+  public StringBuffer(int capacity) {
+    this(new StringBuilder(capacity));
   }
 
   public StringBuffer(String s) {
-    super(checkNotNull(s));
+    this(new StringBuilder(s));
   }
 
-  public StringBuffer append(boolean x) {
-    string += x;
+  @Override
+  public synchronized char charAt(int index) {
+    return stringBuilder.charAt(index);
+  }
+
+  @Override
+  public synchronized CharSequence subSequence(int start, int end) {
+    return stringBuilder.subSequence(start, end);
+  }
+
+  @Override
+  public synchronized int length() {
+    return stringBuilder.length();
+  }
+
+  @Override
+  public String toString() {
+    return stringBuilder.toString();
+  }
+
+  public synchronized StringBuffer append(boolean x) {
+    stringBuilder.append(x);
     return this;
   }
 
   @Override
-  public StringBuffer append(char x) {
-    string += x;
+  public synchronized StringBuffer append(char x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(char[] x) {
-    string += String.valueOf(x);
+  public synchronized StringBuffer append(char[] x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(char[] x, int start, int len) {
-    string += String.valueOf(x, start, len);
-    return this;
-  }
-
-  @Override
-  public StringBuffer append(CharSequence x) {
-    string += x;
+  public synchronized StringBuffer append(char[] x, int start, int len) {
+    stringBuilder.append(x, start, len);
     return this;
   }
 
   @Override
-  public StringBuffer append(CharSequence x, int start, int end) {
-    string += String.valueOf(x).substring(start, end);
+  public synchronized StringBuffer append(@Nullable CharSequence x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(double x) {
-    string += x;
+  @Override
+  public synchronized StringBuffer append(@Nullable CharSequence x, int start, int end) {
+    stringBuilder.append(x, start, end);
     return this;
   }
 
-  public StringBuffer append(float x) {
-    string += x;
+  public synchronized StringBuffer append(double x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(int x) {
-    string += x;
+  public synchronized StringBuffer append(float x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(long x) {
-    string += x;
+  public synchronized StringBuffer append(int x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(Object x) {
-    string += x;
+  public synchronized StringBuffer append(long x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(String x) {
-    string += x;
+  public synchronized StringBuffer append(@Nullable Object x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer append(StringBuffer x) {
-    string += x;
+  public synchronized StringBuffer append(@Nullable String x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer appendCodePoint(int x) {
-    appendCodePoint0(x);
+  public synchronized StringBuffer append(StringBuffer x) {
+    stringBuilder.append(x);
     return this;
   }
 
-  public StringBuffer delete(int start, int end) {
-    replace0(start, end, "");
+  public synchronized StringBuffer appendCodePoint(int x) {
+    stringBuilder.appendCodePoint(x);
     return this;
   }
 
-  public StringBuffer deleteCharAt(int start) {
-    replace0(start, start + 1, "");
+  public synchronized StringBuffer delete(int start, int end) {
+    stringBuilder.delete(start, end);
     return this;
   }
 
-  public StringBuffer insert(int index, boolean x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, char x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, char[] x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, char[] x, int offset, int len) {
-    return insert(index, String.valueOf(x, offset, len));
-  }
-
-  public StringBuffer insert(int index, CharSequence chars) {
-    return insert(index, String.valueOf(chars));
-  }
-
-  public StringBuffer insert(int index, CharSequence chars, int start, int end) {
-    return insert(index, String.valueOf(chars).substring(start, end));
-  }
-
-  public StringBuffer insert(int index, double x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, float x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, int x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, long x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, Object x) {
-    return insert(index, String.valueOf(x));
-  }
-
-  public StringBuffer insert(int index, String x) {
-    replace0(index, index, x);
+  public synchronized StringBuffer deleteCharAt(int start) {
+    stringBuilder.deleteCharAt(start);
     return this;
   }
 
-  public StringBuffer replace(int start, int end, String toInsert) {
-    replace0(start, end, toInsert);
+  public synchronized StringBuffer insert(int index, boolean x) {
+    stringBuilder.insert(index, x);
     return this;
   }
 
-  public StringBuffer reverse() {
-    reverse0();
+  public synchronized StringBuffer insert(int index, char x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, char[] x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, char[] x, int offset, int len) {
+    stringBuilder.insert(index, x, offset, len);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, @Nullable CharSequence chars) {
+    stringBuilder.insert(index, chars);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(
+      int index, @Nullable CharSequence chars, int start, int end) {
+    stringBuilder.insert(index, chars, start, end);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, double x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, float x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, int x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, long x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, @Nullable Object x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer insert(int index, @Nullable String x) {
+    stringBuilder.insert(index, x);
+    return this;
+  }
+
+  public synchronized StringBuffer replace(int start, int end, String toInsert) {
+    stringBuilder.replace(start, end, toInsert);
+    return this;
+  }
+
+  public synchronized StringBuffer reverse() {
+    stringBuilder.reverse();
     return this;
   }
 }
