@@ -40,13 +40,14 @@ public class Throwable {
   // protected Throwable(@Nullable String detailMessage, @Nullable Throwable cause,
   //     boolean enableSuppression, boolean writableStackTrace) {}
 
+  @KtName("java_fillInStackTrace")
   public native Throwable fillInStackTrace();
 
   @KtProperty
   public native @Nullable String getMessage();
 
   // TODO(b/222269323): Property does not exist in Kotlin/is not final in Java -> needs review.
-  @KtProperty
+  @KtName("java_getLocalizedMessage")
   public native @Nullable String getLocalizedMessage();
 
   @KtName("java_getStackTrace")

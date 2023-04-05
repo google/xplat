@@ -15,6 +15,7 @@
  */
 package javaemul.lang
 
+import java.lang.Class
 import kotlin.jvm.javaObjectType
 
-fun Any.getClass() = this::class.javaObjectType
+fun <T : Any> T.getClass(): Class<out T> = this::class.javaObjectType as Class<out T>

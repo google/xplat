@@ -40,6 +40,7 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
   fun getComponentType(): Class<*>? = arrayComponentTypeMap[kClass]
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()
+  fun getSuperclass(): Class<*>? = throw UnsupportedOperationException()
   override fun toString(): kotlin.String = kClass.toString()
 }
 
