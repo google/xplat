@@ -62,6 +62,7 @@ object System {
 
   fun gc(): Unit = Unit
 
+  @OptIn(kotlin.ExperimentalStdlibApi::class)
   fun identityHashCode(o: Any?): Int = o.identityHashCode()
 
   // TODO(b/257217399): Point to stderr
