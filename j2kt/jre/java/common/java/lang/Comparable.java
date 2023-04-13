@@ -19,11 +19,13 @@ package java.lang;
 
 import javaemul.internal.annotations.KtIn;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 
 @KtNative("kotlin.Comparable")
 @NullMarked
 public interface Comparable<@KtIn T> {
 
+  @KtPropagateNullability
   int compareTo(T another);
 }
