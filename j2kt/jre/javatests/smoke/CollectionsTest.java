@@ -218,7 +218,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public V getOrDefault(Object key, V defaultValue) {
+    public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
       return super.getOrDefault(key, defaultValue);
     }
 
