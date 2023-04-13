@@ -267,7 +267,7 @@ public abstract class CharBuffer extends Buffer
   }
 
   @Override
-  public CharBuffer append(CharSequence csq) {
+  public CharBuffer append(@Nullable CharSequence csq) {
     if (csq != null) {
       return put(csq.toString());
     }
@@ -275,7 +275,7 @@ public abstract class CharBuffer extends Buffer
   }
 
   @Override
-  public CharBuffer append(CharSequence csq, int start, int end) {
+  public CharBuffer append(@Nullable CharSequence csq, int start, int end) {
     if (csq == null) {
       csq = "null";
     }

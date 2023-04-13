@@ -793,7 +793,7 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       return containsKey(o);
     }
 

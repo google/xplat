@@ -206,7 +206,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public boolean remove(Object object) {
+    public boolean remove(@Nullable Object object) {
       if (contains(object)) {
         associatedMap.remove(((Map.Entry<?, ?>) object).getKey());
         return true;
@@ -215,7 +215,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public boolean contains(Object object) {
+    public boolean contains(@Nullable Object object) {
       if (object instanceof Map.Entry) {
         IdentityHashMapEntry<?, ?> entry =
             associatedMap.getEntry(((Map.Entry<?, ?>) object).getKey());
