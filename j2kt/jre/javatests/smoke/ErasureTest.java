@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@SuppressWarnings("unchecked") // The test is about unchecked casts.
 public class ErasureTest {
   @Test
   public void testNoErasure() {

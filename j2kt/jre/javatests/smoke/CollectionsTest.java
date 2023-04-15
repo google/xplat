@@ -16,6 +16,7 @@
 package smoke;
 
 import static java.util.Comparator.reverseOrder;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -54,7 +55,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@SuppressWarnings("CollectionIncompatibleType") // To test runtime behavior for incompatible types
+@SuppressWarnings({
+  "CollectionIncompatibleType", // To test runtime behavior for incompatible types
+  "nullness:toarray.nullable.elements.not.newarray" // Great warning. Bad when testing toArray.
+})
 @RunWith(JUnit4.class)
 public class CollectionsTest {
 
@@ -140,7 +144,13 @@ public class CollectionsTest {
   public void testMapMerge() {
     // TODO(b/275568112): value is nullable so we can test a remapper function that returns null.
     Map<String, @Nullable Integer> map = new HashMap<>();
-    BiFunction<Integer, Integer, @Nullable Integer> adder = (a, b) -> a + b;
+    BiFunction<@Nullable Integer, @Nullable Integer, @Nullable Integer> adder =
+        (a, b) -> {
+          if (a == null || b == null) {
+            return 0;
+          }
+          return a + b;
+        };
 
     map.merge("a", 1, adder);
     map.merge("b", 1, adder);
@@ -148,10 +158,11 @@ public class CollectionsTest {
     map.merge("a", 3, adder);
 
     assertEquals(2, map.size());
-    assertEquals(1 + 2 + 3, map.get("a").intValue());
-    assertEquals(1, map.get("b").intValue());
+    assertEquals(Integer.valueOf(1 + 2 + 3), map.get("a"));
+    assertEquals(Integer.valueOf(1), map.get("b"));
 
-    map.merge("a", 42, (a, b) -> null);
+    BiFunction<@Nullable Integer, @Nullable Integer, @Nullable Integer> returnNull = (a, b) -> null;
+    map.merge("a", 42, returnNull);
     assertEquals(1, map.size());
   }
 
@@ -196,17 +207,20 @@ public class CollectionsTest {
     // The following overrides are only there to check that the override (with the Java signatures
     // of the method) compiles.
     @Override
+    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull (missing in JSpecify)
     public V compute(
         K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
       return super.compute(key, remappingFunction);
     }
 
     @Override
+    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull (missing in JSpecify)
     public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
       return super.computeIfAbsent(key, mappingFunction);
     }
 
     @Override
+    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull (missing in JSpecify)
     public V computeIfPresent(
         K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
       return super.computeIfPresent(key, remappingFunction);
@@ -218,11 +232,14 @@ public class CollectionsTest {
     }
 
     @Override
-    public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    // Checker framework uses V, JSpecify uses @Nullable V
+    @SuppressWarnings({"nullness:override", "nullness:argument.type"})
+    public @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
       return super.getOrDefault(key, defaultValue);
     }
 
     @Override
+    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull, JSpecify doesn't
     public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remap) {
       return super.merge(key, value, remap);
     }
@@ -233,7 +250,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public V putIfAbsent(K key, V value) {
+    public @Nullable V putIfAbsent(K key, V value) {
       return super.putIfAbsent(key, value);
     }
 
@@ -243,7 +260,7 @@ public class CollectionsTest {
     }
 
     @Override
-    public V replace(K key, V value) {
+    public @Nullable V replace(K key, V value) {
       return super.replace(key, value);
     }
 
@@ -291,25 +308,25 @@ public class CollectionsTest {
   @Test
   public void testToArrayNativeList() {
     Collection<String> stringCollection = Arrays.asList("Hello", "World");
-    String[] stringArray1 = new String[1];
-    String[] stringArray2 = new String[2];
+    String[] stringArray1 = new String[] {""};
+    String[] stringArray2 = new String[] {"", ""};
     @Nullable String[] stringArray3 = new @Nullable String[3];
 
     Object[] toArrayResult = stringCollection.toArray();
-    assertEquals(new Object[] {"Hello", "World"}, toArrayResult);
+    assertArrayEquals(new Object[] {"Hello", "World"}, toArrayResult);
     assertEquals(Object[].class, toArrayResult.getClass());
 
-    String[] toStringArrayResult = stringCollection.toArray(stringArray1);
+    @Nullable String[] toStringArrayResult = stringCollection.toArray(stringArray1);
     assertTrue(toStringArrayResult != stringArray1);
-    assertEquals(new String[] {"Hello", "World"}, toStringArrayResult);
+    assertArrayEquals(new String[] {"Hello", "World"}, toStringArrayResult);
     assertEquals(stringArray1.getClass(), toStringArrayResult.getClass());
 
     assertTrue(stringArray2 == stringCollection.toArray(stringArray2));
-    assertEquals(new String[] {"Hello", "World"}, stringArray2);
+    assertArrayEquals(new String[] {"Hello", "World"}, stringArray2);
 
     stringArray3[2] = "unmodified"; // We expect this to get nulled by toArray.
     assertTrue(stringArray3 == stringCollection.toArray(stringArray3));
-    assertEquals(new @Nullable String[] {"Hello", "World", null}, stringArray3);
+    assertArrayEquals(new @Nullable String[] {"Hello", "World", null}, stringArray3);
   }
 
   private static class TestList<E> extends AbstractList<E> {
@@ -400,6 +417,7 @@ public class CollectionsTest {
     }
 
     @Override
+    @SuppressWarnings("nullness:override.return") // Checker/JSpecify differences.
     public @Nullable Object[] toArray() {
       toArrayCalls++;
       int savedToArrayTypedCalls = toArrayTypedCalls;
@@ -412,6 +430,8 @@ public class CollectionsTest {
     }
 
     @Override
+    // Checker/JSpecify differences.
+    @SuppressWarnings({"nullness:return.type", "nullness:override.param"})
     public <T extends @Nullable Object> T[] toArray(T[] a) {
       toArrayTypedCalls++;
       return super.toArray(a);
@@ -454,7 +474,7 @@ public class CollectionsTest {
   public void testToArrayPolymorphism() {
     TestList<String> testList = new TestList<>("content");
 
-    Object[] untypedResult = testList.toArray();
+    @Nullable Object[] untypedResult = testList.toArray();
     assertEquals(Object[].class, untypedResult.getClass());
     assertTrue(Arrays.equals(new Object[] {"content"}, untypedResult));
     assertEquals(1, testList.toArrayCalls);
@@ -480,8 +500,9 @@ public class CollectionsTest {
     assertEquals(1, list.size());
   }
 
-  // TODO(b/275568193): Consider allowing null comparator.
+  // TODO(b/275568193): Consider allowing sort(null).
   @Ignore
+  @SuppressWarnings("nullness:argument.type")
   public void testListSort() {
     List<Integer> list = new ArrayList<>();
     list.add(1);

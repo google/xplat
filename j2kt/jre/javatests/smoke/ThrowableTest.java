@@ -23,6 +23,8 @@ import static org.junit.Assert.fail;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import org.checkerframework.checker.initialization.qual.Initialized;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.jspecify.nullness.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +39,7 @@ public class ThrowableTest {
     assertNull(nfe.getCause());
 
     RuntimeException theCause = new RuntimeException();
-    assertSame(nfe, nfe.initCause(theCause));
+    assertSame(nfe, castAsInitialized(nfe.initCause(theCause)));
     assertSame(theCause, nfe.getCause());
 
     try {
@@ -48,7 +50,9 @@ public class ThrowableTest {
     }
   }
 
+  // initCause's annotation wrt. initialization is incorrect (correct one can't be expressed).
   private static class TranspiledException extends Exception {
+
     TranspiledException() {
       super();
     }
@@ -64,7 +68,7 @@ public class ThrowableTest {
     assertNull(exception.getCause());
 
     RuntimeException theCause = new RuntimeException();
-    assertSame(exception, exception.initCause(theCause));
+    assertSame(exception, castAsInitialized(exception.initCause(theCause)));
     assertSame(theCause, exception.getCause());
 
     try {
@@ -131,5 +135,10 @@ public class ThrowableTest {
     Throwable throwable = new RuntimeException("exception message 123");
     StackTraceElement[] stackTrace = throwable.getStackTrace();
     throwable.setStackTrace(stackTrace);
+  }
+
+  @SuppressWarnings("initialization.invalid.cast")
+  private static <T> T castAsInitialized(@UnknownInitialization T t) {
+    return (@Initialized T) t;
   }
 }
