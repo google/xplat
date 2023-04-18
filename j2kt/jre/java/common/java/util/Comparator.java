@@ -20,6 +20,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -37,34 +38,42 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public interface Comparator<T extends @Nullable Object> {
 
+  @KtPropagateNullability
   int compare(T a, T b);
 
+  @KtPropagateNullability
   default Comparator<T> reversed() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
+  @KtPropagateNullability
   default Comparator<T> thenComparing(Comparator<? super T> other) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
+  @KtPropagateNullability
   default <U extends @Nullable Object> Comparator<T> thenComparing(
       Function<? super T, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
+  @KtPropagateNullability
   default <U extends Comparable<? super U>> Comparator<T> thenComparing(
       Function<? super T, ? extends U> keyExtractor) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
+  @KtPropagateNullability
   default Comparator<T> thenComparingInt(ToIntFunction<? super T> keyExtractor) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
+  @KtPropagateNullability
   default Comparator<T> thenComparingLong(ToLongFunction<? super T> keyExtractor) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
+  @KtPropagateNullability
   default Comparator<T> thenComparingDouble(ToDoubleFunction<? super T> keyExtractor) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
