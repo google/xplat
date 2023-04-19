@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtOut;
-import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -33,16 +32,13 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public interface Iterable<@KtOut T extends @Nullable Object> {
 
-  @KtPropagateNullability
   Iterator<T> iterator();
 
-  @KtPropagateNullability
   @KtName("java_forEach")
   default void forEach(Consumer<? super T> action) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  @KtPropagateNullability
   default Spliterator<T> spliterator() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }

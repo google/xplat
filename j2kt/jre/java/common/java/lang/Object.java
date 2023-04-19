@@ -33,7 +33,6 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
-import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -42,11 +41,8 @@ import org.jspecify.nullness.Nullable;
 public class Object {
   public Object() {}
 
-  // TODO(b/222269323): Decide what to do with clone(). This does not exist in kotlin.Any.
-  @KtPropagateNullability
   protected native Object clone() throws CloneNotSupportedException;
 
-  @KtPropagateNullability
   public native boolean equals(@Nullable Object o);
 
   public final native Class<? extends Object> getClass();
@@ -57,7 +53,6 @@ public class Object {
   // public final native void notify();
   // public final native void notifyAll();
 
-  @KtPropagateNullability
   public native String toString();
 
   // J2KT: No built-in support for monitors.

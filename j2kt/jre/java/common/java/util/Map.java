@@ -20,7 +20,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import javaemul.internal.annotations.KtPropagateNullability;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -37,14 +36,11 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtNative("kotlin.collections.MutableMap.MutableEntry")
   interface Entry<K extends @Nullable Object, V extends @Nullable Object> {
     @KtProperty
-    @KtPropagateNullability
     K getKey();
 
     @KtProperty
-    @KtPropagateNullability
     V getValue();
 
-    @KtPropagateNullability
     V setValue(V value);
 
     static <K extends Comparable<? super K>, V> Comparator<Map.Entry<K, V>> comparingByKey() {
@@ -74,20 +70,17 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   void clear();
 
   @KtName("java_compute")
-  @KtPropagateNullability
   default @Nullable V compute(
       K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtName("java_computeIfAbsent")
-  @KtPropagateNullability
   default V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtName("java_computeIfPresent")
-  @KtPropagateNullability
   default @Nullable V computeIfPresent(
       K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled");
@@ -99,13 +92,11 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtName("java_containsValue")
   boolean containsValue(@Nullable Object value);
 
-  @KtPropagateNullability
   @KtProperty
   @KtName("entries")
   Set<Entry<K, V>> entrySet();
 
   @KtName("java_forEach")
-  @KtPropagateNullability
   default void forEach(BiConsumer<? super K, ? super V> action) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
@@ -114,33 +105,27 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @Nullable V get(@Nullable Object key);
 
   @KtName("java_getOrDefault")
-  @KtPropagateNullability
   default @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   boolean isEmpty();
 
-  @KtPropagateNullability
   @KtProperty
   @KtName("keys")
   Set<K> keySet();
 
-  @KtPropagateNullability
   @KtName("java_merge")
   default V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
     throw new IllegalStateException("Native interface method should not be transpiled.");
   }
 
-  @KtPropagateNullability
   @Nullable V put(K key, V value);
 
   @KtName("java_putAll")
-  @KtPropagateNullability
   void putAll(Map<? extends K, ? extends V> t);
 
   @KtName("java_putIfAbsent")
-  @KtPropagateNullability
   default @Nullable V putIfAbsent(K key, V value) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
@@ -154,19 +139,16 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   }
 
   @KtName("java_replace")
-  @KtPropagateNullability
   default @Nullable V replace(K key, V value) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtName("java_replace")
-  @KtPropagateNullability
   default boolean replace(K key, V oldValue, V newValue) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
   @KtName("java_replaceAll")
-  @KtPropagateNullability
   default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
@@ -175,6 +157,5 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   int size();
 
   @KtProperty
-  @KtPropagateNullability
   Collection<V> values();
 }

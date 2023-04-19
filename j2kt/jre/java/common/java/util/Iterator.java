@@ -20,7 +20,6 @@ import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtOut;
-import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -34,14 +33,12 @@ public interface Iterator<@KtOut E extends @Nullable Object> {
 
   boolean hasNext();
 
-  @KtPropagateNullability
   E next();
 
   default void remove() {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  @KtPropagateNullability
   @KtName("java_forEachRemaining")
   default void forEachRemaining(Consumer<? super E> consumer) {
     throw new IllegalStateException("Native interface method should not be transpiled");

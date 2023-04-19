@@ -18,7 +18,6 @@ package java.lang;
 
 import java.io.IOException;
 import javaemul.internal.annotations.KtNative;
-import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -26,12 +25,9 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public interface Appendable {
 
-  @KtPropagateNullability
   Appendable append(char c) throws IOException;
 
-  @KtPropagateNullability
   Appendable append(@Nullable CharSequence csq) throws IOException;
 
-  @KtPropagateNullability
   Appendable append(@Nullable CharSequence csq, int start, int end) throws IOException;
 }

@@ -18,7 +18,6 @@ package java.util;
 import java.util.function.UnaryOperator;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import javaemul.internal.annotations.KtPropagateNullability;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -33,7 +32,6 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   void add(int index, E element);
 
   @KtName("java_addAll")
-  @KtPropagateNullability
   boolean addAll(int index, Collection<? extends E> c);
 
   @Override
@@ -53,18 +51,14 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   E get(int index);
 
-  @KtPropagateNullability
   @KtName("java_indexOf")
   int indexOf(@Nullable Object o);
 
-  @KtPropagateNullability
   @KtName("java_lastIndexOf")
   int lastIndexOf(@Nullable Object o);
 
-  @KtPropagateNullability
   ListIterator<E> listIterator();
 
-  @KtPropagateNullability
   ListIterator<E> listIterator(int from);
 
   @Override
@@ -85,7 +79,6 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  @KtPropagateNullability
   @KtName("java_replaceAll")
   default void replaceAll(UnaryOperator<E> operator) {
     throw new IllegalStateException("Native interface method should not be transpiled");
@@ -97,6 +90,5 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
     throw new IllegalStateException("Native interface method should not be transpiled");
   }
 
-  @KtPropagateNullability
   List<E> subList(int fromIndex, int toIndex);
 }
