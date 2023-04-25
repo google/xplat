@@ -78,4 +78,10 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
 
   @Override
   public native boolean $kotlin_retainAll(KotlinCollection<? extends E> c);
+
+  @Override
+  public native @Nullable Object[] toArray();
+
+  @Override
+  public native <T extends @Nullable Object> T[] toArray(T[] a);
 }

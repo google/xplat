@@ -22,8 +22,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.AbstractMap;
+import java.util.AbstractSet;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,10 +35,12 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Stack;
@@ -166,7 +170,7 @@ public class CollectionsTest {
     assertEquals(1, map.size());
   }
 
-  private static class TestMap<K, V> extends AbstractMap<K, V> {
+  private static class TestMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
 
     private final Set<Entry<K, V>> entrySet = new HashSet<>();
 
@@ -329,7 +333,7 @@ public class CollectionsTest {
     assertArrayEquals(new @Nullable String[] {"Hello", "World", null}, stringArray3);
   }
 
-  private static class TestList<E> extends AbstractList<E> {
+  private static class TestList<E> extends AbstractList<E> implements List<E> {
 
     private final E theElement;
     public int toArrayCalls = 0;
@@ -605,5 +609,62 @@ public class CollectionsTest {
     assertEquals("b", identityHashMap.get(i1Prime));
     assertEquals("c", identityHashMap.get(i2));
     assertNull(identityHashMap.get(new IdentityHashMapTestObject(1)));
+  }
+
+  static class EmptyIterator<E extends @Nullable Object> implements Iterator<E> {
+    @Override
+    public boolean hasNext() {
+      return false;
+    }
+
+    @Override
+    public E next() {
+      throw new NoSuchElementException();
+    }
+  }
+
+  static class EmptyCollection<E extends @Nullable Object> extends AbstractCollection<E>
+      implements Collection<E> {
+    @Override
+    public int size() {
+      return 0;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return new EmptyIterator<>();
+    }
+  }
+
+  static class EmptySet<E extends @Nullable Object> extends AbstractSet<E> implements Set<E> {
+    @Override
+    public Iterator<E> iterator() {
+      return new EmptyIterator<>();
+    }
+
+    @Override
+    public int size() {
+      return 0;
+    }
+  }
+
+  static class EmptyList<E extends @Nullable Object> extends AbstractList<E> implements List<E> {
+    @Override
+    public E get(int index) {
+      throw new IndexOutOfBoundsException();
+    }
+
+    @Override
+    public int size() {
+      return 0;
+    }
+  }
+
+  static class EmptyMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMap<K, V> implements Map<K, V> {
+    @Override
+    public Set<Entry<K, V>> entrySet() {
+      return new EmptySet<>();
+    }
   }
 }

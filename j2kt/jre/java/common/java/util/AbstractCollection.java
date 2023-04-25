@@ -78,4 +78,10 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
 
   @Override
   public native Spliterator<E> spliterator();
+
+  @Override
+  public native @Nullable Object[] toArray();
+
+  @Override
+  public native <T extends @Nullable Object> T[] toArray(T[] a);
 }

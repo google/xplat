@@ -116,14 +116,10 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   }
 
   @KtName("java_toArray")
-  default @Nullable Object[] toArray() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
-  }
+  @Nullable Object[] toArray();
 
   // Note: If array `a` is bigger than `this` collection, `a[this.size()]` will be set to `null`
   // even though `T` is not necessarily nullable. This is to remain consistent with JSpecify.
   @KtName("java_toArray")
-  default <T extends @Nullable Object> T[] toArray(T[] a) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
-  }
+  <T extends @Nullable Object> T[] toArray(T[] a);
 }

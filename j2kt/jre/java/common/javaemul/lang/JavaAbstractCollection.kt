@@ -61,4 +61,8 @@ abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaC
   @Suppress("UNCHECKED_CAST")
   override fun java_retainAll(c: MutableCollection<*>): Boolean =
     super<AbstractMutableCollection>.retainAll(c as MutableCollection<E>)
+
+  override fun java_toArray(): Array<Any?> = default_toArray()
+
+  override fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
 }

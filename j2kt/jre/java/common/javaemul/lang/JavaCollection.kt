@@ -63,9 +63,9 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun java_retainAll(c: MutableCollection<*>): Boolean
 
-  fun java_toArray(): Array<Any?> = default_toArray()
+  fun java_toArray(): Array<Any?>
 
-  fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
+  fun <T> java_toArray(a: Array<T>): Array<T>
 }
 
 fun <E> MutableCollection<E>.stream(): Stream<E> =
@@ -124,14 +124,14 @@ private fun <E> MutableCollection<E>.default_stream(): Stream<E> =
 private fun <E> MutableCollection<E>.default_parallelStream(): Stream<E> =
   StreamSupport.stream(spliterator(), false)
 
-private fun MutableCollection<*>.default_toArray(): Array<Any?> {
+fun MutableCollection<*>.default_toArray(): Array<Any?> {
   val emptyArray: Array<Any?> = emptyArray<Any?>()
   return default_toArray(emptyArray)
 }
 
 // Note: There's no relation between the element types of Collection<E> and Array<T> (same as Java).
 @Suppress("UNCHECKED_CAST")
-private fun <T> MutableCollection<*>.default_toArray(a: Array<T>): Array<T> {
+fun <T> MutableCollection<*>.default_toArray(a: Array<T>): Array<T> {
   if (this.size > a.size) {
     return default_toArray(
       JavaLangReflectArray.newInstance(a::class.javaObjectType.getComponentType(), size) as Array<T>

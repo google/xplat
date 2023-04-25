@@ -83,4 +83,8 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   override fun removeAt(index: Int): E {
     throw UnsupportedOperationException()
   }
+
+  override fun java_toArray(): Array<Any?> = default_toArray()
+
+  override fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
 }

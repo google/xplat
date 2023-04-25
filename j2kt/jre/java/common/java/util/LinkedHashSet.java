@@ -67,4 +67,10 @@ public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
 
   @Override
   public native void clear();
+
+  @Override
+  public native @Nullable Object[] toArray();
+
+  @Override
+  public native <T extends @Nullable Object> T[] toArray(T[] a);
 }

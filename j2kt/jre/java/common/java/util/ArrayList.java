@@ -108,4 +108,10 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
   public native List<E> subList(int fromIndex, int toIndex);
 
   public native void trimToSize();
+
+  @Override
+  public native @Nullable Object[] toArray();
+
+  @Override
+  public native <T extends @Nullable Object> T[] toArray(T[] a);
 }
