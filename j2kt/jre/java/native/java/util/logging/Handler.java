@@ -41,14 +41,14 @@ public abstract class Handler {
       return level;
     }
     return Level.ALL;
-  }  
-  
-  public boolean isLoggable(LogRecord record) {
-    return getLevel().intValue() <= record.getLevel().intValue();
-  } 
-  
-  public abstract void publish(LogRecord record); 
-  
+  }
+
+  public boolean isLoggable(@Nullable LogRecord record) {
+    return record != null && getLevel().intValue() <= record.getLevel().intValue();
+  }
+
+  public abstract void publish(@Nullable LogRecord record);
+
   public void setFormatter(Formatter newFormatter) {
     formatter = newFormatter;
   }  

@@ -17,18 +17,16 @@ package java.util.logging;
 
 import javaemul.internal.ConsoleLogger;
 import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /** A simple console logger used in super dev mode. */
 @NullMarked
 class SimpleConsoleLogHandler extends Handler {
 
   @Override
-  public void publish(LogRecord record) {
+  public void publish(@Nullable LogRecord record) {
     ConsoleLogger console = ConsoleLogger.createIfSupported();
-    if (console == null) {
-      return;
-    }
-    if (!isLoggable(record)) {
+    if (console == null || record == null || !isLoggable(record)) {
       return;
     }
 
