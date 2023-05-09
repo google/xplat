@@ -35,6 +35,12 @@ public class PrimitivesTest {
     assertFalse(Boolean.FALSE.booleanValue());
     assertEquals("true", Boolean.toString(true));
     assertEquals("false", Boolean.toString(false));
+    assertEquals(Boolean.TRUE, Boolean.valueOf("true"));
+    assertEquals(Boolean.TRUE, Boolean.valueOf("TRUE"));
+    assertEquals(Boolean.FALSE, Boolean.valueOf(null));
+    assertEquals(true, Boolean.parseBoolean("true"));
+    assertEquals(true, Boolean.parseBoolean("TRUE"));
+    assertEquals(false, Boolean.parseBoolean(null));
     assertTrue((Object) Boolean.TRUE == (Object) Boolean.valueOf(true));
     assertTrue((Object) Boolean.FALSE == (Object) Boolean.valueOf(false));
   }
