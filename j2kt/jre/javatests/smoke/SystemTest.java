@@ -26,6 +26,12 @@ import org.junit.runners.JUnit4;
 public class SystemTest {
 
   @Test
+  public void testPrintStreams() {
+    System.out.println("Hello, stdout!");
+    System.err.println("Hello, stderr!");
+  }
+
+  @Test
   public void testSystemTime() {
     long millisTimeStart = System.currentTimeMillis();
     long millisTimeEnd = 0;

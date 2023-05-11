@@ -17,12 +17,16 @@
 
 package java.lang
 
+import java.io.OutputStream
 import java.io.PrintStream
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import kotlin.native.identityHashCode
 import kotlin.system.getTimeMillis
 import kotlin.system.getTimeNanos
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.usePinned
+import platform.posix.write as posixWrite
 
 // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
 @ObjCName("J2ktJavaLangSystem", exact = true)
@@ -65,11 +69,20 @@ object System {
   @OptIn(kotlin.ExperimentalStdlibApi::class)
   fun identityHashCode(o: Any?): Int = o.identityHashCode()
 
-  // TODO(b/257217399): Point to stderr
-  var err: PrintStream = PrintStream(null)
+  private fun stdOutputStream(fd: Int) =
+    object : OutputStream() {
+      override fun write(b: ByteArray, off: Int, len: Int) {
+        b.usePinned { posixWrite(fd, it.addressOf(off), len.toULong()) }
+      }
 
-  // TODO(b/257217399): Point to stdout
-  var out: PrintStream = PrintStream(null)
+      override fun write(b: Int) {
+        write(byteArrayOf(b.toByte()))
+      }
+    }
+
+  var err = PrintStream(stdOutputStream(2))
+
+  var out = PrintStream(stdOutputStream(1))
 
   fun setErr(err: PrintStream) {
     this.err = err
