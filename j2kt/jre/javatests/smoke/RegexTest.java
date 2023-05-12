@@ -16,6 +16,7 @@
 package smoke;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.regex.Matcher;
@@ -64,5 +65,17 @@ public class RegexTest {
     assertEquals(2, parts.length);
     assertEquals("one ", parts[0]);
     assertEquals(" two cats in the yard", parts[1]);
+  }
+
+  @Test
+  public void testMatcherGroups() {
+    Pattern pattern = Pattern.compile("(cat)|(dog)");
+    Matcher matcher = pattern.matcher("The cat.");
+    assertTrue(matcher.find());
+    assertEquals(2, matcher.groupCount());
+    assertEquals(4, matcher.start(1));
+    assertEquals("cat", matcher.group(1));
+    assertEquals(-1, matcher.start(2));
+    assertNull(matcher.group(2));
   }
 }
