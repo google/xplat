@@ -19,13 +19,16 @@ package java.lang
 
 import java.io.OutputStream
 import java.io.PrintStream
+import kotlin.Long
+import kotlin.String
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import kotlin.native.identityHashCode
-import kotlin.system.getTimeMillis
 import kotlin.system.getTimeNanos
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
+import platform.CoreFoundation.CFAbsoluteTimeGetCurrent
+import platform.CoreFoundation.kCFAbsoluteTimeIntervalSince1970
 import platform.posix.write as posixWrite
 
 // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
@@ -60,7 +63,8 @@ object System {
     }
   }
 
-  fun currentTimeMillis(): Long = getTimeMillis()
+  fun currentTimeMillis(): Long =
+    ((CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970) * 1000.0).toLong()
 
   fun nanoTime(): Long = getTimeNanos()
 
