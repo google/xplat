@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Google Inc.
+ * Copyright 2007 Google Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,26 +15,23 @@
  */
 package java.lang;
 
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/** Indicates that an objet was in an invalid state during an attempted operation. */
+/**
+ * See <a
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/IndexOutOfBoundsException.html">the
+ * official Java API doc</a> for details.
+ */
+@KtNative(
+    value = "kotlin.IndexOutOfBoundsException",
+    bridgeWith = "java.lang.IndexOutOfBoundsException")
 @NullMarked
-public class IllegalStateException extends RuntimeException {
+public class IndexOutOfBoundsException extends RuntimeException {
 
-  public IllegalStateException() {
+  public IndexOutOfBoundsException() {
   }
 
-  public IllegalStateException(@Nullable String s) {
-    super(s);
-  }
-
-  public IllegalStateException(@Nullable String message, @Nullable Throwable cause) {
-    super(message, cause);
-  }
-
-  public IllegalStateException(@Nullable Throwable cause) {
-    super(cause);
-  }
-
+  public IndexOutOfBoundsException(@Nullable String message) {}
 }
