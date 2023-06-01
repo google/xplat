@@ -52,17 +52,25 @@ object Arrays {
     return object : AbstractMutableList<T>(), RandomAccess {
       override val size: Int
         get() = array.size
+
       override fun isEmpty(): Boolean = array.isEmpty()
+
       override fun contains(element: T): Boolean = array.contains(element)
+
       override fun get(index: Int): T = array[index]
+
       override fun indexOf(element: T): Int = this.indexOf(element)
+
       override fun lastIndexOf(element: T): Int = this.lastIndexOf(element)
+
       override fun set(index: Int, element: T): T {
         val prevValue = array[index]
         array[index] = element
         return prevValue
       }
+
       override fun add(index: Int, element: T) = throw UnsupportedOperationException()
+
       override fun removeAt(index: Int) = throw UnsupportedOperationException()
     }
   }
@@ -630,9 +638,14 @@ object Arrays {
     array.sort()
   }
 
+  // For Java, Arrays.sort(array, fromIndex, toIndex) with fromIndex == toIndex is a no-op
+  // For Kotlin, this case throws as fromIndex is required to be smaller than toIndex.
+
   fun sort(array: ByteArray?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun sort(array: CharArray?) {
@@ -642,7 +655,9 @@ object Arrays {
 
   fun sort(array: CharArray?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun sort(array: DoubleArray?) {
@@ -652,7 +667,9 @@ object Arrays {
 
   fun sort(array: DoubleArray?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun sort(array: FloatArray?) {
@@ -662,7 +679,9 @@ object Arrays {
 
   fun sort(array: FloatArray?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun sort(array: IntArray?) {
@@ -672,7 +691,9 @@ object Arrays {
 
   fun sort(array: IntArray?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun sort(array: LongArray?) {
@@ -682,7 +703,9 @@ object Arrays {
 
   fun sort(array: LongArray?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun sort(array: ShortArray?) {
@@ -692,7 +715,9 @@ object Arrays {
 
   fun sort(array: ShortArray?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun <T> sort(x: Array<T>, c: KotlinComparator<in T>?) {
@@ -702,83 +727,70 @@ object Arrays {
 
   fun <T> sort(x: Array<T>, fromIndex: Int, toIndex: Int, c: KotlinComparator<in T>?) {
     val c = Comparators.nullToNaturalOrder(c)
-    x.sortWith(c, fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      x.sortWith(c, fromIndex, toIndex)
+    }
   }
 
   fun sort(x: Array<Any>) = (x as Array<Comparable<Any>>).sort()
 
   fun sort(x: Array<Any>, fromIndex: Int, toIndex: Int) =
-    (x as Array<Comparable<Any>>).sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) (x as Array<Comparable<Any>>).sort(fromIndex, toIndex) else Unit
 
   fun parallelSort(array: ByteArray?) {
     requireNotNull(array)
     array.sort()
   }
 
-  fun parallelSort(array: ByteArray?, fromIndex: Int, toIndex: Int) {
-    requireNotNull(array)
-    array.sort(fromIndex, toIndex)
-  }
+  fun parallelSort(array: ByteArray?, fromIndex: Int, toIndex: Int) =
+    sort(array, fromIndex, toIndex)
 
   fun parallelSort(array: CharArray?) {
     requireNotNull(array)
     array.sort()
   }
 
-  fun parallelSort(array: CharArray?, fromIndex: Int, toIndex: Int) {
-    requireNotNull(array)
-    array.sort(fromIndex, toIndex)
-  }
+  fun parallelSort(array: CharArray?, fromIndex: Int, toIndex: Int) =
+    sort(array, fromIndex, toIndex)
 
   fun parallelSort(array: DoubleArray?) {
     requireNotNull(array)
     array.sort()
   }
 
-  fun parallelSort(array: DoubleArray?, fromIndex: Int, toIndex: Int) {
-    requireNotNull(array)
-    array.sort(fromIndex, toIndex)
-  }
+  fun parallelSort(array: DoubleArray?, fromIndex: Int, toIndex: Int) =
+    sort(array, fromIndex, toIndex)
 
   fun parallelSort(array: FloatArray?) {
     requireNotNull(array)
     array.sort()
   }
 
-  fun parallelSort(array: FloatArray?, fromIndex: Int, toIndex: Int) {
-    requireNotNull(array)
-    array.sort(fromIndex, toIndex)
-  }
+  fun parallelSort(array: FloatArray?, fromIndex: Int, toIndex: Int) =
+    sort(array, fromIndex, toIndex)
 
   fun parallelSort(array: IntArray?) {
     requireNotNull(array)
     array.sort()
   }
 
-  fun parallelSort(array: IntArray?, fromIndex: Int, toIndex: Int) {
-    requireNotNull(array)
-    array.sort(fromIndex, toIndex)
-  }
+  fun parallelSort(array: IntArray?, fromIndex: Int, toIndex: Int) = sort(array, fromIndex, toIndex)
 
   fun parallelSort(array: LongArray?) {
     requireNotNull(array)
     array.sort()
   }
 
-  fun parallelSort(array: LongArray?, fromIndex: Int, toIndex: Int) {
-    requireNotNull(array)
-    array.sort(fromIndex, toIndex)
-  }
+  fun parallelSort(array: LongArray?, fromIndex: Int, toIndex: Int) =
+    sort(array, fromIndex, toIndex)
 
   fun parallelSort(array: ShortArray?) {
     requireNotNull(array)
     array.sort()
   }
 
-  fun parallelSort(array: ShortArray?, fromIndex: Int, toIndex: Int) {
-    requireNotNull(array)
-    array.sort(fromIndex, toIndex)
-  }
+  fun parallelSort(array: ShortArray?, fromIndex: Int, toIndex: Int) =
+    sort(array, fromIndex, toIndex)
 
   fun <T : Comparable<T>> parallelSort(array: Array<T>?) {
     requireNotNull(array)
@@ -793,13 +805,17 @@ object Arrays {
 
   fun <T : Comparable<T>> parallelSort(array: Array<T>?, fromIndex: Int, toIndex: Int) {
     requireNotNull(array)
-    array.sort(fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sort(fromIndex, toIndex)
+    }
   }
 
   fun <T> parallelSort(array: Array<T>?, fromIndex: Int, toIndex: Int, c: KotlinComparator<in T>?) {
     requireNotNull(array)
     val c = Comparators.nullToNaturalOrder(c)
-    array.sortWith(c, fromIndex, toIndex)
+    if (fromIndex != toIndex) {
+      array.sortWith(c, fromIndex, toIndex)
+    }
   }
 
   fun spliterator(array: DoubleArray): Spliterator.OfDouble =

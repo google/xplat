@@ -635,6 +635,10 @@ public class ArraysTest {
 
   @Test
   public void testSort() {
+    // More startIndex == endIndex variants are exercised in Guava primitives tests.
+    byte[] emptyArr = new byte[0];
+    Arrays.sort(emptyArr, 0, 0);
+
     byte[] byteUnsortedArr1 = {b4, b3, b1, b2};
     Arrays.sort(byteUnsortedArr1, 1, 3);
     assertEquals(b4, byteUnsortedArr1[0]);
