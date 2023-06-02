@@ -19,6 +19,7 @@ package java.util.stream;
 import java.util.ArrayList;
 import java.util.List;
 import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 // package protected, as not part of jre
 @NullMarked
@@ -27,12 +28,12 @@ class TerminatableStream<T extends TerminatableStream<T>> {
   private boolean terminated = false;
   private final List<Runnable> onClose;
 
-  private final TerminatableStream root;
+  private final @Nullable TerminatableStream root;
 
   // TODO(b/245807463): Change this to TerminatableStream<?> previous throught j.u.streams.
   // We have to use raw types here. The transpiler backend does not get enough information
   // to correctly resolve the recursive type if we used TerminatableStream<?> here.
-  public TerminatableStream(TerminatableStream previous) {
+  public TerminatableStream(@Nullable TerminatableStream previous) {
     if (previous == null) {
       root = null;
       onClose = new ArrayList<>();

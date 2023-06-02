@@ -776,4 +776,10 @@ public class ArraysTest {
     assertEquals(obj1, objUnsortedArr2[0]);
     assertEquals(obj4, objUnsortedArr2[3]);
   }
+
+  @Test
+  public void testStream() {
+    assertTrue(
+        Arrays.equals(new double[] {0, 1, 2}, Arrays.stream(new double[] {0, 1, 2}).toArray()));
+  }
 }
