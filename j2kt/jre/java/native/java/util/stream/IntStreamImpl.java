@@ -54,7 +54,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
    * Represents an empty stream, doing nothing for all methods.
    */
   static class Empty extends TerminatableStream<Empty> implements IntStream {
-    public Empty(TerminatableStream previous) {
+    public Empty(@Nullable TerminatableStream previous) {
       super(previous);
     }
 
@@ -497,7 +497,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
 
   private final Spliterator.OfInt spliterator;
 
-  public IntStreamImpl(TerminatableStream previous, Spliterator.OfInt spliterator) {
+  public IntStreamImpl(@Nullable TerminatableStream previous, Spliterator.OfInt spliterator) {
     super(previous);
     this.spliterator = spliterator;
   }

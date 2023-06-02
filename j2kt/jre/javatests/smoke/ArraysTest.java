@@ -781,5 +781,7 @@ public class ArraysTest {
   public void testStream() {
     assertTrue(
         Arrays.equals(new double[] {0, 1, 2}, Arrays.stream(new double[] {0, 1, 2}).toArray()));
+    assertTrue(Arrays.equals(new int[] {0, 1, 2}, Arrays.stream(new int[] {0, 1, 2}).toArray()));
+    assertTrue(Arrays.equals(new long[] {0, 1, 2}, Arrays.stream(new long[] {0, 1, 2}).toArray()));
   }
 }
