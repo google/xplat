@@ -16,6 +16,7 @@
 package kotlin.jvm
 
 import java.lang.Class
+import java.lang.Void
 import kotlin.reflect.KClass
 
 private val objectClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
@@ -43,6 +44,6 @@ private val KClass<*>.hasJavaPrimitiveType: Boolean
       Long::class,
       Float::class,
       Double::class,
-      Unit::class -> true
+      Void::class -> true
       else -> false
     }

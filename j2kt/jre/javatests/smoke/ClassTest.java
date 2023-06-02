@@ -18,6 +18,7 @@ package smoke;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -73,14 +74,33 @@ public class ClassTest {
     assertTrue(short.class.isPrimitive());
     assertTrue(int.class.isPrimitive());
     assertTrue(long.class.isPrimitive());
+    assertTrue(float.class.isPrimitive());
+    assertTrue(double.class.isPrimitive());
     assertTrue(char.class.isPrimitive());
     assertTrue(boolean.class.isPrimitive());
+    assertTrue(void.class.isPrimitive());
 
     assertFalse(Byte.class.isPrimitive());
     assertFalse(Short.class.isPrimitive());
     assertFalse(Integer.class.isPrimitive());
     assertFalse(Long.class.isPrimitive());
+    assertFalse(Float.class.isPrimitive());
+    assertFalse(Double.class.isPrimitive());
     assertFalse(Character.class.isPrimitive());
     assertFalse(Boolean.class.isPrimitive());
+    assertFalse(Void.class.isPrimitive());
+  }
+
+  @Test
+  public void typeConstants() {
+    assertSame(byte.class, Byte.TYPE);
+    assertSame(short.class, Short.TYPE);
+    assertSame(int.class, Integer.TYPE);
+    assertSame(long.class, Long.TYPE);
+    assertSame(float.class, Float.TYPE);
+    assertSame(double.class, Double.TYPE);
+    assertSame(char.class, Character.TYPE);
+    assertSame(boolean.class, Boolean.TYPE);
+    assertSame(void.class, Void.TYPE);
   }
 }
