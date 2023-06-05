@@ -17,6 +17,8 @@
 
 package java.lang;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
@@ -42,7 +44,7 @@ public final class Float extends Number implements Comparable<Float> {
 
   public static final int MIN_EXPONENT = -126;
 
-  public static final Class<Float> TYPE = null;
+  public static final Class<Float> TYPE = ktNative();
 
   @KtName("SIZE_BITS")
   public static final int SIZE = 32;

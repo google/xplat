@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
@@ -40,73 +42,73 @@ public interface Comparator<T extends @Nullable Object> {
   int compare(T a, T b);
 
   default Comparator<T> reversed() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   default Comparator<T> thenComparing(Comparator<? super T> other) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   default <U extends @Nullable Object> Comparator<T> thenComparing(
       Function<? super T, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   default <U extends Comparable<? super U>> Comparator<T> thenComparing(
       Function<? super T, ? extends U> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   default Comparator<T> thenComparingInt(ToIntFunction<? super T> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   default Comparator<T> thenComparingLong(ToLongFunction<? super T> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   default Comparator<T> thenComparingDouble(ToDoubleFunction<? super T> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T extends @Nullable Object, U extends @Nullable Object> Comparator<T> comparing(
       Function<? super T, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T extends @Nullable Object, U extends Comparable<? super U>> Comparator<T> comparing(
       Function<? super T, ? extends U> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T extends @Nullable Object> Comparator<T> comparingDouble(
       ToDoubleFunction<? super T> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T extends @Nullable Object> Comparator<T> comparingInt(
       ToIntFunction<? super T> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T extends @Nullable Object> Comparator<T> comparingLong(
       ToLongFunction<? super T> keyExtractor) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T extends Comparable<? super T>> Comparator<T> naturalOrder() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T> Comparator<@Nullable T> nullsFirst(Comparator<? super T> comparator) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T> Comparator<@Nullable T> nullsLast(Comparator<? super T> comparator) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   static <T extends Comparable<? super T>> Comparator<T> reverseOrder() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 }

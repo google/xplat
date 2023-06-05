@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -28,36 +30,36 @@ import org.jspecify.nullness.Nullable;
 public interface Set<E extends @Nullable Object> extends Collection<E> {
   @Override
   default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_contains(E e) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_remove(E e) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default Spliterator<E> spliterator() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 }

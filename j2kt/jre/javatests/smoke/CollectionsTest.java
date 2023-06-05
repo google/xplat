@@ -54,7 +54,6 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import org.jspecify.nullness.Nullable;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -505,17 +504,16 @@ public class CollectionsTest {
   }
 
   // TODO(b/275568193): Consider allowing sort(null).
-  @Ignore
-  @SuppressWarnings("nullness:argument.type")
-  public void testListSort() {
-    List<Integer> list = new ArrayList<>();
-    list.add(1);
-    list.add(4);
-    list.add(2);
-    list.add(3);
-    list.sort(null);
-    assertEquals(new Integer[] {1, 2, 3, 4}, list.toArray());
-  }
+  // @Test
+  // public void testListSort() {
+  //   List<Integer> list = new ArrayList<>();
+  //   list.add(1);
+  //   list.add(4);
+  //   list.add(2);
+  //   list.add(3);
+  //   list.sort(null);
+  //   assertEquals(new Integer[] {1, 2, 3, 4}, list.toArray());
+  // }
 
   @Test
   public void testListSortComparator() {

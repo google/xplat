@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import javaemul.internal.annotations.KtName;
@@ -41,7 +43,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   /** Only for bookkeeping in the transpiler. Do not call */
   @KtName("addAll")
   default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   void clear();
@@ -52,7 +54,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   /** Only for bookkeeping in the transpiler. Do not call */
   @KtName("contains")
   default boolean $kotlin_contains(E e) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("java_containsAll")
@@ -61,7 +63,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   /** Only for bookkeeping in the transpiler. Do not call */
   @KtName("containsAll")
   default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   boolean isEmpty();
@@ -70,7 +72,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   Iterator<E> iterator();
 
   default Stream<E> parallelStream() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("java_remove")
@@ -79,7 +81,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   /** Only for bookkeeping in the transpiler. Do not call */
   @KtName("remove")
   default boolean $kotlin_remove(E e) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("java_removeAll")
@@ -87,12 +89,12 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   @KtName("removeAll")
   default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("java_removeIf")
   default boolean removeIf(Predicate<? super E> filter) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("java_retainAll")
@@ -100,7 +102,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   @KtName("retainAll")
   default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtProperty
@@ -108,11 +110,11 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   @Override
   default Spliterator<E> spliterator() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   default Stream<E> stream() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("java_toArray")

@@ -17,6 +17,8 @@
 
 package java.lang;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -26,7 +28,7 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class Boolean implements Comparable<Boolean> {
 
-  public static final Class<Boolean> TYPE = null;
+  public static final Class<Boolean> TYPE = ktNative();
 
   public static final Boolean TRUE = true;
 

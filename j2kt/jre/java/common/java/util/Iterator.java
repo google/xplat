@@ -16,6 +16,8 @@
  */
 package java.util;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import java.util.function.Consumer;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
@@ -36,11 +38,11 @@ public interface Iterator<@KtOut E extends @Nullable Object> {
   E next();
 
   default void remove() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    ktNative();
   }
 
   @KtName("java_forEachRemaining")
   default void forEachRemaining(Consumer<? super E> consumer) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    ktNative();
   }
 }

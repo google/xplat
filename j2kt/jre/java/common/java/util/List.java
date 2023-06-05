@@ -15,6 +15,8 @@
  */
 package java.util;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import java.util.function.UnaryOperator;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
@@ -36,17 +38,17 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   @Override
   default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_contains(E e) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   E get(int index);
@@ -63,12 +65,12 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   @Override
   default boolean $kotlin_remove(E e) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @Override
   default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("removeAt")
@@ -76,18 +78,18 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   @Override
   default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 
   @KtName("java_replaceAll")
   default void replaceAll(UnaryOperator<E> operator) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    ktNative();
   }
 
   E set(int index, E element);
 
   default void sort(Comparator<? super E> c) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    ktNative();
   }
 
   List<E> subList(int fromIndex, int toIndex);

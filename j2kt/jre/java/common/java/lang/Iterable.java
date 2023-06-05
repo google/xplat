@@ -15,6 +15,8 @@
  */
 package java.lang;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -36,10 +38,10 @@ public interface Iterable<@KtOut T extends @Nullable Object> {
 
   @KtName("java_forEach")
   default void forEach(Consumer<? super T> action) {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    ktNative();
   }
 
   default Spliterator<T> spliterator() {
-    throw new IllegalStateException("Native interface method should not be transpiled");
+    return ktNative();
   }
 }

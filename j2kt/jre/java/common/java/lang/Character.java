@@ -17,6 +17,8 @@
 
 package java.lang;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
@@ -34,7 +36,7 @@ public final class Character implements Comparable<Character> {
 
   public static final int MAX_RADIX = 36;
 
-  public static final Class<Character> TYPE = null;
+  public static final Class<Character> TYPE = ktNative();
 
   public static final byte UNASSIGNED = 0;
 

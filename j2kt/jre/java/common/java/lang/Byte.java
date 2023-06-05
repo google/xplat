@@ -17,6 +17,8 @@
 
 package java.lang;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
@@ -36,7 +38,7 @@ public final class Byte extends Number implements Comparable<Byte> {
   @KtName("SIZE_BYTES")
   public static final int BYTES = 1;
 
-  public static final Class<Byte> TYPE = null;
+  public static final Class<Byte> TYPE = ktNative();
 
   public Byte(byte value) {}
 

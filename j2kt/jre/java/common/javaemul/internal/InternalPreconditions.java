@@ -140,7 +140,7 @@ public final class InternalPreconditions {
     checkType(expression, null);
   }
 
-  public static void checkType(boolean expression, String message) {
+  public static void checkType(boolean expression, @Nullable String message) {
     if (IS_TYPE_CHECKED) {
       checkCriticalType(expression, message);
     } else if (IS_ASSERTED) {
@@ -156,7 +156,7 @@ public final class InternalPreconditions {
     checkCriticalType(expression, null);
   }
 
-  public static void checkCriticalType(boolean expression, String message) {
+  public static void checkCriticalType(boolean expression, @Nullable String message) {
     if (!expression) {
       throw new ClassCastException(message);
     }

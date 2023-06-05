@@ -17,6 +17,8 @@
 
 package java.lang;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Comparator;
@@ -32,7 +34,7 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public final class String implements Comparable<String>, CharSequence {
 
-  public static final Comparator<String> CASE_INSENSITIVE_ORDER = null;
+  public static final Comparator<String> CASE_INSENSITIVE_ORDER = ktNative();
 
   public String() {}
 

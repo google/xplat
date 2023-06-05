@@ -17,6 +17,8 @@
 
 package java.lang;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
@@ -30,7 +32,7 @@ public final class Long extends Number implements Comparable<Long> {
 
   public static final long MIN_VALUE = 0x8000000000000000L;
 
-  public static final Class<Long> TYPE = null;
+  public static final Class<Long> TYPE = ktNative();
 
   @KtName("SIZE_BITS")
   public static final int SIZE = 64;
