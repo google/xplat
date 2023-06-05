@@ -112,7 +112,7 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
   }
 
   private final EnumSet<K> keySet;
-  private final ArrayList<V> values;
+  private final ArrayList<@Nullable V> values;
 
   public EnumMap(Class<K> type) {
     keySet = new EnumSet<>();
@@ -204,7 +204,7 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
     return asKey(key).ordinal();
   }
 
-  private V setAt(K key, V value) {
+  private @Nullable V setAt(K key, @Nullable V value) {
     int index = key.ordinal();
     while (values.size() <= key.ordinal()) {
       values.add(null);

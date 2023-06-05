@@ -43,7 +43,7 @@ public class Vector<E extends @Nullable Object> extends AbstractList<E>
    * elimination.
    */
   @SuppressWarnings("unused")
-  private E exposeElement;
+  private @Nullable E exposeElement;
 
   public Vector() {
     arrayList = new ArrayList<E>();

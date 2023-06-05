@@ -79,7 +79,8 @@ public class Collections {
     @Override
     public E get(int location) {
       checkElementIndex(location, 0);
-      return null;
+      // Unreachable
+      throw new AssertionError(location);
     }
 
     @Override

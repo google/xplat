@@ -111,7 +111,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
       lastNode = currentNode;
       currentNode = currentNode.next;
       ++currentIndex;
-      return lastNode.value;
+      return (E) lastNode.value;
     }
 
     @Override
@@ -125,7 +125,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
 
       lastNode = currentNode = currentNode.prev;
       --currentIndex;
-      return lastNode.value;
+      return (E) lastNode.value;
     }
 
     @Override
@@ -165,15 +165,15 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
   private static class Node<E extends @Nullable Object> {
     public @Nullable Node<E> next;
     public @Nullable Node<E> prev;
-    public E value;
+    public @Nullable E value;
   }
 
   /**
-   * Ensures that RPC will consider type parameter E to be exposed. It will be
-   * pruned by dead code elimination.
+   * Ensures that RPC will consider type parameter E to be exposed. It will be pruned by dead code
+   * elimination.
    */
   @SuppressWarnings("unused")
-  private E exposeElement;
+  private @Nullable E exposeElement;
 
   /**
    * Header node - header.next is the first element of the list.
@@ -244,14 +244,14 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
   public E getFirst() {
     checkElement(internalSize != 0);
 
-    return header.next.value;
+    return (E) header.next.value;
   }
 
   @Override
   public E getLast() {
     checkElement(internalSize != 0);
 
-    return tail.prev.value;
+    return (E) tail.prev.value;
   }
 
   @Override
@@ -382,7 +382,7 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
   }
 
   private E removeNode(Node<E> node) {
-    E oldValue = node.value;
+    E oldValue = (E) node.value;
     node.next.prev = node.prev;
     node.prev.next = node.next;
     node.next = node.prev = null;

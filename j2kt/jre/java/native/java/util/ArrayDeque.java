@@ -153,7 +153,7 @@ public class ArrayDeque<E extends @Nullable Object> extends AbstractCollection<E
     return Integer.highestOneBit(num) << 1;
   }
 
-  private E[] array;
+  private @Nullable E[] array;
 
   /**
    * The index of the element at the head of the deque (which is the
@@ -169,11 +169,11 @@ public class ArrayDeque<E extends @Nullable Object> extends AbstractCollection<E
   private int tail;
 
   public ArrayDeque() {
-    this.array = (E[]) new Object[MIN_INITIAL_CAPACITY];
+    this.array = (@Nullable E[]) new Object[MIN_INITIAL_CAPACITY];
   }
 
   public ArrayDeque(int numElements) {
-    this.array = (E[]) new Object[nextArrayLength(numElements)];
+    this.array = (@Nullable E[]) new Object[nextArrayLength(numElements)];
   }
 
   public ArrayDeque(Collection<? extends E> c) {
@@ -211,7 +211,7 @@ public class ArrayDeque<E extends @Nullable Object> extends AbstractCollection<E
       return;
     }
 
-    array = (E[]) new Object[MIN_INITIAL_CAPACITY];
+    array = (@Nullable E[]) new Object[MIN_INITIAL_CAPACITY];
     head = 0;
     tail = 0;
   }
