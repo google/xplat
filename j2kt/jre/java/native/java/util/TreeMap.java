@@ -297,7 +297,7 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
     return node;
   }
 
-  private void replaceInParent(Node<K, V> node, Node<K, V> replacement) {
+  private void replaceInParent(Node<K, V> node, @Nullable Node<K, V> replacement) {
     Node<K, V> parent = node.parent;
     node.parent = null;
     if (replacement != null) {
@@ -1260,7 +1260,8 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
       return subMap(fromInclusive, Bound.INCLUSIVE, null, Bound.NO_BOUND);
     }
 
-    private NavigableMap<K, V> subMap(K from, Bound fromBound, K to, Bound toBound) {
+    private NavigableMap<K, V> subMap(
+        @Nullable K from, Bound fromBound, @Nullable K to, Bound toBound) {
       if (!ascending) {
         K fromTmp = from;
         Bound fromBoundTmp = fromBound;
