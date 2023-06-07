@@ -735,10 +735,10 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
     AbstractLongSpliterator sortedSpliterator =
         new Spliterators.AbstractLongSpliterator(
             spliterator.estimateSize(), spliterator.characteristics() | Spliterator.SORTED) {
-          Spliterator<Long> ordered = null;
+          @Nullable Spliterator<Long> ordered = null;
 
           @Override
-          public Comparator<? super Long> getComparator() {
+          public @Nullable Comparator<? super Long> getComparator() {
             return null;
           }
 

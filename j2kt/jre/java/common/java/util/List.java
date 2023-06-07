@@ -88,7 +88,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   E set(int index, E element);
 
-  default void sort(Comparator<? super E> c) {
+  default void sort(@Nullable Comparator<? super E> c) {
     ktNative();
   }
 

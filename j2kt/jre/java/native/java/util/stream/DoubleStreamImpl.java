@@ -733,10 +733,10 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
     Spliterator.OfDouble sortingSpliterator =
         new Spliterators.AbstractDoubleSpliterator(
             spliterator.estimateSize(), spliterator.characteristics() | Spliterator.SORTED) {
-          Spliterator<Double> ordered = null;
+          @Nullable Spliterator<Double> ordered = null;
 
           @Override
-          public Comparator<? super Double> getComparator() {
+          public @Nullable Comparator<? super Double> getComparator() {
             return null;
           }
 

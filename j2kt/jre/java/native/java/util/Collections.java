@@ -510,7 +510,7 @@ public class Collections {
     }
 
     @Override
-    public void sort(Comparator<? super T> c) {
+    public void sort(@Nullable Comparator<? super T> c) {
       throw new UnsupportedOperationException();
     }
 

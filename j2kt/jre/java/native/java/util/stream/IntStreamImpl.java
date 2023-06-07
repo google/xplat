@@ -393,7 +393,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
     }
 
     @Override
-    public Comparator<? super Integer> getComparator() {
+    public @Nullable Comparator<? super Integer> getComparator() {
       return original.getComparator();
     }
 
@@ -743,7 +743,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
     AbstractIntSpliterator sortedSpliterator =
         new Spliterators.AbstractIntSpliterator(
             spliterator.estimateSize(), spliterator.characteristics() | Spliterator.SORTED) {
-          Spliterator<Integer> ordered = null;
+          @Nullable Spliterator<Integer> ordered = null;
 
           @Override
           public @Nullable Comparator<? super Integer> getComparator() {
