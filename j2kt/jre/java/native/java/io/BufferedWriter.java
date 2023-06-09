@@ -20,6 +20,7 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/io/BufferedWriter.html">the official
@@ -29,8 +30,8 @@ import org.jspecify.nullness.NullMarked;
 public class BufferedWriter extends Writer {
   private static int defaultCharBufferSize = 8192;
 
-  private Writer out;
-  private char[] buf;
+  private @Nullable Writer out;
+  private char @Nullable [] buf;
   private int pos;
   private int size;
 
@@ -66,14 +67,18 @@ public class BufferedWriter extends Writer {
     out.flush();
   }
 
-  private void ensureOpen() throws IOException {
-    checkState(out != null, "stream closed");
+  private Writer ensureOpen() throws IOException {
+    Writer w = out;
+    if (w != null) {
+      return w;
+    }
+    throw new IOException("Stream closed");
   }
 
   private void flushBuffer() throws IOException {
-    ensureOpen();
+    Writer w = ensureOpen();
     if (pos > 0) {
-      out.write(buf, 0, pos);
+      w.write(buf, 0, pos);
     }
     pos = 0;
   }
@@ -84,21 +89,23 @@ public class BufferedWriter extends Writer {
 
   @Override
   public void write(char[] buffer, int offset, int count) throws IOException {
-    ensureOpen();
+    Writer w = ensureOpen();
     IOUtils.checkOffsetAndCount(buffer, offset, count);
     if (count >= size) {
       /* If the request length exceeds the size of the output buffer,
       flush the buffer and then write the data directly.  In this
       way buffered streams will cascade harmlessly. */
       flushBuffer();
-      out.write(buffer, offset, count);
+      w.write(buffer, offset, count);
       return;
     }
+
+    char[] localBuf = checkNotNull(buf);
 
     int b = offset, t = offset + count;
     while (b < t) {
       int d = Math.min(size - pos, t - b);
-      System.arraycopy(buffer, b, buf, pos, d);
+      System.arraycopy(buffer, b, localBuf, pos, d);
       b += d;
       pos += d;
       if (pos >= size) {
@@ -109,9 +116,9 @@ public class BufferedWriter extends Writer {
 
   @Override
   public void write(int oneChar) throws IOException {
-    ensureOpen();
+    Writer w = ensureOpen();
     if (pos >= size) {
-      out.write(buf, 0, buf.length);
+      w.write(buf, 0, buf.length);
       pos = 0;
     }
     buf[pos++] = (char) oneChar;
@@ -120,13 +127,13 @@ public class BufferedWriter extends Writer {
   @Override
   public void write(String str, int offset, int count) throws IOException {
     ensureOpen();
-    // Ensure we throw a NullPointerException instead of a JavascriptException in case the
-    // given string is null.
+    // Ensure we throw a NullPointerException in case the given string is null.
     checkNotNull(str);
     int b = offset, t = offset + count;
+    char[] localBuf = checkNotNull(buf);
     while (b < t) {
       int d = Math.min(size - pos, t - b);
-      str.getChars(b, b + d, buf, pos);
+      str.getChars(b, b + d, localBuf, pos);
       b += d;
       pos += d;
       if (pos >= size) {

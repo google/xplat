@@ -29,7 +29,7 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public class PrintWriter extends Writer {
 
-  protected Writer out;
+  protected @Nullable Writer out;
 
   /** Indicates whether this PrintWriter is in an error state. */
   private boolean ioError;
