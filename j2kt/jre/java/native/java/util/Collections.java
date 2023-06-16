@@ -1024,7 +1024,7 @@ public class Collections {
    *     compared by <code>comparator</code>.
    */
   public static <T extends @Nullable Object> int binarySearch(
-      final List<? extends T> sortedList, final T key, Comparator<? super T> comparator) {
+      final List<? extends T> sortedList, final T key, @Nullable Comparator<? super T> comparator) {
     /*
      * TODO: This doesn't implement the "iterator-based binary search" described
      * in the JDK docs for non-RandomAccess Lists. Until GWT provides a
@@ -1155,7 +1155,7 @@ public class Collections {
   }
 
   public static <T extends @Nullable Object> T max(
-      Collection<? extends T> coll, Comparator<? super T> comp) {
+      Collection<? extends T> coll, @Nullable Comparator<? super T> comp) {
 
     comp = Comparators.nullToNaturalOrder(comp);
 
@@ -1179,7 +1179,7 @@ public class Collections {
   }
 
   public static <T extends @Nullable Object> T min(
-      Collection<? extends T> coll, Comparator<? super T> comp) {
+      Collection<? extends T> coll, @Nullable Comparator<? super T> comp) {
     return max(coll, reverseOrder(comp));
   }
 

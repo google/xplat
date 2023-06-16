@@ -321,7 +321,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
     return null;
   }
 
-  private IdentityHashMapEntry<K, V> getEntry(@Nullable Object key) {
+  private @Nullable IdentityHashMapEntry<K, V> getEntry(@Nullable Object key) {
     if (key == null) {
       key = NULL_OBJECT;
     }

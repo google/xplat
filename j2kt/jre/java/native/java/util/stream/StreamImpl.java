@@ -922,7 +922,7 @@ final class StreamImpl<T extends @Nullable Object> extends TerminatableStream<St
     AbstractSpliterator<T> sortedSpliterator =
         new Spliterators.AbstractSpliterator<T>(
             spliterator.estimateSize(), spliterator.characteristics() | Spliterator.SORTED) {
-          Spliterator<T> ordered = null;
+          @Nullable Spliterator<T> ordered = null;
 
           @Override
           public @Nullable Comparator<? super T> getComparator() {

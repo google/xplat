@@ -42,6 +42,6 @@ public interface SortedSet<E extends @Nullable Object> extends Set<E> {
   // TODO (b/237650063): Add implementation after Spliterators is implemented
   @Override
   default Spliterator<E> spliterator() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 }

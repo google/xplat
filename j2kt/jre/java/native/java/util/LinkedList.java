@@ -72,11 +72,8 @@ public class LinkedList<E extends @Nullable Object> extends AbstractSequentialLi
      */
     protected Node<E> currentNode;
 
-    /**
-     * The last node returned from next/previous, or null if deleted or never
-     * called.
-     */
-    protected Node<E> lastNode = null;
+    /** The last node returned from next/previous, or null if deleted or never called. */
+    protected @Nullable Node<E> lastNode = null;
 
     /**
      * @param index from the beginning of the list (0 = first node)

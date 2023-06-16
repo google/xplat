@@ -75,7 +75,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     this(initialCapacity, null);
   }
 
-  public PriorityQueue(int initialCapacity, Comparator<? super E> cmp) {
+  public PriorityQueue(int initialCapacity, @Nullable Comparator<? super E> cmp) {
     heap = new ArrayList<>(initialCapacity);
     this.cmp = Comparators.nullToNaturalOrder(cmp);
   }

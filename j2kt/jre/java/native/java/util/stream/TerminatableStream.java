@@ -16,6 +16,8 @@
 
 package java.util.stream;
 
+import static javaemul.internal.InternalPreconditions.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.jspecify.nullness.NullMarked;
@@ -26,7 +28,7 @@ import org.jspecify.nullness.Nullable;
 class TerminatableStream<T extends TerminatableStream<T>> {
   // root-only fields, ignored for non-root instances
   private boolean terminated = false;
-  private final List<Runnable> onClose;
+  private final @Nullable List<Runnable> onClose;
 
   private final @Nullable TerminatableStream root;
 
@@ -64,6 +66,7 @@ class TerminatableStream<T extends TerminatableStream<T>> {
   @SuppressWarnings("unchecked")
   public T onClose(Runnable closeHandler) {
     if (root == null) {
+      List<Runnable> onClose = checkNotNull(this.onClose);
       onClose.add(closeHandler);
     } else {
       root.onClose(closeHandler);
@@ -83,6 +86,8 @@ class TerminatableStream<T extends TerminatableStream<T>> {
 
   private void runClosers() {
     ArrayList<Throwable> throwables = new ArrayList<>();
+    List<Runnable> onClose = checkNotNull(this.onClose);
+
     onClose.forEach(
         runnable -> {
           try {
