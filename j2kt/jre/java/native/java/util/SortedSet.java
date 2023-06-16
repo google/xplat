@@ -39,9 +39,15 @@ public interface SortedSet<E extends @Nullable Object> extends Set<E> {
 
   SortedSet<E> tailSet(E fromElement);
 
-  // TODO (b/237650063): Add implementation after Spliterators is implemented
   @Override
   default Spliterator<E> spliterator() {
-    throw new UnsupportedOperationException();
+    return new Spliterators.IteratorSpliterator<E>(
+        this, Spliterator.DISTINCT | Spliterator.ORDERED | Spliterator.SORTED) {
+
+      @Override
+      public Comparator<? super E> getComparator() {
+        return SortedSet.this.comparator();
+      }
+    };
   }
 }
