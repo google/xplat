@@ -19,7 +19,6 @@ package java.util.logging;
 import java.io.Serializable;
 import java.util.Locale;
 import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
 
 /**
  * An emulation of the java.util.logging.Level class. See <a
@@ -84,12 +83,7 @@ public class Level implements Serializable {
     @Override public int intValue() { return 900; }
   }
 
-  public static @Nullable Level parse(String name) {
-    // '==' instead of equals makes it compile out faster.
-    if (System.getProperty("jre.logging.logLevel") == "OFF") {
-      return null;
-    }
-
+  public static Level parse(String name) {
     String value = name.toUpperCase(Locale.ROOT);
     switch (value) {
       case "ALL":
