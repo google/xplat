@@ -43,7 +43,7 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
   private int modCount;
 
   public TreeMap() {
-    this((Comparator<? super K>) null);
+    this((@Nullable Comparator<? super K>) null);
   }
 
   public TreeMap(@Nullable Comparator<? super K> comparator) {

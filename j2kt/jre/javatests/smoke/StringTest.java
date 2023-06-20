@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.jspecify.nullness.Nullable;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -71,7 +72,7 @@ public class StringTest {
 
     assertEquals("a", String.valueOf('a'));
     assertEquals("5", String.valueOf(5));
-    assertEquals("null", String.valueOf((Object) null));
+    assertEquals("null", String.valueOf((@Nullable Object) null));
 
     assertEquals(0, "A".compareToIgnoreCase("a"));
     assertEquals(-1, "A".compareToIgnoreCase("b"));
