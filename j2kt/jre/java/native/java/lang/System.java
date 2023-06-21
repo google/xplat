@@ -32,12 +32,8 @@ public final class System {
 
   public static native int identityHashCode(@Nullable Object o);
 
-  // TODO(b/257217399): Act like Java, not J2CL
-  /** Does nothing. To get output, subclass PrintStream and call {@link #setErr(PrintStream)}. */
   public static PrintStream err;
 
-  // TODO(b/257217399): Act like Java, not J2CL
-  /** Does nothing. To get output, subclass PrintStream and call {@link #setOut(PrintStream)}. */
   public static PrintStream out;
 
   public static native void setErr(PrintStream err);
