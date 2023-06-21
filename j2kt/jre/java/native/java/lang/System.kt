@@ -24,6 +24,7 @@ import kotlin.String
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import kotlin.native.identityHashCode
+import kotlin.native.internal.GC
 import kotlin.system.getTimeNanos
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
@@ -68,7 +69,7 @@ object System {
 
   fun nanoTime(): Long = getTimeNanos()
 
-  fun gc(): Unit = Unit
+  fun gc(): Unit = GC.collect()
 
   @OptIn(kotlin.ExperimentalStdlibApi::class)
   fun identityHashCode(o: Any?): Int = o.identityHashCode()
