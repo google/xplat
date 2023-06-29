@@ -53,7 +53,11 @@ public abstract class Charset {
     }
   }
 
+  public abstract boolean contains(Charset cs);
+
   public abstract CharsetDecoder newDecoder();
+
+  public abstract CharsetEncoder newEncoder();
 
   public final CharBuffer decode(ByteBuffer buffer) {
     try {

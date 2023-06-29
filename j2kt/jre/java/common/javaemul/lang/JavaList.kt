@@ -17,6 +17,7 @@
 
 package javaemul.lang
 
+import java.util.Spliterator
 import java.util.function.UnaryOperator
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
@@ -43,6 +44,8 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
   override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
 
   override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
+
+  override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
 
   fun sort(c: Comparator<in E>?) = if (c == null) sortBy { it as Comparable<Any> } else sortWith(c)
 

@@ -17,6 +17,7 @@ package javaemul.internal;
 
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import org.jspecify.nullness.NullMarked;
 
 /** Provides Charset implementations (currently UTF-8 only) */
@@ -36,7 +37,17 @@ public class EmulatedCharset extends Charset {
   }
 
   @Override
+  public boolean contains(Charset cs) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public CharsetDecoder newDecoder() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public CharsetEncoder newEncoder() {
     throw new UnsupportedOperationException();
   }
 }
