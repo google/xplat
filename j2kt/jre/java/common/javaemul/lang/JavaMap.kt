@@ -58,7 +58,7 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 
   // The Java `merge` function exists on Kotlin/JVM but is undocumented. So we rename our `merge` to
   // avoid a collision.
-  fun java_merge(key: K, value: V, remap: BiFunction<in V, in V, out V>): V =
+  fun java_merge(key: K, value: V, remap: BiFunction<in V, in V, out V?>): V? =
     default_merge(key, value, remap)
 
   fun java_putAll(t: MutableMap<out K, out V>)
@@ -122,9 +122,11 @@ fun <K, V> MutableMap<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
   if (this is JavaMap) java_getOrDefault(key, defaultValue)
   else default_getOrDefault(key, defaultValue)
 
-// TODO(b/275568112): Consider allowing BiFunction<in V, in V, out V?>
-fun <K, V> MutableMap<K, V>.java_merge(key: K, value: V, remap: BiFunction<in V, in V, out V>): V =
-  if (this is JavaMap) java_merge(key, value, remap) else default_merge(key, value, remap)
+fun <K, V> MutableMap<K, V>.java_merge(
+  key: K,
+  value: V,
+  remap: BiFunction<in V, in V, out V?>
+): V? = if (this is JavaMap) java_merge(key, value, remap) else default_merge(key, value, remap)
 
 fun <K, V> MutableMap<K, V>.java_putIfAbsent(key: K, value: V): V? =
   if (this is JavaMap) java_putIfAbsent(key, value) else default_putIfAbsent(key, value)
@@ -204,11 +206,10 @@ private fun <K, V> MutableMap<K, V>.default_getOrDefault(key: Any?, defaultValue
 private fun <K, V> MutableMap<K, V>.default_merge(
   key: K,
   value: V,
-  // TODO(b/275568112): Consider allowing BiFunction<in V, in V, out V?>
-  remap: BiFunction<in V, in V, out V>
-): V {
+  remap: BiFunction<in V, in V, out V?>
+): V? {
   val oldValue = get(key)
-  val newValue: V = if (oldValue == null) value else remap.apply(oldValue, value)
+  val newValue: V? = if (oldValue == null) value else remap.apply(oldValue, value)
   if (newValue == null) {
     remove(key)
   } else {

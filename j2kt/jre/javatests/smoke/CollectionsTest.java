@@ -242,8 +242,10 @@ public class CollectionsTest {
     }
 
     @Override
-    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull, JSpecify doesn't
-    public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remap) {
+    // Checker framework uses @PolyNull V, JSpecify uses @Nullable V
+    @SuppressWarnings("nullness:override")
+    public @Nullable V merge(
+        K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remap) {
       return super.merge(key, value, remap);
     }
 
@@ -503,17 +505,18 @@ public class CollectionsTest {
     assertEquals(1, list.size());
   }
 
-  // TODO(b/275568193): Consider allowing sort(null).
-  // @Test
-  // public void testListSort() {
-  //   List<Integer> list = new ArrayList<>();
-  //   list.add(1);
-  //   list.add(4);
-  //   list.add(2);
-  //   list.add(3);
-  //   list.sort(null);
-  //   assertEquals(new Integer[] {1, 2, 3, 4}, list.toArray());
-  // }
+  @Test
+  // TODO: b/275568193: Remove suppression after CF permits sort(null).
+  @SuppressWarnings("nullness:argument.type")
+  public void testListSort() {
+    List<Integer> list = new ArrayList<>();
+    list.add(1);
+    list.add(4);
+    list.add(2);
+    list.add(3);
+    list.sort(null);
+    assertEquals(new Integer[] {1, 2, 3, 4}, list.toArray());
+  }
 
   @Test
   public void testListSortComparator() {

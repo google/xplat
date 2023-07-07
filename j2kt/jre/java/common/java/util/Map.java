@@ -114,7 +114,8 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   Set<K> keySet();
 
   @KtName("java_merge")
-  default V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+  default @Nullable V merge(
+      K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
     return ktNative();
   }
 
