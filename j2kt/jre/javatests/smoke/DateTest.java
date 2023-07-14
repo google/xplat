@@ -30,9 +30,11 @@ public class DateTest {
   @SuppressWarnings("JavaUtilDate")
   public void testDateUTC() {
     long utcMillisSinceEpoch = Date.UTC(99, 1, 24, 14, 31, 45);
+    long expectedEpoch = 919866705000L; // 24 Feb 1999 14:31:45 GMT as unix timestamp
     Date utcDate = new Date(utcMillisSinceEpoch);
     String dateStr = utcDate.toGMTString();
     System.out.println(dateStr);
     assertEquals("24 Feb 1999 14:31:45 GMT", dateStr);
+    assertEquals(expectedEpoch, utcMillisSinceEpoch);
   }
 }

@@ -60,7 +60,7 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
     @ObjCName("withInt") min: Int,
     @ObjCName("withInt") sec: Int
   ) : this(Date.NativeDate()) {
-    nativeDate.setFullYear(year + 1900, month, date)
+    nativeDate.setFullYear(year + 1900, month + 1, date)
     nativeDate.setHours(hrs, min, sec, 0)
     fixDaylightSavings(hrs)
   }
@@ -193,7 +193,7 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
     return "" +
       utcNativeDate.getDate() +
       " " +
-      Date.StringData.MONTHS[utcNativeDate.getMonth()] +
+      Date.StringData.MONTHS[utcNativeDate.getMonth() - 1] +
       " " +
       utcNativeDate.getFullYear() +
       " " +
@@ -281,7 +281,8 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
       @ObjCName("withInt") min: Int,
       @ObjCName("withInt") sec: Int
     ): Long {
-      return NativeDate.UTC(year + 1900, month, date, hrs, min, sec, 0).getTime()
+      // Unlike java.util.Date, Kotlin expects years in CE, and months in 1-12.
+      return NativeDate.UTC(year + 1900, month + 1, date, hrs, min, sec, 0).getTime()
     }
 
     @ObjCName("padTwo")
