@@ -45,3 +45,5 @@ fun Boolean.Companion.hashCode(b: Boolean): Int = b.hashCode()
 fun Boolean.Companion.parseBoolean(s: String?): Boolean = s.toBoolean()
 
 fun Boolean.Companion.toString(b: Boolean): String = b.toString()
+
+fun Boolean.Companion.compare(b1: Boolean, b2: Boolean): Int = b1.compareTo(b2)
