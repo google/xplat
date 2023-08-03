@@ -136,6 +136,8 @@ public final class String implements Comparable<String>, CharSequence {
   public native boolean regionMatches(
       boolean ignoreCase, int thisOffset, String other, int otherOffset, int length);
 
+  public native String repeat(int count);
+
   public native String replace(char oldChar, char newChar);
 
   @KtName("java_replace")

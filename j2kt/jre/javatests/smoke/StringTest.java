@@ -21,7 +21,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.jspecify.nullness.Nullable;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -32,6 +31,7 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import javaemul.internal.EmulatedCharset;
+import org.jspecify.nullness.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -111,6 +111,8 @@ public class StringTest {
     assertFalse("ABCD".equalsIgnoreCase("abc"));
 
     assertTrue("---ABC---".matches(".*ABC.*"));
+
+    assertEquals("wordwordword", "word".repeat(3));
   }
 
   @Test
