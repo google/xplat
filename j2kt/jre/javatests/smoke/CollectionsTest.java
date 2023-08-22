@@ -90,6 +90,43 @@ public class CollectionsTest {
     assertEquals(0, deque.size());
   }
 
+  static class AddCountList<T> extends ArrayList<T> {
+    int addCount = 0;
+
+    AddCountList() {}
+
+    @Override
+    public boolean add(T item) {
+      addCount++;
+      return super.add(item);
+    }
+
+    // TODO(b/255291878): These work for j2kt-native, but for j2kt-jre, the
+    //    names are still translated to java_addAll etc., and then they don't override anything.
+    //
+    // @Override public boolean addAll(Collection<? extends T> c) { return super.addAll(c); }
+    // @Override public boolean contains(@Nullable Object o) { return super.contains(o); }
+    // @Override public boolean containsAll(Collection<?> c) { return super.containsAll(c); }
+    // @Override public boolean remove(@Nullable Object o) { return super.remove(o); }
+    // @Override public boolean removeAll(Collection<?> c) { return super.removeAll(c); }
+    // @Override public boolean retainAll(Collection<?> c) { return super.retainAll(c); }
+  }
+
+  @Test
+  public void testJavaListSignatures() {
+    ArrayList<String> arrayList = new ArrayList<>();
+    // TODO(b/255291878): Enable the line below
+    // AbstractList<String> abstractList = arrayList;
+    arrayList.add("Hello");
+    assertEquals(1, arrayList.size());
+    assertEquals("Hello", arrayList.get(0));
+
+    AddCountList<String> addCountList = new AddCountList<>();
+    assertEquals(0, addCountList.addCount);
+    addCountList.add("Hello");
+    assertEquals(1, addCountList.addCount);
+  }
+
   @Test
   public void testJavaMapSignatures() {
     // Map and HashMap are mapped to separate native types, we test bridged methods with each type
@@ -545,7 +582,7 @@ public class CollectionsTest {
   public void testEnumMap() {
     EnumMap<Fruit, String> enumMap = new EnumMap<>(Fruit.class);
     enumMap.put(Fruit.APPLE, "apple");
-    assertEquals(enumMap.get(Fruit.APPLE), "apple");
+    assertEquals("apple", enumMap.get(Fruit.APPLE));
     assertEquals(enumMap.get(Fruit.ORANGE), null);
   }
 

@@ -15,6 +15,7 @@
  */
 package java.util;
 
+import java.io.Serializable;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -23,9 +24,10 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html">the official
  * Java API doc</a> for details.
  */
-@KtNative("kotlin.collections.ArrayList")
+@KtNative("java.util.ArrayList")
 @NullMarked
-public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAccess {
+public class ArrayList<E extends @Nullable Object> extends AbstractList<E>
+    implements List<E>, RandomAccess, Cloneable, Serializable {
 
   public ArrayList() {}
 
@@ -114,4 +116,7 @@ public class ArrayList<E extends @Nullable Object> implements List<E>, RandomAcc
 
   @Override
   public native <T extends @Nullable Object> T[] toArray(T[] a);
+
+  @Override
+  public native Object clone() throws CloneNotSupportedException;
 }
