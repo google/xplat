@@ -36,6 +36,10 @@ public abstract class Charset {
     return canonicalName;
   }
 
+  public String displayName() {
+    return canonicalName;
+  }
+
   public static Charset forName(String name)
       throws UnsupportedCharsetException, IllegalArgumentException {
     if (name == null) {

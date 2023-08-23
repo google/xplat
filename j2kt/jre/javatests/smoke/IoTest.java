@@ -18,8 +18,10 @@ package smoke;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.Formatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +29,20 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class IoTest {
+
+  @Test
+  public void testStringReader() throws IOException {
+    StringBuilder sb = new StringBuilder();
+    for (char c = 0; c < 4096; c++) {
+      sb.append(c);
+    }
+    String s = sb.toString();
+    StringReader reader = new StringReader(s);
+    reader.skip(2048);
+    assertEquals(2048, reader.read());
+    reader.close();
+  }
+
   @Test
   public void testPrintStream() {
     {

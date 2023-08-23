@@ -19,4 +19,18 @@ import org.jspecify.nullness.NullMarked;
 
 /** Placeholder class used in stub method declarations that need to match the real JRE. */
 @NullMarked
-public abstract class CharsetEncoder {}
+public abstract class CharsetEncoder {
+
+  public abstract boolean canEncode(char c);
+
+  public boolean canEncode(String s) {
+    for (int i = 0; i < s.length(); i++) {
+      if (!canEncode(s.charAt(i))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public abstract Charset charset();
+}

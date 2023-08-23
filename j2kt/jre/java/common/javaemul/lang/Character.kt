@@ -42,6 +42,10 @@ fun Char.Companion.compare(c1: Char, c2: Char): Int = c1.compareTo(c2)
 
 fun Char.Companion.isDigit(c: Char): Boolean = c.isDigit()
 
+// As Kotlin native doesn't seem to have support for digit checks for code points, we
+// assume false for code points outside of the 16 bit char range.
+fun Char.Companion.isDigit(cp: Int): Boolean = cp >= 0 && cp <= 0xffff && (cp as Char).isDigit()
+
 fun Char.Companion.isLetter(c: Char): Boolean = c.isLetter()
 
 fun Char.Companion.isLetterOrDigit(c: Char): Boolean = c.isLetterOrDigit()

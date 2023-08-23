@@ -90,7 +90,7 @@ public abstract class Reader {
     int bufferSize = Math.min((int) n, MAX_SKIP_BUFFER_SIZE);
     char[] skipBuffer = new char[bufferSize];
     while (remaining > 0) {
-      long numRead = read(skipBuffer, 0, (int) remaining);
+      long numRead = read(skipBuffer, 0, (int) Math.min(remaining, bufferSize));
       if (numRead < 0) {
         break;
       }

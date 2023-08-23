@@ -44,6 +44,14 @@ operator fun String.Companion.invoke(a: ByteArray) =
 operator fun String.Companion.invoke(a: ByteArray, offset: Int, len: Int) =
   a.decodeToString(offset, offset + len, throwOnInvalidSequence = false)
 
+operator fun String.Companion.invoke(a: IntArray, offset: Int, len: Int): String {
+  val sb = StringBuilder(len)
+  for (i in offset until offset + len) {
+    sb.appendCodePoint(a[i])
+  }
+  return sb.toString()
+}
+
 operator fun String.Companion.invoke(
   a: ByteArray,
   offset: Int,
