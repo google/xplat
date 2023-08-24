@@ -247,9 +247,10 @@ public class CollectionsTest {
     // The following overrides are only there to check that the override (with the Java signatures
     // of the method) compiles.
     @Override
-    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull (missing in JSpecify)
-    public V compute(
-        K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+    @SuppressWarnings("nullness:override") // Checker expects @PolyNull (missing in JSpecify)
+    public @Nullable V compute(
+        K key,
+        BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
       return super.compute(key, remappingFunction);
     }
 
@@ -260,9 +261,9 @@ public class CollectionsTest {
     }
 
     @Override
-    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull (missing in JSpecify)
-    public V computeIfPresent(
-        K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    @SuppressWarnings("nullness:override") // Checker expects @PolyNull (missing in JSpecify)
+    public @Nullable V computeIfPresent(
+        K key, BiFunction<? super K, ? super V, ? extends @Nullable V> remappingFunction) {
       return super.computeIfPresent(key, remappingFunction);
     }
 

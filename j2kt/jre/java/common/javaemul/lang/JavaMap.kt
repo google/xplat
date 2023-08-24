@@ -37,13 +37,13 @@ interface JavaMap<K, V> : MutableMap<K, V> {
   // TODO(b/243046587): Rewrite to handle case in which t is not mutable
   override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
 
-  fun java_compute(key: K, remappingFunction: BiFunction<in K, in V?, out V>): V? =
+  fun java_compute(key: K, remappingFunction: BiFunction<in K, in V?, out V?>): V? =
     default_compute(key, remappingFunction)
 
   fun java_computeIfAbsent(key: K, mappingFunction: Function<in K, out V>): V =
     default_computeIfAbsent(key, mappingFunction)
 
-  fun java_computeIfPresent(key: K, remappingFunction: BiFunction<in K, in V, out V>): V? =
+  fun java_computeIfPresent(key: K, remappingFunction: BiFunction<in K, in V, out V?>): V? =
     default_computeIfPresent(key, remappingFunction)
 
   fun java_containsKey(key: Any?): Boolean
@@ -97,7 +97,7 @@ fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = remove(key as K)
 
 fun <K, V> MutableMap<K, V>.java_compute(
   key: K,
-  mappingFunction: BiFunction<in K, in V?, out V>
+  mappingFunction: BiFunction<in K, in V?, out V?>
 ): V? =
   if (this is JavaMap) java_compute(key, mappingFunction) else default_compute(key, mappingFunction)
 
@@ -110,7 +110,7 @@ fun <K, V> MutableMap<K, V>.java_computeIfAbsent(
 
 fun <K, V> MutableMap<K, V>.java_computeIfPresent(
   key: K,
-  mappingFunction: BiFunction<in K, in V, out V>
+  mappingFunction: BiFunction<in K, in V, out V?>
 ): V? =
   if (this is JavaMap) java_computeIfPresent(key, mappingFunction)
   else default_computeIfPresent(key, mappingFunction)
@@ -150,7 +150,7 @@ private fun <K, V> MutableMap<K, V>.default_forEach(action: BiConsumer<in K, in 
 
 private fun <K, V> MutableMap<K, V>.default_compute(
   key: K,
-  remappingFunction: BiFunction<in K, in V?, out V>
+  remappingFunction: BiFunction<in K, in V?, out V?>
 ): V? {
   val oldValue = this[key]
   val newValue = remappingFunction.apply(key, oldValue)
@@ -184,7 +184,7 @@ private fun <K, V> MutableMap<K, V>.default_computeIfAbsent(
 
 private fun <K, V> MutableMap<K, V>.default_computeIfPresent(
   key: K,
-  remappingFunction: BiFunction<in K, in V, out V>
+  remappingFunction: BiFunction<in K, in V, out V?>
 ): V? {
   val oldValue = this[key]
   if (oldValue != null) {
