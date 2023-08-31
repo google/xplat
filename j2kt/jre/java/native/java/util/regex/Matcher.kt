@@ -230,8 +230,7 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    *
    * @return true if (and only if) the `Pattern` matches.
    */
-  // TODO(b/239727859): Investigate: Kotlin matchAt() doesn't seem to have the documented signature.
-  // fun lookingAt() = op { it.matchAt(region, 0) }
+  fun lookingAt() = op { it.matchAt(region, 0) }
 
   /**
    * Tries to match the [Pattern] against the entire region (or the entire input, if no region has

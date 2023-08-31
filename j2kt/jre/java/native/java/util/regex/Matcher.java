@@ -60,6 +60,8 @@ public class Matcher {
 
   public native boolean hasTransparentBounds();
 
+  public native boolean lookingAt();
+
   public native boolean matches();
 
   public native Pattern pattern();
