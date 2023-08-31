@@ -108,7 +108,7 @@ fun Char.Companion.toCodePoint(high: Char, low: Char): Int =
 
 fun Char.Companion.toChars(codePoint: Int): CharArray =
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT)
-    charArrayOf(getHighSurrogate(codePoint), getLowSurrogate(codePoint))
+    charArrayOf(highSurrogate(codePoint), lowSurrogate(codePoint))
   else charArrayOf(codePoint.toChar())
 
 fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
@@ -116,8 +116,8 @@ fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
   // checkCriticalArgument(Char.isValidCodePoint(codePoint));
 
   if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) {
-    dst[dstIndex] = getHighSurrogate(codePoint)
-    dst[dstIndex + 1] = getLowSurrogate(codePoint)
+    dst[dstIndex] = highSurrogate(codePoint)
+    dst[dstIndex + 1] = lowSurrogate(codePoint)
     return 2
   }
   dst[dstIndex] = codePoint.toChar()
@@ -130,10 +130,10 @@ fun Char.Companion.toUpperCase(c: Char) = c.uppercaseChar()
 
 fun Char.Companion.toLowerCase(c: Char) = c.lowercaseChar()
 
-private fun Char.Companion.getLowSurrogate(codePoint: Int) =
+fun Char.Companion.lowSurrogate(codePoint: Int) =
   (MIN_LOW_SURROGATE + ((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) and 1023)).toChar()
 
-private fun Char.Companion.getHighSurrogate(codePoint: Int) =
+fun Char.Companion.highSurrogate(codePoint: Int) =
   (MIN_HIGH_SURROGATE + (((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) shr 10) and 1023)).toChar()
 
 fun Char.shr(pos: Int): Int = toInt().shr(pos)
