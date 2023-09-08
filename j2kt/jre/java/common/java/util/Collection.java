@@ -117,11 +117,9 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
     return ktNative();
   }
 
-  @KtName("java_toArray")
   @Nullable Object[] toArray();
 
   // Note: If array `a` is bigger than `this` collection, `a[this.size()]` will be set to `null`
   // even though `T` is not necessarily nullable. This is to remain consistent with JSpecify.
-  @KtName("java_toArray")
   <T extends @Nullable Object> T[] toArray(T[] a);
 }
