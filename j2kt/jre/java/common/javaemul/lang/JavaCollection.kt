@@ -63,9 +63,9 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun java_retainAll(c: MutableCollection<*>): Boolean
 
-  fun toArray(): Array<Any?>
+  fun java_toArray(): Array<Any?>
 
-  fun <T> toArray(a: Array<T>): Array<T>
+  fun <T> java_toArray(a: Array<T>): Array<T>
 }
 
 fun <E> MutableCollection<E>.stream(): Stream<E> =
@@ -100,11 +100,11 @@ fun <E> MutableCollection<E>.java_removeIf(filter: Predicate<in E>): Boolean =
 fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
   if (this is JavaCollection) java_retainAll(c) else retainAll(c as MutableCollection<E>)
 
-fun MutableCollection<*>.toArray(): Array<Any?> =
-  if (this is JavaCollection) toArray() else default_toArray()
+fun MutableCollection<*>.java_toArray(): Array<Any?> =
+  if (this is JavaCollection) java_toArray() else default_toArray()
 
-fun <T> MutableCollection<*>.toArray(a: Array<T>): Array<T> =
-  if (this is JavaCollection) toArray(a) else default_toArray(a)
+fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> =
+  if (this is JavaCollection) java_toArray(a) else default_toArray(a)
 
 private fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>): Boolean {
   var removed = false
