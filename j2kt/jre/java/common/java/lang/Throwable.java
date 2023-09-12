@@ -40,20 +40,17 @@ public class Throwable {
   // protected Throwable(@Nullable String detailMessage, @Nullable Throwable cause,
   //     boolean enableSuppression, boolean writableStackTrace) {}
 
-  @KtName("java_fillInStackTrace")
   public native Throwable fillInStackTrace();
 
   @KtProperty
   public native @Nullable String getMessage();
 
-  // TODO(b/222269323): Property does not exist in Kotlin/is not final in Java -> needs review.
-  @KtName("java_getLocalizedMessage")
   public native @Nullable String getLocalizedMessage();
 
+  // Conflict with `fun Throwable.getStacktrace: Array<String>` on Kotlin/Native
   @KtName("java_getStackTrace")
   public native StackTraceElement[] getStackTrace();
 
-  @KtName("java_setStackTrace")
   public native void setStackTrace(StackTraceElement[] trace);
 
   /**
@@ -65,7 +62,6 @@ public class Throwable {
   // TODO(b/223584513): Temporarily disabled to avoid PrintStream dependency
   // public native void printStackTrace(PrintStream err);
 
-  @KtName("java_printStackTrace")
   public native void printStackTrace(PrintWriter err);
 
   @Override

@@ -41,42 +41,39 @@ open class JavaThrowable(message: String? = null) : Throwable(message), InitCaus
 
   override fun initCause(cause: Throwable?): Throwable = super<InitCauseCapable>.initCause(cause)
 
-  fun java_printStackTrace(writer: PrintWriter) = default_printStackTrace(writer)
+  fun printStackTrace(writer: PrintWriter) = default_printStackTrace(writer)
 
-  open fun java_fillInStackTrace() = default_fillInStackTrace()
+  open fun fillInStackTrace() = default_fillInStackTrace()
 
   fun java_getStackTrace(): Array<StackTraceElement> = default_getStackTrace()
 
-  fun java_setStackTrace(trace: Array<StackTraceElement>) = default_setStackTrace(trace)
+  fun setStackTrace(trace: Array<StackTraceElement>) = default_setStackTrace(trace)
 
-  fun java_getLocalizedMessage() = default_getLocalizedMessage()
+  fun getLocalizedMessage() = default_getLocalizedMessage()
 }
 
 fun Throwable.getSuppressed(): Array<Throwable> = suppressedExceptions.toTypedArray()
 
 fun Throwable.initCause(cause: Throwable?): Throwable =
   if (this is InitCauseCapable) initCause(cause) // Generic native bridge case
-  else if (this is java.lang.Throwable) initCause(cause) // JVM or direct Throwable subclass case
   // initCause is generally called inside a constructor or right after calling one, so this
   // restriction should not be too bad in practice:
   else throw UnsupportedOperationException("Cannot initCause for native exception")
 
-// This is renamed because Kotlin's stackTraceToString is implemented in terms of printStackTrace.
-// If we don't rename the method, we'll end up with infinite recursion in Kotlin/JVM.
-fun Throwable.java_printStackTrace(writer: PrintWriter) =
-  if (this is JavaThrowable) java_printStackTrace(writer) else default_printStackTrace(writer)
+fun Throwable.printStackTrace(writer: PrintWriter) =
+  if (this is JavaThrowable) printStackTrace(writer) else default_printStackTrace(writer)
 
-fun Throwable.java_fillInStackTrace(): Throwable =
-  if (this is JavaThrowable) java_fillInStackTrace() else default_fillInStackTrace()
+fun Throwable.fillInStackTrace(): Throwable =
+  if (this is JavaThrowable) fillInStackTrace() else default_fillInStackTrace()
 
 fun Throwable.java_getStackTrace(): Array<StackTraceElement> =
   if (this is JavaThrowable) java_getStackTrace() else default_getStackTrace()
 
-fun Throwable.java_setStackTrace(trace: Array<StackTraceElement>) =
-  if (this is JavaThrowable) java_setStackTrace(trace) else default_setStackTrace(trace)
+fun Throwable.setStackTrace(trace: Array<StackTraceElement>) =
+  if (this is JavaThrowable) setStackTrace(trace) else default_setStackTrace(trace)
 
-fun Throwable.java_getLocalizedMessage() =
-  if (this is JavaThrowable) java_getLocalizedMessage() else default_getLocalizedMessage()
+fun Throwable.getLocalizedMessage() =
+  if (this is JavaThrowable) getLocalizedMessage() else default_getLocalizedMessage()
 
 private fun Throwable.default_printStackTrace(writer: PrintWriter) {
   writer.write(stackTraceToString())
