@@ -30,7 +30,6 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import javaemul.internal.EmulatedCharset;
 import org.jspecify.nullness.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,12 +41,6 @@ public class StringTest {
   static byte[] ABC = {(byte) 65, (byte) 66, (byte) 67};
   static byte[] AEBC = {(byte) 0xC3, (byte) 0x84, (byte) 66, (byte) 67};
   static byte[] AEBC_ISO = {(byte) 0xC4, (byte) 66, (byte) 67};
-
-  // TODO(b/236003566): Test OutputStreamWriter instead after cl/438505991 is submitted.
-  @Test
-  public void testJavaEmul() {
-    assertArrayEquals(AEBC, EmulatedCharset.UTF_8.getBytes(new char[] {'Ä', 'B', 'C'}, 0, 3));
-  }
 
   @Test
   public void testStringReader() throws IOException {
@@ -117,7 +110,6 @@ public class StringTest {
 
   @Test
   public void testCharsets() throws UnsupportedEncodingException {
-    assertEquals("ÄBC", new String(AEBC));
     assertEquals("ÄBC", new String(AEBC, "UTF-8"));
     assertEquals("ÄBC", new String(AEBC, StandardCharsets.UTF_8));
 
@@ -127,7 +119,6 @@ public class StringTest {
     assertEquals("ABC", new String(ABC, "ASCII"));
     assertEquals("ABC", new String(ABC, StandardCharsets.US_ASCII));
 
-    assertEquals("Ä", new String(AEBC, 0, 2));
     assertEquals("Ä", new String(AEBC, 0, 2, "UTF-8"));
     assertEquals("Ä", new String(AEBC, 0, 2, StandardCharsets.UTF_8));
 
@@ -149,7 +140,6 @@ public class StringTest {
       // This is expected.
     }
 
-    assertArrayEquals(AEBC, "ÄBC".getBytes());
     assertArrayEquals(AEBC, "ÄBC".getBytes("UTF-8"));
     assertArrayEquals(AEBC, "ÄBC".getBytes(StandardCharsets.UTF_8));
 

@@ -49,19 +49,3 @@ fun Short.Companion.parseShort(str: String): Short = str.toShort()
 fun Short.Companion.parseShort(s: String, radix: Int): Short = s.toShort(radix)
 
 fun Short.Companion.hashCode(s: Short): Int = s.hashCode()
-
-fun Short.shl(pos: Int): Int {
-  val intVal = this.toInt()
-  return intVal.shl(pos)
-}
-
-fun Short.shr(pos: Int): Int {
-  val intVal = this.toInt()
-  return intVal.shr(pos)
-}
-
-fun Short.and(other: Short): Int {
-  val intVal = this.toInt()
-  val otherIntVal = other.toInt()
-  return intVal.and(otherIntVal)
-}
