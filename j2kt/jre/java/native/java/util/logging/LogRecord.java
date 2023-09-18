@@ -32,6 +32,7 @@ public class LogRecord implements Serializable {
   private @Nullable String msg;
   private @Nullable Throwable thrown = null;
   private long millis;
+  private @Nullable Object @Nullable [] parameters;
 
   public LogRecord(Level level, @Nullable String msg) {
     this.level = level;
@@ -54,7 +55,11 @@ public class LogRecord implements Serializable {
   public @Nullable String getMessage() {
     return msg;
   }
-  
+
+  public @Nullable Object @Nullable [] getParameters() {
+    return parameters;
+  }
+
   public long getMillis() {
     return millis;
   }
@@ -79,19 +84,21 @@ public class LogRecord implements Serializable {
     millis = newMillis;
   }
 
+  public void setParameters(@Nullable Object @Nullable [] parameters) {
+    this.parameters = parameters;
+  }
+
   public void setThrown(@Nullable Throwable newThrown) {
     thrown = newThrown;
   }
 
   /* Not Implemented */
-  // public Object[] getParameters() {} 
   // public ResourceBundle getResourceBundle() {} 
   // public String getResourceBundleName() {}
   // public long getSequenceNumber() {}
   // public String getSourceClassName() {}
   // public String getSourceMethodName() {}
   // public int getThreadID() {}
-  // public void setParameters(Object[] parameters) {} 
   // public void setResourceBundle(ResourceBundle bundle) {} 
   // public void setResourceBundleName(String name) {}
   // public void setSequenceNumber(long seq) {}

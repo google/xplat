@@ -28,5 +28,6 @@ public final class LoggingTest {
   public void testLogging() {
     Logger logger = Logger.getLogger("j2kt tests");
     logger.log(Level.FINE, "Testing");
+    logger.log(Level.SEVERE, "Testing {0}!", "foo");
   }
 }

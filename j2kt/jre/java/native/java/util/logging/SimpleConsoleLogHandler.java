@@ -23,6 +23,8 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 class SimpleConsoleLogHandler extends Handler {
 
+  private Formatter formatter = new SimpleFormatter();
+
   @Override
   public void publish(@Nullable LogRecord record) {
     ConsoleLogger console = ConsoleLogger.createIfSupported();
@@ -31,7 +33,7 @@ class SimpleConsoleLogHandler extends Handler {
     }
 
     String level = toConsoleLogLevel(record.getLevel());
-    console.log(level, record.getMessage());
+    console.log(level, formatter.formatMessage(record));
     if (record.getThrown() != null) {
       console.log(level, record.getThrown());
     }

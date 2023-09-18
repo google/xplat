@@ -227,11 +227,27 @@ public class Logger {
   }
 
   public void log(Level level, @Nullable String msg) {
-    log(level, msg, null);
+    log(level, msg, (Throwable) null);
+  }
+
+  public void log(Level level, @Nullable String msg, @Nullable Object param1) {
+    if (isLoggable(level)) {
+      LogRecord record = new LogRecord(level, msg);
+      record.setParameters(new Object[] {param1});
+      actuallyLog(record);
+    }
+  }
+
+  public void log(Level level, @Nullable String msg, @Nullable Object @Nullable [] params) {
+    if (isLoggable(level)) {
+      LogRecord record = new LogRecord(level, msg);
+      record.setParameters(params);
+      actuallyLog(record);
+    }
   }
 
   public void log(Level level, Supplier<@Nullable String> msgSupplier) {
-    log(level, null, msgSupplier);
+    log(level, (Throwable) null, msgSupplier);
   }
 
   public void log(Level level, @Nullable String msg, @Nullable Throwable thrown) {
@@ -331,8 +347,6 @@ public class Logger {
   // public void entering(String sourceClass, String sourceMethod, Object[] params) {}
   // public void exiting(String sourceClass, String sourceMethod, Object result) {}
   // public void exiting(String sourceClass, String sourceMethod) {}
-  // public void log(Level level, String msg, Object param1) {}
-  // public void log(Level level, String msg, Object[] params) {}
   // public void logp(Level level, String sourceClass, String sourceMethod, String msg) {}
   // public void logp(Level level, String sourceClass, String sourceMethod, String msg, Object param1) {}
   // public void logp(Level level, String sourceClass, String sourceMethod, String msg, Object[] params) {}
