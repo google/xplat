@@ -73,6 +73,13 @@ public class PrimitivesTest {
     assertEquals(1, Integer.signum(87));
     assertEquals(-1, Integer.signum(-87));
     assertEquals(0, Integer.signum(0));
+
+    assertEquals(0x0FFFFFF0, 0x00FFFFFF << 4);
+    assertEquals(0xFFFFFFF0, 0xFFFFFFFF << 4);
+    assertEquals(0x000FFFFF, 0x00FFFFFF >> 4);
+    assertEquals(0xFFFFFFFF, 0xFFFFFFFF >> 4);
+    assertEquals(0x000FFFFF, 0x00FFFFFF >>> 4);
+    assertEquals(0x0FFFFFFF, 0xFFFFFFFF >>> 4);
   }
 
   @Test
@@ -104,6 +111,13 @@ public class PrimitivesTest {
     assertEquals(1, Long.signum(87));
     assertEquals(-1, Long.signum(-87));
     assertEquals(0, Long.signum(0));
+
+    assertEquals(0x0FFFFFFFFFFFFFF0L, 0x00FFFFFFFFFFFFFFL << 4);
+    assertEquals(0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL << 4);
+    assertEquals(0x000FFFFFFFFFFFFFL, 0x00FFFFFFFFFFFFFFL >> 4);
+    assertEquals(0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL >> 4);
+    assertEquals(0x000FFFFFFFFFFFFFL, 0x00FFFFFFFFFFFFFFL >>> 4);
+    assertEquals(0x0FFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL >>> 4);
   }
 
   @Test
@@ -163,8 +177,12 @@ public class PrimitivesTest {
 
     assertEquals(9, Short.hashCode(a));
 
-    assertEquals(56, c << 2);
-    assertEquals(3, c >> 2);
+    assertEquals(0x0000FFF0, ((short) 0x0FFF) << 4);
+    assertEquals(0xFFFFFFF0, ((short) 0xFFFF) << 4);
+    assertEquals(0x000000FF, ((short) 0x0FFF) >> 4);
+    assertEquals(0xFFFFFFFF, ((short) 0xFFFF) >> 4);
+    assertEquals(0x000000FF, ((short) 0x0FFF) >>> 4);
+    assertEquals(0x0FFFFFFF, ((short) 0xFFFF) >>> 4);
 
     assertEquals(8, a & 0xA);
   }
@@ -188,8 +206,12 @@ public class PrimitivesTest {
 
     assertEquals(9, Byte.hashCode(a));
 
-    assertEquals(56, c << 2);
-    assertEquals(3, c >> 2);
+    assertEquals(0x0000003C, ((byte) 0x0F) << 2);
+    assertEquals(0xFFFFFFFC, ((byte) 0xFF) << 2);
+    assertEquals(0x00000003, ((byte) 0x0F) >> 2);
+    assertEquals(0xFFFFFFFF, ((byte) 0xFF) >> 2);
+    assertEquals(0x00000003, ((byte) 0x0F) >>> 2);
+    assertEquals(0x3FFFFFFF, ((byte) 0xFF) >>> 2);
 
     assertEquals(8, a & 0xA);
   }
@@ -288,8 +310,12 @@ public class PrimitivesTest {
     assertEquals(10, Character.digit('a', 15));
     assertEquals(-1, Character.digit('a', 5));
 
-    assertEquals(4607, '迿' >>> 3);
-    assertEquals(4607, '迿' >> 3);
+    assertEquals(0x0000FFF0, ((char) 0x0FFF) << 4);
+    assertEquals(0x000FFFF0, ((char) 0xFFFF) << 4);
+    assertEquals(0x000000FF, ((char) 0x0FFF) >> 4);
+    assertEquals(0x00000FFF, ((char) 0xFFFF) >> 4);
+    assertEquals(0x000000FF, ((char) 0x0FFF) >>> 4);
+    assertEquals(0x00000FFF, ((char) 0xFFFF) >>> 4);
 
     assertEquals(-65, -'A');
   }
