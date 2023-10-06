@@ -19,7 +19,6 @@ package java.util;
 import static javaemul.internal.KtNativeUtils.ktNative;
 
 import java.util.function.Consumer;
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtOut;
 import org.jspecify.nullness.NullMarked;
@@ -41,7 +40,6 @@ public interface Iterator<@KtOut E extends @Nullable Object> {
     ktNative();
   }
 
-  @KtName("java_forEachRemaining")
   default void forEachRemaining(Consumer<? super E> consumer) {
     ktNative();
   }

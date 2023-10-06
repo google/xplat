@@ -27,14 +27,15 @@ interface JavaIterator<T> : MutableIterator<T> {
     throw UnsupportedOperationException()
   }
 
-  fun java_forEachRemaining(consumer: Consumer<in T>) {
+  fun forEachRemaining(consumer: Consumer<in T>) {
     default_forEachRemaining(consumer)
   }
 }
 
-fun <T> MutableIterator<T>.java_forEachRemaining(consumer: Consumer<in T>) {
+// Note: On Kotlin JVM, this is shadowed by member function forEachRemaining
+fun <T> MutableIterator<T>.forEachRemaining(consumer: Consumer<in T>) {
   if (this is JavaIterator) {
-    java_forEachRemaining(consumer)
+    forEachRemaining(consumer)
   } else {
     default_forEachRemaining(consumer)
   }

@@ -25,16 +25,17 @@ import kotlin.native.ObjCName
 
 @ObjCName("JavaemulLangJavaIterable", exact = true)
 fun interface JavaIterable<T> : MutableIterable<T> {
-  fun java_forEach(consumer: Consumer<in T>) {
+  fun forEach(consumer: Consumer<in T>) {
     default_forEach(consumer)
   }
 
   fun spliterator(): Spliterator<T> = default_spliterator()
 }
 
-fun <T> MutableIterable<T>.java_forEach(consumer: Consumer<in T>) {
+// Note: On Kotlin JVM, this is shadowed by member function forEach
+fun <T> MutableIterable<T>.forEach(consumer: Consumer<in T>) {
   if (this is JavaIterable) {
-    java_forEach(consumer)
+    forEach(consumer)
   } else {
     default_forEach(consumer)
   }
@@ -44,6 +45,7 @@ private inline fun <T> MutableIterable<T>.default_forEach(consumer: Consumer<in 
   forEach(consumer::accept)
 }
 
+// Note: On Kotlin JVM, this is shadowed by member function spliterator
 fun <T> MutableIterable<T>.spliterator(): Spliterator<T> =
   if (this is JavaIterable) spliterator() else default_spliterator()
 

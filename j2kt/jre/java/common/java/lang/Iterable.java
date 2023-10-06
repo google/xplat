@@ -20,7 +20,6 @@ import static javaemul.internal.KtNativeUtils.ktNative;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtOut;
 import org.jspecify.nullness.NullMarked;
@@ -36,7 +35,6 @@ public interface Iterable<@KtOut T extends @Nullable Object> {
 
   Iterator<T> iterator();
 
-  @KtName("java_forEach")
   default void forEach(Consumer<? super T> action) {
     ktNative();
   }
