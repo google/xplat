@@ -49,6 +49,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -606,6 +607,61 @@ public class CollectionsTest {
     set.add(1);
     set.add(5);
     assertEquals(new Integer[] {1, 3, 4, 5}, set.toArray());
+  }
+
+  @Test
+  public void testIterator_customForEachRemaining() {
+    CustomIterator customIterator = new CustomIterator();
+    Iterator<Integer> iterator = customIterator;
+
+    iterator.forEachRemaining(element -> {});
+
+    assertTrue(customIterator.didCallForEachRemaining);
+  }
+
+  @Test
+  public void testIterable_customForEach() {
+    CustomIterable customIterable = new CustomIterable();
+    Iterable<Integer> iterable = customIterable;
+
+    iterable.forEach(element -> {});
+
+    assertTrue(customIterable.didCallForEach);
+  }
+
+  static class CustomIterator implements Iterator<Integer> {
+    boolean didCallForEachRemaining = false;
+
+    @Override
+    public boolean hasNext() {
+      return false;
+    }
+
+    @Override
+    public Integer next() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void forEachRemaining(Consumer<? super Integer> action) {
+      didCallForEachRemaining = true;
+      Iterator.super.forEachRemaining(action);
+    }
+  }
+
+  static class CustomIterable implements Iterable<Integer> {
+    boolean didCallForEach = false;
+
+    @Override
+    public Iterator<Integer> iterator() {
+      return new CustomIterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Integer> action) {
+      didCallForEach = true;
+      Iterable.super.forEach(action);
+    }
   }
 
   private static class IdentityHashMapTestObject {

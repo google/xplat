@@ -32,11 +32,16 @@ fun interface JavaIterable<T> : MutableIterable<T> {
   fun spliterator(): Spliterator<T> = default_spliterator()
 }
 
-fun <T> MutableIterable<T>.java_forEach(consumer: Consumer<in T>) =
-  if (this is JavaIterable) java_forEach(consumer) else default_forEach(consumer)
+fun <T> MutableIterable<T>.java_forEach(consumer: Consumer<in T>) {
+  if (this is JavaIterable) {
+    java_forEach(consumer)
+  } else {
+    default_forEach(consumer)
+  }
+}
 
-private fun <T> MutableIterable<T>.default_forEach(consumer: Consumer<in T>) {
-  for (t in this) consumer.accept(t)
+private inline fun <T> MutableIterable<T>.default_forEach(consumer: Consumer<in T>) {
+  forEach(consumer::accept)
 }
 
 fun <T> MutableIterable<T>.spliterator(): Spliterator<T> =

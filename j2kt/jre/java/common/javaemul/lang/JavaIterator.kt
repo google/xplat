@@ -32,9 +32,14 @@ interface JavaIterator<T> : MutableIterator<T> {
   }
 }
 
-fun <T> MutableIterator<T>.java_forEachRemaining(consumer: Consumer<in T>) =
-  if (this is JavaIterator) java_forEachRemaining(consumer) else default_forEachRemaining(consumer)
+fun <T> MutableIterator<T>.java_forEachRemaining(consumer: Consumer<in T>) {
+  if (this is JavaIterator) {
+    java_forEachRemaining(consumer)
+  } else {
+    default_forEachRemaining(consumer)
+  }
+}
 
-private fun <T> MutableIterator<T>.default_forEachRemaining(consumer: Consumer<in T>) {
-  while (hasNext()) consumer.accept(next())
+private inline fun <T> MutableIterator<T>.default_forEachRemaining(consumer: Consumer<in T>) {
+  forEach(consumer::accept)
 }
