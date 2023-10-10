@@ -42,7 +42,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   /** Only for bookkeeping in the transpiler. Do not call */
   @KtName("addAll")
-  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_addAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -62,7 +62,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   /** Only for bookkeeping in the transpiler. Do not call */
   @KtName("containsAll")
-  default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -88,7 +88,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   boolean removeAll(Collection<?> c);
 
   @KtName("removeAll")
-  default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -101,7 +101,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
   boolean retainAll(Collection<?> c);
 
   @KtName("retainAll")
-  default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 

@@ -29,7 +29,7 @@ import org.jspecify.nullness.Nullable;
 @NullMarked
 public interface Set<E extends @Nullable Object> extends Collection<E> {
   @Override
-  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_addAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -39,7 +39,7 @@ public interface Set<E extends @Nullable Object> extends Collection<E> {
   }
 
   @Override
-  default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -49,12 +49,12 @@ public interface Set<E extends @Nullable Object> extends Collection<E> {
   }
 
   @Override
-  default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
   @Override
-  default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 

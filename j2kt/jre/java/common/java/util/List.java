@@ -37,7 +37,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   boolean addAll(int index, Collection<? extends E> c);
 
   @Override
-  default boolean $kotlin_addAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_addAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -47,7 +47,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   }
 
   @Override
-  default boolean $kotlin_containsAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -69,7 +69,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   }
 
   @Override
-  default boolean $kotlin_removeAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 
@@ -77,7 +77,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   E remove(int index);
 
   @Override
-  default boolean $kotlin_retainAll(KotlinCollection<? extends E> c) {
+  default boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c) {
     return ktNative();
   }
 

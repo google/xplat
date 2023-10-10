@@ -38,7 +38,7 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean addAll(Collection<? extends E> c);
 
   @Override
-  public native boolean $kotlin_addAll(KotlinCollection<? extends E> c);
+  public native boolean $kotlin_addAll($Kotlin_Collection<? extends E> c);
 
   @Override
   public native void clear();
@@ -53,7 +53,7 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean containsAll(Collection<?> c);
 
   @Override
-  public native boolean $kotlin_containsAll(KotlinCollection<? extends E> c);
+  public native boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c);
 
   @Override
   public native boolean isEmpty();
@@ -71,13 +71,13 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean removeAll(Collection<?> c);
 
   @Override
-  public native boolean $kotlin_removeAll(KotlinCollection<? extends E> c);
+  public native boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c);
 
   @Override
   public native boolean retainAll(Collection<?> c);
 
   @Override
-  public native boolean $kotlin_retainAll(KotlinCollection<? extends E> c);
+  public native boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c);
 
   @Override
   public native @Nullable Object[] toArray();
