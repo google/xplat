@@ -25,30 +25,26 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Provider;
 import java.security.spec.AlgorithmParameterSpec;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 /** This class provides the public API for <i>Message Authentication Code</i> (MAC) algorithms. */
+@KtNative("javax.crypto.Mac")
 @NullMarked
 public class Mac implements Cloneable {
-  // TODO(b/253428486): Actually provide an implement of the hashing.
-
   /**
    * Returns the name of the MAC algorithm.
    *
    * @return the name of the MAC algorithm.
    */
-  public final String getAlgorithm() {
-    throw new UnsupportedOperationException();
-  }
+  public final native String getAlgorithm();
 
   /**
    * Returns the provider of this {@code Mac} instance.
    *
    * @return the provider of this {@code Mac} instance.
    */
-  public final Provider getProvider() {
-    throw new UnsupportedOperationException();
-  }
+  public final native Provider getProvider();
 
   /**
    * Creates a new {@code Mac} instance that provides the specified MAC algorithm.
@@ -59,9 +55,7 @@ public class Mac implements Cloneable {
    * @throws NullPointerException if {@code algorithm} is {@code null} (instead of
    *     NoSuchAlgorithmException as in 1.4 release).
    */
-  public static final Mac getInstance(String algorithm) throws NoSuchAlgorithmException {
-    throw new UnsupportedOperationException();
-  }
+  public static final native Mac getInstance(String algorithm) throws NoSuchAlgorithmException;
 
   /**
    * Creates a new {@code Mac} instance that provides the specified MAC algorithm from the specified
@@ -77,10 +71,8 @@ public class Mac implements Cloneable {
    * @throws NullPointerException if {@code algorithm} is {@code null} (instead of
    *     NoSuchAlgorithmException as in 1.4 release).
    */
-  public static final Mac getInstance(String algorithm, String provider)
-      throws NoSuchAlgorithmException, NoSuchProviderException {
-    throw new UnsupportedOperationException();
-  }
+  public static final native Mac getInstance(String algorithm, String provider)
+      throws NoSuchAlgorithmException, NoSuchProviderException;
 
   /**
    * Creates a new {@code Mac} instance that provides the specified MAC algorithm from the specified
@@ -95,19 +87,15 @@ public class Mac implements Cloneable {
    * @throws NullPointerException if {@code algorithm} is {@code null} (instead of
    *     NoSuchAlgorithmException as in 1.4 release).
    */
-  public static final Mac getInstance(String algorithm, Provider provider)
-      throws NoSuchAlgorithmException {
-    throw new UnsupportedOperationException();
-  }
+  public static final native Mac getInstance(String algorithm, Provider provider)
+      throws NoSuchAlgorithmException;
 
   /**
    * Returns the length of this MAC (in bytes).
    *
    * @return the length of this MAC (in bytes).
    */
-  public final int getMacLength() {
-    throw new UnsupportedOperationException();
-  }
+  public final native int getMacLength();
 
   /**
    * Initializes this {@code Mac} instance with the specified key and algorithm parameters.
@@ -119,8 +107,8 @@ public class Mac implements Cloneable {
    * @throws InvalidAlgorithmParameterException if the specified parameters cannot be used to
    *     initialize this algorithm.
    */
-  public final void init(Key key, AlgorithmParameterSpec params)
-      throws InvalidKeyException, InvalidAlgorithmParameterException {}
+  public final native void init(Key key, AlgorithmParameterSpec params)
+      throws InvalidKeyException, InvalidAlgorithmParameterException;
 
   /**
    * Initializes this {@code Mac} instance with the specified key.
@@ -129,9 +117,7 @@ public class Mac implements Cloneable {
    * @throws InvalidKeyException if initialization fails because the provided key is {@code null}.
    * @throws RuntimeException if the specified key cannot be used to initialize this algorithm.
    */
-  public final void init(Key key) throws InvalidKeyException {
-    throw new UnsupportedOperationException();
-  }
+  public final native void init(Key key) throws InvalidKeyException;
 
   /**
    * Updates this {@code Mac} instance with the specified byte.
@@ -139,9 +125,7 @@ public class Mac implements Cloneable {
    * @param input the byte
    * @throws IllegalStateException if this MAC is not initialized.
    */
-  public final void update(byte input) throws IllegalStateException {
-    throw new UnsupportedOperationException();
-  }
+  public final native void update(byte input) throws IllegalStateException;
 
   /**
    * Updates this {@code Mac} instance with the data from the specified buffer {@code input} from
@@ -154,9 +138,7 @@ public class Mac implements Cloneable {
    * @throws IllegalArgumentException if {@code offset} and {@code len} do not specified a valid
    *     chunk in {@code input} buffer.
    */
-  public final void update(byte[] input, int offset, int len) throws IllegalStateException {
-    throw new UnsupportedOperationException();
-  }
+  public final native void update(byte[] input, int offset, int len) throws IllegalStateException;
 
   /**
    * Copies the buffer provided as input for further processing.
@@ -164,9 +146,7 @@ public class Mac implements Cloneable {
    * @param input the buffer.
    * @throws IllegalStateException if this MAC is not initialized.
    */
-  public final void update(byte[] input) throws IllegalStateException {
-    throw new UnsupportedOperationException();
-  }
+  public final native void update(byte[] input) throws IllegalStateException;
 
   /**
    * Updates this {@code Mac} instance with the data from the specified buffer, starting at {@link
@@ -175,9 +155,7 @@ public class Mac implements Cloneable {
    * @param input the buffer.
    * @throws IllegalStateException if this MAC is not initialized.
    */
-  public final void update(ByteBuffer input) {
-    throw new UnsupportedOperationException();
-  }
+  public final native void update(ByteBuffer input);
 
   /**
    * Computes the digest of this MAC based on the data previously specified in {@link #update}
@@ -189,9 +167,7 @@ public class Mac implements Cloneable {
    * @return the generated digest.
    * @throws IllegalStateException if this MAC is not initialized.
    */
-  public final byte[] doFinal() throws IllegalStateException {
-    throw new UnsupportedOperationException();
-  }
+  public final native byte[] doFinal() throws IllegalStateException;
 
   /**
    * Computes the digest of this MAC based on the data previously specified in {@link #update} calls
@@ -207,10 +183,8 @@ public class Mac implements Cloneable {
    *     negative or past the length of the output buffer.
    * @throws IllegalStateException if this MAC is not initialized.
    */
-  public final void doFinal(byte[] output, int outOffset)
-      throws ShortBufferException, IllegalStateException {
-    throw new UnsupportedOperationException();
-  }
+  public final native void doFinal(byte[] output, int outOffset)
+      throws ShortBufferException, IllegalStateException;
 
   /**
    * Computes the digest of this MAC based on the data previously specified on {@link #update} calls
@@ -223,9 +197,7 @@ public class Mac implements Cloneable {
    * @return the generated digest.
    * @throws IllegalStateException if this MAC is not initialized.
    */
-  public final byte[] doFinal(byte[] input) throws IllegalStateException {
-    throw new UnsupportedOperationException();
-  }
+  public final native byte[] doFinal(byte[] input) throws IllegalStateException;
 
   /**
    * Resets this {@code Mac} instance to its initial state.
@@ -233,9 +205,7 @@ public class Mac implements Cloneable {
    * <p>This {@code Mac} instance is reverted to its initial state and can be used to start the next
    * MAC computation with the same parameters or initialized with different parameters.
    */
-  public final void reset() {
-    throw new UnsupportedOperationException();
-  }
+  public final native void reset();
 
   /**
    * Clones this {@code Mac} instance and the underlying implementation.
@@ -244,7 +214,5 @@ public class Mac implements Cloneable {
    * @throws CloneNotSupportedException if the underlying implementation does not support cloning.
    */
   @Override
-  public final Object clone() throws CloneNotSupportedException {
-    throw new UnsupportedOperationException();
-  }
+  public final native Object clone() throws CloneNotSupportedException;
 }
