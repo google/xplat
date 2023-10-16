@@ -23,7 +23,7 @@ import java.util.Locale
 /**
  * Pseudo-constructor for emulated java.lang.String.
  *
- * We assume that the platfrom encoding is UTF-8 here (like J2Objc and Android do).
+ * We assume that the platform encoding is UTF-8 here (like J2Objc and Android do).
  *
  * See regular JRE API documentation for other methods in this file.
  */
@@ -57,6 +57,12 @@ operator fun String.Companion.invoke(a: ByteArray, offset: Int, len: Int, charse
   java.lang.String(a, offset, len, charsetName) as String
 
 operator fun String.Companion.invoke(s: String) = java.lang.String(s) as String
+
+fun String.Companion.join(delimiter: CharSequence, elements: Iterable<CharSequence>): String =
+  java.lang.String.join(delimiter, elements)
+
+fun String.Companion.join(delimiter: CharSequence, vararg elements: CharSequence): String =
+  java.lang.String.join(delimiter, *elements)
 
 fun String.Companion.valueOf(c: Char): String = java.lang.String.valueOf(c)
 

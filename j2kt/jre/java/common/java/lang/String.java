@@ -219,4 +219,9 @@ public final class String implements Comparable<String>, CharSequence {
 
   public static native String format(
       @Nullable Locale locale, String format, @Nullable Object... args);
+
+  public static native String join(
+      CharSequence delimiter, Iterable<? extends CharSequence> elements);
+
+  public static native String join(CharSequence delimiter, CharSequence... elements);
 }

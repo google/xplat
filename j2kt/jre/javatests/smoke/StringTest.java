@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Locale;
 import org.jspecify.nullness.Nullable;
 import org.junit.Test;
@@ -294,5 +295,26 @@ public class StringTest {
 
     // Make sure null argument works.
     assertEquals("null test!", String.format("%s %s!", null, "test"));
+  }
+
+  @Test
+  public void testStringJoin() {
+    // Test varargs
+    assertEquals("Grace Kelly", String.join(" ", "Grace", "Kelly"));
+    // Single parameter
+    assertEquals("Mika", String.join("performed by ", "Mika"));
+    // Many parameters
+    assertEquals(
+        "I can be brown I can be blue I can be violet sky",
+        String.join("I can be ", "", "brown ", "blue ", "violet sky"));
+
+    // Test iterable
+    assertEquals(
+        "I can be hurtful I can be purple I can be anything you like",
+        String.join("I can be ", Arrays.asList("", "hurtful ", "purple ", "anything you like")));
+    // Empty parameters
+    assertEquals("", String.join("I've gone identity", Arrays.asList()));
+    // Empty delimiter
+    assertEquals("maaaaaaaad", String.join("", Arrays.asList("ma", "a", "aa", "aaa", "ad")));
   }
 }

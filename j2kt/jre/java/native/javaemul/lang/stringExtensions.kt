@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
 import java.util.Formatter
 import java.util.Locale
+import java.util.StringJoiner
 import java.util.regex.Pattern
 import kotlin.text.CharacterCodingException
 
@@ -29,7 +30,7 @@ import kotlin.text.CharacterCodingException
 /**
  * Pseudo-constructor for emulated java.lang.String.
  *
- * We assume that the platfrom encoding is UTF-8 here (like J2Objc and Android do).
+ * We assume that the platform encoding is UTF-8 here (like J2Objc and Android do).
  *
  * See regular JRE API documentation for other methods in this file.
  */
@@ -93,6 +94,17 @@ fun String.Companion.format(format: String, vararg values: Any?): String =
 
 fun String.Companion.format(locale: Locale?, format: String, vararg values: Any?): String =
   Formatter().format(locale, format, *values).toString()
+
+fun String.Companion.join(delimiter: CharSequence, elements: Iterable<CharSequence>): String {
+  val joiner = StringJoiner(delimiter)
+  for (element in elements) {
+    joiner.add(element)
+  }
+  return joiner.toString()
+}
+
+fun String.Companion.join(delimiter: CharSequence, vararg elements: CharSequence): String =
+  join(delimiter, elements.asList())
 
 fun String.Companion.valueOf(c: Char): String = c.toString()
 
