@@ -219,7 +219,11 @@ private fun <K, V> MutableMap<K, V>.default_merge(
 }
 
 private fun <K, V> MutableMap<K, V>.default_putIfAbsent(key: K, value: V): V? {
-  return getOrPut(key) { value }
+  var v: V? = get(key)
+  if (v == null) {
+    v = put(key, value)
+  }
+  return v
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -241,5 +245,5 @@ private fun <K, V> MutableMap<K, V>.default_replace(key: K, oldValue: V, newValu
 }
 
 private fun <K, V> MutableMap<K, V>.default_replaceAll(function: BiFunction<in K, in V, out V>) {
-  this.forEach { entry -> function.apply(entry.key, entry.value) }
+  this.forEach { entry -> this[entry.key] = function.apply(entry.key, entry.value) }
 }

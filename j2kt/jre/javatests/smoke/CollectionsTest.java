@@ -164,21 +164,77 @@ public class CollectionsTest {
     assertFalse(hashMap.containsValue(3));
     assertFalse(map.containsValue(new Object()));
     assertFalse(hashMap.containsValue(new Object()));
+  }
 
-    assertEquals(null, map.remove(new Object()));
-    assertEquals(null, hashMap.remove(new Object()));
+  @Test
+  public void testJavaMapSignatures_stateful() {
+    // Map and HashMap are mapped to separate native types, we test bridged methods with each type
+    // as the target because they are dispatched statically.
+    HashMap<String, Integer> hashMap = new HashMap<>();
+    Map<String, Integer> map = hashMap;
 
-    assertEquals((Object) 1, map.remove("a"));
-    assertEquals(1, map.size());
-    map.put("a", 1);
-    assertEquals((Object) 1, hashMap.remove("a"));
-    assertEquals(1, map.size());
+    // put/putIfAbsent
+    assertNull("put should return null for new values", map.put("a", 1));
+    assertEquals("put should return old value", (Object) 1, map.put("a", 2));
+    assertNull("putIfAbsent should return null for new values", map.putIfAbsent("b", 1));
+    assertEquals("putIfAbsent should return current value", (Object) 1, map.putIfAbsent("b", 2));
+    assertEquals("putIfAbsent shouldn't override", (Object) 1, map.get("b"));
 
-    assertEquals((Object) 2, map.remove((Object) "b"));
-    assertEquals(0, map.size());
-    map.put("b", 2);
-    assertEquals((Object) 2, hashMap.remove((Object) "b"));
-    assertEquals(0, hashMap.size());
+    // replace/replaceAll
+    assertEquals("replacement should return old value", (Object) 2, map.replace("a", 3));
+    assertNull("replacement should fail", map.replace("c", 1));
+    assertNull("replace should add nothing", map.get("c"));
+    assertTrue("replacement should succeed", map.replace("a", 3, 4));
+    assertFalse("replacement should fail", map.replace("a", 3, 5));
+    assertEquals("replace should override", (Object) 4, map.get("a"));
+    map.replaceAll((k, v) -> 6);
+    assertEquals("Post replace all map size", 2, map.size());
+    assertEquals("Post replace all key:A", (Object) 6, map.get("a"));
+    assertEquals("Post replace all key:B", (Object) 6, map.get("b"));
+
+    // remove
+    assertNull("removal should fail", map.remove(new Object()));
+    assertEquals("removal should succeed", (Object) 6, map.remove("a"));
+    assertEquals("removal should remove", 1, map.size());
+    assertFalse("targeted removal should fail if mismatch", map.remove((Object) "b", 5));
+    assertEquals("failed removal shouldn't affect size", 1, map.size());
+    assertTrue("targeted removal should succeed", map.remove((Object) "b", 6));
+    assertEquals("targeted removal should remove", 0, map.size());
+  }
+
+  @Test
+  public void testJavaHashMapSignatures_stateful() {
+    // Map and HashMap are mapped to separate native types, we test bridged methods with each type
+    // as the target because they are dispatched statically.
+    HashMap<String, Integer> map = new HashMap<>();
+
+    // put/putIfAbsent
+    assertNull("put should return null for new values", map.put("a", 1));
+    assertEquals("put should return old value", (Object) 1, map.put("a", 2));
+    assertNull("putIfAbsent should return null for new values", map.putIfAbsent("b", 1));
+    assertEquals("putIfAbsent should return current value", (Object) 1, map.putIfAbsent("b", 2));
+    assertEquals("putIfAbsent shouldn't override", (Object) 1, map.get("b"));
+
+    // replace/replaceAll
+    assertEquals("replacement should return old value", (Object) 2, map.replace("a", 3));
+    assertNull("replacement should fail", map.replace("c", 1));
+    assertNull("replace should add nothing", map.get("c"));
+    assertTrue("replacement should succeed", map.replace("a", 3, 4));
+    assertFalse("replacement should fail", map.replace("a", 3, 5));
+    assertEquals("replace should override", (Object) 4, map.get("a"));
+    map.replaceAll((k, v) -> 6);
+    assertEquals("Post replace all map size", 2, map.size());
+    assertEquals("Post replace all key:A", (Object) 6, map.get("a"));
+    assertEquals("Post replace all key:B", (Object) 6, map.get("b"));
+
+    // remove
+    assertNull("removal should fail", map.remove(new Object()));
+    assertEquals("removal should succeed", (Object) 6, map.remove("a"));
+    assertEquals("removal should remove", 1, map.size());
+    assertFalse("targeted removal should fail if mismatch", map.remove((Object) "b", 5));
+    assertEquals("failed removal shouldn't affect size", 1, map.size());
+    assertTrue("targeted removal should succeed", map.remove((Object) "b", 6));
+    assertEquals("targeted removal should remove", 0, map.size());
   }
 
   @Test
