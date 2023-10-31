@@ -26,18 +26,17 @@ import kotlin.native.ObjCName
 /** Bridge class for java.util.Collection. */
 @ObjCName("JavaemulLangJavaCollection", exact = true)
 interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
-  // TODO(b/243046587): Rewrite to handle case in which c is not mutable
-  override fun addAll(c: Collection<E>): Boolean = java_addAll(c as MutableCollection<E>)
+  override fun addAll(c: Collection<E>): Boolean = java_addAll(c.asMutableCollection())
 
   override fun contains(e: E): Boolean = java_contains(e)
 
-  override fun containsAll(c: Collection<E>): Boolean = java_containsAll(c as MutableCollection<E>)
+  override fun containsAll(c: Collection<E>): Boolean = java_containsAll(c.asMutableCollection())
 
   override fun remove(e: E): Boolean = java_remove(e)
 
-  override fun removeAll(c: Collection<E>): Boolean = java_removeAll(c as MutableCollection<E>)
+  override fun removeAll(c: Collection<E>): Boolean = java_removeAll(c.asMutableCollection())
 
-  override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c as MutableCollection<E>)
+  override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c.asMutableCollection())
 
   // TODO(233944334): On JVM, MutableCollection has a hidden implementation of spliterator.
   override fun spliterator(): Spliterator<E> = super<JavaIterable>.spliterator()

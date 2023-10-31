@@ -26,9 +26,8 @@ import kotlin.native.ObjCName
 interface JavaList<E> : MutableList<E>, JavaCollection<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
 
-  // TODO(b/243046587): Rewrite to handle case in which c is not mutable
   override fun addAll(index: Int, c: Collection<E>): Boolean {
-    return java_addAll(index, c as MutableCollection<E>)
+    return java_addAll(index, c.asMutableCollection())
   }
 
   override fun contains(e: E): Boolean = super<JavaCollection>.contains(e)
@@ -70,9 +69,8 @@ fun <E> MutableList<E>.sort(c: Comparator<in E>?) {
   }
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<out E>): Boolean =
-  if (this is JavaList) java_addAll(index, c) else addAll(index, c as MutableCollection<E>)
+  if (this is JavaList) java_addAll(index, c) else addAll(index, c)
 
 @Suppress("UNCHECKED_CAST")
 fun <E> MutableList<E>.java_indexOf(a: Any?): Int =
