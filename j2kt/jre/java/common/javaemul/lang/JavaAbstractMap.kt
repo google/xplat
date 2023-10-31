@@ -36,7 +36,9 @@ abstract class JavaAbstractMap<K, V> : AbstractMap<K, V>(), JavaMap<K, V> {
     throw UnsupportedOperationException("Put not supported on this map")
   }
 
-  override fun putAll(t: Map<out K, V>) = java_putAll(t.asMutableMap())
+  // TODO(b/243046587): Rewrite to handle case in which t is not mutable
+  @Suppress("UNCHECKED_CAST")
+  override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_containsKey(key: Any?): Boolean = super<AbstractMap>.containsKey(key as K)

@@ -15,17 +15,16 @@
  */
 package interop.collections
 
-import javaemul.lang.asMutableList
 import kotlin.test.Test
 
 /** Tests interop between Kotlin and J2KT-generated code. */
 class J2KtCollectionsInteropTest {
 
-  // At this moment, J2KT collections map to mutable collections in Kotlin, so read-only collections
-  // needs to be wrapped as mutable.
+  // At this moment, J2KT collections map to mutable collections in Kotlin, so it's not possible to
+  // pass read-only collections as arguments to J2KT methods.
   @Test
-  fun j2kt_acceptsKotlinListAsMutableList() {
-    J2KtCollections.accept(listOf("foo", "bar").asMutableList())
+  fun j2kt_acceptsKotlinList() {
+    // J2KtCollections.accept(listOf("foo", "bar"))
   }
 
   @Test
@@ -48,7 +47,6 @@ class J2KtCollectionsInteropTest {
   fun j2ktMutableList_kotlinMutationSupported() {
     val list = J2KtCollections.newMutableList<String>()
     list.add("foo")
-    list.addAll(listOf("foo", "bar"))
   }
 
   @Test

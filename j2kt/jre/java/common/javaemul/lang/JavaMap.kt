@@ -34,7 +34,8 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 
   override fun remove(key: K): V? = java_remove(key)
 
-  override fun putAll(t: Map<out K, V>) = java_putAll(t.asMutableMap())
+  // TODO(b/243046587): Rewrite to handle case in which t is not mutable
+  override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
 
   fun java_compute(key: K, remappingFunction: BiFunction<in K, in V?, out V?>): V? =
     default_compute(key, remappingFunction)
