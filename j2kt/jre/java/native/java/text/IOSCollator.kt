@@ -84,8 +84,10 @@ internal class IOSCollator(private val locale: Locale) : Collator() {
         }
       }
 
+    // TODO(b/309016405) : Inline this variable when bug is fixed.
+    val string1Length = string1.length.toULong()
     return (string1 as NSString)
-      .compare(string2, compareOptions, NSMakeRange(0u, string2.length.toULong()), nsLocale)
+      .compare(string2, compareOptions, NSMakeRange(0u, string1Length), nsLocale)
       .toInt()
   }
 
