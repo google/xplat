@@ -28,15 +28,21 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.number
 import kotlinx.datetime.offsetIn
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 @ObjCName("J2ktJavaUtilDate", exact = true)
-open class Date private constructor(private val nativeDate: Date.NativeDate) :
+open class Date
+private constructor(private var localDateTime: LocalDateTime, private var timeZone: TimeZone) :
   Cloneable, Comparable<Date>, Serializable {
-  constructor() : this(Date.NativeDate())
+  constructor() :
+    this(
+      Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+      TimeZone.currentSystemDefault()
+    )
 
   constructor(
     @ObjCName("Int") year: Int,
@@ -59,13 +65,19 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
     @ObjCName("withInt") hrs: Int,
     @ObjCName("withInt") min: Int,
     @ObjCName("withInt") sec: Int
-  ) : this(Date.NativeDate()) {
-    nativeDate.setFullYear(year + 1900, month + 1, date)
-    nativeDate.setHours(hrs, min, sec, 0)
+  ) : this(
+    LocalDateTime(year + 1900, month + 1, date, hrs, min, sec, 0),
+    TimeZone.currentSystemDefault()
+  ) {
     fixDaylightSavings(hrs)
   }
 
-  constructor(@ObjCName("Long") date: Long) : this(Date.NativeDate(date))
+  constructor(
+    @ObjCName("Long") date: Long
+  ) : this(
+    Instant.fromEpochMilliseconds(date).toLocalDateTime(TimeZone.currentSystemDefault()),
+    TimeZone.currentSystemDefault()
+  )
 
   constructor(@ObjCName("NSString") date: String) : this(Date.parse(date))
 
@@ -79,199 +91,224 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
     return getTime() < `when`.getTime()
   }
 
-  open override fun clone(): Any {
-    return Date(getTime())
-  }
+  open override fun clone(): Any = Date(localDateTime, timeZone)
 
-  open override fun compareTo(other: Date): Int {
-    return getTime().compareTo(other.getTime())
-  }
+  open override fun compareTo(other: Date): Int = getTime().compareTo(other.getTime())
 
-  open override fun equals(obj: Any?): Boolean {
-    return obj is Date && getTime() == obj.getTime()
-  }
+  open override fun equals(obj: Any?) = obj is Date && getTime() == obj.getTime()
 
-  @ObjCName("getDate")
-  open fun getDate(): Int {
-    return nativeDate.getDate()
-  }
+  @ObjCName("getDate") open fun getDate(): Int = localDateTime.dayOfMonth
 
-  @ObjCName("getDay")
-  open fun getDay(): Int {
-    return nativeDate.getDay()
-  }
+  @ObjCName("getDay") open fun getDay(): Int = localDateTime.dayOfWeek.isoDayNumber
 
-  @ObjCName("getHours")
-  open fun getHours(): Int {
-    return nativeDate.getHours()
-  }
+  @ObjCName("getHours") open fun getHours(): Int = localDateTime.hour
 
-  @ObjCName("getMinutes")
-  open fun getMinutes(): Int {
-    return nativeDate.getMinutes()
-  }
+  @ObjCName("getMinutes") open fun getMinutes(): Int = localDateTime.minute
 
-  @ObjCName("getMonth")
-  open fun getMonth(): Int {
-    return nativeDate.getMonth()
-  }
+  @ObjCName("getMonth") open fun getMonth(): Int = localDateTime.month.number - 1
 
-  @ObjCName("getSeconds")
-  open fun getSeconds(): Int {
-    return nativeDate.getSeconds()
-  }
+  @ObjCName("getSeconds") open fun getSeconds(): Int = localDateTime.second
 
   @ObjCName("getTime")
-  open fun getTime(): Long {
-    return nativeDate.getTime()
-  }
+  open fun getTime(): Long = localDateTime.toInstant(timeZone).toEpochMilliseconds()
 
   @ObjCName("getTimezoneOffset")
-  open fun getTimezoneOffset(): Int {
-    return nativeDate.getTimezoneOffset()
-  }
+  open fun getTimezoneOffset(): Int =
+    localDateTime.toInstant(timeZone).offsetIn(timeZone).totalSeconds
 
   @ObjCName("getYear")
   open fun getYear(): Int {
-    return nativeDate.getFullYear() - 1900
+    return localDateTime.year - 1900
   }
 
   open override fun hashCode(): Int {
-    val time: Long = getTime()
+    val time = getTime()
     return time.xor(time.ushr(32)).toInt()
   }
 
   @ObjCName("setDate")
   open fun setDate(@ObjCName("withInt") date: Int) {
-    val hours: Int = nativeDate.getHours()
-    nativeDate.setDate(date)
+    val hours = localDateTime.hour
+    localDateTime =
+      LocalDateTime(
+        localDateTime.year,
+        localDateTime.month,
+        date,
+        localDateTime.hour,
+        localDateTime.minute,
+        localDateTime.second,
+        localDateTime.nanosecond
+      )
     fixDaylightSavings(hours)
   }
 
   @ObjCName("setHours")
   open fun setHours(@ObjCName("withInt") hours: Int) {
-    nativeDate.setHours(hours)
+    localDateTime =
+      LocalDateTime(
+        localDateTime.year,
+        localDateTime.month,
+        localDateTime.dayOfMonth,
+        hours,
+        localDateTime.minute,
+        localDateTime.second,
+        localDateTime.nanosecond
+      )
     fixDaylightSavings(hours)
   }
 
   @ObjCName("setMinutes")
   open fun setMinutes(@ObjCName("withInt") minutes: Int) {
     val hours: Int = getHours() + minutes / 60
-    nativeDate.setMinutes(minutes)
+    localDateTime =
+      LocalDateTime(
+        localDateTime.year,
+        localDateTime.month,
+        localDateTime.dayOfMonth,
+        localDateTime.hour,
+        minutes,
+        localDateTime.second,
+        localDateTime.nanosecond
+      )
     fixDaylightSavings(hours)
   }
 
   @ObjCName("setMonth")
   open fun setMonth(@ObjCName("withInt") month: Int) {
-    val hours: Int = nativeDate.getHours()
-    nativeDate.setMonth(month)
+    val hours: Int = localDateTime.hour
+    localDateTime =
+      LocalDateTime(
+        localDateTime.year,
+        month,
+        localDateTime.dayOfMonth,
+        localDateTime.hour,
+        localDateTime.minute,
+        localDateTime.second,
+        localDateTime.nanosecond
+      )
     fixDaylightSavings(hours)
   }
 
   @ObjCName("setSeconds")
   open fun setSeconds(@ObjCName("withInt") seconds: Int) {
-    val hours: Int = getHours() + seconds / (60 * 60)
-    nativeDate.setSeconds(seconds)
+    val hours: Int = localDateTime.hour + seconds / (60 * 60)
+    localDateTime =
+      LocalDateTime(
+        localDateTime.year,
+        localDateTime.month,
+        localDateTime.dayOfMonth,
+        localDateTime.hour,
+        localDateTime.minute,
+        seconds,
+        localDateTime.nanosecond
+      )
     fixDaylightSavings(hours)
   }
 
   @ObjCName("setTime")
   open fun setTime(@ObjCName("withLong") time: Long) {
-    nativeDate.setTime(time)
+    localDateTime = Instant.fromEpochMilliseconds(time).toLocalDateTime(timeZone)
   }
 
   @ObjCName("setYear")
   open fun setYear(@ObjCName("withInt") year: Int) {
-    val hours: Int = nativeDate.getHours()
-    nativeDate.setFullYear(year + 1900)
+    val hours: Int = localDateTime.hour
+    localDateTime =
+      LocalDateTime(
+        year + 1900,
+        localDateTime.month,
+        localDateTime.dayOfMonth,
+        localDateTime.hour,
+        localDateTime.minute,
+        localDateTime.second,
+        localDateTime.nanosecond
+      )
     fixDaylightSavings(hours)
   }
 
   @ObjCName("toGMTString")
   open fun toGMTString(): String {
-    val utcNativeDate = nativeDate.toUTC()
+    val utcDate =
+      Date(localDateTime.toInstant(timeZone).toLocalDateTime(TimeZone.UTC), TimeZone.UTC)
     return "" +
-      utcNativeDate.getDate() +
+      utcDate.getDate() +
       " " +
-      Date.StringData.MONTHS[utcNativeDate.getMonth() - 1] +
+      Date.MONTHS[utcDate.getMonth()] +
       " " +
-      utcNativeDate.getFullYear() +
+      utcDate.localDateTime.year +
       " " +
-      Date.padTwo(utcNativeDate.getHours()) +
+      Date.padTwo(utcDate.getHours()) +
       ":" +
-      Date.padTwo(utcNativeDate.getMinutes()) +
+      Date.padTwo(utcDate.getMinutes()) +
       ":" +
-      Date.padTwo(utcNativeDate.getSeconds()) +
+      Date.padTwo(utcDate.getSeconds()) +
       " GMT"
   }
 
-  @ObjCName("toLocaleString")
-  open fun toLocaleString(): String {
-    return nativeDate.toLocaleString()
-  }
+  @ObjCName("toLocaleString") open fun toLocaleString(): String = localDateTime.toString()
 
   open override fun toString(): String {
-    val offset: Int = -nativeDate.getTimezoneOffset()
+    val offset: Int = -localDateTime.toInstant(timeZone).offsetIn(timeZone).totalSeconds
     val hourOffset: String = (if (offset >= 0) "+" else "") + offset / 60
     val minuteOffset: String = Date.padTwo(abs(offset) % 60)
-    return Date.StringData.DAYS[nativeDate.getDay()] +
+    return DAYS[getDay() - 1] +
       " " +
-      Date.StringData.MONTHS[nativeDate.getMonth()] +
+      MONTHS[getMonth()] +
       " " +
-      Date.padTwo(nativeDate.getDate()) +
+      Date.padTwo(getDate()) +
       " " +
-      Date.padTwo(nativeDate.getHours()) +
+      Date.padTwo(getHours()) +
       ":" +
-      Date.padTwo(nativeDate.getMinutes()) +
+      Date.padTwo(getMinutes()) +
       ":" +
-      Date.padTwo(nativeDate.getSeconds()) +
+      Date.padTwo(getSeconds()) +
       " GMT" +
       hourOffset +
       minuteOffset +
       " " +
-      nativeDate.getFullYear()
+      localDateTime.year
   }
 
   private fun fixDaylightSavings(requestedHours: Int) {
     val requestedHoursFixed: Int = requestedHours % 24
-    if (nativeDate.getHours() != requestedHoursFixed) {
-      val copy: Date.NativeDate = Date.NativeDate(nativeDate.getTime())
-      copy.setDate(copy.getDate() + 1)
-      val timeDiff: Int = nativeDate.getTimezoneOffset() - copy.getTimezoneOffset()
+    if (localDateTime.hour != requestedHoursFixed) {
+      val copy = Date(getTime())
+      copy.setDate(copy.getDay() + 1)
+      val timeDiff: Int = getTimezoneOffset() - copy.getTimezoneOffset()
       if (timeDiff > 0) {
         val timeDiffHours: Int = timeDiff / 60
         val timeDiffMinutes: Int = timeDiff % 60
-        var day: Int = nativeDate.getDate()
-        val badHours: Int = nativeDate.getHours()
+        var day: Int = getDay()
+        val badHours: Int = getHours()
         if (badHours + timeDiffHours >= 24) {
           day = day + 1
         }
-        val newTime: Date.NativeDate =
-          Date.NativeDate(
-            nativeDate.getFullYear(),
-            nativeDate.getMonth(),
+        localDateTime =
+          LocalDateTime(
+            localDateTime.year,
+            localDateTime.month,
             day,
             requestedHoursFixed + timeDiffHours,
-            nativeDate.getMinutes() + timeDiffMinutes,
-            nativeDate.getSeconds(),
-            nativeDate.getMilliseconds()
+            localDateTime.minute + timeDiffMinutes,
+            localDateTime.second,
+            localDateTime.nanosecond
           )
-        nativeDate.setTime(newTime.getTime())
       }
     }
-    val originalTimeInMillis: Long = nativeDate.getTime()
-    nativeDate.setTime(originalTimeInMillis + Date.ONE_HOUR_IN_MILLISECONDS)
-    if (nativeDate.getHours() != requestedHoursFixed) {
-      nativeDate.setTime(originalTimeInMillis)
+    val originalTimeInMillis: Long = getTime()
+    setTime(originalTimeInMillis + Date.ONE_HOUR_IN_MILLISECONDS)
+    if (getHours() != requestedHoursFixed) {
+      setTime(originalTimeInMillis)
     }
   }
 
   companion object {
     @ObjCName("parse")
     fun parse(@ObjCName("withNSString") s: String): Long {
-      return Date.NativeDate.parse(s)
+      return LocalDateTime.parse(s).toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
     }
 
+    // Unlike java.util.Date, Kotlin expects years in CE, and months in 1-12.
     @ObjCName("UTC")
     fun UTC(
       @ObjCName("withInt") year: Int,
@@ -280,221 +317,31 @@ open class Date private constructor(private val nativeDate: Date.NativeDate) :
       @ObjCName("withInt") hrs: Int,
       @ObjCName("withInt") min: Int,
       @ObjCName("withInt") sec: Int
-    ): Long {
-      // Unlike java.util.Date, Kotlin expects years in CE, and months in 1-12.
-      return NativeDate.UTC(year + 1900, month + 1, date, hrs, min, sec, 0).getTime()
-    }
+    ) = Date(LocalDateTime(year + 1900, month + 1, date, hrs, min, sec, 0), TimeZone.UTC).getTime()
 
     @ObjCName("padTwo")
-    fun padTwo(@ObjCName("withInt") number: Int): String {
-      return if (number < 10) "0" + number else number.toString()
-    }
+    fun padTwo(@ObjCName("withInt") number: Int) =
+      if (number < 10) "0" + number else number.toString()
 
     private const val ONE_HOUR_IN_MILLISECONDS: Long = 3600000L
-  }
 
-  private class StringData {
-    companion object {
-      val DAYS: Array<String> = arrayOf<String>("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+    private val DAYS: Array<String> =
+      arrayOf<String>("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
 
-      val MONTHS: Array<String> =
-        arrayOf<String>(
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        )
-    }
-  }
-
-  private class NativeDate(private var dateTime: LocalDateTime, private val timeZone: TimeZone) {
-    constructor() :
-      this(
-        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-        TimeZone.currentSystemDefault()
-      ) {}
-
-    constructor(
-      milliseconds: Long
-    ) : this(
-      Instant.fromEpochMilliseconds(milliseconds).toLocalDateTime(TimeZone.currentSystemDefault()),
-      TimeZone.currentSystemDefault()
-    ) {}
-
-    constructor(
-      year: Int,
-      month: Int,
-      dayOfMonth: Int,
-      hours: Int,
-      minutes: Int,
-      seconds: Int,
-      millis: Int
-    ) : this(
-      LocalDateTime(year, month, dayOfMonth, hours, minutes, seconds, millis * 1_000_000),
-      TimeZone.currentSystemDefault()
-    ) {}
-
-    fun getDate(): Int = dateTime.dayOfMonth
-
-    fun getDay(): Int = dateTime.dayOfMonth
-
-    fun getFullYear(): Int = dateTime.year
-
-    fun getHours(): Int = dateTime.hour
-
-    fun getMilliseconds(): Int = dateTime.nanosecond / 1_000_000
-
-    fun getMinutes(): Int = dateTime.minute
-
-    fun getMonth(): Int = dateTime.month.number
-
-    fun getSeconds(): Int = dateTime.second
-
-    // Returns milliseconds since epoch
-    fun getTime(): Long = dateTime.toInstant(timeZone).toEpochMilliseconds()
-
-    fun getTimezoneOffset(): Int = dateTime.toInstant(timeZone).offsetIn(timeZone).totalSeconds
-
-    fun toUTC(): NativeDate =
-      NativeDate(dateTime.toInstant(timeZone).toLocalDateTime(TimeZone.UTC), TimeZone.UTC)
-
-    fun setDate(dayOfMonth: Int) {
-      dateTime =
-        LocalDateTime(
-          dateTime.year,
-          dateTime.month,
-          dayOfMonth,
-          dateTime.hour,
-          dateTime.minute,
-          dateTime.second,
-          dateTime.nanosecond
-        )
-    }
-
-    fun setFullYear(year: Int) {
-      dateTime =
-        LocalDateTime(
-          year,
-          dateTime.month,
-          dateTime.dayOfMonth,
-          dateTime.hour,
-          dateTime.minute,
-          dateTime.second,
-          dateTime.nanosecond
-        )
-    }
-
-    fun setFullYear(year: Int, month: Int, day: Int) {
-      dateTime =
-        LocalDateTime(
-          year,
-          month,
-          day,
-          dateTime.hour,
-          dateTime.minute,
-          dateTime.second,
-          dateTime.nanosecond
-        )
-    }
-
-    fun setHours(hours: Int) {
-      dateTime =
-        LocalDateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.dayOfMonth,
-          hours,
-          dateTime.minute,
-          dateTime.second,
-          dateTime.nanosecond
-        )
-    }
-
-    fun setHours(hours: Int, mins: Int, secs: Int, ms: Int) {
-      dateTime =
-        LocalDateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.dayOfMonth,
-          hours,
-          mins,
-          secs,
-          ms * 1_000_000
-        )
-    }
-
-    fun setMinutes(minutes: Int) {
-      dateTime =
-        LocalDateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.dayOfMonth,
-          dateTime.hour,
-          minutes,
-          dateTime.second,
-          dateTime.nanosecond
-        )
-    }
-
-    fun setMonth(month: Int) {
-      dateTime =
-        LocalDateTime(
-          dateTime.year,
-          month,
-          dateTime.dayOfMonth,
-          dateTime.hour,
-          dateTime.minute,
-          dateTime.second,
-          dateTime.nanosecond
-        )
-    }
-
-    fun setSeconds(seconds: Int) {
-      dateTime =
-        LocalDateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.dayOfMonth,
-          dateTime.hour,
-          dateTime.minute,
-          seconds,
-          dateTime.nanosecond
-        )
-    }
-
-    fun setTime(milliseconds: Long) {
-      dateTime = Instant.fromEpochMilliseconds(milliseconds).toLocalDateTime(timeZone)
-    }
-
-    fun toLocaleString(): String = dateTime.toString()
-
-    companion object {
-      fun parse(dateString: String): Long =
-        LocalDateTime.parse(dateString)
-          .toInstant(TimeZone.currentSystemDefault())
-          .toEpochMilliseconds()
-
-      fun UTC(
-        year: Int,
-        month: Int,
-        dayOfMonth: Int,
-        hours: Int,
-        minutes: Int,
-        seconds: Int,
-        millis: Int
-      ): NativeDate =
-        NativeDate(
-          LocalDateTime(year, month, dayOfMonth, hours, minutes, seconds, millis * 1_000_000),
-          TimeZone.UTC
-        )
-    }
+    private val MONTHS: Array<String> =
+      arrayOf<String>(
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      )
   }
 }
