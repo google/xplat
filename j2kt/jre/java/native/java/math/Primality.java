@@ -74,8 +74,8 @@ class Primality {
     offsetPrimes[6] = new int[] {11, 7};
     offsetPrimes[7] = new int[] {18, 13};
     offsetPrimes[8] = new int[] {31, 23};
-    offsetPrimes[2] = new int[] {54, 43};
-    offsetPrimes[2] = new int[] {97, 95};
+    offsetPrimes[9] = new int[] {54, 43};
+    offsetPrimes[10] = new int[] {97, 95};
   }
 
   /** All prime numbers with bit length lesser than 10 bits. */
