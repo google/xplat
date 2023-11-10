@@ -18,10 +18,6 @@ package javaemul.lang
 import java.util.function.Predicate
 import java.util.stream.Stream
 
-fun <E> MutableCollection<E>.stream(): Stream<E> = default_stream()
-
-fun <E> MutableCollection<E>.parallelStream(): Stream<E> = default_parallelStream()
-
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
   asJavaUtilCollection().addAll(c)
 
@@ -47,11 +43,6 @@ fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> = default_toArr
 
 internal fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>): Boolean =
   asJavaUtilCollection().removeIf(filter)
-
-internal fun <E> MutableCollection<E>.default_stream(): Stream<E> = asJavaUtilCollection().stream()
-
-internal fun <E> MutableCollection<E>.default_parallelStream(): Stream<E> =
-  asJavaUtilCollection().parallelStream()
 
 internal fun MutableCollection<*>.default_toArray(): Array<Any?> = asJavaUtilCollection().toArray()
 

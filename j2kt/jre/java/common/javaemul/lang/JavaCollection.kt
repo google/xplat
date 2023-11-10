@@ -20,6 +20,7 @@ package javaemul.lang
 import java.util.Spliterator
 import java.util.function.Predicate
 import java.util.stream.Stream
+import java.util.stream.StreamSupport
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
@@ -64,3 +65,9 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun <T> java_toArray(a: Array<T>): Array<T>
 }
+
+internal fun <E> MutableCollection<E>.default_stream(): Stream<E> =
+  StreamSupport.stream(spliterator(), /* parallel= */ false)
+
+internal fun <E> MutableCollection<E>.default_parallelStream(): Stream<E> =
+  StreamSupport.stream(spliterator(), /* parallel= */ true)

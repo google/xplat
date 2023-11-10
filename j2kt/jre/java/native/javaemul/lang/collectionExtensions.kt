@@ -71,12 +71,6 @@ internal fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>):
   return removed
 }
 
-internal fun <E> MutableCollection<E>.default_stream(): Stream<E> =
-  StreamSupport.stream(spliterator(), false)
-
-internal fun <E> MutableCollection<E>.default_parallelStream(): Stream<E> =
-  StreamSupport.stream(spliterator(), false)
-
 internal fun MutableCollection<*>.default_toArray(): Array<Any?> = toTypedArray()
 
 // Note: There's no relation between the element types of Collection<E> and Array<T> (same as Java).

@@ -432,6 +432,8 @@ public class CollectionsTest {
   private static class TestList<E> extends AbstractList<E> implements List<E> {
 
     private final E theElement;
+    public int parallelStreamCalls = 0;
+    public int streamCalls = 0;
     public int toArrayCalls = 0;
     public int toArrayTypedCalls = 0;
 
@@ -483,6 +485,7 @@ public class CollectionsTest {
 
     @Override
     public Stream<E> parallelStream() {
+      parallelStreamCalls++;
       return super.parallelStream();
     }
 
@@ -517,6 +520,12 @@ public class CollectionsTest {
     }
 
     @Override
+    public Stream<E> stream() {
+      streamCalls++;
+      return super.stream();
+    }
+
+    @Override
     @SuppressWarnings("nullness:override.return") // Checker/JSpecify differences.
     public @Nullable Object[] toArray() {
       toArrayCalls++;
@@ -536,6 +545,23 @@ public class CollectionsTest {
       toArrayTypedCalls++;
       return super.toArray(a);
     }
+  }
+
+  @Test
+  public void testCustomList_streamDefaultImpls() {
+    TestList<String> testList = new TestList<>("test");
+    // Regression test. The default implementations used to recurse infinitely.
+    Stream<String> stream = testList.stream();
+    assertEquals(1, testList.streamCalls);
+    Stream<String> parallelStream = testList.parallelStream();
+    assertEquals(1, testList.parallelStreamCalls);
+
+    List<String> list = testList;
+    // Trampoline call on Kotlin Native. Regular virtual call on JVM
+    stream = list.stream();
+    assertEquals(2, testList.streamCalls);
+    parallelStream = list.parallelStream();
+    assertEquals(2, testList.parallelStreamCalls);
   }
 
   @Test
