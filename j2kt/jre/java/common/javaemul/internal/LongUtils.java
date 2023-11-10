@@ -24,7 +24,7 @@ import org.jspecify.nullness.NullMarked;
 public class LongUtils {
 
   public static long fromBits(int lowBits, int highBits) {
-    return (long) lowBits | (((long) highBits) << 32);
+    return (lowBits & 0xffff_ffffL) | (((long) highBits) << 32);
   }
 
   public static int getHighBits(long valueLong) {
