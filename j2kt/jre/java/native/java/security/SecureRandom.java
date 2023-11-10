@@ -24,7 +24,7 @@ import org.jspecify.nullness.NullMarked;
  *
  * <p>SecureRandom.kt where passes the randomization into to iOS random number generator.
  */
-@KtNative("java.security.SecureRandom")
+@KtNative(name = "java.security.SecureRandom")
 @NullMarked
 public final class SecureRandom extends Random {
   public SecureRandom() {}

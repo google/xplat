@@ -20,7 +20,7 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /** Indicates that an objet was in an invalid state during an attempted operation. */
-@KtNative(value = "kotlin.IllegalStateException", bridgeWith = "java.lang.IllegalStateException")
+@KtNative(name = "kotlin.IllegalStateException", bridgeName = "java.lang.IllegalStateException")
 @NullMarked
 public class IllegalStateException extends RuntimeException {
 

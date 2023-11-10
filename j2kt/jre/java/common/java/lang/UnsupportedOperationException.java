@@ -27,8 +27,8 @@ import org.jspecify.nullness.Nullable;
  * official Java API doc</a> for details.
  */
 @KtNative(
-    value = "kotlin.UnsupportedOperationException",
-    bridgeWith = "java.lang.UnsupportedOperationException")
+    name = "kotlin.UnsupportedOperationException",
+    bridgeName = "java.lang.UnsupportedOperationException")
 @NullMarked
 public class UnsupportedOperationException extends RuntimeException {
 

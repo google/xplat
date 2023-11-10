@@ -26,7 +26,7 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html">the official Java
  * API doc</a> for details.
  */
-@KtNative("java.util.HashMap")
+@KtNative(name = "java.util.HashMap")
 @NullMarked
 public final class HashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMap<K, V> implements Cloneable, Serializable {

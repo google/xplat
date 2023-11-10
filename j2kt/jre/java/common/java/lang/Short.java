@@ -24,7 +24,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Short")
+@KtNative(name = "kotlin.Short")
 @NullMarked
 public final class Short extends Number implements Comparable<Short> {
 

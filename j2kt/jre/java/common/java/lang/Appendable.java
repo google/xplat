@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.text.Appendable")
+@KtNative(name = "kotlin.text.Appendable")
 @NullMarked
 public interface Appendable {
 

@@ -19,7 +19,7 @@ package java.nio;
 import javaemul.internal.annotations.KtNative;
 
 /** Helper class for ByteOrder compilation */
-@KtNative("kotlin.native.Platform")
+@KtNative(name = "kotlin.native.Platform")
 public final class KotlinNativePlatform {
   public static boolean isLittleEndian;
 }

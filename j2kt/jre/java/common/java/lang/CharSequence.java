@@ -22,7 +22,7 @@ import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 
-@KtNative("kotlin.CharSequence")
+@KtNative(name = "kotlin.CharSequence")
 @NullMarked
 public interface CharSequence {
 

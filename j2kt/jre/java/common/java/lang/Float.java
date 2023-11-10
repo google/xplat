@@ -24,7 +24,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Float")
+@KtNative(name = "kotlin.Float")
 @NullMarked
 public final class Float extends Number implements Comparable<Float> {
 

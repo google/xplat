@@ -23,7 +23,7 @@ import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Annotation")
+@KtNative(name = "kotlin.Annotation")
 @NullMarked
 public interface Annotation {
   @KtProperty

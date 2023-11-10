@@ -28,7 +28,7 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html">the official Java
  * API doc</a> for details.
  */
-@KtNative(value = "kotlin.collections.MutableIterator", bridgeWith = "javaemul.lang.JavaIterator")
+@KtNative(name = "kotlin.collections.MutableIterator", bridgeName = "javaemul.lang.JavaIterator")
 @NullMarked
 public interface Iterator<@KtOut E extends @Nullable Object> {
 

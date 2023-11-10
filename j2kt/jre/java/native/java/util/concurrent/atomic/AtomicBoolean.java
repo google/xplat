@@ -22,7 +22,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 /** GWT emulation of AtomicBoolean. */
-@KtNative("java.util.concurrent.atomic.AtomicBoolean")
+@KtNative(name = "java.util.concurrent.atomic.AtomicBoolean")
 @NullMarked
 public class AtomicBoolean implements java.io.Serializable {
 

@@ -38,7 +38,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 /** Kotlin Random is immutable. To implement setSeed, we need to wrap it. */
-@KtNative("java.util.Random")
+@KtNative(name = "java.util.Random")
 @NullMarked
 public class Random {
 

@@ -25,13 +25,13 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractMap.html">the official
  * Java API doc</a> for details.
  */
-@KtNative(value = "java.util.AbstractMap", bridgeWith = "javaemul.lang.JavaAbstractMap")
+@KtNative(name = "java.util.AbstractMap", bridgeName = "javaemul.lang.JavaAbstractMap")
 @NullMarked
 public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullable Object>
     implements Map<K, V> {
 
   /** A mutable {@link Map.Entry} shared by several {@link Map} implementations. */
-  @KtNative("java.util.AbstractMap.SimpleEntry")
+  @KtNative(name = "java.util.AbstractMap.SimpleEntry")
   public static class SimpleEntry<K extends @Nullable Object, V extends @Nullable Object>
       implements Map.Entry<K, V> {
     public SimpleEntry(K key, V value) {}
@@ -49,7 +49,7 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
   }
 
   /** An immutable {@link Map.Entry} shared by several {@link Map} implementations. */
-  @KtNative("java.util.AbstractMap.SimpleImmutableEntry")
+  @KtNative(name = "java.util.AbstractMap.SimpleImmutableEntry")
   public static class SimpleImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
       implements Map.Entry<K, V> {
     public SimpleImmutableEntry(K key, V value) {}

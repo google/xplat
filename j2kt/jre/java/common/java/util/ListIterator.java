@@ -27,7 +27,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <E> element type.
  */
-@KtNative("kotlin.collections.MutableListIterator")
+@KtNative(name = "kotlin.collections.MutableListIterator")
 @NullMarked
 public interface ListIterator<E extends @Nullable Object> extends Iterator<E> {
 

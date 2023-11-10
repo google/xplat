@@ -20,7 +20,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("javaemul.internal.Comparators")
+@KtNative(name = "javaemul.internal.Comparators")
 @NullMarked
 public class Comparators {
   /*

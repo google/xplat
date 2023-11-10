@@ -29,7 +29,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 /** This class provides the public API for <i>Message Authentication Code</i> (MAC) algorithms. */
-@KtNative("javax.crypto.Mac")
+@KtNative(name = "javax.crypto.Mac")
 @NullMarked
 public class Mac implements Cloneable {
   /**

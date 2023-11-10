@@ -23,7 +23,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.text.StringBuilder")
+@KtNative(name = "kotlin.text.StringBuilder")
 @NullMarked
 public final class StringBuilder implements Appendable, CharSequence, Serializable {
   public StringBuilder() {}

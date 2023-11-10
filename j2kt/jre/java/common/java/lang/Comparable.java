@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtIn;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
-@KtNative("kotlin.Comparable")
+@KtNative(name = "kotlin.Comparable")
 @NullMarked
 public interface Comparable<@KtIn T> {
 

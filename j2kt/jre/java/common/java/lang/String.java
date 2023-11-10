@@ -30,7 +30,7 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java String should implement Serializable. Kotlin String doesn't.
-@KtNative("kotlin.String")
+@KtNative(name = "kotlin.String")
 @NullMarked
 public final class String implements Comparable<String>, CharSequence {
 

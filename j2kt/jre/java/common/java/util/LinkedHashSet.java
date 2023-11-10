@@ -23,7 +23,7 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html">the official
  * Java API doc</a> for details.
  */
-@KtNative("kotlin.collections.LinkedHashSet")
+@KtNative(name = "kotlin.collections.LinkedHashSet")
 @NullMarked
 public class LinkedHashSet<E extends @Nullable Object> implements Set<E> {
 

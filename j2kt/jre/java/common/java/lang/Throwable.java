@@ -24,7 +24,7 @@ import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(value = "kotlin.Throwable", bridgeWith = "javaemul.lang.JavaThrowable")
+@KtNative(name = "kotlin.Throwable", bridgeName = "javaemul.lang.JavaThrowable")
 @NullMarked
 public class Throwable {
 

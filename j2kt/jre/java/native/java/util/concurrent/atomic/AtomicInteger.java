@@ -23,7 +23,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 /** JRE AtomicInteger stub; see AtomicInteger.kt for the actual wrapper. */
-@KtNative("java.util.concurrent.atomic.AtomicInteger")
+@KtNative(name = "java.util.concurrent.atomic.AtomicInteger")
 @NullMarked
 public class AtomicInteger extends Number implements java.io.Serializable {
 

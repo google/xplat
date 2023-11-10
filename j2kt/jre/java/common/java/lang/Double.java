@@ -24,7 +24,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Double")
+@KtNative(name = "kotlin.Double")
 @NullMarked
 public final class Double extends Number implements Comparable<Double> {
 

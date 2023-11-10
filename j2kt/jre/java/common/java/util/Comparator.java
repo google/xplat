@@ -32,9 +32,9 @@ import org.jspecify.nullness.Nullable;
  * @param <T> the type to be compared.
  */
 @KtNative(
-    value = "kotlin.Comparator",
-    bridgeWith = "java.util.Comparator",
-    companionObject = "java.util.Comparator")
+    name = "kotlin.Comparator",
+    bridgeName = "java.util.Comparator",
+    companionName = "java.util.Comparator")
 @FunctionalInterface
 @NullMarked
 public interface Comparator<T extends @Nullable Object> {

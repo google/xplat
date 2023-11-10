@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(value = "kotlin.Exception", bridgeWith = "java.lang.Exception")
+@KtNative(name = "kotlin.Exception", bridgeName = "java.lang.Exception")
 @NullMarked
 public class Exception extends Throwable {
   public Exception() {}

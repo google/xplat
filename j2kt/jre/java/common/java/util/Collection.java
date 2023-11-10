@@ -30,8 +30,8 @@ import org.jspecify.nullness.Nullable;
  * Java API doc</a> for details.
  */
 @KtNative(
-    value = "kotlin.collections.MutableCollection",
-    bridgeWith = "javaemul.lang.JavaCollection")
+    name = "kotlin.collections.MutableCollection",
+    bridgeName = "javaemul.lang.JavaCollection")
 @NullMarked
 public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 

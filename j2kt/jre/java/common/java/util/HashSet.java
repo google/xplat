@@ -23,7 +23,7 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html">the official Java
  * API doc</a> for details.
  */
-@KtNative("kotlin.collections.HashSet")
+@KtNative(name = "kotlin.collections.HashSet")
 @NullMarked
 public class HashSet<E extends @Nullable Object> implements Set<E> {
 

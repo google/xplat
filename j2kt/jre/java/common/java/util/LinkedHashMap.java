@@ -24,7 +24,7 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html">the official
  * Java API doc</a> for details.
  */
-@KtNative("kotlin.collections.LinkedHashMap")
+@KtNative(name = "kotlin.collections.LinkedHashMap")
 @NullMarked
 public final class LinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
     implements Map<K, V> {

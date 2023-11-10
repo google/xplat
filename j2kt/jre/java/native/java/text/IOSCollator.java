@@ -22,7 +22,7 @@ import org.jspecify.nullness.Nullable;
 
 /** JRE Collator stub; See IOSCollator.kt for the actual stub. */
 @NullMarked
-@KtNative("java.text.IOSCollator")
+@KtNative(name = "java.text.IOSCollator")
 class IOSCollator extends Collator {
   IOSCollator(Locale locale) {}
 

@@ -27,7 +27,7 @@ import org.jspecify.nullness.Nullable;
  *
  * @param <V> the element type.
  */
-@KtNative("java.util.concurrent.atomic.AtomicReferenceArray")
+@KtNative(name = "java.util.concurrent.atomic.AtomicReferenceArray")
 @NullMarked
 public class AtomicReferenceArray<V extends @Nullable Object> {
 

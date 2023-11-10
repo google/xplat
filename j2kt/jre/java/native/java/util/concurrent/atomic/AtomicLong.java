@@ -23,7 +23,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
 /** JRE AtomicLong stub; see AtomicLong.kt for the actual wrapper. */
-@KtNative("java.util.concurrent.atomic.AtomicLong")
+@KtNative(name = "java.util.concurrent.atomic.AtomicLong")
 @NullMarked
 public class AtomicLong extends Number implements java.io.Serializable {
 

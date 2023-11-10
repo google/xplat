@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(value = "kotlin.RuntimeException", bridgeWith = "java.lang.RuntimeException")
+@KtNative(name = "kotlin.RuntimeException", bridgeName = "java.lang.RuntimeException")
 @NullMarked
 public class RuntimeException extends Exception {
 

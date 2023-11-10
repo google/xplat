@@ -30,12 +30,12 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html">the official Java API
  * doc</a> for details.
  */
-@KtNative(value = "kotlin.collections.MutableMap", bridgeWith = "javaemul.lang.JavaMap")
+@KtNative(name = "kotlin.collections.MutableMap", bridgeName = "javaemul.lang.JavaMap")
 @NullMarked
 public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   /** Represents an individual map entry. */
-  @KtNative("kotlin.collections.MutableMap.MutableEntry")
+  @KtNative(name = "kotlin.collections.MutableMap.MutableEntry")
   interface Entry<K extends @Nullable Object, V extends @Nullable Object> {
     @KtProperty
     K getKey();

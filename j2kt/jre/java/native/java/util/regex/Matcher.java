@@ -20,7 +20,7 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /** JRE Matcher stub; see Matcher.kt for the actual wrapper. */
-@KtNative("java.util.regex.Matcher")
+@KtNative(name = "java.util.regex.Matcher")
 @NullMarked
 public class Matcher {
 

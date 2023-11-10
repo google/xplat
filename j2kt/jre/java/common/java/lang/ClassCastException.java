@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(value = "kotlin.ClassCastException", bridgeWith = "java.lang.ClassCastException")
+@KtNative(name = "kotlin.ClassCastException", bridgeName = "java.lang.ClassCastException")
 @NullMarked
 public class ClassCastException extends RuntimeException {
 

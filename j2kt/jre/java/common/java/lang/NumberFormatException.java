@@ -25,7 +25,7 @@ import org.jspecify.nullness.Nullable;
 // duplicating/shadowing the JVM built-in implementation on the JVM. If we used the simpler
 // @KtNative("java.lang.NumberFormatException"), then we couldn't catch NumberFormatExceptions
 // thrown by stdlib code in j2kt-native.
-@KtNative(value = "kotlin.NumberFormatException", bridgeWith = "java.lang.NumberFormatException")
+@KtNative(name = "kotlin.NumberFormatException", bridgeName = "java.lang.NumberFormatException")
 @NullMarked
 public class NumberFormatException extends java.lang.IllegalArgumentException {
 

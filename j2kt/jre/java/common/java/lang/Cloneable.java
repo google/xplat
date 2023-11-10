@@ -20,7 +20,6 @@ package java.lang;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
-@KtNative("kotlin.Cloneable")
+@KtNative(name = "kotlin.Cloneable")
 @NullMarked
-public interface Cloneable {
-}
+public interface Cloneable {}

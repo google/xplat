@@ -24,7 +24,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Byte")
+@KtNative(name = "kotlin.Byte")
 @NullMarked
 public final class Byte extends Number implements Comparable<Byte> {
 

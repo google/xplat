@@ -24,7 +24,7 @@ import org.jspecify.nullness.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html">the official
  * Java API doc</a> for details.
  */
-@KtNative("java.util.ArrayList")
+@KtNative(name = "java.util.ArrayList")
 @NullMarked
 public class ArrayList<E extends @Nullable Object> extends AbstractList<E>
     implements List<E>, RandomAccess, Cloneable, Serializable {

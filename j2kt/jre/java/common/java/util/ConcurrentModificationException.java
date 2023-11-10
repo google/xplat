@@ -25,8 +25,8 @@ import org.jspecify.nullness.Nullable;
  * official Java API doc</a> for details.
  */
 @KtNative(
-    value = "kotlin.ConcurrentModificationException",
-    bridgeWith = "java.util.ConcurrentModificationException")
+    name = "kotlin.ConcurrentModificationException",
+    bridgeName = "java.util.ConcurrentModificationException")
 @NullMarked
 public class ConcurrentModificationException extends RuntimeException {
 

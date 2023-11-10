@@ -22,8 +22,8 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 @KtNative(
-    value = "kotlin.IllegalArgumentException",
-    bridgeWith = "java.lang.IllegalArgumentException")
+    name = "kotlin.IllegalArgumentException",
+    bridgeName = "java.lang.IllegalArgumentException")
 @NullMarked
 public class IllegalArgumentException extends RuntimeException {
 

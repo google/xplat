@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(value = "kotlin.AssertionError", bridgeWith = "java.lang.AssertionError")
+@KtNative(name = "kotlin.AssertionError", bridgeName = "java.lang.AssertionError")
 @NullMarked
 public class AssertionError extends Error {
 

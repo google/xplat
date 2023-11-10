@@ -36,7 +36,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative("kotlin.Any")
+@KtNative(name = "kotlin.Any")
 @NullMarked
 public class Object {
   public Object() {}

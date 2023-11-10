@@ -24,8 +24,8 @@ import org.jspecify.nullness.Nullable;
  * Java API doc</a> for details.
  */
 @KtNative(
-    value = "kotlin.collections.AbstractMutableList",
-    bridgeWith = "javaemul.lang.JavaAbstractList")
+    name = "kotlin.collections.AbstractMutableList",
+    bridgeName = "javaemul.lang.JavaAbstractList")
 @NullMarked
 public abstract class AbstractList<E extends @Nullable Object> extends AbstractCollection<E>
     implements List<E> {

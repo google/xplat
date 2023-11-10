@@ -25,7 +25,7 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java Character should implement Serializable. Kotlin Char doesn't.
-@KtNative("kotlin.Char")
+@KtNative(name = "kotlin.Char")
 @NullMarked
 public final class Character implements Comparable<Character> {
   public static final char MIN_VALUE = '\u0000';

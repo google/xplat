@@ -25,8 +25,8 @@ import org.jspecify.nullness.Nullable;
  * official Java API doc</a> for details.
  */
 @KtNative(
-    value = "kotlin.IndexOutOfBoundsException",
-    bridgeWith = "java.lang.IndexOutOfBoundsException")
+    name = "kotlin.IndexOutOfBoundsException",
+    bridgeName = "java.lang.IndexOutOfBoundsException")
 @NullMarked
 public class IndexOutOfBoundsException extends RuntimeException {
 
