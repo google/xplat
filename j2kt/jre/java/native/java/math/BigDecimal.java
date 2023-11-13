@@ -261,7 +261,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
    * @throws NumberFormatException if {@code val} is infinite or {@code val} is not a number
    */
   public static BigDecimal valueOf(double val) {
-    return new BigDecimal(val);
+    return new BigDecimal(Double.toString(val));
   }
 
   /**
@@ -638,6 +638,8 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
       initFrom(new String(in, offset, len));
     } catch (StringIndexOutOfBoundsException e) {
       throw new NumberFormatException(e.getMessage());
+    } catch (IndexOutOfBoundsException e) {
+      throw new NumberFormatException(e.getMessage());
     }
   }
 
@@ -690,7 +692,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal>, Serial
    */
   public BigDecimal(double val) {
     if (Double.isInfinite(val) || Double.isNaN(val)) {
-      throw new NumberFormatException("Infinity or NaN: " + val);
+      throw new NumberFormatException("Infinite or NaN");
     }
     long bits = Double.doubleToLongBits(val); // IEEE-754
     int trailingZeros;
