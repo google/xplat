@@ -40,7 +40,8 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c as MutableCollection<E>)
 
-  // TODO(233944334): On JVM, MutableCollection has a hidden implementation of spliterator.
+  fun removeIf(filter: Predicate<in E>): Boolean = default_removeIf(filter)
+
   override fun spliterator(): Spliterator<E> = super<JavaIterable>.spliterator()
 
   fun stream(): Stream<E> = default_stream()
@@ -57,14 +58,15 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun java_removeAll(c: MutableCollection<*>): Boolean
 
-  fun java_removeIf(filter: Predicate<in E>): Boolean = default_removeIf(filter)
-
   fun java_retainAll(c: MutableCollection<*>): Boolean
 
   fun java_toArray(): Array<Any?>
 
   fun <T> java_toArray(a: Array<T>): Array<T>
 }
+
+internal fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>): Boolean =
+  removeAll(filter::test)
 
 internal fun <E> MutableCollection<E>.default_stream(): Stream<E> =
   StreamSupport.stream(spliterator(), /* parallel= */ false)

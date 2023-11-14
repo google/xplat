@@ -263,7 +263,8 @@ public class CollectionsTest {
     assertEquals(1, map.size());
   }
 
-  private static class TestMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
+  private static class TestMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMap<K, V> implements Map<K, V> {
 
     private final Set<Entry<K, V>> entrySet = new HashSet<>();
 
@@ -312,7 +313,10 @@ public class CollectionsTest {
     }
 
     @Override
-    @SuppressWarnings("nullness:override.param") // Checker expects @PolyNull (missing in JSpecify)
+    @SuppressWarnings({
+      "nullness:override",
+      "nullness:return"
+    }) // Checker expects @PolyNull (missing in JSpecify)
     public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
       return super.computeIfAbsent(key, mappingFunction);
     }
@@ -338,7 +342,7 @@ public class CollectionsTest {
 
     @Override
     // Checker framework uses @PolyNull V, JSpecify uses @Nullable V
-    @SuppressWarnings("nullness:override")
+    @SuppressWarnings({"nullness:override", "argument.type"})
     public @Nullable V merge(
         K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remap) {
       return super.merge(key, value, remap);
@@ -429,7 +433,8 @@ public class CollectionsTest {
     assertArrayEquals(new @Nullable String[] {"Hello", "World", null}, stringArray3);
   }
 
-  private static class TestList<E> extends AbstractList<E> implements List<E> {
+  private static class TestList<E extends @Nullable Object> extends AbstractList<E>
+      implements List<E> {
 
     private final E theElement;
     public int parallelStreamCalls = 0;

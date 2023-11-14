@@ -81,7 +81,6 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
     return ktNative();
   }
 
-  @KtName("java_replaceAll")
   default void replaceAll(UnaryOperator<E> operator) {
     ktNative();
   }

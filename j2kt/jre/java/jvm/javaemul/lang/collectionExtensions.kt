@@ -15,9 +15,6 @@
  */
 package javaemul.lang
 
-import java.util.function.Predicate
-import java.util.stream.Stream
-
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
   asJavaUtilCollection().addAll(c)
 
@@ -31,18 +28,12 @@ fun <E> MutableCollection<E>.java_remove(a: Any?): Boolean = asJavaUtilCollectio
 fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
   asJavaUtilCollection().removeAll(c)
 
-fun <E> MutableCollection<E>.java_removeIf(filter: Predicate<in E>): Boolean =
-  asJavaUtilCollection().removeIf(filter)
-
 fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
   asJavaUtilCollection().retainAll(c)
 
 fun MutableCollection<*>.java_toArray(): Array<Any?> = default_toArray()
 
 fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> = default_toArray(a)
-
-internal fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>): Boolean =
-  asJavaUtilCollection().removeIf(filter)
 
 internal fun MutableCollection<*>.default_toArray(): Array<Any?> = asJavaUtilCollection().toArray()
 

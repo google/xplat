@@ -32,15 +32,6 @@ interface JavaIterator<T> : MutableIterator<T> {
   }
 }
 
-// Note: On Kotlin JVM, this is shadowed by member function forEachRemaining
-fun <T> MutableIterator<T>.forEachRemaining(consumer: Consumer<in T>) {
-  if (this is JavaIterator) {
-    forEachRemaining(consumer)
-  } else {
-    default_forEachRemaining(consumer)
-  }
-}
-
-private inline fun <T> MutableIterator<T>.default_forEachRemaining(consumer: Consumer<in T>) {
+internal inline fun <T> MutableIterator<T>.default_forEachRemaining(consumer: Consumer<in T>) {
   forEach(consumer::accept)
 }

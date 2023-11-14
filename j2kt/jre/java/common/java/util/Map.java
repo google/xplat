@@ -67,13 +67,11 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   void clear();
 
-  @KtName("java_compute")
   default @Nullable V compute(
       K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
     return ktNative();
   }
 
-  @KtName("java_computeIfAbsent")
   default V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
     return ktNative();
   }
@@ -94,7 +92,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtName("entries")
   Set<Entry<K, V>> entrySet();
 
-  @KtName("java_forEach")
   default void forEach(BiConsumer<? super K, ? super V> action) {
     ktNative();
   }
@@ -124,7 +121,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtName("java_putAll")
   void putAll(Map<? extends K, ? extends V> t);
 
-  @KtName("java_putIfAbsent")
   default @Nullable V putIfAbsent(K key, V value) {
     return ktNative();
   }
@@ -137,17 +133,14 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
     return ktNative();
   }
 
-  @KtName("java_replace")
   default @Nullable V replace(K key, V value) {
     return ktNative();
   }
 
-  @KtName("java_replace")
   default boolean replace(K key, V oldValue, V newValue) {
     return ktNative();
   }
 
-  @KtName("java_replaceAll")
   default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     ktNative();
   }

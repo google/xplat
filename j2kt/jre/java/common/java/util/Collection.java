@@ -92,7 +92,6 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
     return ktNative();
   }
 
-  @KtName("java_removeIf")
   default boolean removeIf(Predicate<? super E> filter) {
     return ktNative();
   }

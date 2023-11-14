@@ -43,6 +43,8 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
 
   override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
 
+  fun replaceAll(operator: UnaryOperator<E>) = default_replaceAll(operator)
+
   override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
 
   override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
@@ -54,8 +56,6 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
   fun java_indexOf(a: Any?): Int
 
   fun java_lastIndexOf(a: Any?): Int
-
-  fun java_replaceAll(operator: UnaryOperator<E>) = default_replaceAll(operator)
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -82,12 +82,5 @@ fun <E> MutableList<E>.java_indexOf(a: Any?): Int =
 fun <E> MutableList<E>.java_lastIndexOf(a: Any?): Int =
   if (this is JavaList) java_lastIndexOf(a) else lastIndexOf(a as E)
 
-fun <E> MutableList<E>.java_replaceAll(operator: UnaryOperator<E>) =
-  if (this is JavaList) java_replaceAll(operator) else default_replaceAll(operator)
-
-private fun <E> MutableList<E>.default_replaceAll(operator: UnaryOperator<E>) {
-  val itr: MutableListIterator<E> = this.listIterator()
-  while (itr.hasNext()) {
-    itr.set(operator.apply(itr.next()))
-  }
-}
+internal fun <E> MutableList<E>.default_replaceAll(operator: UnaryOperator<E>) =
+  replaceAll(operator::apply)

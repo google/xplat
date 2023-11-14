@@ -18,7 +18,6 @@ package javaemul.lang
 import java.lang.reflect.Array as JavaLangReflectArray
 import java.util.function.Predicate
 import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import kotlin.jvm.javaObjectType
 
 fun <E> MutableCollection<E>.stream(): Stream<E> =
@@ -46,8 +45,8 @@ fun <E> MutableCollection<E>.java_remove(a: Any?): Boolean =
 fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
   if (this is JavaCollection) java_removeAll(c) else removeAll(c as MutableCollection<E>)
 
-fun <E> MutableCollection<E>.java_removeIf(filter: Predicate<in E>): Boolean =
-  if (this is JavaCollection) java_removeIf(filter) else default_removeIf(filter)
+fun <E> MutableCollection<E>.removeIf(filter: Predicate<in E>): Boolean =
+  if (this is JavaCollection) removeIf(filter) else default_removeIf(filter)
 
 @Suppress("UNCHECKED_CAST")
 fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
@@ -58,18 +57,6 @@ fun MutableCollection<*>.java_toArray(): Array<Any?> =
 
 fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> =
   if (this is JavaCollection) java_toArray(a) else default_toArray(a)
-
-internal fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>): Boolean {
-  var removed = false
-  val i = iterator()
-  while (i.hasNext()) {
-    if (filter.test(i.next())) {
-      i.remove()
-      removed = true
-    }
-  }
-  return removed
-}
 
 internal fun MutableCollection<*>.default_toArray(): Array<Any?> = toTypedArray()
 
