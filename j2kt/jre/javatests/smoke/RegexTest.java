@@ -29,6 +29,12 @@ import org.junit.runners.JUnit4;
 public class RegexTest {
 
   @Test
+  public void testPatternPattern() {
+    Pattern pattern = Pattern.compile("Hello.World");
+    assertEquals("Hello.World", pattern.pattern());
+  }
+
+  @Test
   public void testFind() {
     Pattern pattern = Pattern.compile("Hello.World");
     Matcher matcher = pattern.matcher("~~~Hello-World~~~");

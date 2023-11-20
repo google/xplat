@@ -51,7 +51,7 @@ public class Pattern {
 
   public static native boolean matches(String regex, CharSequence input);
 
-  public static native String pattern();
+  public native String pattern();
 
   public static native String quote(String s);
 
