@@ -17,6 +17,7 @@ package java.nio.charset;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.util.Locale;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -42,10 +43,7 @@ public abstract class Charset {
 
   public static Charset forName(String name)
       throws UnsupportedCharsetException, IllegalArgumentException {
-    if (name == null) {
-      throw new IllegalArgumentException();
-    }
-    switch (name) {
+    switch (name.toUpperCase(Locale.ROOT)) {
       case "ASCII":
         return StandardCharsets.US_ASCII;
       case "ISO-8859-1":

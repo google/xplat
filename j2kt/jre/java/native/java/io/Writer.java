@@ -62,7 +62,11 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
 
   public void write(String str, int offset, int count) throws IOException {
     char[] buf = new char[count];
+    try {
     str.getChars(offset, offset + count, buf, 0);
+    } catch (IndexOutOfBoundsException e) {
+      throw new StringIndexOutOfBoundsException(e.getMessage());
+    }
     synchronized (lock) {
       write(buf, 0, buf.length);
     }
@@ -85,7 +89,11 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
     if (csq == null) {
       csq = "null";
     }
-    write(csq.subSequence(start, end).toString());
+    try {
+      write(csq.subSequence(start, end).toString());
+    } catch (IndexOutOfBoundsException e) {
+      throw new StringIndexOutOfBoundsException(e.getMessage());
+    }
     return this;
   }
 }

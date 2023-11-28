@@ -215,7 +215,11 @@ public final class MathContext implements Serializable {
       throw new IllegalArgumentException("Bad string format 6");
     }
     // Parsing the value for "roundingMode"...
-    this.roundingMode = RoundingMode.valueOf(new String(charVal, i, charVal.length - i));
+    try {
+      this.roundingMode = RoundingMode.valueOf(new String(charVal, i, charVal.length - i));
+    } catch (Exception e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
   /* Public Methods */

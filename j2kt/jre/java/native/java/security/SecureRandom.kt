@@ -32,17 +32,15 @@ import platform.Security.kSecRandomDefault
  * Implementation of SecureRandom that passes the randomization into to iOS random number generator.
  */
 @ObjCName("J2ktJavaSecuritySecureRandom", exact = true)
-public class SecureRandom() :
-  Random(
-    object : kotlin.random.Random() {
-      override fun nextBits(bits: Int): Int = memScoped {
-        val intVar: IntVar = alloc<IntVar>()
-        SecRandomCopyBytes(kSecRandomDefault, 4UL, intVar.ptr)
-        return if (bits == 32) intVar.value else intVar.value and ((1 shl bits) - 1)
-      }
-    }
-  ) {
+public class SecureRandom() : Random() {
+
   // We ignore the seed as the docs say that two SecureRandoms even with the same seed are going
   // to return different results.
   constructor(seed: ByteArray) : this()
+
+  override fun next(bits: Int): Int = memScoped {
+    val intVar: IntVar = alloc<IntVar>()
+    SecRandomCopyBytes(kSecRandomDefault, 4UL, intVar.ptr)
+    return if (bits == 32) intVar.value else intVar.value and ((1 shl bits) - 1)
+  }
 }

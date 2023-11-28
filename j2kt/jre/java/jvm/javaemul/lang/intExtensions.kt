@@ -24,6 +24,8 @@ import java.lang.Class
  */
 operator fun Int.Companion.invoke(i: Int): Int = java.lang.Integer(i) as Int
 
+operator fun Int.Companion.invoke(s: String): Int = java.lang.Integer(s) as Int
+
 val Int.Companion.TYPE: Class<Int>
   get() = java.lang.Integer.TYPE
 

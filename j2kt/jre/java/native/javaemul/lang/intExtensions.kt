@@ -27,6 +27,8 @@ import kotlin.math.sign
  */
 operator fun Int.Companion.invoke(i: Int): Int = i
 
+operator fun Int.Companion.invoke(s: String): Int = s.toInt()
+
 val Int.Companion.TYPE: Class<Int>
   get() = Int::class.javaPrimitiveType!!
 
