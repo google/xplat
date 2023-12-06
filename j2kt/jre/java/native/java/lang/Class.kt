@@ -31,16 +31,24 @@ import kotlin.reflect.KClass
 class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) {
   fun cast(obj: Any?): T? =
     if (obj == null || kClass.isInstance(obj)) obj as T? else throw ClassCastException()
+
   fun getName(): kotlin.String = kClass.qualifiedName ?: ""
+
   fun getCanonicalName(): kotlin.String? = kClass.qualifiedName
+
   fun getSimpleName(): kotlin.String = kClass.simpleName ?: ""
+
   fun isPrimitive(): kotlin.Boolean = isPrimitive0
+
   fun isArray(): kotlin.Boolean = getComponentType() != null
+
   fun isInstance(obj: Any?): kotlin.Boolean = !isPrimitive0 && kClass.isInstance(obj)
+
   fun getComponentType(): Class<*>? = arrayComponentTypeMap[kClass]
+
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()
-  fun getSuperclass(): Class<*>? = throw UnsupportedOperationException()
+
   override fun toString(): kotlin.String = kClass.toString()
 }
 

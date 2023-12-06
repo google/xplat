@@ -48,7 +48,5 @@ public final class Class<T> {
 
   public native T @Nullable [] getEnumConstants();
 
-  public native @Nullable Class<? super T> getSuperclass();
-
   public native boolean desiredAssertionStatus();
 }
