@@ -317,4 +317,18 @@ public class StringTest {
     // Empty delimiter
     assertEquals("maaaaaaaad", String.join("", Arrays.asList("ma", "a", "aa", "aaa", "ad")));
   }
+
+  @Test
+  public void testStringSplit() {
+    String[] parts = "one cat two cats in the yard".split("c[aou]t", -1);
+    assertEquals(3, parts.length);
+    assertEquals("one ", parts[0]);
+    assertEquals(" two ", parts[1]);
+    assertEquals("s in the yard", parts[2]);
+
+    parts = "one cat two cats in the yard".split("c[aou]t", 2);
+    assertEquals(2, parts.length);
+    assertEquals("one ", parts[0]);
+    assertEquals(" two cats in the yard", parts[1]);
+  }
 }

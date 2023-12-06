@@ -197,15 +197,11 @@ fun String.regionMatches(
 
 fun String.java_matches(regex: String) = Regex(regex).matches(this)
 
-fun String.java_split(regularExpression: String): Array<String> {
-  val strList: List<String> = this.split(regularExpression.toRegex())
-  return strList.toTypedArray()
-}
+fun String.java_split(regularExpression: String): Array<String> =
+  Pattern.compile(regularExpression).split(this)
 
-fun String.java_split(regularExpression: String, limit: Int): Array<String> {
-  val strList: List<String> = this.split(regularExpression.toRegex(), limit)
-  return strList.toTypedArray()
-}
+fun String.java_split(regularExpression: String, limit: Int): Array<String> =
+  Pattern.compile(regularExpression).split(this, limit)
 
 fun String.java_replace(target: CharSequence, replacement: CharSequence): String {
   return this.replace(target.toString(), replacement.toString())

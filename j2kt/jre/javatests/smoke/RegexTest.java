@@ -15,6 +15,7 @@
  */
 package smoke;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -71,6 +72,20 @@ public class RegexTest {
     assertEquals(2, parts.length);
     assertEquals("one ", parts[0]);
     assertEquals(" two cats in the yard", parts[1]);
+  }
+
+  @Test
+  public void testSplit_limit() {
+    String string = "boo:and:foo";
+    Pattern colon = Pattern.compile(":");
+    assertArrayEquals(new String[] {"boo", "and:foo"}, colon.split(string, 2));
+    assertArrayEquals(new String[] {"boo", "and", "foo"}, colon.split(string, 5));
+    assertArrayEquals(new String[] {"boo", "and", "foo"}, colon.split(string, -2));
+
+    Pattern o = Pattern.compile("o");
+    assertArrayEquals(new String[] {"b", "", ":and:f", "", ""}, o.split(string, 5));
+    assertArrayEquals(new String[] {"b", "", ":and:f", "", ""}, o.split(string, -2));
+    assertArrayEquals(new String[] {"b", "", ":and:f"}, o.split(string, 0));
   }
 
   @Test

@@ -24,8 +24,9 @@ import kotlin.text.Regex
 
 /** Kotlin Pattern implementation backed by kotlin.text.Regex. */
 @ObjCName("J2ktJavaUtilRegexPattern", exact = true)
-class Pattern(pattern: String, private val flags: Int) {
+class Pattern private constructor(pattern: String, private val flags: Int) {
   internal val regex: Regex
+
   init {
     try {
       val expr = StringBuilder()
@@ -58,8 +59,21 @@ class Pattern(pattern: String, private val flags: Int) {
 
   fun split(input: CharSequence): Array<String> = regex.split(input).toTypedArray()
 
-  fun split(input: CharSequence, limit: Int): Array<String> =
-    regex.split(input, max(0, limit)).toTypedArray()
+  fun split(input: CharSequence, limit: Int): Array<String> {
+    val split = regex.split(input, max(0, limit))
+    if (limit != 0 || !split.last().isEmpty() || input.isEmpty()) {
+      return split.toTypedArray()
+    }
+    // For limit = 0, trim trailing empty strings (unless the input was empty itself)
+    var newSize = 0
+    for (i in split.size - 1 downTo 0) {
+      if (!split[i].isEmpty()) {
+        newSize = i + 1
+        break
+      }
+    }
+    return split.subList(0, newSize).toTypedArray()
+  }
 
   fun pattern() = regex.pattern
 
