@@ -63,6 +63,12 @@ public final class Integer extends Number implements Comparable<Integer> {
   @Override
   public native float floatValue();
 
+  public static native int max(int a, int b);
+
+  public static native int min(int a, int b);
+
+  public static native int sum(int a, int b);
+
   public static native @Nullable Integer getInteger(@Nullable String string);
 
   public static native Integer getInteger(@Nullable String string, int defaultValue);

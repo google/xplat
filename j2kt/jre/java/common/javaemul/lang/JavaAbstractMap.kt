@@ -51,7 +51,8 @@ abstract class JavaAbstractMap<K, V> : AbstractMap<K, V>(), JavaMap<K, V> {
   override fun java_get(key: Any?): V? = super<AbstractMap>.get(key as K)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_putAll(t: MutableMap<out K, out V>) = super<JavaMap>.putAll(t as Map<out K, V>)
+  override fun java_putAll(t: MutableMap<out K, out V>) =
+    super<AbstractMap>.putAll(t as Map<out K, V>)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_remove(key: Any?): V? = super<AbstractMap>.remove(key as K)

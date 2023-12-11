@@ -75,6 +75,14 @@ public final class Optional<T> {
     }
   }
 
+  public void ifPresentOrElse(Consumer<? super T> consumer, Runnable emptyConsumer) {
+    if (isPresent()) {
+      consumer.accept(ref);
+    } else {
+      emptyConsumer.run();
+    }
+  }
+
   public Optional<T> filter(Predicate<? super T> predicate) {
     checkNotNull(predicate);
     if (!isPresent() || predicate.test(ref)) {
@@ -97,6 +105,16 @@ public final class Optional<T> {
       return checkNotNull(mapper.apply(ref));
     }
     return empty();
+  }
+
+  public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier) {
+    if (isPresent()) {
+      return this;
+    } else {
+      @SuppressWarnings("unchecked")
+      Optional<T> r = (Optional<T>) supplier.get();
+      return r;
+    }
   }
 
   public @Nullable T orElse(@Nullable T other) {

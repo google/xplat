@@ -82,5 +82,9 @@ fun <E> MutableList<E>.java_indexOf(a: Any?): Int =
 fun <E> MutableList<E>.java_lastIndexOf(a: Any?): Int =
   if (this is JavaList) java_lastIndexOf(a) else lastIndexOf(a as E)
 
-internal fun <E> MutableList<E>.default_replaceAll(operator: UnaryOperator<E>) =
-  replaceAll(operator::apply)
+internal fun <E> MutableList<E>.default_replaceAll(operator: UnaryOperator<E>) {
+  val iterator = listIterator()
+  while (iterator.hasNext()) {
+    iterator.set(operator.apply(iterator.next()))
+  }
+}

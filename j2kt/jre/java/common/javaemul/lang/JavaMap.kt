@@ -89,7 +89,8 @@ fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean = containsV
 @Suppress("UNCHECKED_CAST") fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = get(key as K)
 
 @Suppress("UNCHECKED_CAST")
-fun <K, V> MutableMap<K, V>.java_putAll(t: MutableMap<out K, out V>) = putAll(t as Map<out K, V>)
+fun <K, V> MutableMap<K, V>.java_putAll(t: MutableMap<out K, out V>) =
+  if (this is JavaMap) (this as JavaMap).putAll(t) else default_putAll(t)
 
 @Suppress("UNCHECKED_CAST")
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = remove(key as K)
@@ -187,6 +188,9 @@ private fun <K, V> MutableMap<K, V>.default_merge(
   }
   return newValue
 }
+
+internal fun <K, V> MutableMap<K, V>.default_putAll(t: MutableMap<out K, out V>) =
+  putAll(t.toList())
 
 internal fun <K, V> MutableMap<K, V>.default_putIfAbsent(key: K, value: V): V? {
   var v: V? = get(key)

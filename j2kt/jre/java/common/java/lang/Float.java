@@ -91,12 +91,20 @@ public final class Float extends Number implements Comparable<Float> {
 
   public static native boolean isInfinite(float f);
 
+  public static native boolean isFinite(float f);
+
   public native boolean isNaN();
 
   public static native boolean isNaN(float f);
 
   @Override
   public native long longValue();
+
+  public static native float max(float a, float b);
+
+  public static native float min(float a, float b);
+
+  public static native float sum(float a, float b);
 
   public static native float parseFloat(String string) throws NumberFormatException;
 

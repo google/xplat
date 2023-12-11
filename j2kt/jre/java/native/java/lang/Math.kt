@@ -92,6 +92,16 @@ object Math {
 
   fun cosh(d: Double): Double = kotlin.math.cosh(d)
 
+  fun decrementExact(i: Int): Int {
+    checkCriticalArithmetic(i != Int.MIN_VALUE)
+    return i - 1
+  }
+
+  fun decrementExact(l: Long): Long {
+    checkCriticalArithmetic(l != Long.MIN_VALUE)
+    return l - 1
+  }
+
   fun exp(d: Double): Double = kotlin.math.exp(d)
 
   fun expm1(d: Double): Double = kotlin.math.expm1(d)
@@ -109,6 +119,16 @@ object Math {
   fun hypot(x: Double, y: Double): Double = kotlin.math.hypot(x, y)
 
   fun IEEEremainder(x: Double, y: Double): Double = x.IEEErem(y)
+
+  fun incrementExact(i: Int): Int {
+    checkCriticalArithmetic(i != Int.MAX_VALUE)
+    return i + 1
+  }
+
+  fun incrementExact(l: Long): Long {
+    checkCriticalArithmetic(l != Long.MAX_VALUE)
+    return l + 1
+  }
 
   fun log(d: Double): Double = kotlin.math.log(d, kotlin.math.E)
 

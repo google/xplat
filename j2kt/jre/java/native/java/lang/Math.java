@@ -59,6 +59,10 @@ public final class Math {
 
   public static native double cosh(double d);
 
+  public static native int decrementExact(int i);
+
+  public static native int decrementExact(long l);
+
   public static native double exp(double d);
 
   public static native double expm1(double d);
@@ -76,6 +80,10 @@ public final class Math {
   public static native double hypot(double x, double y);
 
   public static native double IEEEremainder(double x, double y);
+
+  public static native int incrementExact(int i);
+
+  public static native int incrementExact(long l);
 
   public static native double log(double d);
 

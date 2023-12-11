@@ -174,7 +174,8 @@ public interface LongStream extends BaseStream<Long, LongStream> {
 
   static LongStream of(long t) {
     // TODO consider a splittable that returns only a single value
-    return of(new long[] {t});
+    // TODO(b/315473133): Delegate to of()
+    return Arrays.stream(new long[] {t});
   }
 
   static LongStream range(long startInclusive, long endExclusive) {

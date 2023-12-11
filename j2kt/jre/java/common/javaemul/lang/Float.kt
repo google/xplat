@@ -17,6 +17,8 @@ package javaemul.lang
 
 import java.lang.Class
 import kotlin.jvm.javaPrimitiveType
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Pseudo-constructor for emulated java.lang.Float.
@@ -53,9 +55,17 @@ fun Float.Companion.isNaN(f: Float): Boolean = f.isNaN()
 
 fun Float.Companion.isInfinite(f: Float): Boolean = f.isInfinite()
 
+fun Float.Companion.isFinite(f: Float): Boolean = f.isFinite()
+
 fun Float.Companion.floatToIntBits(f: Float): Int = f.toBits()
 
 fun Float.Companion.floatToRawIntBits(f: Float): Int = f.toRawBits()
+
+fun Float.Companion.min(f1: Float, f2: Float): Float = min(f1, f2)
+
+fun Float.Companion.max(f1: Float, f2: Float): Float = max(f1, f2)
+
+fun Float.Companion.sum(f1: Float, f2: Float): Float = f1 + f2
 
 inline fun Float.toInt_toByte() = toInt().toByte()
 

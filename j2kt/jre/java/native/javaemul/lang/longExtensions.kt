@@ -18,6 +18,8 @@ package javaemul.lang
 import java.lang.Class
 import javaemul.internal.decodeNumberString
 import kotlin.jvm.javaPrimitiveType
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sign
 
 /**
@@ -68,3 +70,9 @@ fun Long.Companion.numberOfTrailingZeros(l: Long): Int = l.countTrailingZeroBits
 fun Long.Companion.bitCount(l: Long): Int = l.countOneBits()
 
 fun Long.Companion.signum(l: Long): Int = l.sign
+
+fun Long.Companion.min(l1: Long, l2: Long): Long = min(l1, l2)
+
+fun Long.Companion.max(l1: Long, l2: Long): Long = max(l1, l2)
+
+fun Long.Companion.sum(l1: Long, l2: Long): Long = l1 + l2

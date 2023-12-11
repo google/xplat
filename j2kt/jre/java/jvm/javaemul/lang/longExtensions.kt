@@ -16,6 +16,8 @@
 package javaemul.lang
 
 import java.lang.Class
+import kotlin.math.max
+import kotlin.math.min
 
 operator fun Long.Companion.invoke(l: Long): Long = java.lang.Long(l) as Long
 
@@ -58,3 +60,9 @@ fun Long.Companion.numberOfTrailingZeros(l: Long): Int = java.lang.Long.numberOf
 fun Long.Companion.bitCount(l: Long): Int = java.lang.Long.bitCount(l)
 
 fun Long.Companion.signum(l: Long): Int = java.lang.Long.signum(l)
+
+fun Long.Companion.min(l1: Long, l2: Long): Long = min(l1, l2)
+
+fun Long.Companion.max(l1: Long, l2: Long): Long = max(l1, l2)
+
+fun Long.Companion.sum(l1: Long, l2: Long): Long = l1 + l2

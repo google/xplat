@@ -35,7 +35,10 @@ import org.jspecify.nullness.Nullable;
 public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   /** Represents an individual map entry. */
-  @KtNative(name = "kotlin.collections.MutableMap.MutableEntry")
+  @KtNative(
+      name = "kotlin.collections.MutableMap.MutableEntry",
+      // The name of the type containing the companion
+      companionName = "java.util.Map.Entry")
   interface Entry<K extends @Nullable Object, V extends @Nullable Object> {
     @KtProperty
     K getKey();

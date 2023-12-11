@@ -98,6 +98,12 @@ public final class Double extends Number implements Comparable<Double> {
   @Override
   public native long longValue();
 
+  public static native double max(double a, double b);
+
+  public static native double min(double a, double b);
+
+  public static native double sum(double a, double b);
+
   public static native double parseDouble(String string) throws NumberFormatException;
 
   @KtName("toInt_toShort")

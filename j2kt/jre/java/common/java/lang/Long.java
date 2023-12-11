@@ -63,6 +63,12 @@ public final class Long extends Number implements Comparable<Long> {
   @Override
   public native float floatValue();
 
+  public static native long max(long a, long b);
+
+  public static native long min(long a, long b);
+
+  public static native long sum(long a, long b);
+
   public static native @Nullable Long getLong(@Nullable String string);
 
   public static native Long getLong(@Nullable String string, long defaultValue);

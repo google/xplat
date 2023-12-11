@@ -18,6 +18,8 @@ package javaemul.lang
 import java.lang.Class
 import javaemul.internal.decodeNumberString
 import kotlin.jvm.javaPrimitiveType
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sign
 
 /**
@@ -70,3 +72,9 @@ fun Int.Companion.highestOneBit(i: Int): Int = i.takeHighestOneBit()
 fun Int.Companion.bitCount(i: Int): Int = i.countOneBits()
 
 fun Int.Companion.signum(i: Int): Int = i.sign
+
+fun Int.Companion.min(i1: Int, i2: Int): Int = min(i1, i2)
+
+fun Int.Companion.max(i1: Int, i2: Int): Int = max(i1, i2)
+
+fun Int.Companion.sum(i1: Int, i2: Int): Int = i1 + i2
