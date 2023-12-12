@@ -30,11 +30,11 @@ val Char.Companion.TYPE: Class<Char>
 
 // TODO(b/233944334): Duplicate method for JVM.
 val Char.Companion.MIN_SUPPLEMENTARY_CODE_POINT: Int
-  inline get() = 0x10000
+  get() = 0x10000
 val Char.Companion.MIN_CODE_POINT: Int
-  inline get() = 0x0000
+  get() = 0x0000
 val Char.Companion.MAX_CODE_POINT: Int
-  inline get() = 0x10FFFF
+  get() = 0x10FFFF
 
 fun Char.Companion.valueOf(c: Char): Char = c
 

@@ -26,10 +26,10 @@ import kotlin.jvm.javaPrimitiveType
 operator fun Boolean.Companion.invoke(b: Boolean): Boolean = b
 
 val Boolean.Companion.TRUE: Boolean
-  inline get() = true
+  get() = true
 
 val Boolean.Companion.FALSE: Boolean
-  inline get() = false
+  get() = false
 
 val Boolean.Companion.TYPE: Class<Boolean>
   get() = Boolean::class.javaPrimitiveType!!
