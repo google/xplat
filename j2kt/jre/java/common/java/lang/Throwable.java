@@ -24,7 +24,10 @@ import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Throwable", bridgeName = "javaemul.lang.JavaThrowable")
+@KtNative(
+    name = "kotlin.Throwable",
+    bridgeName = "javaemul.lang.JavaThrowable",
+    companionName = "java.lang.Throwable")
 @NullMarked
 public class Throwable {
 
@@ -75,4 +78,8 @@ public class Throwable {
   public final native void addSuppressed(Throwable throwable);
 
   public final native Throwable[] getSuppressed();
+
+  // Method existing in J2CL-JRE and referenced by user code. This method is not available in
+  // j2kt-native and j2kt-jvm.
+  public static native Throwable of(@Nullable Object e);
 }
