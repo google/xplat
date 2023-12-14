@@ -327,13 +327,14 @@ public final class Character implements Comparable<Character> {
 
   public static native char toLowerCase(char c);
 
-  // TODO(b/260066160): Re-enable
-  // public static native int toLowerCase(int codePoint);
+  public static native int toLowerCase(int codePoint);
 
   @Override
   public native String toString();
 
   public static native String toString(char value);
+
+  public static native String toString(int value);
 
   public static native char toTitleCase(char c);
 
@@ -341,8 +342,7 @@ public final class Character implements Comparable<Character> {
 
   public static native char toUpperCase(char c);
 
-  // TODO(b/260066160): Re-enable
-  // public static native int toUpperCase(int codePoint);
+  public static native int toUpperCase(int codePoint);
 
   public static native int hashCode(char c);
 }

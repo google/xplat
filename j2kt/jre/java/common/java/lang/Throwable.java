@@ -39,9 +39,11 @@ public class Throwable {
 
   public Throwable(@Nullable Throwable cause) {}
 
-  // TODO(b/222269323): Find out if we need to support this.
-  // protected Throwable(@Nullable String detailMessage, @Nullable Throwable cause,
-  //     boolean enableSuppression, boolean writableStackTrace) {}
+  protected Throwable(
+      @Nullable String detailMessage,
+      @Nullable Throwable cause,
+      boolean enableSuppression,
+      boolean writableStackTrace) {}
 
   public native Throwable fillInStackTrace();
 

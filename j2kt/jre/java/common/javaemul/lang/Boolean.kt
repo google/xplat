@@ -25,6 +25,8 @@ import kotlin.jvm.javaPrimitiveType
  */
 operator fun Boolean.Companion.invoke(b: Boolean): Boolean = b
 
+operator fun Boolean.Companion.invoke(s: String?): Boolean = parseBoolean(s)
+
 val Boolean.Companion.TRUE: Boolean
   get() = true
 

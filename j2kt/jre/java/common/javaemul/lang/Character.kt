@@ -54,7 +54,23 @@ fun Char.Companion.isUpperCase(c: Char): Boolean = c.isUpperCase()
 
 fun Char.Companion.isLowerCase(c: Char): Boolean = c.isLowerCase()
 
-fun Char.Companion.isWhitespace(c: Char): Boolean = c.isWhitespace()
+fun Char.Companion.isSpace(c: Char): Boolean = "\t\r\n ".contains(c)
+
+// Exclude non-breaking spaces
+fun Char.Companion.isWhitespace(c: Char): Boolean =
+  c.isWhitespace() && !"\u00a0\u2007\u202F".contains(c)
+
+fun Char.Companion.isWhitespace(i: Int): Boolean =
+  if (i < Char.MAX_VALUE.code) isWhitespace(i.toChar()) else toChars(i).concatToString().isBlank()
+
+// Exclude control characters
+fun Char.Companion.isSpaceChar(c: Char): Boolean =
+  c.isWhitespace() && !"\t\n\u000B\u000C\r\u001C\u001D\u001E\u001F".contains(c)
+
+fun Char.Companion.isSpaceChar(i: Int): Boolean =
+  if (i <= Char.MAX_VALUE.code) isSpaceChar(i.toChar()) else toChars(i).concatToString().isBlank()
+
+fun Char.Companion.isTitleCase(c: Char): Boolean = c.isTitleCase()
 
 fun Char.Companion.forDigit(digit: Int, radix: Int): Char = digit.digitToChar(radix).lowercaseChar()
 
@@ -92,6 +108,48 @@ fun Char.Companion.codePointAt(
   else hiSurrogate.code
 }
 
+fun Char.Companion.codePointBefore(cs: CharSequence, index: Int): Int {
+  val loSurrogate = cs[index - 1]
+  return if (loSurrogate.isLowSurrogate() && index > 1 && cs[index - 2].isHighSurrogate())
+    toCodePoint(cs[index - 2], loSurrogate)
+  else loSurrogate.code
+}
+
+fun Char.Companion.codePointBefore(ca: CharArray, index: Int, start: Int = 0): Int {
+  val loSurrogate = ca[index - 1]
+  return if (loSurrogate.isLowSurrogate() && index - 2 >= start && ca[index - 2].isHighSurrogate())
+    toCodePoint(ca[index - 2], loSurrogate)
+  else loSurrogate.code
+}
+
+fun Char.Companion.codePointCount(seq: CharSequence, beginIndex: Int, endIndex: Int): Int {
+  var count = 0
+  var idx = beginIndex
+  while (idx < endIndex) {
+    val ch = seq[idx++]
+    if (ch.isHighSurrogate() && idx < endIndex && seq[idx].isLowSurrogate()) {
+      // skip the second char of surrogate pairs
+      ++idx
+    }
+    ++count
+  }
+  return count
+}
+
+fun Char.Companion.codePointCount(ca: CharArray, beginIndex: Int, endIndex: Int): Int {
+  var count = 0
+  var idx = beginIndex
+  while (idx < endIndex) {
+    val ch = ca[idx++]
+    if (ch.isHighSurrogate() && idx < endIndex && ca[idx].isLowSurrogate()) {
+      // skip the second char of surrogate pairs
+      ++idx
+    }
+    ++count
+  }
+  return count
+}
+
 fun Char.Companion.isValidCodePoint(codePoint: Int): Boolean =
   MIN_CODE_POINT <= codePoint && codePoint <= MAX_CODE_POINT
 
@@ -101,6 +159,61 @@ fun Char.Companion.isSurrogatePair(high: Char, low: Char): Boolean =
 fun Char.Companion.isLowSurrogate(ch: Char): Boolean = ch.isLowSurrogate()
 
 fun Char.Companion.isHighSurrogate(ch: Char): Boolean = ch.isHighSurrogate()
+
+fun Char.Companion.isSurrogate(ch: Char): Boolean = ch.isSurrogate()
+
+fun Char.Companion.offsetByCodePoints(seq: CharSequence, index: Int, codePointOffset: Int): Int {
+  var codePointOffset = codePointOffset
+  var index = index
+  // move backwards
+  while (codePointOffset < 0) {
+    --index
+    if (seq[index].isLowSurrogate() && seq[index - 1].isHighSurrogate()) {
+      --index
+    }
+    ++codePointOffset
+  }
+  // move forwards
+  while (codePointOffset > 0) {
+    if (seq[index].isHighSurrogate() && seq[index + 1].isLowSurrogate()) {
+      ++index
+    }
+    ++index
+    --codePointOffset
+  }
+  return index
+}
+
+fun Char.Companion.offsetByCodePoints(
+  ca: CharArray,
+  offset: Int,
+  count: Int,
+  index: Int,
+  codePointOffset: Int
+): Int {
+  var codePointOffset = codePointOffset
+  var index = index
+  // move backwards
+  while (codePointOffset < 0 && index >= 0) {
+    --index
+    if (ca[offset + index].isLowSurrogate() && ca[offset + index - 1].isHighSurrogate()) {
+      --index
+    }
+    ++codePointOffset
+  }
+  // move forwards
+  while (codePointOffset > 0 && index <= count) {
+    if (ca[offset + index].isHighSurrogate() && ca[offset + index + 1].isLowSurrogate()) {
+      ++index
+    }
+    ++index
+    --codePointOffset
+  }
+  if (index < 0 || index >= count) {
+    throw IndexOutOfBoundsException()
+  }
+  return index
+}
 
 // TODO(b/233944334): Duplicate method for JVM.
 fun Char.Companion.toCodePoint(high: Char, low: Char): Int =
@@ -126,9 +239,17 @@ fun Char.Companion.toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
 
 fun Char.Companion.toString(c: Char): String = c.toString()
 
+fun Char.Companion.toString(c: Int): String = toChars(c).concatToString()
+
 fun Char.Companion.toUpperCase(c: Char) = c.uppercaseChar()
 
+fun Char.Companion.toUpperCase(c: Int): Int = toString(c).uppercase().codePointAt(0)
+
 fun Char.Companion.toLowerCase(c: Char) = c.lowercaseChar()
+
+fun Char.Companion.toLowerCase(c: Int): Int = toString(c).lowercase().codePointAt(0)
+
+fun Char.Companion.toTitleCase(c: Char) = c.titlecaseChar()
 
 fun Char.Companion.lowSurrogate(codePoint: Int) =
   (MIN_LOW_SURROGATE + ((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) and 1023)).toChar()

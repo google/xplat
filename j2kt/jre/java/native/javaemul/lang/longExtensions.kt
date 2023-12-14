@@ -29,6 +29,8 @@ import kotlin.math.sign
  */
 operator fun Long.Companion.invoke(l: Long): Long = l
 
+operator fun Long.Companion.invoke(s: String): Long = s.toLong()
+
 val Long.Companion.TYPE: Class<Long>
   get() = Long::class.javaPrimitiveType!!
 
@@ -49,6 +51,8 @@ fun Long.Companion.toString(l: Long): String = l.toString()
 
 fun Long.Companion.toString(l: Long, radix: Int): String = l.toString(radix)
 
+fun Long.Companion.toBinaryString(l: Long): String = l.toULong().toString(2)
+
 fun Long.Companion.toOctalString(l: Long): String = l.toULong().toString(8)
 
 fun Long.Companion.toHexString(l: Long): String = l.toULong().toString(16)
@@ -67,6 +71,10 @@ fun Long.Companion.numberOfLeadingZeros(l: Long): Int = l.countLeadingZeroBits()
 
 fun Long.Companion.numberOfTrailingZeros(l: Long): Int = l.countTrailingZeroBits()
 
+fun Long.Companion.highestOneBit(l: Long): Long = l.takeHighestOneBit()
+
+fun Long.Companion.lowestOneBit(l: Long): Long = l.takeLowestOneBit()
+
 fun Long.Companion.bitCount(l: Long): Int = l.countOneBits()
 
 fun Long.Companion.signum(l: Long): Int = l.sign
@@ -76,3 +84,10 @@ fun Long.Companion.min(l1: Long, l2: Long): Long = min(l1, l2)
 fun Long.Companion.max(l1: Long, l2: Long): Long = max(l1, l2)
 
 fun Long.Companion.sum(l1: Long, l2: Long): Long = l1 + l2
+
+fun Long.Companion.reverse(l: Long): Long =
+  (Int.reverse((l shr 32).toInt()).toUInt().toLong()) or (Int.reverse(l.toInt()).toLong() shl 32)
+
+fun Long.Companion.reverseBytes(l: Long): Long =
+  (Int.reverseBytes((l shr 32).toInt()).toUInt().toLong()) or
+    (Int.reverseBytes(l.toInt()).toLong() shl 32)

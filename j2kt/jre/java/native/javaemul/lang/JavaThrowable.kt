@@ -39,6 +39,15 @@ open class JavaThrowable(message: String? = null) : Throwable(message), InitCaus
     initCause(cause)
   }
 
+  constructor(
+    message: String?,
+    cause: Throwable?,
+    enableSuppression: Boolean,
+    writableStackTrace: Boolean
+  ) : this(message) {
+    initCause(cause)
+  }
+
   override fun initCause(cause: Throwable?): Throwable = super<InitCauseCapable>.initCause(cause)
 
   fun printStackTrace(writer: PrintWriter) = default_printStackTrace(writer)

@@ -36,6 +36,8 @@ import kotlin.text.CharacterCodingException
  */
 operator fun String.Companion.invoke(a: CharArray?): String = valueOf(a!!)
 
+operator fun String.Companion.invoke(sb: StringBuilder): String = sb.toString()
+
 operator fun String.Companion.invoke(a: CharArray?, offset: Int, len: Int): String =
   valueOf(a!!, offset, len)
 
@@ -133,6 +135,14 @@ internal fun String.Companion.fromCodePoint(codePoint: Int): String {
 }
 
 fun String.codePointAt(index: Int) = Char.codePointAt(this, index)
+
+fun String.codePointBefore(index: Int): Int = Char.codePointBefore(this, index)
+
+fun String.codePointCount(beginIndex: Int, endIndex: Int): Int =
+  Char.codePointCount(this, beginIndex, endIndex)
+
+fun String.offsetByCodePoints(index: Int, codePointOffset: Int): Int =
+  Char.offsetByCodePoints(this, index, codePointOffset)
 
 fun String.compareToIgnoreCase(str: String): Int = this.compareTo(str, ignoreCase = true)
 

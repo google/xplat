@@ -13,6 +13,7 @@
  */
 package java.lang;
 
+import java.lang.reflect.Type;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -22,7 +23,7 @@ import org.jspecify.nullness.Nullable;
 /** Minimal stub for {@code Class}. */
 @KtNative(name = "java.lang.Class")
 @NullMarked
-public final class Class<T> {
+public final class Class<T> implements Type {
 
   private Class() {}
 

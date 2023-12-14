@@ -27,6 +27,8 @@ import kotlin.math.min
  */
 operator fun Float.Companion.invoke(f: Float): Float = f
 
+operator fun Float.Companion.invoke(s: String): Float = s.toFloat()
+
 val Float.Companion.TYPE: Class<Float>
   get() = Float::class.javaPrimitiveType!!
 

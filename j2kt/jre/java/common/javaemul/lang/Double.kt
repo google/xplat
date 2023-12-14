@@ -27,6 +27,8 @@ import kotlin.math.min
  */
 operator fun Double.Companion.invoke(d: Double): Double = d
 
+operator fun Double.Companion.invoke(s: String): Double = s.toDouble()
+
 val Double.Companion.MAX_EXPONENT: Int
   get() = 1023
 
