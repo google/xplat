@@ -15,26 +15,22 @@
  */
 package java.lang;
 
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 /**
  * See <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/StringIndexOfBoundsException.html">the
+ * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/StringIndexOutOfBoundsException.html">the
  * official Java API doc</a> for details.
  */
+@KtNative(
+    name = "kotlin.IndexOutOfBoundsException",
+    bridgeName = "java.lang.IndexOutOfBoundsException")
 @NullMarked
-public class StringIndexOutOfBoundsException extends IndexOutOfBoundsException {
+public class StringIndexOutOfBoundsException extends RuntimeException {
 
-  public StringIndexOutOfBoundsException() {
-    super();
-  }
+  public StringIndexOutOfBoundsException() {}
 
-  public StringIndexOutOfBoundsException(@Nullable String message) {
-    super(message);
-  }
-
-  public StringIndexOutOfBoundsException(int index) {
-    super("String index out of range: " + index);
-  }
+  public StringIndexOutOfBoundsException(@Nullable String message) {}
 }
