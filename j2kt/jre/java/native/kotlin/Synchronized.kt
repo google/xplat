@@ -16,9 +16,17 @@
 
 package kotlin
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+
 /**
  * Placeholder for locking. Either we'll implement this for iOS based on J2Objc locking, or we'll
- * use this to find all use cases and do semething else.
+ * use this to find all use cases and do something else.
  */
 // TODO(b/236003566): Actually implement locking.
-inline fun <R> synchronized(lock: Any, block: () -> R): R = block()
+@OptIn(ExperimentalContracts::class)
+inline fun <R> synchronized(lock: Any, block: () -> R): R {
+  contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+  return block()
+}
