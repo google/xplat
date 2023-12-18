@@ -164,6 +164,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native String toUpperCase(Locale locale);
 
+  @KtName("java_trim")
   public native String trim();
 
   public static native String valueOf(char[] data);

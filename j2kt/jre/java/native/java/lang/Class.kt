@@ -17,6 +17,7 @@
 
 package java.lang
 
+import java.lang.reflect.Type
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaObjectType
 import kotlin.jvm.javaPrimitiveType
@@ -28,7 +29,8 @@ import kotlin.reflect.KClass
  * property are not accessible in Java.
  */
 @ObjCName("J2ktJavaLangClass", exact = true)
-class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) {
+class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) :
+  Type {
   fun cast(obj: Any?): T? =
     if (obj == null || kClass.isInstance(obj)) obj as T? else throw ClassCastException()
 

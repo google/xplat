@@ -146,7 +146,34 @@ fun String.offsetByCodePoints(index: Int, codePointOffset: Int): Int =
 
 fun String.compareToIgnoreCase(str: String): Int = this.compareTo(str, ignoreCase = true)
 
-fun String.getBytes(): ByteArray = encodeToByteArray()
+fun String.getBytes(): ByteArray {
+  var replaced: StringBuilder? = null
+  var copiedTo = 0
+
+  // Check for invalid surrogate characters and replace them with '?'.
+  for (i in 0 ..< length) {
+    val c = this[i]
+    if (
+      (c.isHighSurrogate() && (i == length - 1 || !this[i + 1].isLowSurrogate())) ||
+        (c.isLowSurrogate() && (i == 0 || !this[i - 1].isHighSurrogate()))
+    ) {
+      if (replaced == null) {
+        replaced = StringBuilder(length)
+      }
+      replaced.append(this, copiedTo, i).append('?')
+      copiedTo = i + 1
+    }
+  }
+
+  if (replaced != null) {
+    if (copiedTo < length) {
+      replaced.append(this, copiedTo, length)
+    }
+    return replaced.toString().encodeToByteArray()
+  }
+
+  return encodeToByteArray()
+}
 
 fun String.getBytes(charsetName: String): ByteArray {
   try {
@@ -160,7 +187,7 @@ fun String.getBytes(charset: Charset): ByteArray =
   when (charset) {
     StandardCharsets.US_ASCII -> encodeToByteArrayUnmapped(127)
     StandardCharsets.ISO_8859_1 -> encodeToByteArrayUnmapped(255)
-    StandardCharsets.UTF_8 -> encodeToByteArray()
+    StandardCharsets.UTF_8 -> getBytes()
     else -> throw UnsupportedEncodingException(charset.name())
   }
 
@@ -202,8 +229,14 @@ fun String.regionMatches(
   thisOffset: Int,
   other: String,
   otherOffset: Int,
-  length: Int
-): Boolean = regionMatches(thisOffset, other, otherOffset, length, ignoreCase = ignoreCase)
+  len: Int
+): Boolean =
+  if (len <= 0)
+    thisOffset >= 0 &&
+      otherOffset >= 0 &&
+      thisOffset + len <= length &&
+      otherOffset + len <= other.length
+  else regionMatches(thisOffset, other, otherOffset, len, ignoreCase = ignoreCase)
 
 fun String.java_matches(regex: String) = Regex(regex).matches(this)
 
@@ -215,6 +248,18 @@ fun String.java_split(regularExpression: String, limit: Int): Array<String> =
 
 fun String.java_replace(target: CharSequence, replacement: CharSequence): String {
   return this.replace(target.toString(), replacement.toString())
+}
+
+fun String.java_trim(): String {
+  var start = 0
+  while (start < length && this[start] <= ' ') {
+    start++
+  }
+  var end = length
+  while (end > start && this[end - 1] <= ' ') {
+    end--
+  }
+  return if (start > 0 || end < length) substring(start, end) else this
 }
 
 private fun ByteArray.decodeToStringUnmapped(offset: Int, end: Int, ascii: Boolean): String {

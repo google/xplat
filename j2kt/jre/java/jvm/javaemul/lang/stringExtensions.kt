@@ -114,6 +114,8 @@ fun String.regionMatches(
   length: Int
 ): Boolean = asJavaString().regionMatches(ignoreCase, thisOffset, other, otherOffset, length)
 
+fun String.java_trim(): String = asJavaString().trim()
+
 fun String.java_matches(regex: String) = asJavaString().matches(regex)
 
 fun String.java_split(regex: String): Array<String> = asJavaString().split(regex)

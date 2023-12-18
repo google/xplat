@@ -33,33 +33,6 @@ public class EmulatedCharset extends Charset {
   }
 
   public byte[] getBytes(char[] buffer, int offset, int count) {
-    char[] replaced = null;
-    int copiedTo = 0;
-
-    // Replace invalid surrogate characters with '?'.
-    // We might want to insert this into the String constructor instead.
-    for (int i = 0; i < count; i++) {
-      char c = buffer[i + offset];
-      if ((Character.isHighSurrogate(c)
-              && (i == count - 1 || !Character.isLowSurrogate(buffer[i + offset + 1])))
-          || Character.isLowSurrogate(c)
-              && (i == 0 || !Character.isHighSurrogate(buffer[i + offset - 1]))) {
-        if (replaced == null) {
-          replaced = new char[count];
-        }
-        System.arraycopy(buffer, copiedTo + offset, replaced, copiedTo, i - copiedTo);
-        replaced[i] = '?';
-        copiedTo = i + 1;
-      }
-    }
-
-    if (replaced != null) {
-      if (copiedTo < count) {
-        System.arraycopy(buffer, copiedTo + offset, replaced, copiedTo, count - copiedTo);
-      }
-      return new String(replaced).getBytes(this);
-    }
-
     return new String(buffer, offset, count).getBytes(this);
   }
 

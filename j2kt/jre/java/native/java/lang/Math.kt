@@ -184,7 +184,7 @@ object Math {
     return -x
   }
 
-  fun pow(x: Double, y: Double) = x.pow(y)
+  fun pow(x: Double, y: Double) = if (y.isNaN()) Double.NaN else x.pow(y)
 
   fun rint(d: Double): Double = kotlin.math.round(d)
 

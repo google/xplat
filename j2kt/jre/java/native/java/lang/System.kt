@@ -51,15 +51,33 @@ object System {
 
   fun arraycopy(src: Any?, srcOfs: Int, dest: Any?, destOfs: Int, len: Int) {
     when (src) {
-      is ByteArray -> src.copyInto(dest as ByteArray, destOfs, srcOfs, srcOfs + len)
-      is ShortArray -> src.copyInto(dest as ShortArray, destOfs, srcOfs, srcOfs + len)
-      is IntArray -> src.copyInto(dest as IntArray, destOfs, srcOfs, srcOfs + len)
-      is LongArray -> src.copyInto(dest as LongArray, destOfs, srcOfs, srcOfs + len)
-      is FloatArray -> src.copyInto(dest as FloatArray, destOfs, srcOfs, srcOfs + len)
-      is DoubleArray -> src.copyInto(dest as DoubleArray, destOfs, srcOfs, srcOfs + len)
-      is BooleanArray -> src.copyInto(dest as BooleanArray, destOfs, srcOfs, srcOfs + len)
-      is CharArray -> src.copyInto(dest as CharArray, destOfs, srcOfs, srcOfs + len)
-      is Array<*> -> src.copyInto(dest as Array<Any?>, destOfs, srcOfs, srcOfs + len)
+      is ByteArray ->
+        if (dest is ByteArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is ShortArray ->
+        if (dest is ShortArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is IntArray ->
+        if (dest is IntArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is LongArray ->
+        if (dest is LongArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is FloatArray ->
+        if (dest is FloatArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is DoubleArray ->
+        if (dest is DoubleArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is BooleanArray ->
+        if (dest is BooleanArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is CharArray ->
+        if (dest is CharArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
+      is Array<*> ->
+        if (dest is Array<*>) src.copyInto(dest as Array<Any?>, destOfs, srcOfs, srcOfs + len)
+        else throw ArrayStoreException()
       else -> throw ArrayStoreException()
     }
   }
