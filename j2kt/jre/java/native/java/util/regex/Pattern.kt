@@ -57,20 +57,15 @@ class Pattern private constructor(pattern: String, private val flags: Int) {
 
   fun matcher(input: CharSequence): Matcher = Matcher(this, input)
 
-  fun split(input: CharSequence): Array<String> = regex.split(input).toTypedArray()
-
-  fun split(input: CharSequence, limit: Int): Array<String> {
+  fun split(input: CharSequence, limit: Int = 0): Array<String> {
     val split = regex.split(input, max(0, limit))
-    if (limit != 0 || !split.last().isEmpty() || input.isEmpty()) {
+    if (limit != 0 || input.isEmpty() || !split.last().isEmpty()) {
       return split.toTypedArray()
     }
-    // For limit = 0, trim trailing empty strings (unless the input was empty itself)
-    var newSize = 0
-    for (i in split.size - 1 downTo 0) {
-      if (!split[i].isEmpty()) {
-        newSize = i + 1
-        break
-      }
+    // For limit == 0, trim trailing empty strings (unless the input was empty itself)
+    var newSize = split.size - 1 // We have aleady checked the last element above.
+    while (newSize > 0 && split[newSize - 1].isEmpty()) {
+      newSize--
     }
     return split.subList(0, newSize).toTypedArray()
   }

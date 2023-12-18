@@ -48,6 +48,8 @@ object Math {
 
   const val PI: Double = kotlin.math.PI
 
+  private const val MINUS_ZERO_LONG_BITS = Long.MIN_VALUE // 0x8000000000000000
+
   private const val PI_OVER_180 = PI / 180.0
 
   private const val PI_UNDER_180 = 180.0 / PI
@@ -134,7 +136,8 @@ object Math {
 
   fun log10(d: Double): Double = kotlin.math.log10(d)
 
-  fun log1p(d: Double): Double = kotlin.math.log(d + 1.0, kotlin.math.E)
+  fun log1p(d: Double): Double =
+    if (d.toBits() == MINUS_ZERO_LONG_BITS) -0.0 else kotlin.math.log(d + 1.0, kotlin.math.E)
 
   fun max(x: Double, y: Double): Double = kotlin.math.max(x, y)
 
@@ -185,9 +188,9 @@ object Math {
 
   fun rint(d: Double): Double = kotlin.math.round(d)
 
-  fun round(d: Double): Long = d.roundToLong()
+  fun round(d: Double): Long = if (d.isNaN()) 0L else d.roundToLong()
 
-  fun round(f: Float): Int = f.roundToInt()
+  fun round(f: Float): Int = if (f.isNaN()) 0 else f.roundToInt()
 
   fun signum(d: Double): Double = kotlin.math.sign(d)
 

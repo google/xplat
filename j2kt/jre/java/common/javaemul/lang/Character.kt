@@ -54,7 +54,7 @@ fun Char.Companion.isUpperCase(c: Char): Boolean = c.isUpperCase()
 
 fun Char.Companion.isLowerCase(c: Char): Boolean = c.isLowerCase()
 
-fun Char.Companion.isSpace(c: Char): Boolean = "\t\r\n ".contains(c)
+fun Char.Companion.isSpace(c: Char): Boolean = "\t\n\u000C\r ".contains(c)
 
 // Exclude non-breaking spaces
 fun Char.Companion.isWhitespace(c: Char): Boolean =
@@ -136,18 +136,19 @@ fun Char.Companion.codePointCount(seq: CharSequence, beginIndex: Int, endIndex: 
   return count
 }
 
-fun Char.Companion.codePointCount(ca: CharArray, beginIndex: Int, endIndex: Int): Int {
-  var count = 0
-  var idx = beginIndex
+fun Char.Companion.codePointCount(ca: CharArray, offset: Int, count: Int): Int {
+  val endIndex = offset + count
+  var result = 0
+  var idx = offset
   while (idx < endIndex) {
     val ch = ca[idx++]
     if (ch.isHighSurrogate() && idx < endIndex && ca[idx].isLowSurrogate()) {
       // skip the second char of surrogate pairs
       ++idx
     }
-    ++count
+    ++result
   }
-  return count
+  return result
 }
 
 fun Char.Companion.isValidCodePoint(codePoint: Int): Boolean =
@@ -202,14 +203,14 @@ fun Char.Companion.offsetByCodePoints(
     ++codePointOffset
   }
   // move forwards
-  while (codePointOffset > 0 && index <= count) {
+  while (codePointOffset > 0 && index <= offset + count) {
     if (ca[offset + index].isHighSurrogate() && ca[offset + index + 1].isLowSurrogate()) {
       ++index
     }
     ++index
     --codePointOffset
   }
-  if (index < 0 || index >= count) {
+  if (index < 0 || index > offset + count) {
     throw IndexOutOfBoundsException()
   }
   return index

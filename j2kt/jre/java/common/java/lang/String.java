@@ -209,7 +209,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native int codePointBefore(int index);
 
-  public native int codePointCount(int start, int end);
+  public native int codePointCount(int beginIndex, int endIndex);
 
   public native boolean contains(CharSequence cs);
 

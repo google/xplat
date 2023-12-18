@@ -205,7 +205,7 @@ public final class Character implements Comparable<Character> {
 
   public static native char[] toChars(int codePoint);
 
-  public static native int codePointCount(CharSequence seq, int beginIndex, int endIndex);
+  public static native int codePointCount(CharSequence seq, int offset, int count);
 
   public static native int codePointCount(char[] seq, int offset, int count);
 
