@@ -18,8 +18,6 @@
 package java.net;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -44,12 +42,7 @@ public class URLDecoder {
     }
 
     if (s.indexOf('%') == -1) {
-      if (s.indexOf('+') == -1) return s;
-      char[] str = s.toCharArray();
-      for (int i = 0; i < str.length; i++) {
-        if (str[i] == '+') str[i] = ' ';
-      }
-      return new String(str);
+      return s.replace('+', ' ');
     }
 
     Charset charset = null;
@@ -68,14 +61,13 @@ public class URLDecoder {
 
   private static String decode(String s, Charset charset) {
 
-    char[] str_buf = new char[s.length()];
+    StringBuilder sb = new StringBuilder(s.length());
     byte[] buf = new byte[s.length() / 3];
-    int buf_len = 0;
 
     for (int i = 0; i < s.length(); ) {
       char c = s.charAt(i);
       if (c == '+') {
-        str_buf[buf_len] = ' ';
+        sb.append(' ');
       } else if (c == '%') {
 
         int len = 0;
@@ -93,17 +85,13 @@ public class URLDecoder {
           i += 3;
         } while (i < s.length() && s.charAt(i) == '%');
 
-        CharBuffer cb = charset.decode(ByteBuffer.wrap(buf, 0, len));
-        len = cb.length();
-        System.arraycopy(cb.array(), 0, str_buf, buf_len, len);
-        buf_len += len;
+        sb.append(new String(buf, 0, len, charset));
         continue;
       } else {
-        str_buf[buf_len] = c;
+        sb.append(c);
       }
       i++;
-      buf_len++;
     }
-    return new String(str_buf, 0, buf_len);
+    return sb.toString();
   }
 }
