@@ -121,7 +121,7 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
 
   @SuppressWarnings("unchecked")
   public EnumMap(EnumMap<K, ? extends V> m) {
-    keySet = m.keySet.clone();
+    keySet = m.isEmpty() ? new EnumSet<>() : m.keySet.clone();
     values = new ArrayList<>((Collection<V>) m.values());
   }
 
