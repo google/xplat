@@ -24,6 +24,14 @@ import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangException", exact = true)
 open class Exception(message: String? = null) : kotlin.Exception(message), InitCauseCapable {
+  /**
+   * Kotlin throwables do not support [initCause] for initializing the cause outside of the
+   * constructor. The readonly [cause] property however is `open` so we override it to let
+   * transpiled code use `initCause` for exceptions that were constructed in transpiled code.
+   *
+   * Kotlin code can only access `cause` through the property (the backing field is not exposed at
+   * all), so we do not need to use the Kotlin [cause] constructor parameter.
+   */
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
@@ -32,7 +40,5 @@ open class Exception(message: String? = null) : kotlin.Exception(message), InitC
     initCause(cause)
   }
 
-  constructor(cause: kotlin.Throwable?) : this() {
-    initCause(cause)
-  }
+  constructor(cause: kotlin.Throwable?) : this(cause?.toString(), cause)
 }

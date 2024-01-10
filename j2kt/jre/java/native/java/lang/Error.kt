@@ -32,7 +32,5 @@ open class Error(message: String? = null) : kotlin.Error(message), InitCauseCapa
     initCause(cause)
   }
 
-  constructor(cause: kotlin.Throwable?) : this() {
-    initCause(cause)
-  }
+  constructor(cause: kotlin.Throwable?) : this(cause?.toString(), cause)
 }

@@ -33,7 +33,5 @@ open class IllegalArgumentException(message: String? = null) :
     initCause(cause)
   }
 
-  constructor(cause: kotlin.Throwable?) : this() {
-    initCause(cause)
-  }
+  constructor(cause: kotlin.Throwable?) : this(cause?.toString(), cause)
 }
