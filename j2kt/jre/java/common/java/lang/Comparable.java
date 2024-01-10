@@ -21,6 +21,8 @@ import javaemul.internal.annotations.KtIn;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 
+// Note: Kotlin Comparables allow nullable T but Java/JSpecify Comparables do not (Java compareTo
+// implementations are expected to throw NPE when comparing to null). This file follows Java.
 @KtNative(name = "kotlin.Comparable")
 @NullMarked
 public interface Comparable<@KtIn T> {
