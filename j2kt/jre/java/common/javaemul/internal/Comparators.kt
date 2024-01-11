@@ -31,6 +31,8 @@ internal object Comparators {
     if (comparator === InternalNaturalOrderComparator) null else comparator
 }
 
-private object InternalNaturalOrderComparator : Comparator<Comparable<Any>> {
-  override fun compare(o1: Comparable<Any>, o2: Comparable<Any>) = o1.compareTo(o2)
+private object InternalNaturalOrderComparator : Comparator<Comparable<Any?>?> {
+  // Note: We use runtime null-checks here. Due to the unchecked casts above we can't rely on
+  // non-nullable parameter types with compile-time checks.
+  override fun compare(o1: Comparable<Any?>?, o2: Comparable<Any?>?) = o1!!.compareTo(o2!!)
 }
