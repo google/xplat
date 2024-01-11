@@ -176,8 +176,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
 
   static IntStream of(int t) {
     // TODO consider a splittable that returns only a single value
-    // TODO(b/315473133): Delegate to of()
-    return Arrays.stream(new int[] {t});
+    return of(new int[] {t});
   }
 
   static IntStream range(int startInclusive, int endExclusive) {

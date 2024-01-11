@@ -172,8 +172,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
 
   static DoubleStream of(double t) {
     // TODO consider a splittable that returns only a single value
-    // TODO(b/315473133): Delegate to of()
-    return Arrays.stream(new double[] {t});
+    return of(new double[] {t});
   }
 
   boolean allMatch(DoublePredicate predicate);
