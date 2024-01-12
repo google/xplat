@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google Inc.
+ * Copyright 2024 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,31 +15,18 @@
  */
 package smoke;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(Suite.class)
-@SuiteClasses({
-  ArraysTest.class,
-  AtomicTest.class,
-  BitSetTest.class,
-  CharacterTest.class,
-  ClassTest.class,
-  CollectionsTest.class,
-  DateTest.class,
-  ErasureTest.class,
-  FormatterTest.class,
-  IoTest.class,
-  LoggingTest.class,
-  MathTest.class,
-  PrimitivesTest.class,
-  RandomTest.class,
-  ReflectArrayTest.class,
-  RegexTest.class,
-  SecurityTest.class,
-  StringTest.class,
-  SystemTest.class,
-  ThrowableTest.class,
-})
-public class TestHarness {}
+import java.util.Formatter;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+public final class FormatterTest {
+
+  @Test
+  public void numberFormat0f_noDot() {
+    assertEquals("11", new Formatter().format("%.0f", 11.0).toString());
+  }
+}

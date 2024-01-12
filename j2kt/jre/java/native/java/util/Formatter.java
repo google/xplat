@@ -1457,9 +1457,11 @@ public final class Formatter implements Closeable, Flushable {
     // Everything before '.' should be added to `result` as-is
     int decimalSeparatorIndex = plainString.indexOf('.');
     if (decimalSeparatorIndex == -1) {
-      return plainString + "." + new String(new char[precision]).replace('\0', '0');
+      return precision == 0
+          ? plainString
+          : (plainString + "." + new String(new char[precision]).replace('\0', '0'));
     } else {
-      // Accoding to Java doc we should round away from 0 when the discarded fraction is 0.5. To do
+      // According to Java doc we should round away from 0 when the discarded fraction is 0.5. To do
       // so, we add a "fraction" number to bigDecimal to make carry happen if necessary, then apply
       // round down.
       BigDecimal fraction =
@@ -1479,10 +1481,12 @@ public final class Formatter implements Closeable, Flushable {
     // Round towards zero. Simply truncates exceeding digits.
     String plainString = bigDecimal.toPlainString();
     int decimalSeparatorIndex = plainString.indexOf('.');
-    if (decimalSeparatorIndex == -1) {
+    if (precision == 0) {
+      return decimalSeparatorIndex == -1
+          ? plainString
+          : plainString.substring(0, decimalSeparatorIndex);
+    } else if (decimalSeparatorIndex == -1) {
       return plainString + "." + new String(new char[precision]).replace('\0', '0');
-    } else if (precision == 0) {
-      return plainString.substring(0, decimalSeparatorIndex);
     } else {
       int numCharactersAfterDecimalSeparator = plainString.length() - (decimalSeparatorIndex + 1);
       int numZeroPadding = precision - numCharactersAfterDecimalSeparator;
