@@ -632,8 +632,6 @@ public class CollectionsTest {
   }
 
   @Test
-  // TODO: b/275568193: Remove suppression after CF permits sort(null).
-  @SuppressWarnings("nullness:argument.type")
   public void testListSort() {
     List<Integer> list = new ArrayList<>();
     list.add(1);
