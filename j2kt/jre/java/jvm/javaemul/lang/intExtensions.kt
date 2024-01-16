@@ -45,6 +45,14 @@ fun Int.Companion.toString(i: Int, radix: Int): String = java.lang.Integer.toStr
 
 fun Int.Companion.toHexString(i: Int): String = java.lang.Integer.toHexString(i)
 
+fun Int.Companion.toUnsignedString(l: Int): String = l.toUInt().toString()
+
+// java.lang.Integer.toUnsignedString(l) not available on J2CL
+
+fun Int.Companion.toUnsignedString(l: Int, radix: Int): String = l.toUInt().toString(radix)
+
+// java.lang.Integer.toUnsignedString(l, radix) not available on J2CL
+
 fun Int.Companion.parseInt(s: String): Int = java.lang.Integer.parseInt(s)
 
 fun Int.Companion.parseInt(s: String, radix: Int): Int = java.lang.Integer.parseInt(s, radix)

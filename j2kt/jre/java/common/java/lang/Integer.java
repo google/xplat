@@ -105,6 +105,10 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public static native String toString(int i, int radix);
 
+  public static native String toUnsignedString(int i);
+
+  public static native String toUnsignedString(int i, int radix);
+
   public static native Integer valueOf(String string) throws NumberFormatException;
 
   public static native Integer valueOf(String string, int radix) throws NumberFormatException;

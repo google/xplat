@@ -57,6 +57,10 @@ fun Long.Companion.toOctalString(l: Long): String = l.toULong().toString(8)
 
 fun Long.Companion.toHexString(l: Long): String = l.toULong().toString(16)
 
+fun Long.Companion.toUnsignedString(l: Long): String = l.toULong().toString()
+
+fun Long.Companion.toUnsignedString(l: Long, radix: Int): String = l.toULong().toString(radix)
+
 fun Long.Companion.parseLong(s: String): Long = s.toLong()
 
 fun Long.Companion.parseLong(s: String, radix: Int): Long = s.toLong(radix)

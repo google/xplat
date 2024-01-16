@@ -42,6 +42,14 @@ fun Long.Companion.toOctalString(l: Long): String = java.lang.Long.toOctalString
 
 fun Long.Companion.toHexString(l: Long): String = java.lang.Long.toHexString(l)
 
+fun Long.Companion.toUnsignedString(l: Long): String = l.toULong().toString()
+
+// java.lang.Long.toUnsignedString(l) not available on J2CL
+
+fun Long.Companion.toUnsignedString(l: Long, radix: Int): String = l.toULong().toString(radix)
+
+// java.lang.Long.toUnsignedString(l, radix) not available on J2CL
+
 fun Long.Companion.parseLong(s: String): Long = java.lang.Long.parseLong(s)
 
 fun Long.Companion.parseLong(s: String, radix: Int): Long = java.lang.Long.parseLong(s, radix)

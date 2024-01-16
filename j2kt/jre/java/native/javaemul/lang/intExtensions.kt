@@ -53,6 +53,10 @@ fun Int.Companion.toString(i: Int, radix: Int): String = i.toString(radix)
 
 fun Int.Companion.toHexString(i: Int): String = i.toUInt().toString(16)
 
+fun Int.Companion.toUnsignedString(l: Int): String = l.toUInt().toString()
+
+fun Int.Companion.toUnsignedString(l: Int, radix: Int): String = l.toUInt().toString(radix)
+
 fun Int.Companion.toOctalString(i: Int): String = i.toUInt().toString(8)
 
 fun Int.Companion.toBinaryString(i: Int): String = i.toUInt().toString(2)

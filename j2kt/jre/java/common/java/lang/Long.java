@@ -104,6 +104,10 @@ public final class Long extends Number implements Comparable<Long> {
 
   public static native String toString(long v, int radix);
 
+  public static native String toUnsignedString(long n);
+
+  public static native String toUnsignedString(long v, int radix);
+
   public static native Long valueOf(String string) throws NumberFormatException;
 
   public static native Long valueOf(String string, int radix) throws NumberFormatException;

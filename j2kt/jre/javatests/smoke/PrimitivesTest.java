@@ -57,7 +57,14 @@ public class PrimitivesTest {
 
     assertEquals("9", Integer.toString(9));
     assertEquals("20", Integer.toString(16, 8));
+    assertEquals("87", Integer.toUnsignedString(87));
+    assertEquals("127", Integer.toUnsignedString(87, 8));
     assertEquals("57", Integer.toHexString(87));
+    assertEquals("ffffffa9", Integer.toHexString(-87));
+    assertEquals("4294967209", Integer.toUnsignedString(-87));
+    assertEquals("37777777651", Integer.toUnsignedString(-87, 8));
+    assertEquals("2147483648", Integer.toUnsignedString(Integer.MIN_VALUE));
+    assertEquals("20000000000", Integer.toUnsignedString(Integer.MIN_VALUE, 8));
 
     assertEquals(16, Integer.parseInt("16"));
     assertEquals(14, Integer.parseInt("16", 8));
@@ -94,8 +101,14 @@ public class PrimitivesTest {
 
     assertEquals("9", Long.toString(9));
     assertEquals("20", Long.toString(16, 8));
+    assertEquals("87", Long.toUnsignedString(87));
+    assertEquals("127", Long.toUnsignedString(87, 8));
     assertEquals("57", Long.toHexString(87));
     assertEquals("ffffffffffffffa9", Long.toHexString(-87));
+    assertEquals("18446744073709551529", Long.toUnsignedString(-87));
+    assertEquals("1777777777777777777651", Long.toUnsignedString(-87, 8));
+    assertEquals("9223372036854775808", Long.toUnsignedString(Long.MIN_VALUE));
+    assertEquals("1000000000000000000000", Long.toUnsignedString(Long.MIN_VALUE, 8));
 
     assertEquals(16L, Long.parseLong("16"));
     assertEquals(14L, Long.parseLong("16", 8));
