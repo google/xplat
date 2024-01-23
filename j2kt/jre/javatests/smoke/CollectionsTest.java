@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
+import java.util.RandomAccess;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Stack;
@@ -89,6 +90,15 @@ public class CollectionsTest {
     assertEquals("a", deque.removeFirst());
 
     assertEquals(0, deque.size());
+  }
+
+  @Test
+  public void testArrayList_randomAccess() {
+    List<String> list = new ArrayList<>();
+    list.add("Hello");
+    list.add("World");
+    assertTrue(list instanceof RandomAccess);
+    assertTrue(list.subList(1, 1) instanceof RandomAccess);
   }
 
   static class AddCountList<T> extends ArrayList<T> {

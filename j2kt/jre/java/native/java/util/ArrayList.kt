@@ -21,10 +21,8 @@ import kotlin.collections.ArrayList as KtArrayList
 
 private const val DEFAULT_CAPACITY = 10
 
-open class ArrayList<T>
-private constructor(
-  val ktArrayList: KtArrayList<T>,
-) : JavaAbstractList<T>(), Cloneable, Serializable, MutableList<T> by ktArrayList {
+open class ArrayList<T> private constructor(val ktArrayList: KtArrayList<T>) :
+  JavaAbstractList<T>(), Cloneable, RandomAccess, Serializable, MutableList<T> by ktArrayList {
 
   constructor(initialCapacity: Int = DEFAULT_CAPACITY) : this(KtArrayList(initialCapacity))
 
