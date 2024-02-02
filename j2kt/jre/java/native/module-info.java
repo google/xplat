@@ -20,6 +20,7 @@ module java.base {
   exports java.math;
   exports java.nio;
   exports java.nio.charset;
+  exports java.nio.file;
   exports java.security;
   exports java.sql;
   exports java.text;
