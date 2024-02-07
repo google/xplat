@@ -17,6 +17,7 @@ package java.util
 
 import java.io.Serializable
 import javaemul.lang.JavaAbstractList
+import kotlin.Cloneable
 import kotlin.collections.ArrayList as KtArrayList
 
 private const val DEFAULT_CAPACITY = 10

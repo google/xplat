@@ -19,6 +19,7 @@ package java.util
 
 import java.io.Serializable
 import javaemul.lang.JavaAbstractMap
+import kotlin.Cloneable
 import kotlin.collections.HashMap as KotlinHashMap
 import kotlin.collections.Map as KotlinMap
 import kotlin.experimental.ExperimentalObjCName
@@ -33,7 +34,7 @@ open class HashMap<K, V> private constructor(val ktHashMap: KotlinHashMap<K, V>)
 
   constructor(
     initialCapacity: Int = DEFAULT_INITIAL_CAPACITY,
-    loadFactor: Float = DEFAULT_LOAD_FACTOR
+    loadFactor: Float = DEFAULT_LOAD_FACTOR,
   ) : this(KotlinHashMap<K, V>(initialCapacity, loadFactor))
 
   constructor(original: KotlinMap<out K, V>) : this(KotlinHashMap(original))
