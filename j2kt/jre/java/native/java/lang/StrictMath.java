@@ -164,6 +164,18 @@ public final class StrictMath {
     return Math.multiplyExact(x, y);
   }
 
+  public static double nextAfter(double start, double direction) {
+    return Math.nextAfter(start, direction);
+  }
+
+  public static double nextUp(double d) {
+    return Math.nextUp(d);
+  }
+
+  public static float nextUp(float f) {
+    return Math.nextUp(f);
+  }
+
   public static double pow(double x, double exp) {
     return Math.pow(x, exp);
   }
