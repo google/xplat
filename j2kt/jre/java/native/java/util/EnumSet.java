@@ -126,17 +126,4 @@ public class EnumSet<E extends Enum<E>> extends AbstractSet<E> implements Clonea
   int capacity() {
     return size();
   }
-
-  // TODO(b/138399086): Remove these from the API if possible to make it a compile time error.
-  public static <E extends Enum<E>> EnumSet<E> complementOf(EnumSet<E> other) {
-    throw new UnsupportedOperationException();
-  }
-
-  public static <E extends Enum<E>> EnumSet<E> range(E from, E to) {
-    throw new UnsupportedOperationException();
-  }
-
-  public static <E extends Enum<E>> EnumSet<E> allOf(Class<E> elementType) {
-    throw new UnsupportedOperationException();
-  }
 }
