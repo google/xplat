@@ -151,6 +151,6 @@ public final class Optional<T> {
 
   @Override
   public String toString() {
-    return isPresent() ? "Optional.of(" + String.valueOf(ref) + ")" : "Optional.empty()";
+    return isPresent() ? "Optional[" + String.valueOf(ref) + "]" : "Optional.empty";
   }
 }
