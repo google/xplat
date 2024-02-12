@@ -68,6 +68,14 @@ public final class OptionalLong {
     }
   }
 
+  public void ifPresentOrElse(LongConsumer action, Runnable emptyAction) {
+    if (isPresent()) {
+      action.accept(ref);
+    } else {
+      emptyAction.run();
+    }
+  }
+
   public long orElse(long other) {
     return present ? ref : other;
   }

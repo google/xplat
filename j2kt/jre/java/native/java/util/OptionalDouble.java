@@ -68,6 +68,14 @@ public final class OptionalDouble {
     }
   }
 
+  public void ifPresentOrElse(DoubleConsumer action, Runnable emptyAction) {
+    if (isPresent()) {
+      action.accept(ref);
+    } else {
+      emptyAction.run();
+    }
+  }
+
   public double orElse(double other) {
     return present ? ref : other;
   }

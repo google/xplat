@@ -68,6 +68,14 @@ public final class OptionalInt {
     }
   }
 
+  public void ifPresentOrElse(IntConsumer action, Runnable emptyAction) {
+    if (isPresent()) {
+      action.accept(ref);
+    } else {
+      emptyAction.run();
+    }
+  }
+
   public int orElse(int other) {
     return present ? ref : other;
   }
