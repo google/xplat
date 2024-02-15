@@ -238,7 +238,7 @@ public final class Spliterators {
           T extends @Nullable Object, S extends Spliterator<T>, C>
       implements Spliterator<T> {
 
-    static final Spliterator<Object> OF_REF = new EmptySpliterator.OfRef<>();
+    static final Spliterator<@Nullable Object> OF_REF = new EmptySpliterator.OfRef<>();
     static final Spliterator.OfDouble OF_DOUBLE = new EmptySpliterator.OfDouble();
     static final Spliterator.OfInt OF_INT = new EmptySpliterator.OfInt();
     static final Spliterator.OfLong OF_LONG = new EmptySpliterator.OfLong();
@@ -267,9 +267,8 @@ public final class Spliterators {
       return null;
     }
 
-    private static final class OfRef<T>
-        extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>>
-        implements Spliterator<T> {
+    private static final class OfRef<T extends @Nullable Object>
+        extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>> implements Spliterator<T> {
 
       OfRef() { }
 

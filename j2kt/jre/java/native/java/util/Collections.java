@@ -1067,13 +1067,13 @@ public class Collections {
 
   @SuppressWarnings("unchecked")
   public static boolean disjoint(Collection<?> c1, Collection<?> c2) {
-    Collection<Object> iterating = (Collection<Object>) c1;
-    Collection<Object> testing = (Collection<Object>) c2;
+    Collection<@Nullable Object> iterating = (Collection<@Nullable Object>) c1;
+    Collection<@Nullable Object> testing = (Collection<@Nullable Object>) c2;
 
     // See if one of these objects possibly implements a fast contains.
     if ((c1 instanceof Set) && !(c2 instanceof Set)) {
-      iterating = (Collection<Object>) c2;
-      testing = (Collection<Object>) c1;
+      iterating = (Collection<@Nullable Object>) c2;
+      testing = (Collection<@Nullable Object>) c1;
     }
 
     for (Object o : iterating) {
@@ -1215,8 +1215,9 @@ public class Collections {
         Collections.swap(l, iFront, iBack);
       }
     } else {
-      ListIterator<Object> head = (ListIterator<Object>) l.listIterator();
-      ListIterator<Object> tail = (ListIterator<Object>) l.listIterator(l.size());
+      ListIterator<@Nullable Object> head = (ListIterator<@Nullable Object>) l.listIterator();
+      ListIterator<@Nullable Object> tail =
+          (ListIterator<@Nullable Object>) l.listIterator(l.size());
       while (head.nextIndex() < tail.previousIndex()) {
         Object headElem = head.next();
         Object tailElem = tail.previous();
@@ -1267,7 +1268,7 @@ public class Collections {
     }
 
     if (lst instanceof RandomAccess) {
-      List<Object> list = (List<Object>) lst;
+      List<@Nullable Object> list = (List<@Nullable Object>) lst;
       // Move each element to the new location.
       Object temp = list.get(0);
       int index = 0, beginIndex = 0;
@@ -1305,7 +1306,7 @@ public class Collections {
         swapImpl(arr, i, rnd.nextInt(i + 1));
       }
 
-      ListIterator<Object> it = (ListIterator<Object>) list.listIterator();
+      ListIterator<@Nullable Object> it = (ListIterator<@Nullable Object>) list.listIterator();
       for (Object e : arr) {
         it.next();
         it.set(e);
