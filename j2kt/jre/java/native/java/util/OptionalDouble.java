@@ -57,6 +57,10 @@ public final class OptionalDouble {
     return present;
   }
 
+  public boolean isEmpty() {
+    return !present;
+  }
+
   public double getAsDouble() {
     checkCriticalElement(present);
     return ref;
