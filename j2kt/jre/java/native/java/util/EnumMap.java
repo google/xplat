@@ -122,7 +122,7 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
   @SuppressWarnings("unchecked")
   public EnumMap(EnumMap<K, ? extends V> m) {
     keySet = m.isEmpty() ? new EnumSet<>() : m.keySet.clone();
-    values = new ArrayList<>((Collection<V>) m.values());
+    values = new ArrayList<>((Collection<V>) m.values);
   }
 
   @SuppressWarnings("unchecked")
@@ -130,7 +130,7 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
     if (m instanceof EnumMap) {
       EnumMap<K, V> enumMap = (EnumMap<K, V>) m;
       keySet = enumMap.keySet.clone();
-      values = new ArrayList<>((Collection<V>) enumMap.values());
+      values = new ArrayList<>((Collection<V>) enumMap.values);
     } else {
       checkArgument(!m.isEmpty(), "Specified map is empty");
       keySet = new EnumSet<>();
