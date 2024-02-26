@@ -64,7 +64,9 @@ open class HashMap<K, V> private constructor(val ktHashMap: KotlinHashMap<K, V>)
 
   @Suppress("UNCHECKED_CAST") override fun java_remove(key: Any?): V? = ktHashMap.remove(key as K)
 
-  override fun putAll(m: KotlinMap<out K, V>) = ktHashMap.putAll(m)
+  override fun java_putAll(m: MutableMap<out K, out V>) = ktHashMap.putAll(m)
+
+  override fun putAll(m: KotlinMap<out K, V>) = java_putAll(m as MutableMap<out K, out V>)
 
   override fun clear() = ktHashMap.clear()
 
