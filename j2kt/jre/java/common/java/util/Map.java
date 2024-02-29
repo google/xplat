@@ -23,6 +23,7 @@ import java.util.function.Function;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
+import jsinterop.annotations.JsNonNull;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -71,7 +72,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   void clear();
 
   default @Nullable V compute(
-      K key, BiFunction<? super K, ? super @Nullable V, ? extends V> remappingFunction) {
+      K key, BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
     return ktNative();
   }
 
@@ -81,7 +82,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @KtName("java_computeIfPresent")
   default @Nullable V computeIfPresent(
-      K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+      K key, BiFunction<? super K, ? super @JsNonNull V, ? extends @Nullable V> remappingFunction) {
     return ktNative();
   }
 
@@ -115,7 +116,10 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @KtName("java_merge")
   default @Nullable V merge(
-      K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
+      K key,
+      @JsNonNull V value,
+      BiFunction<? super @JsNonNull V, ? super @JsNonNull V, ? extends @Nullable V>
+          remappingFunction) {
     return ktNative();
   }
 

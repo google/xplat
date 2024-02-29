@@ -351,7 +351,7 @@ public final class Collectors {
     return toCollection(ArrayList::new);
   }
 
-  public static <T extends @Nullable Object, K extends @Nullable Object, U extends @Nullable Object>
+  public static <T extends @Nullable Object, K extends @Nullable Object, U>
       Collector<T, ?, Map<K, U>> toMap(
           final Function<? super T, ? extends K> keyMapper,
           final Function<? super T, ? extends U> valueMapper) {
@@ -363,7 +363,7 @@ public final class Collectors {
         });
   }
 
-  public static <T extends @Nullable Object, K extends @Nullable Object, U extends @Nullable Object>
+  public static <T extends @Nullable Object, K extends @Nullable Object, U>
       Collector<T, ?, Map<K, U>> toMap(
           Function<? super T, ? extends K> keyMapper,
           Function<? super T, ? extends U> valueMapper,
@@ -371,11 +371,7 @@ public final class Collectors {
     return toMap(keyMapper, valueMapper, mergeFunction, HashMap::new);
   }
 
-  public static <
-          T extends @Nullable Object,
-          K extends @Nullable Object,
-          U extends @Nullable Object,
-          M extends Map<K, U>>
+  public static <T extends @Nullable Object, K extends @Nullable Object, U, M extends Map<K, U>>
       Collector<T, ?, M> toMap(
           final Function<? super T, ? extends K> keyMapper,
           final Function<? super T, ? extends U> valueMapper,
@@ -385,12 +381,8 @@ public final class Collectors {
         mapSupplier,
         (map, item) -> {
           K key = keyMapper.apply(item);
-          U newValue = valueMapper.apply(item);
-          if (map.containsKey(key)) {
-            map.put(key, mergeFunction.apply(map.get(key), newValue));
-          } else {
-            map.put(key, newValue);
-          }
+          U value = valueMapper.apply(item);
+          map.merge(key, value, mergeFunction);
         },
         (m1, m2) -> mergeAll(m1, m2, mergeFunction),
         Collector.Characteristics.IDENTITY_FINISH);
@@ -418,8 +410,8 @@ public final class Collectors {
     return downstream.finisher().apply(a);
   }
 
-  private static <K extends @Nullable Object, V extends @Nullable Object, M extends Map<K, V>>
-      M mergeAll(M m1, M m2, BinaryOperator<V> mergeFunction) {
+  private static <K extends @Nullable Object, V, M extends Map<K, V>> M mergeAll(
+      M m1, M m2, BinaryOperator<V> mergeFunction) {
     for (Map.Entry<K, V> entry : m2.entrySet()) {
       m1.merge(entry.getKey(), entry.getValue(), mergeFunction);
     }
