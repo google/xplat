@@ -27,8 +27,21 @@ fun <K, V> MutableMap<K, V>.computeIfAbsent(key: K, mappingFunction: Function<in
   if (this is JavaMap) (this as JavaMap<K, V>).computeIfAbsent(key, mappingFunction)
   else default_computeIfAbsent(key, mappingFunction)
 
+fun <K, V> MutableMap<K, V>.computeIfPresent(
+  key: K,
+  mappingFunction: BiFunction<in K, in V & Any, out V?>,
+): V? =
+  if (this is JavaMap) computeIfPresent(key, mappingFunction)
+  else default_computeIfPresent(key, mappingFunction)
+
 fun <K, V> MutableMap<K, V>.forEach(action: BiConsumer<in K, in V>) =
   if (this is JavaMap) (this as JavaMap<K, V>).forEach(action) else default_forEach(action)
+
+fun <K, V> MutableMap<K, V>.merge(
+  key: K,
+  value: V & Any,
+  remap: BiFunction<in V & Any, in V & Any, out V?>,
+): V? = if (this is JavaMap) merge(key, value, remap) else default_merge(key, value, remap)
 
 fun <K, V> MutableMap<K, V>.putIfAbsent(key: K, value: V): V? =
   if (this is JavaMap) (this as JavaMap<K, V>).putIfAbsent(key, value)

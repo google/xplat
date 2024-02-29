@@ -80,7 +80,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
     return ktNative();
   }
 
-  @KtName("java_computeIfPresent")
   default @Nullable V computeIfPresent(
       K key, BiFunction<? super K, ? super @JsNonNull V, ? extends @Nullable V> remappingFunction) {
     return ktNative();
@@ -114,7 +113,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
   @KtName("keys")
   Set<K> keySet();
 
-  @KtName("java_merge")
   default @Nullable V merge(
       K key,
       @JsNonNull V value,

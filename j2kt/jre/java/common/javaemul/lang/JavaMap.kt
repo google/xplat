@@ -43,7 +43,7 @@ interface JavaMap<K, V> : MutableMap<K, V> {
   fun computeIfAbsent(key: K, mappingFunction: Function<in K, out V>): V =
     default_computeIfAbsent(key, mappingFunction)
 
-  fun java_computeIfPresent(key: K, remappingFunction: BiFunction<in K, in V & Any, out V?>): V? =
+  fun computeIfPresent(key: K, remappingFunction: BiFunction<in K, in V & Any, out V?>): V? =
     default_computeIfPresent(key, remappingFunction)
 
   fun forEach(action: BiConsumer<in K, in V>) = default_forEach(action)
@@ -64,9 +64,7 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 
   fun java_getOrDefault(key: Any?, defaultValue: V?): V? = default_getOrDefault(key, defaultValue)
 
-  // The Java `merge` function exists on Kotlin/JVM but is undocumented. So we rename our `merge` to
-  // avoid a collision.
-  fun java_merge(key: K, value: V & Any, remap: BiFunction<in V & Any, in V & Any, out V?>): V? =
+  fun merge(key: K, value: V & Any, remap: BiFunction<in V & Any, in V & Any, out V?>): V? =
     default_merge(key, value, remap)
 
   fun java_putAll(t: MutableMap<out K, out V>)
@@ -95,22 +93,9 @@ fun <K, V> MutableMap<K, V>.java_putAll(t: MutableMap<out K, out V>) =
 @Suppress("UNCHECKED_CAST")
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = remove(key as K)
 
-fun <K, V> MutableMap<K, V>.java_computeIfPresent(
-  key: K,
-  mappingFunction: BiFunction<in K, in V & Any, out V?>,
-): V? =
-  if (this is JavaMap) java_computeIfPresent(key, mappingFunction)
-  else default_computeIfPresent(key, mappingFunction)
-
 fun <K, V> MutableMap<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
   if (this is JavaMap) java_getOrDefault(key, defaultValue)
   else default_getOrDefault(key, defaultValue)
-
-fun <K, V> MutableMap<K, V>.java_merge(
-  key: K,
-  value: V & Any,
-  remap: BiFunction<in V & Any, in V & Any, out V?>,
-): V? = if (this is JavaMap) java_merge(key, value, remap) else default_merge(key, value, remap)
 
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
   if (this is JavaMap) java_remove(key, value) else default_remove(key, value)
@@ -153,7 +138,7 @@ internal fun <K, V> MutableMap<K, V>.default_computeIfAbsent(
   return oldValue
 }
 
-private fun <K, V> MutableMap<K, V>.default_computeIfPresent(
+internal fun <K, V> MutableMap<K, V>.default_computeIfPresent(
   key: K,
   remappingFunction: BiFunction<in K, in V & Any, out V?>,
 ): V? {
@@ -174,7 +159,7 @@ internal fun <K, V> MutableMap<K, V>.default_getOrDefault(key: Any?, defaultValu
   return defaultValue
 }
 
-private fun <K, V> MutableMap<K, V>.default_merge(
+internal fun <K, V> MutableMap<K, V>.default_merge(
   key: K,
   value: V & Any,
   remap: BiFunction<in V & Any, in V & Any, out V?>,
