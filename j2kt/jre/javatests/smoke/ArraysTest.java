@@ -119,6 +119,8 @@ public class ArraysTest {
     // TODO(b/239034072): Add tests for set on lists after varargs are fixed
   }
 
+  // incompatible argument for parameter c of Arrays.binarySearch.
+  @SuppressWarnings("nullness:argument.type.incompatible")
   @Test
   public void testBinarySearch() {
     assertEquals(2, Arrays.binarySearch(byteArray1, b3));
