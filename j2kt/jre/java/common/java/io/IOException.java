@@ -15,26 +15,30 @@
  */
 package java.io;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-/** Emulation of the corresponding JRE-Class */
+/** KtNative stub of the corresponding JRE-Class */
 @NullMarked
+@KtNative(name = "java.io.IOException")
 public class IOException extends Exception {
 
   public IOException() {
-    super();
+    ktNative();
   }
 
   public IOException(@Nullable String message) {
-    super(message);
+    ktNative();
   }
 
   public IOException(@Nullable String message, @Nullable Throwable cause) {
-    super(message, cause);
+    ktNative();
   }
 
   public IOException(@Nullable Throwable cause) {
-    super(cause);
+    ktNative();
   }
 }
