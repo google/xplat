@@ -44,7 +44,7 @@ operator fun String.Companion.invoke(
   a: ByteArray,
   offset: Int,
   len: Int,
-  charset: Charset
+  charset: Charset,
 ): String = java.lang.String(a, offset, len, charset) as String
 
 operator fun String.Companion.invoke(a: ByteArray, charset: Charset) =
@@ -111,16 +111,16 @@ fun String.regionMatches(
   thisOffset: Int,
   other: String,
   otherOffset: Int,
-  length: Int
+  length: Int,
 ): Boolean = asJavaString().regionMatches(ignoreCase, thisOffset, other, otherOffset, length)
 
 fun String.java_trim(): String = asJavaString().trim()
 
 fun String.java_matches(regex: String) = asJavaString().matches(regex)
 
-fun String.java_split(regex: String): Array<String> = asJavaString().split(regex)
+fun String.split(regex: String): Array<String> = asJavaString().split(regex)
 
-fun String.java_split(regex: String, limit: Int): Array<String> = asJavaString().split(regex, limit)
+fun String.split(regex: String, limit: Int): Array<String> = asJavaString().split(regex, limit)
 
 fun String.java_replace(target: CharSequence, replacement: CharSequence): String =
   asJavaString().replace(target, replacement)

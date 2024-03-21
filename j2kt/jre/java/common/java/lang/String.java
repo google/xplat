@@ -197,10 +197,8 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native String replaceFirst(String regularExpression, String replacement);
 
-  @KtName("java_split")
   public native String[] split(String regularExpression);
 
-  @KtName("java_split")
   public native String[] split(String regularExpression, int limit);
 
   @Override

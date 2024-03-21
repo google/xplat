@@ -59,7 +59,7 @@ operator fun String.Companion.invoke(
   a: ByteArray,
   offset: Int,
   len: Int,
-  charSet: Charset
+  charSet: Charset,
 ): String =
   when (charSet) {
     StandardCharsets.UTF_8 -> a.decodeToString(offset, offset + len, throwOnInvalidSequence = false)
@@ -77,7 +77,7 @@ operator fun String.Companion.invoke(
   a: ByteArray,
   offset: Int,
   len: Int,
-  charsetName: String
+  charsetName: String,
 ): String {
   // In Java, UnsupportedCharsetException is an unchecked exception thrown by Charset.forName;
   // Methods taking a character set name here are expected to throw the checked
@@ -229,7 +229,7 @@ fun String.regionMatches(
   thisOffset: Int,
   other: String,
   otherOffset: Int,
-  len: Int
+  len: Int,
 ): Boolean =
   if (len <= 0)
     thisOffset >= 0 &&
@@ -240,10 +240,10 @@ fun String.regionMatches(
 
 fun String.java_matches(regex: String) = Regex(regex).matches(this)
 
-fun String.java_split(regularExpression: String): Array<String> =
+fun String.split(regularExpression: String): Array<String> =
   Pattern.compile(regularExpression).split(this)
 
-fun String.java_split(regularExpression: String, limit: Int): Array<String> =
+fun String.split(regularExpression: String, limit: Int): Array<String> =
   Pattern.compile(regularExpression).split(this, limit)
 
 fun String.java_replace(target: CharSequence, replacement: CharSequence): String {
