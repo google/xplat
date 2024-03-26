@@ -75,7 +75,7 @@ public class OutputStreamWriter extends Writer {
 
     // If we have a pending high surrogate, insert it in front of a copy of the buffer
     if (surrogateBuffer[0] != 0) {
-      surrogateBuffer[1] = buffer[++offset];
+      surrogateBuffer[1] = buffer[offset++];
       count--;
       out.write(((EmulatedCharset) charset).getBytes(surrogateBuffer, 0, 2));
       surrogateBuffer[0] = 0;
