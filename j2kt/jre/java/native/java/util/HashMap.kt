@@ -76,7 +76,8 @@ open class HashMap<K, V> private constructor(val ktHashMap: KotlinHashMap<K, V>)
   override val values: MutableCollection<V>
     get() = ktHashMap.values
 
-  override val entries: MutableSet<MutableMap.MutableEntry<K, V>> = ktHashMap.entries
+  override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
+    get() = ktHashMap.entries
 
   override fun clone(): Any = HashMap<K, V>(KotlinHashMap<K, V>(ktHashMap))
 }
