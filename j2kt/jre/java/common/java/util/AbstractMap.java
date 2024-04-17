@@ -21,6 +21,7 @@ import org.jspecify.nullness.Nullable;
 
 // Note: this is emulated _and_ bridged because we need the bridges on the JVM as well, so
 // we cannot fold the bridge code into the emulation class (native/java.util.AbstractMap).
+// This file can be deleted once Map bridge methods have been removed.
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractMap.html">the official
  * Java API doc</a> for details.
