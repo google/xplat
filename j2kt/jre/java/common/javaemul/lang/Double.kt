@@ -17,8 +17,6 @@ package javaemul.lang
 
 import java.lang.Class
 import kotlin.jvm.javaPrimitiveType
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * Pseudo-constructor for emulated java.lang.Double.
@@ -63,9 +61,9 @@ fun Double.Companion.doubleToLongBits(value: Double): Long = value.toBits()
 
 fun Double.Companion.doubleToRawLongBits(value: Double): Long = value.toRawBits()
 
-fun Double.Companion.min(d1: Double, d2: Double): Double = min(d1, d2)
+fun Double.Companion.min(d1: Double, d2: Double): Double = kotlin.math.min(d1, d2)
 
-fun Double.Companion.max(d1: Double, d2: Double): Double = max(d1, d2)
+fun Double.Companion.max(d1: Double, d2: Double): Double = kotlin.math.max(d1, d2)
 
 fun Double.Companion.sum(d1: Double, d2: Double): Double = d1 + d2
 
