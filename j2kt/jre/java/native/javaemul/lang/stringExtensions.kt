@@ -110,7 +110,9 @@ fun String.Companion.join(delimiter: CharSequence, vararg elements: CharSequence
 
 fun String.Companion.valueOf(c: Char): String = c.toString()
 
-fun String.Companion.valueOf(a: Any?): String = a.toString()
+fun String.Companion.valueOf(a: Any?) = if (a is Int) Int.toString(a) else a.toString()
+
+fun String.Companion.valueOf(i: Int): String = Int.toString(i)
 
 fun String.Companion.valueOf(data: CharArray): String = data.concatToString()
 
