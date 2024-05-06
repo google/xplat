@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google Inc.
+ * Copyright 2022 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,5 +15,17 @@
  */
 package javaemul.lang
 
-fun Short.Companion.reverseBytes(s: Short): Short =
-  (((s.toInt() shr 8) and 0xff) or ((s.toInt() and 0xff) shl 8)).toShort()
+import java.lang.Float as JavaFloat
+
+/**
+ * Pseudo-constructor for emulated java.lang.Float.
+ *
+ * See regular JRE API documentation for other methods in this file.
+ */
+operator fun Float.Companion.invoke(f: Float): Float = JavaFloat(f) as Float
+
+operator fun Float.Companion.invoke(s: String): Float = JavaFloat(s) as Float
+
+inline fun Float.toInt_toByte() = toInt().toByte()
+
+inline fun Float.toInt_toShort() = toInt().toShort()

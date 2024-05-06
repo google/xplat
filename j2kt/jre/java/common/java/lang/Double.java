@@ -24,7 +24,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Double")
+@KtNative(name = "kotlin.Double", companionName = "java.lang.Double")
 @NullMarked
 public final class Double extends Number implements Comparable<Double> {
 
@@ -46,10 +46,8 @@ public final class Double extends Number implements Comparable<Double> {
 
   public static final Class<Double> TYPE = ktNative();
 
-  @KtName("SIZE_BITS")
   public static final int SIZE = 64;
 
-  @KtName("SIZE_BYTES")
   public static final int BYTES = SIZE / Byte.SIZE;
 
   public Double(double value) {}
@@ -92,7 +90,6 @@ public final class Double extends Number implements Comparable<Double> {
 
   public static native boolean isNaN(double d);
 
-  @KtName("fromBits")
   public static native double longBitsToDouble(long bits);
 
   @Override

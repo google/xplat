@@ -19,12 +19,11 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Long")
+@KtNative(name = "kotlin.Long", companionName = "java.lang.Long")
 @NullMarked
 public final class Long extends Number implements Comparable<Long> {
 
@@ -34,10 +33,8 @@ public final class Long extends Number implements Comparable<Long> {
 
   public static final Class<Long> TYPE = ktNative();
 
-  @KtName("SIZE_BITS")
   public static final int SIZE = 64;
 
-  @KtName("SIZE_BYTES")
   public static final int BYTES = SIZE / Byte.SIZE;
 
   public Long(long value) {}

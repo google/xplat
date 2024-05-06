@@ -19,12 +19,11 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Int")
+@KtNative(name = "kotlin.Int", companionName = "java.lang.Integer")
 @NullMarked
 public final class Integer extends Number implements Comparable<Integer> {
 
@@ -32,10 +31,8 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public static final int MIN_VALUE = 0x80000000;
 
-  @KtName("SIZE_BITS")
   public static final int SIZE = 32;
 
-  @KtName("SIZE_BYTES")
   public static final int BYTES = SIZE / Byte.SIZE;
 
   public static final Class<Integer> TYPE = ktNative();

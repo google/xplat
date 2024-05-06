@@ -19,12 +19,11 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Byte")
+@KtNative(name = "kotlin.Byte", companionName = "java.lang.Byte")
 @NullMarked
 public final class Byte extends Number implements Comparable<Byte> {
 
@@ -32,10 +31,8 @@ public final class Byte extends Number implements Comparable<Byte> {
 
   public static final byte MIN_VALUE = -128;
 
-  @KtName("SIZE_BITS")
   public static final int SIZE = 8;
 
-  @KtName("SIZE_BYTES")
   public static final int BYTES = 1;
 
   public static final Class<Byte> TYPE = ktNative();

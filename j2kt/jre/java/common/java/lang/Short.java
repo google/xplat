@@ -19,12 +19,11 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Short")
+@KtNative(name = "kotlin.Short", companionName = "java.lang.Short")
 @NullMarked
 public final class Short extends Number implements Comparable<Short> {
 
@@ -32,10 +31,8 @@ public final class Short extends Number implements Comparable<Short> {
 
   public static final short MIN_VALUE = -32768;
 
-  @KtName("SIZE_BITS")
   public static final int SIZE = 16;
 
-  @KtName("SIZE_BYTES")
   public static final int BYTES = SIZE / Byte.SIZE;
 
   public static final Class<Short> TYPE = ktNative();

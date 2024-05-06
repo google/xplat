@@ -16,6 +16,7 @@
 package javaemul.lang
 
 import java.io.UnsupportedEncodingException
+import java.lang.Integer
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
@@ -110,9 +111,9 @@ fun String.Companion.join(delimiter: CharSequence, vararg elements: CharSequence
 
 fun String.Companion.valueOf(c: Char): String = c.toString()
 
-fun String.Companion.valueOf(a: Any?) = if (a is Int) Int.toString(a) else a.toString()
+fun String.Companion.valueOf(a: Any?) = if (a is Int) Integer.toString(a) else a.toString()
 
-fun String.Companion.valueOf(i: Int): String = Int.toString(i)
+fun String.Companion.valueOf(i: Int): String = Integer.toString(i)
 
 fun String.Companion.valueOf(data: CharArray): String = data.concatToString()
 
@@ -153,7 +154,7 @@ fun String.getBytes(): ByteArray {
   var copiedTo = 0
 
   // Check for invalid surrogate characters and replace them with '?'.
-  for (i in 0 ..< length) {
+  for (i in 0..<length) {
     val c = this[i]
     if (
       (c.isHighSurrogate() && (i == length - 1 || !this[i + 1].isLowSurrogate())) ||

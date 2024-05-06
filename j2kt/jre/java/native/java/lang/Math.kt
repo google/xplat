@@ -42,11 +42,11 @@ object Math {
   private const val FLOAT_EXPONENT_MASK: Int = 0x7f800000
   private const val DOUBLE_MANTISSA_BITS: Int = 52
   private const val DOUBLE_EXPONENT_BIAS: Int = 1023
-  private const val DOUBLE_EXPONENT_MASK: Long = 0x7ff0000000000000L
+  private const val DOUBLE_EXPONENT_MASK: kotlin.Long = 0x7ff0000000000000L
 
-  const val E: Double = kotlin.math.E
+  const val E: kotlin.Double = kotlin.math.E
 
-  const val PI: Double = kotlin.math.PI
+  const val PI: kotlin.Double = kotlin.math.PI
 
   private const val MINUS_ZERO_LONG_BITS = Long.MIN_VALUE // 0x8000000000000000
 
@@ -54,13 +54,13 @@ object Math {
 
   private const val PI_UNDER_180 = 180.0 / PI
 
-  fun abs(x: Double): Double = kotlin.math.abs(x)
+  fun abs(x: kotlin.Double): kotlin.Double = kotlin.math.abs(x)
 
-  fun abs(x: Float): Float = kotlin.math.abs(x)
+  fun abs(x: kotlin.Float): kotlin.Float = kotlin.math.abs(x)
 
   fun abs(x: Int): Int = kotlin.math.abs(x)
 
-  fun abs(x: Long): Long = kotlin.math.abs(x)
+  fun abs(x: kotlin.Long): kotlin.Long = kotlin.math.abs(x)
 
   fun addExact(x: Int, y: Int): Int {
     val r = x + y
@@ -69,91 +69,92 @@ object Math {
     return r
   }
 
-  fun addExact(x: Long, y: Long): Long {
+  fun addExact(x: kotlin.Long, y: kotlin.Long): kotlin.Long {
     val r = x + y
     // "Hacker's Delight" 2-12 Overflow if both arguments have the opposite sign of the result
     checkCriticalArithmetic((x xor r) and (y xor r) >= 0)
     return r
   }
 
-  fun acos(d: Double): Double = kotlin.math.acos(d)
+  fun acos(d: kotlin.Double): kotlin.Double = kotlin.math.acos(d)
 
-  fun asin(d: Double): Double = kotlin.math.asin(d)
+  fun asin(d: kotlin.Double): kotlin.Double = kotlin.math.asin(d)
 
-  fun atan(d: Double): Double = kotlin.math.atan(d)
+  fun atan(d: kotlin.Double): kotlin.Double = kotlin.math.atan(d)
 
-  fun atan2(y: Double, x: Double) = kotlin.math.atan2(y, x)
+  fun atan2(y: kotlin.Double, x: kotlin.Double) = kotlin.math.atan2(y, x)
 
-  fun cbrt(d: Double): Double {
+  fun cbrt(d: kotlin.Double): kotlin.Double {
     return if (d == 0.0 || !d.isFinite()) d else d.pow(1.0 / 3.0)
   }
 
-  fun ceil(d: Double): Double = kotlin.math.ceil(d)
+  fun ceil(d: kotlin.Double): kotlin.Double = kotlin.math.ceil(d)
 
-  fun cos(d: Double): Double = kotlin.math.cos(d)
+  fun cos(d: kotlin.Double): kotlin.Double = kotlin.math.cos(d)
 
-  fun cosh(d: Double): Double = kotlin.math.cosh(d)
+  fun cosh(d: kotlin.Double): kotlin.Double = kotlin.math.cosh(d)
 
   fun decrementExact(i: Int): Int {
     checkCriticalArithmetic(i != Int.MIN_VALUE)
     return i - 1
   }
 
-  fun decrementExact(l: Long): Long {
-    checkCriticalArithmetic(l != Long.MIN_VALUE)
+  fun decrementExact(l: kotlin.Long): kotlin.Long {
+    checkCriticalArithmetic(l != kotlin.Long.MIN_VALUE)
     return l - 1
   }
 
-  fun exp(d: Double): Double = kotlin.math.exp(d)
+  fun exp(d: kotlin.Double): kotlin.Double = kotlin.math.exp(d)
 
-  fun expm1(d: Double): Double = kotlin.math.expm1(d)
+  fun expm1(d: kotlin.Double): kotlin.Double = kotlin.math.expm1(d)
 
-  fun floor(x: Double) = kotlin.math.floor(x)
+  fun floor(x: kotlin.Double) = kotlin.math.floor(x)
 
   fun floorDiv(dividend: Int, divisor: Int): Int = dividend.floorDiv(divisor)
 
-  fun floorDiv(dividend: Long, divisor: Long): Long = dividend.floorDiv(divisor)
+  fun floorDiv(dividend: kotlin.Long, divisor: kotlin.Long): kotlin.Long =
+    dividend.floorDiv(divisor)
 
   fun floorMod(dividend: Int, divisor: Int): Int = dividend.mod(divisor)
 
-  fun floorMod(dividend: Long, divisor: Long): Long = dividend.mod(divisor)
+  fun floorMod(dividend: kotlin.Long, divisor: kotlin.Long): kotlin.Long = dividend.mod(divisor)
 
-  fun hypot(x: Double, y: Double): Double = kotlin.math.hypot(x, y)
+  fun hypot(x: kotlin.Double, y: kotlin.Double): kotlin.Double = kotlin.math.hypot(x, y)
 
-  fun IEEEremainder(x: Double, y: Double): Double = x.IEEErem(y)
+  fun IEEEremainder(x: kotlin.Double, y: kotlin.Double): kotlin.Double = x.IEEErem(y)
 
   fun incrementExact(i: Int): Int {
     checkCriticalArithmetic(i != Int.MAX_VALUE)
     return i + 1
   }
 
-  fun incrementExact(l: Long): Long {
-    checkCriticalArithmetic(l != Long.MAX_VALUE)
+  fun incrementExact(l: kotlin.Long): kotlin.Long {
+    checkCriticalArithmetic(l != kotlin.Long.MAX_VALUE)
     return l + 1
   }
 
-  fun log(d: Double): Double = kotlin.math.log(d, kotlin.math.E)
+  fun log(d: kotlin.Double): kotlin.Double = kotlin.math.log(d, kotlin.math.E)
 
-  fun log10(d: Double): Double = kotlin.math.log10(d)
+  fun log10(d: kotlin.Double): kotlin.Double = kotlin.math.log10(d)
 
-  fun log1p(d: Double): Double =
+  fun log1p(d: kotlin.Double): kotlin.Double =
     if (d.toBits() == MINUS_ZERO_LONG_BITS) -0.0 else kotlin.math.log(d + 1.0, kotlin.math.E)
 
-  fun max(x: Double, y: Double): Double = kotlin.math.max(x, y)
+  fun max(x: kotlin.Double, y: kotlin.Double): kotlin.Double = kotlin.math.max(x, y)
 
-  fun max(x: Float, y: Float): Float = kotlin.math.max(x, y)
+  fun max(x: kotlin.Float, y: kotlin.Float): kotlin.Float = kotlin.math.max(x, y)
 
   fun max(x: Int, y: Int): Int = kotlin.math.max(x, y)
 
-  fun max(x: Long, y: Long): Long = kotlin.math.max(x, y)
+  fun max(x: kotlin.Long, y: kotlin.Long): kotlin.Long = kotlin.math.max(x, y)
 
-  fun min(x: Double, y: Double): Double = kotlin.math.min(x, y)
+  fun min(x: kotlin.Double, y: kotlin.Double): kotlin.Double = kotlin.math.min(x, y)
 
-  fun min(x: Float, y: Float): Float = kotlin.math.min(x, y)
+  fun min(x: kotlin.Float, y: kotlin.Float): kotlin.Float = kotlin.math.min(x, y)
 
   fun min(x: Int, y: Int): Int = kotlin.math.min(x, y)
 
-  fun min(x: Long, y: Long): Long = kotlin.math.min(x, y)
+  fun min(x: kotlin.Long, y: kotlin.Long): kotlin.Long = kotlin.math.min(x, y)
 
   fun multiplyExact(x: Int, y: Int): Int {
     val lr = x.toLong() * y.toLong()
@@ -162,14 +163,14 @@ object Math {
     return r
   }
 
-  fun multiplyExact(x: Long, y: Long): Long {
+  fun multiplyExact(x: kotlin.Long, y: kotlin.Long): kotlin.Long {
     if (y == -1L) {
       return negateExact(x)
     }
     if (y == 0L) {
       return 0
     }
-    val r: Long = x * y
+    val r: kotlin.Long = x * y
     checkCriticalArithmetic(r / y == x)
     return r
   }
@@ -179,28 +180,28 @@ object Math {
     return -x
   }
 
-  fun negateExact(x: Long): Long {
-    checkCriticalArithmetic(x != Long.MIN_VALUE)
+  fun negateExact(x: kotlin.Long): kotlin.Long {
+    checkCriticalArithmetic(x != kotlin.Long.MIN_VALUE)
     return -x
   }
 
-  fun pow(x: Double, y: Double) = if (y.isNaN()) Double.NaN else x.pow(y)
+  fun pow(x: kotlin.Double, y: kotlin.Double) = if (y.isNaN()) kotlin.Double.NaN else x.pow(y)
 
-  fun rint(d: Double): Double = kotlin.math.round(d)
+  fun rint(d: kotlin.Double): kotlin.Double = kotlin.math.round(d)
 
-  fun round(d: Double): Long = if (d.isNaN()) 0L else d.roundToLong()
+  fun round(d: kotlin.Double): kotlin.Long = if (d.isNaN()) 0L else d.roundToLong()
 
-  fun round(f: Float): Int = if (f.isNaN()) 0 else f.roundToInt()
+  fun round(f: kotlin.Float): Int = if (f.isNaN()) 0 else f.roundToInt()
 
-  fun signum(d: Double): Double = kotlin.math.sign(d)
+  fun signum(d: kotlin.Double): kotlin.Double = kotlin.math.sign(d)
 
-  fun signum(f: Float): Float = kotlin.math.sign(f)
+  fun signum(f: kotlin.Float): kotlin.Float = kotlin.math.sign(f)
 
-  fun sin(d: Double): Double = kotlin.math.sin(d)
+  fun sin(d: kotlin.Double): kotlin.Double = kotlin.math.sin(d)
 
-  fun sinh(d: Double): Double = kotlin.math.sinh(d)
+  fun sinh(d: kotlin.Double): kotlin.Double = kotlin.math.sinh(d)
 
-  fun sqrt(d: Double): Double = kotlin.math.sqrt(d)
+  fun sqrt(d: kotlin.Double): kotlin.Double = kotlin.math.sqrt(d)
 
   fun subtractExact(x: Int, y: Int): Int {
     val r = x - y
@@ -210,7 +211,7 @@ object Math {
     return r
   }
 
-  fun subtractExact(x: Long, y: Long): Long {
+  fun subtractExact(x: kotlin.Long, y: kotlin.Long): kotlin.Long {
     val r = x - y
     // "Hacker's Delight" Overflow if the arguments have different signs and
     // the sign of the result is different than the sign of x
@@ -218,49 +219,52 @@ object Math {
     return r
   }
 
-  fun tan(d: Double): Double = kotlin.math.tan(d)
+  fun tan(d: kotlin.Double): kotlin.Double = kotlin.math.tan(d)
 
-  fun tanh(d: Double): Double = kotlin.math.tanh(d)
+  fun tanh(d: kotlin.Double): kotlin.Double = kotlin.math.tanh(d)
 
-  fun random(): Double = kotlin.random.Random.nextDouble()
+  fun random(): kotlin.Double = kotlin.random.Random.nextDouble()
 
-  fun toRadians(angdeg: Double): Double = angdeg * PI_OVER_180
+  fun toRadians(angdeg: kotlin.Double): kotlin.Double = angdeg * PI_OVER_180
 
-  fun toDegrees(angrad: Double): Double = angrad * PI_UNDER_180
+  fun toDegrees(angrad: kotlin.Double): kotlin.Double = angrad * PI_UNDER_180
 
-  fun toIntExact(x: Long): Int {
+  fun toIntExact(x: kotlin.Long): Int {
     val ix = x.toInt()
     checkCriticalArithmetic(ix.toLong() == x)
     return ix
   }
 
-  fun ulp(d: Double): Double = d.ulp
+  fun ulp(d: kotlin.Double): kotlin.Double = d.ulp
 
-  fun ulp(f: Float): Float = f.ulp
+  fun ulp(f: kotlin.Float): kotlin.Float = f.ulp
 
-  fun copySign(magnitude: Double, sign: Double): Double = magnitude.withSign(sign)
+  fun copySign(magnitude: kotlin.Double, sign: kotlin.Double): kotlin.Double =
+    magnitude.withSign(sign)
 
-  fun copySign(magnitude: Float, sign: Float): Float = magnitude.withSign(sign)
+  fun copySign(magnitude: kotlin.Float, sign: kotlin.Float): kotlin.Float = magnitude.withSign(sign)
 
-  fun getExponent(d: Double): Int {
+  fun getExponent(d: kotlin.Double): Int {
     var bits = d.toRawBits() and DOUBLE_EXPONENT_MASK shr DOUBLE_MANTISSA_BITS
     return bits.toInt() - DOUBLE_EXPONENT_BIAS
   }
 
-  fun getExponent(f: Float): Int {
+  fun getExponent(f: kotlin.Float): Int {
     var bits = f.toRawBits() and FLOAT_EXPONENT_MASK shr FLOAT_MANTISSA_BITS
     return bits - FLOAT_EXPONENT_BIAS
   }
 
-  fun nextAfter(start: Double, direction: Double): Double = start.nextTowards(direction)
+  fun nextAfter(start: kotlin.Double, direction: kotlin.Double): kotlin.Double =
+    start.nextTowards(direction)
 
-  fun nextAfter(start: Float, direction: Float): Float = start.nextTowards(direction)
+  fun nextAfter(start: kotlin.Float, direction: kotlin.Float): kotlin.Float =
+    start.nextTowards(direction)
 
-  fun nextUp(d: Double): Double = d.nextUp()
+  fun nextUp(d: kotlin.Double): kotlin.Double = d.nextUp()
 
-  fun nextUp(f: Float): Float = f.nextUp()
+  fun nextUp(f: kotlin.Float): kotlin.Float = f.nextUp()
 
-  fun scalb(d: Double, scaleFactor: Int): Double {
+  fun scalb(d: kotlin.Double, scaleFactor: Int): kotlin.Double {
     return if (scaleFactor >= 31 || scaleFactor <= -31) {
       d * (2.0).pow(scaleFactor.toDouble())
     } else if (scaleFactor > 0) {
@@ -272,5 +276,6 @@ object Math {
     }
   }
 
-  fun scalb(f: Float, scaleFactor: Int): Float = scalb(f.toDouble(), scaleFactor).toFloat()
+  fun scalb(f: kotlin.Float, scaleFactor: Int): kotlin.Float =
+    scalb(f.toDouble(), scaleFactor).toFloat()
 }

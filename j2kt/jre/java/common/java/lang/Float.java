@@ -24,7 +24,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Float")
+@KtNative(name = "kotlin.Float", companionName = "java.lang.Float")
 @NullMarked
 public final class Float extends Number implements Comparable<Float> {
 
@@ -46,10 +46,8 @@ public final class Float extends Number implements Comparable<Float> {
 
   public static final Class<Float> TYPE = ktNative();
 
-  @KtName("SIZE_BITS")
   public static final int SIZE = 32;
 
-  @KtName("SIZE_BYTES")
   public static final int BYTES = SIZE / Byte.SIZE;
 
   public Float(float value) {}
@@ -81,7 +79,6 @@ public final class Float extends Number implements Comparable<Float> {
   @Override
   public native int hashCode();
 
-  @KtName("fromBits")
   public static native float intBitsToFloat(int bits);
 
   @Override

@@ -56,13 +56,13 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
 
 private val arrayComponentTypeMap: Map<KClass<*>, Class<*>> =
   mapOf(
-    ByteArray::class to Byte::class.javaPrimitiveType!!,
-    ShortArray::class to Short::class.javaPrimitiveType!!,
-    IntArray::class to Int::class.javaPrimitiveType!!,
-    LongArray::class to Long::class.javaPrimitiveType!!,
-    FloatArray::class to Float::class.javaPrimitiveType!!,
-    DoubleArray::class to Double::class.javaPrimitiveType!!,
-    BooleanArray::class to Boolean::class.javaPrimitiveType!!,
-    CharArray::class to Char::class.javaPrimitiveType!!,
+    ByteArray::class to kotlin.Byte::class.javaPrimitiveType!!,
+    ShortArray::class to kotlin.Short::class.javaPrimitiveType!!,
+    IntArray::class to kotlin.Int::class.javaPrimitiveType!!,
+    LongArray::class to kotlin.Long::class.javaPrimitiveType!!,
+    FloatArray::class to kotlin.Float::class.javaPrimitiveType!!,
+    DoubleArray::class to kotlin.Double::class.javaPrimitiveType!!,
+    BooleanArray::class to kotlin.Boolean::class.javaPrimitiveType!!,
+    CharArray::class to kotlin.Char::class.javaPrimitiveType!!,
     Array::class to Any::class.javaObjectType,
   )

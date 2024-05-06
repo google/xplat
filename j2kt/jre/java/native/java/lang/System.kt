@@ -19,7 +19,6 @@ package java.lang
 
 import java.io.OutputStream
 import java.io.PrintStream
-import kotlin.Long
 import kotlin.String
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
@@ -82,10 +81,10 @@ object System {
     }
   }
 
-  fun currentTimeMillis(): Long =
+  fun currentTimeMillis(): kotlin.Long =
     ((CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970) * 1000.0).toLong()
 
-  fun nanoTime(): Long = getTimeNanos()
+  fun nanoTime(): kotlin.Long = getTimeNanos()
 
   fun gc(): Unit = GC.collect()
 
