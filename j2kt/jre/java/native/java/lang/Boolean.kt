@@ -21,7 +21,7 @@ import kotlin.jvm.javaPrimitiveType
 object Boolean {
   operator fun invoke(b: kotlin.Boolean): kotlin.Boolean = b
 
-  operator fun invoke(s: String?): kotlin.Boolean = parseBoolean(s)
+  operator fun invoke(s: kotlin.String?): kotlin.Boolean = parseBoolean(s)
 
   const val TRUE: kotlin.Boolean = true
 
@@ -31,13 +31,13 @@ object Boolean {
 
   fun valueOf(b: kotlin.Boolean): kotlin.Boolean = b
 
-  fun valueOf(s: String?): kotlin.Boolean = s.toBoolean()
+  fun valueOf(s: kotlin.String?): kotlin.Boolean = s.toBoolean()
 
   fun hashCode(b: kotlin.Boolean): Int = b.hashCode()
 
-  fun parseBoolean(s: String?): kotlin.Boolean = s.toBoolean()
+  fun parseBoolean(s: kotlin.String?): kotlin.Boolean = s.toBoolean()
 
-  fun toString(b: kotlin.Boolean): String = b.toString()
+  fun toString(b: kotlin.Boolean): kotlin.String = b.toString()
 
   fun compare(b1: kotlin.Boolean, b2: kotlin.Boolean): Int = b1.compareTo(b2)
 }

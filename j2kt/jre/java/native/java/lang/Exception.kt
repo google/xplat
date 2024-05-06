@@ -23,7 +23,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangException", exact = true)
-open class Exception(message: String? = null) : kotlin.Exception(message), InitCauseCapable {
+open class Exception(message: kotlin.String? = null) : kotlin.Exception(message), InitCauseCapable {
   /**
    * Kotlin throwables do not support [initCause] for initializing the cause outside of the
    * constructor. The readonly [cause] property however is `open` so we override it to let
@@ -36,7 +36,7 @@ open class Exception(message: String? = null) : kotlin.Exception(message), InitC
   override val cause
     get() = causeHolder.cause
 
-  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
+  constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
 
