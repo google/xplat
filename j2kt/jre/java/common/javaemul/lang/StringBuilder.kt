@@ -15,11 +15,13 @@
  */
 package javaemul.lang
 
+import java.lang.Character
+
 // See regular JRE API documentation for other methods in this file.
 
 fun StringBuilder.appendCodePoint(codePoint: Int) =
-  if (Char.charCount(codePoint) == 1) append(codePoint.toChar())
-  else append(Char.toChars(codePoint))
+  if (Character.charCount(codePoint) == 1) append(codePoint.toChar())
+  else append(Character.toChars(codePoint))
 
 // Note: The offset+len methods are prefixed with java_ because it's an error to use the original
 // JRE methods in Kotlin JVM and Kotlin Native inherits those bans.

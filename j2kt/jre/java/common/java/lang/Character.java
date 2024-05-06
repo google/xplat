@@ -25,7 +25,7 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 // TODO(b/223774683): Java Character should implement Serializable. Kotlin Char doesn't.
-@KtNative(name = "kotlin.Char")
+@KtNative(name = "kotlin.Char", companionName = "java.lang.Character")
 @NullMarked
 public final class Character implements Comparable<Character> {
   public static final char MIN_VALUE = '\u0000';
@@ -156,7 +156,6 @@ public final class Character implements Comparable<Character> {
 
   public static final int MAX_CODE_POINT = 0X10FFFF;
 
-  @KtName("SIZE_BITS")
   public static int SIZE = 16;
 
   // J2KT removed: Subset, UnicodeBlock

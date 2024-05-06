@@ -16,6 +16,7 @@
 package javaemul.lang
 
 import java.io.UnsupportedEncodingException
+import java.lang.Character
 import java.lang.Integer
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
@@ -130,22 +131,22 @@ fun String.equalsIgnoreCase(str: String?) = this.equals(str, ignoreCase = true)
 internal fun String.Companion.fromCodePoint(codePoint: Int): String {
   if (codePoint >= Char.MIN_SUPPLEMENTARY_CODE_POINT) {
     val chars = CharArray(2)
-    Char.toChars(codePoint, chars, 0)
+    Character.toChars(codePoint, chars, 0)
     return chars.concatToString()
   } else {
     return codePoint.toChar().toString()
   }
 }
 
-fun String.codePointAt(index: Int) = Char.codePointAt(this, index)
+fun String.codePointAt(index: Int) = Character.codePointAt(this, index)
 
-fun String.codePointBefore(index: Int): Int = Char.codePointBefore(this, index)
+fun String.codePointBefore(index: Int): Int = Character.codePointBefore(this, index)
 
 fun String.codePointCount(beginIndex: Int, endIndex: Int): Int =
-  Char.codePointCount(this, beginIndex, endIndex)
+  Character.codePointCount(this, beginIndex, endIndex)
 
 fun String.offsetByCodePoints(index: Int, codePointOffset: Int): Int =
-  Char.offsetByCodePoints(this, index, codePointOffset)
+  Character.offsetByCodePoints(this, index, codePointOffset)
 
 fun String.compareToIgnoreCase(str: String): Int = this.compareTo(str, ignoreCase = true)
 
