@@ -23,13 +23,13 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangRuntimeException", exact = true)
-open class RuntimeException(message: kotlin.String? = null) :
+open class RuntimeException(message: String? = null) :
   kotlin.RuntimeException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
 
-  constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
+  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
 

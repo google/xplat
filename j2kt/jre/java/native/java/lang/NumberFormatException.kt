@@ -23,7 +23,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangNumberFormatException", exact = true)
-open class NumberFormatException(message: kotlin.String? = null) :
+open class NumberFormatException(message: String? = null) :
   kotlin.NumberFormatException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

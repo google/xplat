@@ -23,7 +23,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangNullPointerException", exact = true)
-open class NullPointerException(message: kotlin.String? = null) :
+open class NullPointerException(message: String? = null) :
   kotlin.NullPointerException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

@@ -23,7 +23,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangArithmeticException", exact = true)
-open class ArithmeticException(message: kotlin.String? = null) :
+open class ArithmeticException(message: String? = null) :
   kotlin.ArithmeticException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

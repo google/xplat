@@ -23,7 +23,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangAssertionError", exact = true)
-open class AssertionError(message: kotlin.String? = null) :
+open class AssertionError(message: String? = null) :
   kotlin.AssertionError(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
@@ -35,7 +35,7 @@ open class AssertionError(message: kotlin.String? = null) :
     if (message is kotlin.Throwable) initCause(message)
   }
 
-  constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
+  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
 }

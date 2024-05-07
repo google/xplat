@@ -23,12 +23,12 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangError", exact = true)
-open class Error(message: kotlin.String? = null) : kotlin.Error(message), InitCauseCapable {
+open class Error(message: String? = null) : kotlin.Error(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
 
-  constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
+  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
 

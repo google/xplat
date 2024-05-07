@@ -23,13 +23,13 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangIllegalArgumentException", exact = true)
-open class IllegalArgumentException(message: kotlin.String? = null) :
+open class IllegalArgumentException(message: String? = null) :
   kotlin.IllegalArgumentException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
 
-  constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
+  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
 
