@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package javaemul.lang
+package java.lang
 
-import java.lang.Class
-
-// Not supported in J2KT
-fun <T : Enum<T>> Enum.Companion.valueOf(enumType: Class<T>, name: String): T {
-  throw UnsupportedOperationException()
+object Enum {
+  // Not supported in J2KT Native
+  fun <T : kotlin.Enum<T>> valueOf(enumType: Class<T>, name: kotlin.String): T {
+    throw UnsupportedOperationException()
+  }
 }

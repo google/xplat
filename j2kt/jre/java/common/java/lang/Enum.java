@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtProperty;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
-@KtNative(name = "kotlin.Enum")
+@KtNative(name = "kotlin.Enum", companionName = "java.lang.Enum")
 @NullMarked
 public abstract class Enum<E extends Enum<E>> implements Comparable<E> {
 
