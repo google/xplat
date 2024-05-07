@@ -23,7 +23,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangClassCastException", exact = true)
-open class ClassCastException(message: String? = null) :
+open class ClassCastException(message: kotlin.String? = null) :
   kotlin.ClassCastException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

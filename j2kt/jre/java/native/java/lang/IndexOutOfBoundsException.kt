@@ -18,7 +18,7 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class IndexOutOfBoundsException(message: String? = null) :
+open class IndexOutOfBoundsException(message: kotlin.String? = null) :
   kotlin.IndexOutOfBoundsException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

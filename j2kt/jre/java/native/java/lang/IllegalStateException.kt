@@ -18,13 +18,13 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class IllegalStateException(message: String? = null) :
+open class IllegalStateException(message: kotlin.String? = null) :
   kotlin.IllegalStateException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
 
-  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
+  constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
 

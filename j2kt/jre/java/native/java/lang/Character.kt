@@ -254,9 +254,9 @@ object Character {
     return 1
   }
 
-  fun toString(c: Char): String = c.toString()
+  fun toString(c: Char): kotlin.String = c.toString()
 
-  fun toString(c: Int): String = toChars(c).concatToString()
+  fun toString(c: Int): kotlin.String = toChars(c).concatToString()
 
   fun toUpperCase(c: Char) = c.uppercaseChar()
 

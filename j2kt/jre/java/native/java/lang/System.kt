@@ -19,7 +19,6 @@ package java.lang
 
 import java.io.OutputStream
 import java.io.PrintStream
-import kotlin.String
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import kotlin.native.identityHashCode
@@ -34,9 +33,10 @@ import platform.posix.write as posixWrite
 // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
 @ObjCName("J2ktJavaLangSystem", exact = true)
 object System {
-  fun getProperty(name: String?, def: String?): String? = getProperty(name) ?: def
+  fun getProperty(name: kotlin.String?, def: kotlin.String?): kotlin.String? =
+    getProperty(name) ?: def
 
-  fun getProperty(name: String?): String? =
+  fun getProperty(name: kotlin.String?): kotlin.String? =
     when (name) {
       "jre.checks.api",
       "jre.checks.bounds",
@@ -114,5 +114,5 @@ object System {
     this.out = out
   }
 
-  fun lineSeparator(): String = "\n"
+  fun lineSeparator(): kotlin.String = "\n"
 }

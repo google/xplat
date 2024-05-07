@@ -23,13 +23,13 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangUnsupportedOperationException", exact = true)
-open class UnsupportedOperationException(message: String? = null) :
+open class UnsupportedOperationException(message: kotlin.String? = null) :
   kotlin.UnsupportedOperationException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
 
-  constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
+  constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
 
