@@ -15,11 +15,24 @@
  */
 package javaemul.lang
 
+import java.nio.charset.Charset
+import java.util.Locale
+
 fun String.equalsIgnoreCase(str: String?) = asJavaString().equalsIgnoreCase(str)
+
+fun String.codePointAt(index: Int) = asJavaString().codePointAt(index)
 
 fun String.compareToIgnoreCase(str: String): Int = asJavaString().compareToIgnoreCase(str)
 
-fun String.toByteArray(charsetName: String): ByteArray = asJavaString().getBytes(charsetName)
+fun String.getBytes(): ByteArray = asJavaString().getBytes()
+
+fun String.getBytes(charsetName: String): ByteArray = asJavaString().getBytes(charsetName)
+
+fun String.getBytes(charset: Charset): ByteArray = asJavaString().getBytes(charset)
+
+fun String.toUpperCase(locale: Locale): String = asJavaString().toUpperCase(locale)
+
+fun String.toLowerCase(locale: Locale): String = asJavaString().toLowerCase(locale)
 
 fun String.getChars(start: Int, end: Int, buffer: CharArray, index: Int) =
   asJavaString().getChars(start, end, buffer, index)

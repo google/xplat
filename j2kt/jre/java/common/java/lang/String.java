@@ -92,17 +92,13 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native boolean equalsIgnoreCase(@Nullable String string);
 
-  // TODO(b/339380297): Add emulation for Kotlin Native if used by a client on iOS
   @Deprecated
   public native void getBytes(int start, int end, byte[] data, int index);
 
-  @KtName("toByteArray")
   public native byte[] getBytes();
 
-  @KtName("toByteArray")
   public native byte[] getBytes(String charsetName) throws UnsupportedEncodingException;
 
-  @KtName("toByteArray")
   public native byte[] getBytes(Charset charset);
 
   public native void getChars(int start, int end, char[] buffer, int index);
@@ -157,19 +153,15 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native char[] toCharArray();
 
-  @KtName("lowercase")
   public native String toLowerCase();
 
-  @KtName("lowercase")
   public native String toLowerCase(Locale locale);
 
   @Override
   public native String toString();
 
-  @KtName("uppercase")
   public native String toUpperCase();
 
-  @KtName("uppercase")
   public native String toUpperCase(Locale locale);
 
   @KtName("java_trim")

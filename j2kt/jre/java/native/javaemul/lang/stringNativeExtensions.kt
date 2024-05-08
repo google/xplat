@@ -48,7 +48,7 @@ fun String.offsetByCodePoints(index: Int, codePointOffset: Int): Int =
 
 fun String.compareToIgnoreCase(str: String): Int = this.compareTo(str, ignoreCase = true)
 
-fun String.toByteArray(): ByteArray {
+fun String.getBytes(): ByteArray {
   var replaced: StringBuilder? = null
   var copiedTo = 0
 
@@ -77,26 +77,26 @@ fun String.toByteArray(): ByteArray {
   return encodeToByteArray()
 }
 
-fun String.toByteArray(charsetName: String): ByteArray {
+fun String.getBytes(charsetName: String): ByteArray {
   try {
-    return toByteArray(Charset.forName(charsetName))
+    return getBytes(Charset.forName(charsetName))
   } catch (e: UnsupportedCharsetException) {
     throw UnsupportedEncodingException(charsetName)
   }
 }
 
-fun String.toByteArray(charset: Charset): ByteArray =
+fun String.getBytes(charset: Charset): ByteArray =
   when (charset) {
     StandardCharsets.US_ASCII -> encodeToByteArrayUnmapped(127)
     StandardCharsets.ISO_8859_1 -> encodeToByteArrayUnmapped(255)
-    StandardCharsets.UTF_8 -> toByteArray()
+    StandardCharsets.UTF_8 -> getBytes()
     else -> throw UnsupportedEncodingException(charset.name())
   }
 
 // TODO(b/230671584): Add support for Locale on Kotlin Native
-fun String.uppercase(locale: Locale): String = this.uppercase()
+fun String.toUpperCase(locale: Locale): String = this.uppercase()
 
-fun String.lowercase(locale: Locale): String = this.lowercase()
+fun String.toLowerCase(locale: Locale): String = this.lowercase()
 
 fun String.getChars(start: Int, end: Int, buffer: CharArray, index: Int) {
   var bufferIndex = index
