@@ -21,7 +21,7 @@ import java.lang.Character
 
 fun StringBuilder.appendCodePoint(codePoint: Int) =
   if (Character.charCount(codePoint) == 1) append(codePoint.toChar())
-  else append(Character.toChars(codePoint))
+  else append(Character.highSurrogate(codePoint)).append(Character.lowSurrogate(codePoint))
 
 // Note: The offset+len methods are prefixed with java_ because it's an error to use the original
 // JRE methods in Kotlin JVM and Kotlin Native inherits those bans.
