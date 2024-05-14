@@ -70,8 +70,7 @@ public class FilterOutputStream extends OutputStream {
         }
 
         if (thrown != null) {
-      // TODO: b/326929358 - use IOException(cause) once available for J2kt IOException
-      throw new IOException(thrown.toString(), thrown);
+      throw new IOException(thrown);
         }
     }
 
