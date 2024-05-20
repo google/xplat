@@ -34,9 +34,11 @@ import platform.Foundation.compare
 @ObjCName("J2ktJavaTextIOSCollator", exact = true)
 internal class IOSCollator(private val locale: Locale) : Collator() {
   private var strength = PRIMARY
+
+  // TODO: b/341749964 - Add support for decomposition.
   private var decomposition = NO_DECOMPOSITION
 
-  // TODO: b/341763311: Ensure that this behaves as expected as there is a fair amount of
+  // TODO: b/341763311 - Ensure that this behaves as expected as there is a fair amount of
   // differences between assumptions in Java vs iOS.
   private val nsLocale = NSLocale(locale.toString())
 
