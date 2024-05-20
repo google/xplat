@@ -35,6 +35,9 @@ import platform.Foundation.compare
 internal class IOSCollator(private val locale: Locale) : Collator() {
   private var strength = PRIMARY
   private var decomposition = NO_DECOMPOSITION
+
+  // TODO: b/341763311: Ensure that this behaves as expected as there is a fair amount of
+  // differences between assumptions in Java vs iOS.
   private val nsLocale = NSLocale(locale.toString())
 
   override fun getDecomposition() = decomposition
