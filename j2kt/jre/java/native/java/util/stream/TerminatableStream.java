@@ -25,7 +25,7 @@ import org.jspecify.nullness.Nullable;
 
 // package protected, as not part of jre
 @NullMarked
-class TerminatableStream<T extends TerminatableStream<T>> {
+class TerminatableStream<T extends TerminatableStream<T>> implements AutoCloseable {
   // root-only fields, ignored for non-root instances
   private boolean terminated = false;
   private final @Nullable List<Runnable> onClose;
@@ -75,6 +75,7 @@ class TerminatableStream<T extends TerminatableStream<T>> {
     return (T) this;
   }
 
+  @Override
   public void close() {
     if (root == null) {
       terminated = true;
