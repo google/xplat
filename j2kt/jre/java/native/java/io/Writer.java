@@ -15,8 +15,8 @@
  */
 package java.io;
 
-
 import java.util.Objects;
+import javaemul.internal.J2ktMonitor;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
@@ -26,13 +26,17 @@ import org.jspecify.nullness.Nullable;
  */
 @NullMarked
 public abstract class Writer implements Appendable, Closeable, Flushable {
-  protected Object lock;
+  protected final J2ktMonitor lock;
 
   protected Writer() {
-    this.lock = this;
+    this(new J2ktMonitor());
   }
 
-  protected Writer(Object lock) {
+  /**
+   * Restricted to package visibility as it requires our own lock implementation -- opposed to the
+   * corresponding JRE constructor, taking any object as lock.
+   */
+  Writer(J2ktMonitor lock) {
     this.lock = lock;
   }
 

@@ -17,7 +17,6 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkArgument;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
-import static javaemul.internal.InternalPreconditions.checkState;
 
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -40,7 +39,7 @@ public class BufferedWriter extends Writer {
   }
 
   public BufferedWriter(Writer out, int size) {
-    super(out);
+    super(out.lock);
     checkArgument(size > 0, "Buffer size <= 0");
     this.out = out;
     this.buf = new char[size];
