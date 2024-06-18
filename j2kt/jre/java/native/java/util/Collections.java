@@ -298,65 +298,10 @@ public class Collections {
     }
   }
 
-  /*
-   * Returns the input collection as it is.
-   */
-  public static <T extends @Nullable Object> Collection<T> synchronizedCollection(Collection<T> c) {
-    return c;
-  }
-
-  /*
-   * Returns the input list as it is.
-   */
-  public static <T extends @Nullable Object> List<T> synchronizedList(List<T> list) {
-    return list;
-  }
-
-  /*
-   * Returns the input map as it is.
-   */
-  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> synchronizedMap(
-      Map<K, V> m) {
-    return m;
-  }
-
-  /*
-   * Returns the input map as it is.
-   */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
-      NavigableMap<K, V> synchronizedNavigableMap(NavigableMap<K, V> m) {
-    return m;
-  }
-
-  /*
-   * Returns the input set as it is.
-   */
-  public static <T extends @Nullable Object> NavigableSet<T> synchronizedNavigableSet(
-      NavigableSet<T> s) {
-    return s;
-  }
-
-  /*
-   * Returns the input set as it is.
-   */
-  public static <T extends @Nullable Object> Set<T> synchronizedSet(Set<T> s) {
-    return s;
-  }
-
-  /*
-   * Returns the input map as it is.
-   */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
-      SortedMap<K, V> synchronizedSortedMap(SortedMap<K, V> m) {
-    return m;
-  }
-
-  /*
-   * Returns the input set as it is.
-   */
-  public static <T extends @Nullable Object> SortedSet<T> synchronizedSortedSet(SortedSet<T> s) {
-    return s;
-  }
+  // The synchronized* methods were not necessary for j2kt apps yet. They could be added if a
+  // new app needs them, but ideally we'd move away from them in general (see cl/499941876).
+  // Another argument against adding them is that it won't be possible to use them directly as a
+  // monitor, which is suggested by the original JavaDoc for iteration locking.
 
   /*
    * TODO: make the unmodifiable collections serializable.
