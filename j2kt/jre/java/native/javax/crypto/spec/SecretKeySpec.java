@@ -25,8 +25,8 @@ import java.io.Serializable;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 import javax.crypto.SecretKey;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A key specification for a <code>SecretKey</code> and also a secret key implementation that is
