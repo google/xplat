@@ -17,8 +17,8 @@ package java.text;
 
 import java.util.Locale;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** JRE Collator stub; See IOSCollator.kt for the actual stub. */
 @NullMarked

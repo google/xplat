@@ -17,7 +17,7 @@
 
 package java.text;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of java.text.CollationKey for Kotlin/native. Derived from <a

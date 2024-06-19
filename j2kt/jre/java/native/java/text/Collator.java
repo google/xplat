@@ -19,8 +19,8 @@ package java.text;
 
 import java.util.Comparator;
 import java.util.Locale;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of java.text.Collator for Kotlin/native. Derived from <a
