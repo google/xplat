@@ -20,8 +20,8 @@ package java.lang;
 import static javaemul.internal.KtNativeUtils.ktNative;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // TODO(b/223774683): Java Boolean should implement Serializable. Kotlin Boolean doesn't.
 @KtNative(name = "kotlin.Boolean", companionName = "java.lang.Boolean")

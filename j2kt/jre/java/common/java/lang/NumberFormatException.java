@@ -18,8 +18,8 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // Note: the bridge class is part of the JRE on the JVM and emulated on Native. This avoids
 // duplicating/shadowing the JVM built-in implementation on the JVM. If we used the simpler

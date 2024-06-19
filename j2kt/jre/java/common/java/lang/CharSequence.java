@@ -20,7 +20,7 @@ package java.lang;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 @KtNative(name = "kotlin.CharSequence")
 @NullMarked

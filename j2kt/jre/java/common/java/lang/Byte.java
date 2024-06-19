@@ -20,8 +20,8 @@ package java.lang;
 import static javaemul.internal.KtNativeUtils.ktNative;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 @KtNative(name = "kotlin.Byte", companionName = "java.lang.Byte")
 @NullMarked

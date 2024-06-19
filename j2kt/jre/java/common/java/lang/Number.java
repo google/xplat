@@ -19,7 +19,7 @@ package java.lang;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 // TODO(b/223774683): Java Number should implement Serializable. Kotlin Number doesn't.
 /**

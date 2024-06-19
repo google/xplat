@@ -26,8 +26,8 @@ import java.util.Locale;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // TODO(b/223774683): Java String should implement Serializable. Kotlin String doesn't.
 @KtNative(name = "kotlin.String", companionName = "java.lang.String")

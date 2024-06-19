@@ -21,8 +21,8 @@ import static javaemul.internal.KtNativeUtils.ktNative;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // TODO(b/223774683): Java Character should implement Serializable. Kotlin Char doesn't.
 @KtNative(name = "kotlin.Char", companionName = "java.lang.Character")
