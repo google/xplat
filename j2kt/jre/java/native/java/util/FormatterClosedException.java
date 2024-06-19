@@ -17,7 +17,7 @@
 package java.util;
 
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@code FormatterClosedException} will be thrown if the formatter has been closed.

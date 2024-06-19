@@ -16,7 +16,7 @@
 package java.util;
 
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@code IllegalFormatException} is thrown when a format string that contains either an illegal

@@ -18,7 +18,7 @@
 package java.util;
 
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class provides methods that return pseudo-random values.

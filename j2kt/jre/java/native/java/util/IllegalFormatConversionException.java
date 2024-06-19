@@ -17,8 +17,8 @@
 package java.util;
 
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@code IllegalFormatConversionException} will be thrown when the parameter is incompatible

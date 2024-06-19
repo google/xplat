@@ -17,8 +17,8 @@
 package java.util;
 
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@code IllegalFormatFlagsException} will be thrown if the combination of the format flags is

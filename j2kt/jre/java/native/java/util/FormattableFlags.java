@@ -15,7 +15,7 @@
  */
 package java.util;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * FormattableFlags are used as a parameter to {@link Formattable#formatTo(Formatter, int, int,

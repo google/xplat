@@ -20,8 +20,8 @@ import static javaemul.internal.InternalPreconditions.checkCriticalElement;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/OptionalDouble.html">the

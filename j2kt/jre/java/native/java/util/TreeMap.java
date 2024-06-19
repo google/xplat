@@ -26,8 +26,8 @@ import static javaemul.internal.InternalPreconditions.isApiChecked;
 import java.io.Serializable;
 import javaemul.internal.Comparators;
 import jsinterop.annotations.JsEnum;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A map whose entries are sorted by their keys. All optional operations such as {@link #put} and

@@ -16,7 +16,7 @@
 
 package java.util;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@code IllegalFormatWidthException} will be thrown if the width is a negative value other than

@@ -16,7 +16,7 @@
 package java.util;
 
 import java.util.function.DoubleConsumer;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * See <a

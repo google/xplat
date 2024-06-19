@@ -15,8 +15,8 @@
  */
 package java.util;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // Note: This implementation relies on the fact that Kotlin Native's HashMap is linked.
 /**

@@ -21,8 +21,8 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkState;
 
 import javaemul.internal.ArrayHelper;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link Deque} based on circular buffer that is implemented with an array and head/tail

@@ -16,7 +16,7 @@
 
 package java.util;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@code IllegalFormatPrecisionException} will be thrown if the precision is a negative other

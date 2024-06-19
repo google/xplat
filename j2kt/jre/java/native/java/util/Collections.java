@@ -23,8 +23,8 @@ import java.io.Serializable;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import javaemul.internal.Comparators;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Utility methods that operate on collections. See <a

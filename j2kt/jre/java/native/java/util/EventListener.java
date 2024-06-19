@@ -15,7 +15,7 @@
  */
 package java.util;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A tag interface that other "listener" interfaces can extend to indicate their adherence to the

@@ -15,7 +15,7 @@
  */
 package java.util;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A very simple emulation of Locale for shared-code patterns like {@code

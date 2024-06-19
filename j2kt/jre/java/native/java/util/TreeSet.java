@@ -19,8 +19,8 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
 import javaemul.internal.MapUtils;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implements a set using a TreeMap. <a

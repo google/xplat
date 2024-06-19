@@ -17,7 +17,7 @@
 package java.util;
 
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An {@code IllegalFormatCodePointException} will be thrown if an invalid Unicode code point

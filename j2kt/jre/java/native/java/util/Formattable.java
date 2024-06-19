@@ -16,7 +16,7 @@
 
 package java.util;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Classes that handle custom formatting for the 's' specifier of {@code Formatter} should implement

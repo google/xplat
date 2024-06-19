@@ -17,7 +17,7 @@ package java.util;
 
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/LongSummaryStatistics.html">the

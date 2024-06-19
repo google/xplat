@@ -17,7 +17,7 @@
 package java.util;
 
 import java.io.Serializable;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A {@code FormatFlagsConversionMismatchException} will be thrown if a conversion and the flags are

@@ -20,8 +20,8 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * J2CL compatible implementation of EnumSet. Notably, some methods are unsupported since

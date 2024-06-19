@@ -19,8 +19,8 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkArraySize;
 
 import javaemul.internal.LongUtils;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Not yet implemented: public static BitSet valueOf(ByteBuffer) public static BitSet
