@@ -15,7 +15,7 @@
  */
 package java.util.function;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleSupplier.html">

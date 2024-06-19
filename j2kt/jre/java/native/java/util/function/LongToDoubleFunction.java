@@ -15,7 +15,7 @@
  */
 package java.util.function;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * See <a
