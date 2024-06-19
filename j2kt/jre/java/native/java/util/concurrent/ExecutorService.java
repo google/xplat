@@ -20,8 +20,8 @@ package java.util.concurrent;
 
 import java.util.Collection;
 import java.util.List;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Emulation of ExecutorService. */
 @NullMarked

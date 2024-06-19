@@ -12,7 +12,7 @@
 
 package java.util.concurrent;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * GWT emulation of TimeUnit, created by removing unsupported operations from Doug Lea's public

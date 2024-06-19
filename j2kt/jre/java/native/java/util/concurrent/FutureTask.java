@@ -15,8 +15,8 @@
  */
 package java.util.concurrent;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * FutureTask stub provided for unsupported compile time dependencies. Throws

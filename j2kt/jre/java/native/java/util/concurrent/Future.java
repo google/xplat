@@ -18,8 +18,8 @@
 
 package java.util.concurrent;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Emulation of Future. Since GWT environment is single threaded, attempting to block on the future

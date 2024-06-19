@@ -18,7 +18,7 @@
 
 package java.util.concurrent;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Emulation of Executor. */
 @NullMarked
