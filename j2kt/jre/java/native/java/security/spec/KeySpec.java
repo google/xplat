@@ -17,7 +17,7 @@
 
 package java.security.spec;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The marker interface for key specifications. The purpose is to group key specifications for

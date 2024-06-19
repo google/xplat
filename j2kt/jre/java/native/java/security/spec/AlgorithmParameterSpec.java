@@ -17,7 +17,7 @@
 
 package java.security.spec;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The marker interface for algorithm parameter specifications. The purpose is to group parameter
