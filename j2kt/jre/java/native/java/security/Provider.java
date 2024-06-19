@@ -17,7 +17,7 @@
 
 package java.security;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * {@code Provider} is the abstract superclass for all security providers in the Java security

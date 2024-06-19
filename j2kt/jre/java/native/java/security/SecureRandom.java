@@ -17,7 +17,7 @@ package java.security;
 
 import java.util.Random;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Secure random number generator.

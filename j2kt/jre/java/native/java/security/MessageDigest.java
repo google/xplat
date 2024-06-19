@@ -15,7 +15,7 @@
  */
 package java.security;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Message Digest algorithm - <a href=

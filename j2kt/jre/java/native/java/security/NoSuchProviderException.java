@@ -17,8 +17,8 @@
 
 package java.security;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code NoSuchProviderException} indicates that a requested security provider could not be found.

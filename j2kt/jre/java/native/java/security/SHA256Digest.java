@@ -16,7 +16,7 @@
 package java.security;
 
 import java.util.Arrays;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** SHA256 implementation for GWT. */
 @NullMarked
