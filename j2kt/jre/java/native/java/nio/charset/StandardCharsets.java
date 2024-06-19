@@ -16,7 +16,7 @@
 package java.nio.charset;
 
 import javaemul.internal.EmulatedCharset;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Partial emulation of the corresponding JRE-Class */
 @NullMarked

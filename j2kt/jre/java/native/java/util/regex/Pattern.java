@@ -16,7 +16,7 @@
 package java.util.regex;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** JRE Pattern class stub in Javadoc order. The actual wrapper is in the parallel Kotlin class. */
 @KtNative(name = "java.util.regex.Pattern")

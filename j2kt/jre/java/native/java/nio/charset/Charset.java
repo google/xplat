@@ -18,8 +18,8 @@ package java.nio.charset;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.util.Locale;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Partial emulation of the corresponding JRE-Class */
 @NullMarked

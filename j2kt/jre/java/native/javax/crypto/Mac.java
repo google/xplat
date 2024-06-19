@@ -26,7 +26,7 @@ import java.security.NoSuchProviderException;
 import java.security.Provider;
 import java.security.spec.AlgorithmParameterSpec;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** This class provides the public API for <i>Message Authentication Code</i> (MAC) algorithms. */
 @KtNative(name = "javax.crypto.Mac")

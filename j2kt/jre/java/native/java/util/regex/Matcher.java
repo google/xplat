@@ -16,8 +16,8 @@
 package java.util.regex;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** JRE Matcher stub; see Matcher.kt for the actual wrapper. */
 @KtNative(name = "java.util.regex.Matcher")

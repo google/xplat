@@ -18,7 +18,7 @@
 package javax.crypto;
 
 import java.security.Key;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A cryptographic secret (symmetric) key.

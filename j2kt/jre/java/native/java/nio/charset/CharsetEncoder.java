@@ -15,7 +15,7 @@
  */
 package java.nio.charset;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Placeholder class used in stub method declarations that need to match the real JRE. */
 @NullMarked

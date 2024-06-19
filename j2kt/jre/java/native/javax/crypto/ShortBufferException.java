@@ -22,8 +22,8 @@
 package javax.crypto;
 
 import java.security.GeneralSecurityException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The exception that is thrown when the result of an operation is attempted to store in a user
