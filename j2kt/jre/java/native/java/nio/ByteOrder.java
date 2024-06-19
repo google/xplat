@@ -16,7 +16,7 @@
 
 package java.nio;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Defines byte order constants. */
 @NullMarked

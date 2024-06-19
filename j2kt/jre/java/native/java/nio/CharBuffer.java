@@ -18,8 +18,8 @@
 package java.nio;
 
 import java.io.IOException;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** A buffer of chars. */
 // TODO(b/242760952): Make CharBuffer implement CharSequence

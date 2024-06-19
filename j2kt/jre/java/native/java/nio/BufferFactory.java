@@ -17,7 +17,7 @@
 
 package java.nio;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Provide factory service of buffer classes. */
 @NullMarked

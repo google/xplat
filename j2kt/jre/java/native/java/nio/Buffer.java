@@ -16,7 +16,7 @@
 
 package java.nio;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A buffer is a list of elements of a specific primitive type.
