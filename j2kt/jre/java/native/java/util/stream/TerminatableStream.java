@@ -20,8 +20,8 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // package protected, as not part of jre
 @NullMarked
