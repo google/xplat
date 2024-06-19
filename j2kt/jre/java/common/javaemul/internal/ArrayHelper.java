@@ -15,8 +15,8 @@
  */
 package javaemul.internal;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Class must exist as it is always loaded during tranpilation. */
 @NullMarked

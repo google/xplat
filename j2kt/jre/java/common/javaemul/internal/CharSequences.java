@@ -14,7 +14,7 @@
 package javaemul.internal;
 
 import jsinterop.annotations.JsType;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Provides devirtualized method implementations for CharSequence. */
 @JsType(namespace = "vmbootstrap")

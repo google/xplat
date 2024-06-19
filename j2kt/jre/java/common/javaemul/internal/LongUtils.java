@@ -15,7 +15,7 @@
  */
 package javaemul.internal;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Defines utility static functions to abstract from the Long emulation library used in JavaScript.

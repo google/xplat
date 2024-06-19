@@ -17,8 +17,8 @@ package javaemul.internal;
 
 import java.util.Comparator;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 @KtNative(name = "javaemul.internal.Comparators")
 @NullMarked

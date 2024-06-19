@@ -18,7 +18,7 @@ package javaemul.internal;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Provides Charset implementations (currently UTF-8 only) */
 @NullMarked

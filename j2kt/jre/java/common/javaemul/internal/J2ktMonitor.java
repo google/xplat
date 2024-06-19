@@ -16,7 +16,7 @@
 package javaemul.internal;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** A monitor for synchronized blocks; see kotlin file for details. */
 @KtNative(name = "javaemul.internal.J2ktMonitor")

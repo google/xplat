@@ -15,7 +15,7 @@
  */
 package javaemul.internal;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A helper to print log messages to console.
