@@ -15,7 +15,7 @@
  */
 package java.lang.annotation;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Indicates the annotation parser determined the annotation was malformed when reading from the

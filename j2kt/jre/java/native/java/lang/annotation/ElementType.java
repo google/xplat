@@ -15,7 +15,7 @@
  */
 package java.lang.annotation;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Enumerates types of declared elements in a Java program <a

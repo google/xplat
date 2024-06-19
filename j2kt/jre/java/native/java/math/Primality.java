@@ -36,8 +36,8 @@ package java.math;
 
 import java.util.Arrays;
 import java.util.Random;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Provides primality probabilistic methods. */
 @NullMarked

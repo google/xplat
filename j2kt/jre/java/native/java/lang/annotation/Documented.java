@@ -15,7 +15,7 @@
  */
 package java.lang.annotation;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Annotation which indicates annotations should be documented by javadoc/etc <a

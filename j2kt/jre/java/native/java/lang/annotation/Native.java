@@ -15,7 +15,7 @@
  */
 package java.lang.annotation;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Indicates that a field defining a constant value may be referenced from native code. <a

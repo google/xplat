@@ -34,7 +34,7 @@
  */
 package java.math;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Static library that provides all the <b>bit level</b> operations for {@link BigInteger}. The

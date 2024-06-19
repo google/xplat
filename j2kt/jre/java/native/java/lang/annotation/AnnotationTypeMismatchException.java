@@ -15,7 +15,7 @@
  */
 package java.lang.annotation;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Indicates an attempt to access an element of an annotation that has changed since it was compiled

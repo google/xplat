@@ -34,7 +34,7 @@
  */
 package java.math;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The library implements some logical operations over {@code BigInteger}. The operations provided

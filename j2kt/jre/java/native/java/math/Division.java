@@ -34,8 +34,8 @@
  */
 package java.math;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Static library that provides all operations related with division and modular arithmetic to

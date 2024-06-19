@@ -41,8 +41,8 @@ import java.io.Serializable;
 import java.util.Random;
 import javaemul.internal.LongUtils;
 import jsinterop.annotations.JsNonNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class represents immutable integer numbers of arbitrary length. Large numbers are typically

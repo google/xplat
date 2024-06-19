@@ -34,7 +34,7 @@
  */
 package java.math;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Specifies the rounding behavior for operations whose results cannot be represented exactly. */
 @NullMarked
