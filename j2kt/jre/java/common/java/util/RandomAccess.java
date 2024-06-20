@@ -16,7 +16,7 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Indicates that a data structure supports constant-time random access to its contained objects.

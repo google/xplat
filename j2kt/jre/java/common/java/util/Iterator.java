@@ -21,8 +21,8 @@ import static javaemul.internal.KtNativeUtils.ktNative;
 import java.util.function.Consumer;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtOut;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html">the official Java

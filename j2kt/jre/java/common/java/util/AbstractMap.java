@@ -16,8 +16,8 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // Note: this is emulated _and_ bridged because we need the bridges on the JVM as well, so
 // we cannot fold the bridge code into the emulation class (native/java.util.AbstractMap).

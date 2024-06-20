@@ -17,8 +17,8 @@
 package java.util;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Uses Java 1.5 ListIterator for documentation. The methods hasNext, next, and remove are repeated

@@ -24,8 +24,8 @@ import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import jsinterop.annotations.JsNonNull;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html">the official Java API
