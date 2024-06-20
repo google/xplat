@@ -20,7 +20,7 @@ package java.util.concurrent.atomic;
 
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** JRE AtomicInteger stub; see AtomicInteger.kt for the actual wrapper. */
 @KtNative(name = "java.util.concurrent.atomic.AtomicInteger")
