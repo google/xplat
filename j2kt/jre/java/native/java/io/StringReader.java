@@ -17,7 +17,7 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkArgument;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Reads characters from a string. */
 @NullMarked

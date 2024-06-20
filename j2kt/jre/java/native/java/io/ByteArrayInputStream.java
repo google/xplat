@@ -19,7 +19,7 @@
 
 package java.io;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A specialized {@link InputStream } for reading the contents of a byte array.

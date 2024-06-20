@@ -17,7 +17,7 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Provides a series of utilities to be reused between IO classes.

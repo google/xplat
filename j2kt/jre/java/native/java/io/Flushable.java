@@ -19,7 +19,7 @@
 
 package java.io;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Defines an interface for classes that can (or need to) be flushed, typically before some output

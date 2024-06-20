@@ -15,7 +15,7 @@
  */
 package java.io;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Reads a stream of characters. */
 @NullMarked

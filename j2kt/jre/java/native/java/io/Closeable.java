@@ -19,7 +19,7 @@
 
 package java.io;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** An {@code AutoCloseable} whose close method may throw an {@link IOException}. */
 @NullMarked

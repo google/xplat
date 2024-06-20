@@ -15,7 +15,7 @@
  */
 package java.io;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Provided for interoperability. The Java serialization protocol is explicitly not supported. */
 @NullMarked

@@ -19,7 +19,7 @@
 
 package java.io;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A specialized {@link OutputStream} for class for writing content to an (internal) byte array. As

@@ -21,7 +21,7 @@ package java.io;
 
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A readable source of bytes.
