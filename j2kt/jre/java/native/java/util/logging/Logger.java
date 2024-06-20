@@ -18,8 +18,8 @@ package java.util.logging;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An emulation of the java.util.logging.Logger class. See <a

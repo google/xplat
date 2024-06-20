@@ -17,7 +17,7 @@
 package java.util.logging;
 
 import java.util.Arrays;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A simplified emulation of the java.util.logging.Formatter class: Log record parameters are just

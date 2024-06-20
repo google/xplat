@@ -18,7 +18,7 @@ package java.util.logging;
 
 import java.io.Serializable;
 import java.util.Locale;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An emulation of the java.util.logging.Level class. See <a

@@ -16,7 +16,7 @@
 
 package java.util.logging;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A simplified emulation of the java.util.logging.SimpleFormatter class without support for the

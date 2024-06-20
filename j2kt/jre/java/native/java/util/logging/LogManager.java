@@ -19,8 +19,8 @@ package java.util.logging;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An emulation of the java.util.logging.LogManager class. See <a

@@ -16,8 +16,8 @@
 package java.util.logging;
 
 import javaemul.internal.ConsoleLogger;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** A simple console logger used in super dev mode. */
 @NullMarked
