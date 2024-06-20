@@ -18,7 +18,7 @@ package java.lang;
 
 import java.io.IOException;
 import java.nio.CharBuffer;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Represents a sequence of characters that can be incrementally read (copied) into a {@link

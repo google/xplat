@@ -18,7 +18,7 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 // On JVM, the "native" version is provided by the JDK. On Kotlin Native, the J2KT JRE includes a
 // Kotlin implementation of java.lang.Math.

@@ -15,8 +15,8 @@
  */
 package java.lang;
 
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * NOTE: in GWT this will never be thrown for normal array accesses, only for explicit throws.

@@ -15,7 +15,7 @@
  */
 package java.lang;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Encapsulates an action for later execution. See <a

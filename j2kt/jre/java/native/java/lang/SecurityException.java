@@ -15,7 +15,7 @@
  */
 package java.lang;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/SecurityException.html">the

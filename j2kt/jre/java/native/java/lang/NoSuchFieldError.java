@@ -13,7 +13,7 @@
  */
 package java.lang;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /** Exists solely to make javac happy. */
 @NullMarked

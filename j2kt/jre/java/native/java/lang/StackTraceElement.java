@@ -17,8 +17,8 @@ package java.lang;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Included for hosted mode source compatibility. Partially implemented

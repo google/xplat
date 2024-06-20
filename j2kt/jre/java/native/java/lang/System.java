@@ -17,8 +17,8 @@ package java.lang;
 
 import java.io.PrintStream;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** General-purpose low-level utility methods. */
 @KtNative(name = "java.lang.System")

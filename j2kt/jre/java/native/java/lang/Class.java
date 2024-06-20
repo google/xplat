@@ -15,8 +15,8 @@ package java.lang;
 
 import java.lang.reflect.Type;
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 // On Kotlin JVM, the native class is part of the JDK. On Kotlin Native, J2KT provides an
 // implementation of java.lang.Class.

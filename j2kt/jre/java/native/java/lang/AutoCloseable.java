@@ -16,7 +16,7 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * See <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/AutoCloseable.html">the official

@@ -19,8 +19,8 @@
 package java.lang;
 
 import java.util.function.Supplier;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides an implementation of {@link java.lang.ThreadLocal} for GWT.
