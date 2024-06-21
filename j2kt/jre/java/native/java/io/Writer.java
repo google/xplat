@@ -16,7 +16,7 @@
 package java.io;
 
 import java.util.Objects;
-import javaemul.internal.J2ktMonitor;
+import javaemul.lang.J2ktMonitor;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 

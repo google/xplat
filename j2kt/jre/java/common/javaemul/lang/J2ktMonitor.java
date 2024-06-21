@@ -13,12 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package javaemul.internal;
+package javaemul.lang;
 
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
-/** A monitor for synchronized blocks; see kotlin file for details. */
-@KtNative(name = "javaemul.internal.J2ktMonitor")
+/**
+ * A monitor for synchronized blocks. Maps to a regular class for JVM and an actual native monitor
+ * implementation for native.
+ */
+@KtNative(name = "javaemul.lang.J2ktMonitor")
 @NullMarked
 public final class J2ktMonitor {}

@@ -13,8 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package javaemul.internal
+package javaemul.lang
 
-/** A monitor for synchronization. */
-// TODO(b/3343465832): Implement.
-class J2ktMonitor {}
+typealias J2ktMonitor = Any
