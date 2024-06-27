@@ -16,6 +16,9 @@
 
 package javaemul.lang
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import kotlin.native.internal.createCleaner
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.free
@@ -47,7 +50,9 @@ class J2ktMonitor {
       nativeHeap.free(it)
     }
 
+  @OptIn(ExperimentalContracts::class)
   inline fun <T> synchronizedImpl(block: () -> T): T {
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
     lock()
     return try {
       block()
