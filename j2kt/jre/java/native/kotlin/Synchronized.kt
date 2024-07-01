@@ -25,14 +25,12 @@ import kotlin.contracts.contract
 @OptIn(ExperimentalContracts::class)
 inline fun <R> synchronized(monitor: J2ktMonitor, block: () -> R): R {
   contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-  // TODO(b/236003566): Replace with a call to `monitor.synchronizedImpl(block)`.
-  return block()
+  return monitor.synchronizedImpl(block)
 }
 
 /** Kotlin native implementation of [java.lang.synchronized] when using a class as the monitor. */
 @OptIn(ExperimentalContracts::class)
 inline fun <R> synchronized(clazz: java.lang.Class<*>, block: () -> R): R {
   contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-  // TODO(b/236003566): Replace with a call to `synchronized(clazz.j2ktMonitor, block)`.
-  return block()
+  return clazz.j2ktMonitor.synchronizedImpl(block)
 }
