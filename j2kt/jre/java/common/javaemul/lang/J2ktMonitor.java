@@ -24,4 +24,4 @@ import org.jspecify.annotations.NullMarked;
  */
 @KtNative(name = "javaemul.lang.J2ktMonitor")
 @NullMarked
-public final class J2ktMonitor {}
+public class J2ktMonitor {}

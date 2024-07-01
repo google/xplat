@@ -34,7 +34,7 @@ import platform.posix.pthread_mutexattr_settype
 import platform.posix.pthread_mutexattr_t
 
 /** Native monitor using pthread mutex. */
-class J2ktMonitor {
+open class J2ktMonitor {
 
   private val mutex: pthread_mutex_t = nativeHeap.alloc()
 

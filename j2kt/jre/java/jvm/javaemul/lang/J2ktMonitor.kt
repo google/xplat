@@ -16,4 +16,4 @@
 package javaemul.lang
 
 // TODO(b/343465832): Convert to a type alias -- or document why this is not feasible.
-class J2ktMonitor
+open class J2ktMonitor

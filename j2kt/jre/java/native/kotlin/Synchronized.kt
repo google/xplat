@@ -16,17 +16,23 @@
 
 package kotlin
 
+import javaemul.lang.J2ktMonitor
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-/**
- * Placeholder for locking. Either we'll implement this for iOS based on J2Objc locking, or we'll
- * use this to find all use cases and do something else.
- */
-// TODO(b/236003566): Actually implement locking.
+/** Kotlin native implementation of [java.lang.synchronized] for J2ktMonitor. */
 @OptIn(ExperimentalContracts::class)
-inline fun <R> synchronized(lock: Any, block: () -> R): R {
+inline fun <R> synchronized(monitor: J2ktMonitor, block: () -> R): R {
   contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+  // TODO(b/236003566): Replace with a call to `monitor.synchronizedImpl(block)`.
+  return block()
+}
+
+/** Kotlin native implementation of [java.lang.synchronized] when using a class as the monitor. */
+@OptIn(ExperimentalContracts::class)
+inline fun <R> synchronized(clazz: java.lang.Class<*>, block: () -> R): R {
+  contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+  // TODO(b/236003566): Replace with a call to `synchronized(clazz.j2ktMonitor, block)`.
   return block()
 }
