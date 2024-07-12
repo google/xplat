@@ -55,7 +55,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -335,8 +335,7 @@ public class CollectionsTest {
     @Override
     @SuppressWarnings("nullness:override") // Checker expects @PolyNull (missing in JSpecify)
     public @Nullable V computeIfPresent(
-        K key,
-        BiFunction<? super K, ? super @JsNonNull V, ? extends @Nullable V> remappingFunction) {
+        K key, BiFunction<? super K, ? super @NonNull V, ? extends @Nullable V> remappingFunction) {
       return super.computeIfPresent(key, remappingFunction);
     }
 
@@ -357,8 +356,8 @@ public class CollectionsTest {
     @SuppressWarnings({"nullness:override", "argument.type"})
     public @Nullable V merge(
         K key,
-        @JsNonNull V value,
-        BiFunction<? super @JsNonNull V, ? super @JsNonNull V, ? extends @Nullable V> remap) {
+        @NonNull V value,
+        BiFunction<? super @NonNull V, ? super @NonNull V, ? extends @Nullable V> remap) {
       return super.merge(key, value, remap);
     }
 

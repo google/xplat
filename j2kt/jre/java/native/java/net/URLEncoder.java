@@ -18,7 +18,7 @@
 package java.net;
 
 import java.io.UnsupportedEncodingException;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * This class is used to encode a string using the format required by {@code
@@ -94,7 +94,7 @@ public class URLEncoder {
     return buf.toString();
   }
 
-  private static void convert(String s, StringBuilder buf, @JsNonNull String enc)
+  private static void convert(String s, StringBuilder buf, @NonNull String enc)
       throws UnsupportedEncodingException {
     byte[] bytes = s.getBytes(enc);
     for (int j = 0; j < bytes.length; j++) {

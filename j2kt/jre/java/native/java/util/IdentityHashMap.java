@@ -18,7 +18,7 @@
 package java.util;
 
 import java.io.Serializable;
-import jsinterop.annotations.JsNonNull;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -87,7 +87,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public @JsNonNull Object clone() throws CloneNotSupportedException {
+    public @NonNull Object clone() throws CloneNotSupportedException {
       return new IdentityHashMapEntry<>(map, getKey(), getValue());
     }
 
@@ -227,7 +227,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
 
     @Override
     public Iterator<Map.Entry<KT, VT>> iterator() {
-      return new IdentityHashMapIterator<Map.@JsNonNull Entry<KT, VT>, KT, VT>(
+      return new IdentityHashMapIterator<Map.@NonNull Entry<KT, VT>, KT, VT>(
           entry -> entry, associatedMap);
     }
   }
