@@ -166,6 +166,9 @@ class Matcher(var pattern: Pattern, var input: CharSequence) {
    * example, "a(b)?c" matching "ac") returns null. A capturing group that matched the empty string
    * (for example, "a(b?)c" matching "ac") returns the empty string.
    *
+   * Note: For j2kt-native specifically, this will also return null if the match was empty due to
+   * differences in behavior between Java and Kotlin native regexes; see b/353710234.
+   *
    * @throws IllegalStateException if no successful match has been made.
    */
   fun group(group: Int): String? = ensureMatch().groups[group]?.value
