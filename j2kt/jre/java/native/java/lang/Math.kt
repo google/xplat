@@ -20,6 +20,7 @@ package java.lang
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArithmetic
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.math.IEEErem
+import kotlin.math.nextDown
 import kotlin.math.nextTowards
 import kotlin.math.nextUp
 import kotlin.math.pow
@@ -257,12 +258,16 @@ object Math {
   fun nextAfter(start: kotlin.Double, direction: kotlin.Double): kotlin.Double =
     start.nextTowards(direction)
 
-  fun nextAfter(start: kotlin.Float, direction: kotlin.Float): kotlin.Float =
-    start.nextTowards(direction)
+  fun nextAfter(start: kotlin.Float, direction: kotlin.Double): kotlin.Float =
+    start.nextTowards(direction.toFloat())
 
   fun nextUp(d: kotlin.Double): kotlin.Double = d.nextUp()
 
   fun nextUp(f: kotlin.Float): kotlin.Float = f.nextUp()
+
+  fun nextDown(d: kotlin.Double): kotlin.Double = d.nextDown()
+
+  fun nextDown(f: kotlin.Float): kotlin.Float = f.nextDown()
 
   fun scalb(d: kotlin.Double, scaleFactor: Int): kotlin.Double {
     return if (scaleFactor >= 31 || scaleFactor <= -31) {

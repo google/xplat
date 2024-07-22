@@ -169,6 +169,10 @@ public final class Math {
 
   public static native float nextUp(float f);
 
+  public static native double nextDown(double d);
+
+  public static native float nextDown(float f);
+
   public static native double scalb(double d, int scaleFactor);
 
   public static native float scalb(float d, int scaleFactor);
