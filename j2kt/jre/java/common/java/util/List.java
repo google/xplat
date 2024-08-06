@@ -92,4 +92,8 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
   }
 
   List<E> subList(int fromIndex, int toIndex);
+
+  // Override equals() to teach Error Prone that an ArrayList can be equal to a LinkedList.
+  @Override
+  boolean equals(@Nullable Object o);
 }
