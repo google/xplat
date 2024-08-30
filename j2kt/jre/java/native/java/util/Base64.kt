@@ -23,7 +23,14 @@ import kotlin.native.ObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("J2ktBase64")
-class Base64 internal constructor() {
+object Base64 {
+
+  private val decoder = Decoder()
+  private val encoder = Encoder()
+
+  fun getDecoder(): Decoder = decoder
+
+  fun getEncoder(): Encoder = encoder
 
   class Decoder internal constructor() {
     fun decode(s: String): ByteArray {
@@ -35,20 +42,10 @@ class Base64 internal constructor() {
   }
 
   class Encoder internal constructor() {
-
     fun encodeToString(b: ByteArray): String {
       val sb = StringBuilder()
       @OptIn(ExperimentalEncodingApi::class) Base64.Default.encodeToAppendable(b, sb)
       return sb.toString()
     }
-  }
-
-  companion object {
-    val decoder = Decoder()
-    val encoder = Encoder()
-
-    fun getDecoder(): Decoder = decoder
-
-    fun getEncoder(): Encoder = encoder
   }
 }
