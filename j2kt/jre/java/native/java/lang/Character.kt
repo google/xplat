@@ -32,6 +32,26 @@ object Character {
 
   val TYPE: Class<Char> = Char::class.javaPrimitiveType!!
 
+  const val DIRECTIONALITY_ARABIC_NUMBER: kotlin.Byte = 6
+  const val DIRECTIONALITY_BOUNDARY_NEUTRAL: kotlin.Byte = 9
+  const val DIRECTIONALITY_COMMON_NUMBER_SEPARATOR: kotlin.Byte = 7
+  const val DIRECTIONALITY_EUROPEAN_NUMBER: kotlin.Byte = 3
+  const val DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR: kotlin.Byte = 4
+  const val DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR: kotlin.Byte = 5
+  const val DIRECTIONALITY_LEFT_TO_RIGHT: kotlin.Byte = 0
+  const val DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING: kotlin.Byte = 14
+  const val DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE: kotlin.Byte = 15
+  const val DIRECTIONALITY_NONSPACING_MARK: kotlin.Byte = 8
+  const val DIRECTIONALITY_OTHER_NEUTRALS: kotlin.Byte = 13
+  const val DIRECTIONALITY_PARAGRAPH_SEPARATOR: kotlin.Byte = 10
+  const val DIRECTIONALITY_POP_DIRECTIONAL_FORMAT: kotlin.Byte = 18
+  const val DIRECTIONALITY_RIGHT_TO_LEFT: kotlin.Byte = 1
+  const val DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC: kotlin.Byte = 2
+  const val DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING: kotlin.Byte = 16
+  const val DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE: kotlin.Byte = 17
+  const val DIRECTIONALITY_SEGMENT_SEPARATOR: kotlin.Byte = 11
+  const val DIRECTIONALITY_UNDEFINED: kotlin.Byte = -1
+
   const val MIN_HIGH_SURROGATE: Char = Char.MIN_HIGH_SURROGATE
 
   const val MAX_HIGH_SURROGATE: Char = Char.MAX_HIGH_SURROGATE
@@ -55,6 +75,9 @@ object Character {
   fun valueOf(c: Char): Char = c
 
   fun compare(c1: Char, c2: Char): Int = c1.compareTo(c2)
+
+  // TODO(b/367245215): Implement this method properly when Kotlin native supports it.
+  fun getDirectionality(c: Char): kotlin.Byte = DIRECTIONALITY_UNDEFINED
 
   fun isDigit(c: Char): kotlin.Boolean = c.isDigit()
 
