@@ -25,8 +25,6 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public abstract class Charset {
 
-  private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-
   private String canonicalName;
 
   protected Charset(String canonicalName, String @Nullable [] aliases) {
@@ -76,6 +74,6 @@ public abstract class Charset {
   }
 
   public static Charset defaultCharset() {
-    return DEFAULT_CHARSET;
+    return StandardCharsets.UTF_8;
   }
 }
