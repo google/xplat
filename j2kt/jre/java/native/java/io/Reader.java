@@ -15,11 +15,19 @@
  */
 package java.io;
 
+import javaemul.lang.J2ktMonitor;
 import org.jspecify.annotations.NullMarked;
 
 /** Reads a stream of characters. */
 @NullMarked
 public abstract class Reader {
+
+  protected J2ktMonitor lock;
+
+  protected Reader() {
+    lock = new J2ktMonitor();
+  }
+
   /**
    * The maximum buffer size to incrementally read in {@link #skip}.
    */
@@ -53,8 +61,10 @@ public abstract class Reader {
    * Reads a single character, or -1 if we are at the end of the stream.
    */
   public int read() throws IOException {
-    char chr[] = new char[1];
-    return (read(chr) == -1) ? -1 : chr[0];
+    synchronized (lock) {
+      char chr[] = new char[1];
+      return (read(chr) == -1) ? -1 : chr[0];
+    }
   }
 
   /** Attempts to fill {@code buf} with characters up to the size of the array. */
@@ -82,20 +92,20 @@ public abstract class Reader {
     throw new IOException("Not supported");
   }
 
-  /**
-   * Skips {@code n} characters, returning the number of characters that were actually skipped.
-   */
+  /** Skips {@code n} characters, returning the number of characters that were actually skipped. */
   public long skip(long n) throws IOException {
-    long remaining = n;
-    int bufferSize = Math.min((int) n, MAX_SKIP_BUFFER_SIZE);
-    char[] skipBuffer = new char[bufferSize];
-    while (remaining > 0) {
-      long numRead = read(skipBuffer, 0, (int) Math.min(remaining, bufferSize));
-      if (numRead < 0) {
-        break;
+    synchronized (lock) {
+      long remaining = n;
+      int bufferSize = Math.min((int) n, MAX_SKIP_BUFFER_SIZE);
+      char[] skipBuffer = new char[bufferSize];
+      while (remaining > 0) {
+        long numRead = read(skipBuffer, 0, (int) Math.min(remaining, bufferSize));
+        if (numRead < 0) {
+          break;
+        }
+        remaining -= numRead;
       }
-      remaining -= numRead;
+      return n - remaining;
     }
-    return n - remaining;
   }
 }

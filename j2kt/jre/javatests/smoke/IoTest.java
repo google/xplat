@@ -15,14 +15,18 @@
  */
 package smoke;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.Formatter;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -41,6 +45,18 @@ public class IoTest {
     reader.skip(2048);
     assertEquals(2048, reader.read());
     reader.close();
+  }
+
+  // TODO: b/378477917 - This relies on Charset.newDecoder which is not implemented yet.
+  @Ignore
+  @Test
+  public void testInputStreamReader() throws Exception {
+    ByteArrayInputStream is = new ByteArrayInputStream("Hello, World".getBytes(UTF_8));
+    InputStreamReader reader = new InputStreamReader(is, UTF_8);
+    char[] buf = new char[128];
+    int count = reader.read(buf);
+    assertEquals(12, count);
+    assertEquals("Hello, World", String.valueOf(buf, 0, count));
   }
 
   @Test
