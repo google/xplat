@@ -39,11 +39,11 @@ import org.jspecify.annotations.Nullable;
  */
 @NullMarked
 public class InputStreamReader extends Reader {
-  private InputStream in;
+  private @Nullable InputStream in;
 
   private boolean endOfInput = false;
 
-  private CharsetDecoder decoder;
+  private @Nullable CharsetDecoder decoder;
 
   private final ByteBuffer bytes = ByteBuffer.allocate(8192);
 
