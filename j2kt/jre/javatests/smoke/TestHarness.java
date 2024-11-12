@@ -35,6 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
   IoTest.class,
   LoggingTest.class,
   MathTest.class,
+  OldAndroidChecksumTest.class,
   PrimitivesTest.class,
   RandomTest.class,
   ReflectArrayTest.class,
