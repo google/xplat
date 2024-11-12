@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -87,5 +88,11 @@ public class IoTest {
     writer.printf("%d %s", 1234, null);
     writer.flush();
     assertEquals("1234 null", os.toString());
+  }
+
+  @Test
+  public void testFile() {
+    File file = new File("foo");
+    assertEquals("foo", file.getPath());
   }
 }
