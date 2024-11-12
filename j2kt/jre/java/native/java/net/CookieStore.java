@@ -18,6 +18,7 @@ package java.net;
 
 import java.util.List;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A CookieStore object is a repository for cookies.
@@ -45,7 +46,7 @@ public interface CookieStore {
    *     not associated with a URI
    * @param cookie the cookie to be stored
    */
-  void add(URI uri, HttpCookie cookie);
+  void add(@Nullable URI uri, HttpCookie cookie);
 
   /**
    * Retrieves cookies that match the specified URI. Return not expired cookies. For every outgoing
@@ -81,7 +82,7 @@ public interface CookieStore {
    * @param cookie the cookie to be removed
    * @return true if the specified cookie is contained in this store and removed successfully
    */
-  boolean remove(URI uri, HttpCookie cookie);
+  boolean remove(@Nullable URI uri, HttpCookie cookie);
 
   /**
    * Clear this cookie store.

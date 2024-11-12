@@ -76,6 +76,22 @@ public final class HttpCookie implements Cloneable {
   }
 
   /**
+   * Returns true if {@code cookie} should be sent to {@code uri} with respect to the cookie's
+   * secure attribute. Secure cookies should not be sent in insecure (ie. non-HTTPS) requests.
+   */
+  static boolean secureMatches(HttpCookie cookie, URI uri) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Returns true if {@code cookie} should be sent to {@code uri} with respect to the cookie's port
+   * list.
+   */
+  static boolean portMatches(HttpCookie cookie, URI uri) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
    * Constructs a cookie from a string. The string should comply with set-cookie or set-cookie2
    * header format as specified in <a href="http://www.ietf.org/rfc/rfc2965.txt">RFC 2965</a>. Since
    * set-cookies2 syntax allows more than one cookie definitions in one header, the returned object

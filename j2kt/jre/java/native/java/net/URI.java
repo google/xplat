@@ -150,23 +150,8 @@ public final class URI implements Comparable<URI>, Serializable {
    *
    * @param scheme the URI scheme, or null for a non-absolute URI.
    */
-  public URI(String scheme, String schemeSpecificPart, String fragment) throws URISyntaxException {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Creates a new URI instance of the given unencoded component parts.
-   *
-   * @param scheme the URI scheme, or null for a non-absolute URI.
-   */
   public URI(
-      String scheme,
-      String userInfo,
-      String host,
-      int port,
-      String path,
-      String query,
-      String fragment)
+      @Nullable String scheme, @Nullable String schemeSpecificPart, @Nullable String fragment)
       throws URISyntaxException {
     throw new UnsupportedOperationException();
   }
@@ -176,7 +161,15 @@ public final class URI implements Comparable<URI>, Serializable {
    *
    * @param scheme the URI scheme, or null for a non-absolute URI.
    */
-  public URI(String scheme, String host, String path, String fragment) throws URISyntaxException {
+  public URI(
+      @Nullable String scheme,
+      @Nullable String userInfo,
+      @Nullable String host,
+      int port,
+      @Nullable String path,
+      @Nullable String query,
+      @Nullable String fragment)
+      throws URISyntaxException {
     throw new UnsupportedOperationException();
   }
 
@@ -185,7 +178,26 @@ public final class URI implements Comparable<URI>, Serializable {
    *
    * @param scheme the URI scheme, or null for a non-absolute URI.
    */
-  public URI(String scheme, String authority, String path, String query, String fragment)
+  public URI(
+      @Nullable String scheme,
+      @Nullable String host,
+      @Nullable String path,
+      @Nullable String fragment)
+      throws URISyntaxException {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Creates a new URI instance of the given unencoded component parts.
+   *
+   * @param scheme the URI scheme, or null for a non-absolute URI.
+   */
+  public URI(
+      @Nullable String scheme,
+      @Nullable String authority,
+      @Nullable String path,
+      @Nullable String query,
+      @Nullable String fragment)
       throws URISyntaxException {
     throw new UnsupportedOperationException();
   }

@@ -51,7 +51,7 @@ public interface CookiePolicy {
   static final CookiePolicy ACCEPT_ORIGINAL_SERVER =
       new CookiePolicy() {
         public boolean shouldAccept(URI uri, HttpCookie cookie) {
-          throw new UnsupportedOperationException();
+          return HttpCookie.domainMatches(cookie.getDomain(), uri.getHost());
         }
       };
 

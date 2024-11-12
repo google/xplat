@@ -19,20 +19,23 @@ package java.net;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.jspecify.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 /** This class provides a way to manage cookies with a HTTP protocol handler. */
 @NullMarked
 public abstract class CookieHandler {
 
+  private static @Nullable CookieHandler systemWideCookieHandler;
+
   /** Returns the system-wide cookie handler or {@code null} if not set. */
-  public static CookieHandler getDefault() {
-    throw new UnsupportedOperationException();
+  public static @Nullable CookieHandler getDefault() {
+    return systemWideCookieHandler;
   }
 
   /** Sets the system-wide cookie handler. */
   public static void setDefault(CookieHandler cHandler) {
-    throw new UnsupportedOperationException();
+    systemWideCookieHandler = cHandler;
   }
 
   /**

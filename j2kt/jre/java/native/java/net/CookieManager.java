@@ -17,6 +17,8 @@
 package java.net;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.jspecify.annotations.NullMarked;
@@ -51,6 +53,13 @@ import org.jspecify.annotations.Nullable;
  */
 @NullMarked
 public class CookieManager extends CookieHandler {
+  private CookieStore store;
+
+  private CookiePolicy policy;
+
+  private static final String VERSION_ZERO_HEADER = "Set-cookie";
+
+  private static final String VERSION_ONE_HEADER = "Set-cookie2";
 
   /**
    * Constructs a new cookie manager.
@@ -71,7 +80,8 @@ public class CookieManager extends CookieHandler {
    *     used if the arg is null.
    */
   public CookieManager(@Nullable CookieStore store, @Nullable CookiePolicy cookiePolicy) {
-    throw new UnsupportedOperationException();
+    this.store = store == null ? new CookieStoreImpl() : store;
+    policy = cookiePolicy == null ? CookiePolicy.ACCEPT_ORIGINAL_SERVER : cookiePolicy;
   }
 
   /**
@@ -85,7 +95,40 @@ public class CookieManager extends CookieHandler {
   @Override
   public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders)
       throws IOException {
-    throw new UnsupportedOperationException();
+    List<HttpCookie> result = new ArrayList<HttpCookie>();
+    for (HttpCookie cookie : store.get(uri)) {
+      if (HttpCookie.pathMatches(cookie, uri)
+          && HttpCookie.secureMatches(cookie, uri)
+          && HttpCookie.portMatches(cookie, uri)) {
+        result.add(cookie);
+      }
+    }
+
+    return cookiesToHeaders(result);
+  }
+
+  private static Map<String, List<String>> cookiesToHeaders(List<HttpCookie> cookies) {
+    if (cookies.isEmpty()) {
+      return Collections.emptyMap();
+    }
+
+    StringBuilder result = new StringBuilder();
+
+    // If all cookies are version 1, add a version 1 header. No header for version 0 cookies.
+    int minVersion = 1;
+    for (HttpCookie cookie : cookies) {
+      minVersion = Math.min(minVersion, cookie.getVersion());
+    }
+    if (minVersion == 1) {
+      result.append("$Version=\"1\"; ");
+    }
+
+    result.append(cookies.get(0).toString());
+    for (int i = 1; i < cookies.size(); i++) {
+      result.append("; ").append(cookies.get(i).toString());
+    }
+
+    return Collections.singletonMap("Cookie", Collections.singletonList(result.toString()));
   }
 
   /**
@@ -97,16 +140,69 @@ public class CookieManager extends CookieHandler {
    */
   @Override
   public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
+    // parse and construct cookies according to the map
+    List<HttpCookie> cookies = parseCookie(responseHeaders);
+    for (HttpCookie cookie : cookies) {
 
-    throw new UnsupportedOperationException();
+      // if the cookie doesn't have a domain, set one. The policy will do validation.
+      if (cookie.getDomain() == null) {
+        cookie.setDomain(uri.getHost());
+      }
+
+      // if the cookie doesn't have a path, set one. If it does, validate it.
+      if (cookie.getPath() == null) {
+        cookie.setPath(pathToCookiePath(uri.getPath()));
+      } else if (!HttpCookie.pathMatches(cookie, uri)) {
+        continue;
+      }
+
+      // if the cookie has the placeholder port list "", set the port. Otherwise validate it.
+      if ("".equals(cookie.getPortlist())) {
+        cookie.setPortlist(Integer.toString(uri.getEffectivePort()));
+      } else if (cookie.getPortlist() != null && !HttpCookie.portMatches(cookie, uri)) {
+        continue;
+      }
+
+      // if the cookie conforms to the policy, add it into the store
+      if (policy.shouldAccept(uri, cookie)) {
+        store.add(uri, cookie);
+      }
+    }
   }
 
   /**
    * Returns a cookie-safe path by truncating everything after the last "/". When request path like
    * "/foo/bar.html" yields a cookie, that cookie's default path is "/foo/".
    */
-  static String pathToCookiePath(String path) {
-    throw new UnsupportedOperationException();
+  static String pathToCookiePath(@Nullable String path) {
+    if (path == null) {
+      return "/";
+    }
+    int lastSlash = path.lastIndexOf('/'); // -1 yields the empty string
+    return path.substring(0, lastSlash + 1);
+  }
+
+  private static List<HttpCookie> parseCookie(Map<String, List<String>> responseHeaders) {
+    List<HttpCookie> cookies = new ArrayList<HttpCookie>();
+    for (Map.Entry<String, List<String>> entry : responseHeaders.entrySet()) {
+      String key = entry.getKey();
+      // Only "Set-cookie" and "Set-cookie2" pair will be parsed
+      if (key != null
+          && (key.equalsIgnoreCase(VERSION_ZERO_HEADER)
+              || key.equalsIgnoreCase(VERSION_ONE_HEADER))) {
+        // parse list elements one by one
+        for (String cookieStr : entry.getValue()) {
+          try {
+            for (HttpCookie cookie : HttpCookie.parse(cookieStr)) {
+              cookies.add(cookie);
+            }
+          } catch (IllegalArgumentException ignored) {
+            // this string is invalid, jump to the next one.
+          }
+        }
+      }
+    }
+    return cookies;
   }
 
   /**
@@ -116,8 +212,10 @@ public class CookieManager extends CookieHandler {
    *
    * @param cookiePolicy the cookie policy. if null, the original policy will not be changed.
    */
-  public void setCookiePolicy(CookiePolicy cookiePolicy) {
-    throw new UnsupportedOperationException();
+  public void setCookiePolicy(@Nullable CookiePolicy cookiePolicy) {
+    if (cookiePolicy != null) {
+      policy = cookiePolicy;
+    }
   }
 
   /**
@@ -126,6 +224,6 @@ public class CookieManager extends CookieHandler {
    * @return the cookie store currently used by cookie manager.
    */
   public CookieStore getCookieStore() {
-    throw new UnsupportedOperationException();
+    return store;
   }
 }
