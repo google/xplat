@@ -237,7 +237,7 @@ public final class URI implements Comparable<URI>, Serializable {
    * Returns the scheme of this URI, or null if this URI has no scheme. This is also known as the
    * protocol.
    */
-  public String getScheme() {
+  public @Nullable String getScheme() {
     throw new UnsupportedOperationException();
   }
 
@@ -245,7 +245,7 @@ public final class URI implements Comparable<URI>, Serializable {
    * Returns the decoded scheme-specific part of this URI, or null if this URI has no
    * scheme-specific part.
    */
-  public String getSchemeSpecificPart() {
+  public @Nullable String getSchemeSpecificPart() {
     throw new UnsupportedOperationException();
   }
 
@@ -253,32 +253,32 @@ public final class URI implements Comparable<URI>, Serializable {
    * Returns the encoded scheme-specific part of this URI, or null if this URI has no
    * scheme-specific part.
    */
-  public String getRawSchemeSpecificPart() {
+  public @Nullable String getRawSchemeSpecificPart() {
     throw new UnsupportedOperationException();
   }
 
   /** Returns the decoded authority part of this URI, or null if this URI has no authority. */
-  public String getAuthority() {
+  public @Nullable String getAuthority() {
     throw new UnsupportedOperationException();
   }
 
   /** Returns the encoded authority of this URI, or null if this URI has no authority. */
-  public String getRawAuthority() {
+  public @Nullable String getRawAuthority() {
     throw new UnsupportedOperationException();
   }
 
   /** Returns the decoded user info of this URI, or null if this URI has no user info. */
-  public String getUserInfo() {
+  public @Nullable String getUserInfo() {
     throw new UnsupportedOperationException();
   }
 
   /** Returns the encoded user info of this URI, or null if this URI has no user info. */
-  public String getRawUserInfo() {
+  public @Nullable String getRawUserInfo() {
     throw new UnsupportedOperationException();
   }
 
   /** Returns the host of this URI, or null if this URI has no host. */
-  public String getHost() {
+  public @Nullable String getHost() {
     throw new UnsupportedOperationException();
   }
 
@@ -303,12 +303,12 @@ public final class URI implements Comparable<URI>, Serializable {
   }
 
   /** Returns the decoded path of this URI, or null if this URI has no path. */
-  public String getPath() {
+  public @Nullable String getPath() {
     throw new UnsupportedOperationException();
   }
 
   /** Returns the encoded path of this URI, or null if this URI has no path. */
-  public String getRawPath() {
+  public @Nullable String getRawPath() {
     throw new UnsupportedOperationException();
   }
 
@@ -318,17 +318,17 @@ public final class URI implements Comparable<URI>, Serializable {
   }
 
   /** Returns the encoded query of this URI, or null if this URI has no query. */
-  public String getRawQuery() {
+  public @Nullable String getRawQuery() {
     throw new UnsupportedOperationException();
   }
 
   /** Returns the decoded fragment of this URI, or null if this URI has no fragment. */
-  public String getFragment() {
+  public @Nullable String getFragment() {
     throw new UnsupportedOperationException();
   }
 
   /** Gets the encoded fragment of this URI, or null if this URI has no fragment. */
-  public String getRawFragment() {
+  public @Nullable String getRawFragment() {
     throw new UnsupportedOperationException();
   }
 

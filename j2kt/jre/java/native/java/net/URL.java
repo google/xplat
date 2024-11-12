@@ -86,7 +86,7 @@ public final class URL implements Serializable {
    * @throws MalformedURLException if {@code spec} could not be parsed as a URL or has an
    *     unsupported protocol.
    */
-  public URL(URL context, String spec) throws MalformedURLException {
+  public URL(@Nullable URL context, String spec) throws MalformedURLException {
     throw new UnsupportedOperationException();
   }
 
@@ -96,7 +96,7 @@ public final class URL implements Serializable {
    * @throws MalformedURLException if the combination of all arguments do not represent a valid URL
    *     or if the protocol is invalid.
    */
-  public URL(String protocol, String host, String file) throws MalformedURLException {
+  public URL(String protocol, @Nullable String host, String file) throws MalformedURLException {
     throw new UnsupportedOperationException();
   }
 
@@ -109,7 +109,8 @@ public final class URL implements Serializable {
    * @throws MalformedURLException if the combination of all arguments do not represent a valid URL
    *     or if the protocol is invalid.
    */
-  public URL(String protocol, String host, int port, String file) throws MalformedURLException {
+  public URL(String protocol, @Nullable String host, int port, String file)
+      throws MalformedURLException {
     throw new UnsupportedOperationException();
   }
 
@@ -121,7 +122,7 @@ public final class URL implements Serializable {
    * Sets the properties of this URL using the provided arguments. Only a {@code URLStreamHandler}
    * can use this method to set fields of the existing URL instance. A URL is generally constant.
    */
-  protected void set(String protocol, String host, int port, String file, String ref) {
+  protected void set(String protocol, @Nullable String host, int port, String file, String ref) {
     throw new UnsupportedOperationException();
   }
 
@@ -193,7 +194,7 @@ public final class URL implements Serializable {
 
   /** Equivalent to {@code openConnection().getContent(types)}. */
   @SuppressWarnings("unchecked") // Param not generic in spec
-  public final Object getContent(Class[] types) throws IOException {
+  public final @Nullable Object getContent(Class[] types) throws IOException {
     throw new UnsupportedOperationException();
   }
 
