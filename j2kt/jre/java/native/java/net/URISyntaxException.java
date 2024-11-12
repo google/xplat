@@ -26,6 +26,10 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class URISyntaxException extends Exception {
 
+  private String input;
+
+  private int index;
+
   /**
    * Constructs a new {@code URISyntaxException} instance containing the string that caused the
    * exception, a description of the problem and the index at which the error occurred.
@@ -38,7 +42,14 @@ public class URISyntaxException extends Exception {
    * @throws IllegalArgumentException if the value for {@code index} is lesser than {@code -1}.
    */
   public URISyntaxException(String input, String reason, int index) {
-    throw new UnsupportedOperationException();
+    super(reason);
+
+    if (index < -1) {
+      throw new IllegalArgumentException("Bad index: " + index);
+    }
+
+    this.input = input;
+    this.index = index;
   }
 
   /**
@@ -51,7 +62,10 @@ public class URISyntaxException extends Exception {
    *     null}.
    */
   public URISyntaxException(String input, String reason) {
-    throw new UnsupportedOperationException();
+    super(reason);
+
+    this.input = input;
+    index = -1;
   }
 
   /**
@@ -61,7 +75,7 @@ public class URISyntaxException extends Exception {
    * @return the index of the syntax error.
    */
   public int getIndex() {
-    throw new UnsupportedOperationException();
+    return index;
   }
 
   /**
@@ -70,7 +84,7 @@ public class URISyntaxException extends Exception {
    * @return the string describing the syntax error.
    */
   public String getReason() {
-    throw new UnsupportedOperationException();
+    return super.getMessage();
   }
 
   /**
@@ -79,7 +93,7 @@ public class URISyntaxException extends Exception {
    * @return the string that caused the exception.
    */
   public String getInput() {
-    throw new UnsupportedOperationException();
+    return input;
   }
 
   /**
@@ -91,6 +105,10 @@ public class URISyntaxException extends Exception {
    */
   @Override
   public String getMessage() {
-    throw new UnsupportedOperationException();
+    String reason = super.getMessage();
+    if (index != -1) {
+      return reason + " at index " + index + ": " + input;
+    }
+    return reason + ": " + input;
   }
 }
