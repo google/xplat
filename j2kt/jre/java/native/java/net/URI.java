@@ -625,6 +625,7 @@ public final class URI implements Comparable<URI>, Serializable {
    * @param uri the URI this instance has to compare with.
    * @return the value representing the order of the two instances.
    */
+  @Override
   public int compareTo(URI uri) {
     int ret;
 
@@ -1307,17 +1308,13 @@ public final class URI implements Comparable<URI>, Serializable {
     return convertHexToLowerCase(result.toString());
   }
 
-  /**
-   * Converts this URI instance to a URL.
-   *
-   * @return the created URL representing the same resource as this URI.
-   * @throws MalformedURLException if an error occurs while creating the URL or no protocol handler
-   *     could be found.
-   */
-  public URL toURL() throws MalformedURLException {
-    if (!absolute) {
-      throw new IllegalArgumentException("URI is not absolute: " + toString());
-    }
-    return new URL(toString());
-  }
+  // /**
+  //  * Converts this URI instance to a URL.
+  //  *
+  //  * @return the created URL representing the same resource as this URI.
+  //  * @throws MalformedURLException if an error occurs while creating the URL or no protocol
+  // handler
+  //  *     could be found.
+  //  */
+  // public URL toURL() throws MalformedURLException {} // URL is not supported.
 }
