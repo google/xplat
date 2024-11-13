@@ -36,6 +36,8 @@ import org.junit.runners.Suite.SuiteClasses;
   LoggingTest.class,
   MathTest.class,
   OldAndroidChecksumTest.class,
+  OldAndroidURITest.class,
+  OldURITest.class,
   PrimitivesTest.class,
   RandomTest.class,
   ReflectArrayTest.class,
@@ -44,5 +46,7 @@ import org.junit.runners.Suite.SuiteClasses;
   StringTest.class,
   SystemTest.class,
   ThrowableTest.class,
+  URITest.class,
+  UrlEncodingTest.class
 })
 public class TestHarness {}
