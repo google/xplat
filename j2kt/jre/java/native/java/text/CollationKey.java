@@ -21,7 +21,7 @@ import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of java.text.CollationKey for Kotlin/native. Derived from <a
- * href="https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/java/text/CollationKey.html">java.text.CollationKey</a>.
+ * href="https://docs.oracle.com/javase/7/docs/api/java/text/CollationKey.html">java.text.CollationKey</a>.
  */
 @NullMarked
 public abstract class CollationKey implements Comparable<CollationKey> {
