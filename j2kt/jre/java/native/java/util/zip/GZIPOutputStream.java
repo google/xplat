@@ -19,6 +19,7 @@ package java.util.zip;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * The {@code GZIPOutputStream} class is used to write data to a stream in the GZIP storage format.
@@ -40,6 +41,7 @@ import java.io.OutputStream;
  * }
  * </pre>
  */
+@NullMarked
 public class GZIPOutputStream extends DeflaterOutputStream {
 
   /** The magic header for the GZIP format. */

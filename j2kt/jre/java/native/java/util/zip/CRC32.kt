@@ -29,7 +29,7 @@ import platform.zlib.crc32
  */
 class CRC32 : Checksum {
   private var crc = 0L
-  var tbytes = 0L
+  internal var tbytes = 0L // Not public API but Used by GZIPOutputStream
 
   /**
    * Returns the CRC32 checksum for all input received.
