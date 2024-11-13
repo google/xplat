@@ -110,14 +110,14 @@ public class InetAddress implements Serializable {
 
   byte[] ipaddress;
 
-  String hostName;
+  @Nullable String hostName;
 
   /**
    * Constructs an {@code InetAddress}.
    *
    * <p>Note: this constructor is for subclasses only.
    */
-  InetAddress(int family, byte[] ipaddress, String hostName) {
+  InetAddress(int family, byte[] ipaddress, @Nullable String hostName) {
     this.family = family;
     this.ipaddress = ipaddress;
     this.hostName = hostName;
@@ -272,7 +272,10 @@ public class InetAddress implements Serializable {
   //  * @hide used by frameworks/base's NetworkUtils.numericToInetAddress
   //  * @throws IllegalArgumentException if {@code numericAddress} is not a numeric address
   //  */
-  // public static InetAddress parseNumericAddress(String numericAddress) {}
+  public static InetAddress parseNumericAddress(String numericAddress) {
+    // TODO: b/377734324 - Implement
+    throw new UnsupportedOperationException();
+  }
 
   // /**
   //  * Returns the IPv6 loopback address {@code ::1} or the IPv4 loopback address {@code

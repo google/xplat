@@ -47,6 +47,9 @@ object Byte {
 
   fun toString(b: kotlin.Byte): kotlin.String = b.toString()
 
+  internal fun toHexString(b: kotlin.Byte, upperCase: kotlin.Boolean): kotlin.String =
+    b.toUByte().toString(16).let { if (upperCase) it.uppercase() else it }
+
   fun parseByte(s: kotlin.String): kotlin.Byte = s.toByte()
 
   fun parseByte(s: kotlin.String, radix: Int): kotlin.Byte = s.toByte(radix)

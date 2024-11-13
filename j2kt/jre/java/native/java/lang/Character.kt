@@ -85,6 +85,8 @@ object Character {
   // assume false for code points outside of the 16 bit char range.
   fun isDigit(cp: Int): kotlin.Boolean = cp >= 0 && cp <= 0xffff && (cp as Char).isDigit()
 
+  fun isISOControl(c: Char): kotlin.Boolean = c.isISOControl()
+
   fun isLetter(c: Char): kotlin.Boolean = c.isLetter()
 
   fun isLetterOrDigit(c: Char): kotlin.Boolean = c.isLetterOrDigit()

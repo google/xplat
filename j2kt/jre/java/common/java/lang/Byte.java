@@ -79,6 +79,7 @@ public final class Byte extends Number implements Comparable<Byte> {
   @Override
   public native String toString();
 
+  // Internal-only (visibility-checked by konanc). Used by code ported from Android.
   public static native String toHexString(byte b, boolean upperCase);
 
   public static native String toString(byte value);
