@@ -91,8 +91,7 @@ public class OldURITest extends TestCase {
         "mailto:user^name@fklkf.com" // invalid char in scheme specific part
       };
 
-  // TODO: b/377734324 - Requires working InetAddress
-  public void ignored_test_createLjava_lang_String() {
+  public void test_createLjava_lang_String() {
     for (String s : constructorTests) {
       try {
         new URI(s);

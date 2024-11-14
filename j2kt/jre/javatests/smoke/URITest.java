@@ -473,8 +473,7 @@ public final class URITest extends TestCase {
     assertEquals(null, new URI("http://./").getHost());
   }
 
-  // TODO: b/377734324 - Requires working InetAddress
-  public void ignored_testSquareBracketsWithIPv4() throws Exception {
+  public void testSquareBracketsWithIPv4() throws Exception {
     try {
       new URI("http://[192.168.0.1]/");
       fail();
@@ -482,8 +481,7 @@ public final class URITest extends TestCase {
     }
   }
 
-  // TODO: b/377734324 - Requires working InetAddress
-  public void ignored_testSquareBracketsWithHostname() throws Exception {
+  public void testSquareBracketsWithHostname() throws Exception {
     try {
       new URI("http://[google.com]/");
       fail();

@@ -544,9 +544,7 @@ public final class URI implements Comparable<URI>, Serializable {
       if (!host.endsWith("]")) {
         throw new URISyntaxException(host, "Expected a closing square bracket for IPv6 address", 0);
       }
-      if (InetAddress.isNumeric(host)) {
-        // If it's numeric, the presence of square brackets guarantees
-        // that it's a numeric IPv6 address.
+      if (InetUtil.isValidIpv6Address(host.substring(1, host.length() - 1))) {
         return true;
       }
       throw new URISyntaxException(host, "Malformed IPv6 address");
@@ -571,12 +569,8 @@ public final class URI implements Comparable<URI>, Serializable {
     }
 
     // IPv4 address?
-    try {
-      InetAddress ia = InetAddress.parseNumericAddress(host);
-      if (ia instanceof Inet4Address) {
-        return true;
-      }
-    } catch (IllegalArgumentException ignored) {
+    if (InetUtil.isValidIpv4Address(host)) {
+      return true;
     }
 
     if (forceServer) {
