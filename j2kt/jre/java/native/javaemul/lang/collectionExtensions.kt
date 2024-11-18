@@ -29,17 +29,15 @@ fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
   if (this is JavaCollection) java_addAll(c) else addAll(c)
 
-@Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_contains(a: Any?): Boolean =
-  if (this is JavaCollection) java_contains(a) else contains(a as E)
+fun <V> MutableCollection<V>.java_contains(value: Any?): Boolean =
+  (this as Collection<Any>).contains(value)
 
 @Suppress("UNCHECKED_CAST")
 fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<*>): Boolean =
   if (this is JavaCollection) java_containsAll(c) else containsAll(c as MutableCollection<E>)
 
-@Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_remove(a: Any?): Boolean =
-  if (this is JavaCollection) java_remove(a) else remove(a as E)
+fun <V> MutableCollection<V>.java_remove(value: Any?): Boolean =
+  (this as MutableCollection<Any?>).remove(value)
 
 @Suppress("UNCHECKED_CAST")
 fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
@@ -80,3 +78,18 @@ internal fun <T> MutableCollection<*>.default_toArray(a: Array<T>): Array<T> {
     return a
   }
 }
+
+fun <V> MutableList<V>.java_indexOf(value: Any?): Int = (this as MutableList<Any?>).indexOf(value)
+
+fun <V> MutableList<V>.java_lastIndexOf(value: Any?): Int =
+  (this as MutableList<Any?>).lastIndexOf(value)
+
+fun <K, V> MutableMap<K, V>.java_containsKey(key: Any?): Boolean =
+  (this as MutableMap<Any?, Any?>).containsKey(key)
+
+fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean =
+  (this as MutableMap<Any?, Any?>).containsValue(value)
+
+fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = (this as MutableMap<Any?, V>).get(key)
+
+fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = (this as MutableMap<Any?, V>).remove(key)

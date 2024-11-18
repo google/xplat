@@ -24,14 +24,6 @@ import kotlin.native.ObjCName
 /** Bridge type for `java.util.AbstractMap` */
 @ObjCName("JavaemulLangJavaAbstractMap", exact = true)
 abstract class JavaAbstractMap<K, V> : AbstractMap<K, V>(), JavaMap<K, V> {
-  override fun containsKey(key: K): Boolean = super<JavaMap>.containsKey(key)
-
-  override fun containsValue(value: V): Boolean = super<JavaMap>.containsValue(value)
-
-  override operator fun get(key: K): V? = super<JavaMap>.get(key)
-
-  override fun remove(key: K): V? = super<JavaMap>.remove(key)
-
   override fun put(key: K, value: V): V? {
     throw UnsupportedOperationException("Put not supported on this map")
   }
@@ -41,19 +33,6 @@ abstract class JavaAbstractMap<K, V> : AbstractMap<K, V>(), JavaMap<K, V> {
   override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_containsKey(key: Any?): Boolean = super<AbstractMap>.containsKey(key as K)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_containsValue(value: Any?): Boolean =
-    super<AbstractMap>.containsValue(value as V)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_get(key: Any?): V? = super<AbstractMap>.get(key as K)
-
-  @Suppress("UNCHECKED_CAST")
   override fun java_putAll(t: MutableMap<out K, out V>) =
     super<AbstractMap>.putAll(t as Map<out K, V>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_remove(key: Any?): V? = super<AbstractMap>.remove(key as K)
 }

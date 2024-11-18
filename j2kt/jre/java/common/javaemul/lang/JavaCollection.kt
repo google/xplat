@@ -30,11 +30,7 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
   // TODO(b/243046587): Rewrite to handle case in which c is not mutable
   override fun addAll(c: Collection<E>): Boolean = java_addAll(c as MutableCollection<E>)
 
-  override fun contains(e: E): Boolean = java_contains(e)
-
   override fun containsAll(c: Collection<E>): Boolean = java_containsAll(c as MutableCollection<E>)
-
-  override fun remove(e: E): Boolean = java_remove(e)
 
   override fun removeAll(c: Collection<E>): Boolean = java_removeAll(c as MutableCollection<E>)
 
@@ -50,11 +46,7 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun java_addAll(c: MutableCollection<out E>): Boolean
 
-  fun java_contains(a: Any?): Boolean
-
   fun java_containsAll(c: MutableCollection<*>): Boolean
-
-  fun java_remove(a: Any?): Boolean
 
   fun java_removeAll(c: MutableCollection<*>): Boolean
 

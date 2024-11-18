@@ -26,14 +26,6 @@ import kotlin.native.ObjCName
 @ObjCName("JavaemulLangJavaMap", exact = true)
 interface JavaMap<K, V> : MutableMap<K, V> {
 
-  override fun containsKey(key: K): Boolean = java_containsKey(key)
-
-  override fun containsValue(value: V): Boolean = java_containsValue(value)
-
-  override operator fun get(key: K): V? = java_get(key)
-
-  override fun remove(key: K): V? = java_remove(key)
-
   // TODO(b/243046587): Rewrite to handle case in which t is not mutable
   override fun putAll(t: Map<out K, V>) = java_putAll(t as MutableMap<K, V>)
 
@@ -56,20 +48,12 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 
   fun replaceAll(function: BiFunction<in K, in V, out V>) = default_replaceAll(function)
 
-  fun java_containsKey(key: Any?): Boolean
-
-  fun java_containsValue(value: Any?): Boolean
-
-  fun java_get(key: Any?): V?
-
   fun java_getOrDefault(key: Any?, defaultValue: V?): V? = default_getOrDefault(key, defaultValue)
 
   fun merge(key: K, value: V & Any, remap: BiFunction<in V & Any, in V & Any, out V?>): V? =
     default_merge(key, value, remap)
 
   fun java_putAll(t: MutableMap<out K, out V>)
-
-  fun java_remove(key: Any?): V?
 
   fun java_remove(key: Any?, value: Any?): Boolean = default_remove(key, value)
 }
@@ -79,19 +63,8 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 // Java signature does not require any trampolines, only manual type erasure.
 
 @Suppress("UNCHECKED_CAST")
-fun <K, V> MutableMap<K, V>.java_containsKey(key: Any?): Boolean = containsKey(key as K)
-
-@Suppress("UNCHECKED_CAST")
-fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean = containsValue(value as V)
-
-@Suppress("UNCHECKED_CAST") fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = get(key as K)
-
-@Suppress("UNCHECKED_CAST")
 fun <K, V> MutableMap<K, V>.java_putAll(t: MutableMap<out K, out V>) =
   if (this is JavaMap) (this as JavaMap).putAll(t) else default_putAll(t)
-
-@Suppress("UNCHECKED_CAST")
-fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = remove(key as K)
 
 fun <K, V> MutableMap<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
   if (this is JavaMap) java_getOrDefault(key, defaultValue)

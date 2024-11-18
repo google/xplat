@@ -25,11 +25,7 @@ import kotlin.native.ObjCName
 abstract class JavaAbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
   override fun addAll(c: Collection<E>): Boolean = super<JavaSet>.addAll(c)
 
-  override fun contains(e: E): Boolean = super<JavaSet>.contains(e)
-
   override fun containsAll(c: Collection<E>): Boolean = super<JavaSet>.containsAll(c)
-
-  override fun remove(e: E): Boolean = super<JavaSet>.remove(e)
 
   override fun removeAll(c: Collection<E>): Boolean = super<JavaSet>.removeAll(c)
 
@@ -39,14 +35,8 @@ abstract class JavaAbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
     super<AbstractMutableSet>.addAll(c)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_contains(a: Any?): Boolean = super<AbstractMutableSet>.contains(a as E)
-
-  @Suppress("UNCHECKED_CAST")
   override fun java_containsAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableSet>.containsAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_remove(a: Any?): Boolean = super<AbstractMutableSet>.remove(a as E)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_removeAll(c: MutableCollection<out Any?>): Boolean =

@@ -18,12 +18,14 @@ package javaemul.lang
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean =
   asJavaUtilCollection().addAll(c)
 
-fun <E> MutableCollection<E>.java_contains(a: Any?): Boolean = asJavaUtilCollection().contains(a)
+fun <V> MutableCollection<V>.java_contains(value: Any?): Boolean =
+  asJavaUtilCollection().contains(value)
 
 fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<*>): Boolean =
   asJavaUtilCollection().containsAll(c)
 
-fun <E> MutableCollection<E>.java_remove(a: Any?): Boolean = asJavaUtilCollection().remove(a)
+fun <V> MutableCollection<V>.java_remove(value: Any?): Boolean =
+  asJavaUtilCollection().remove(value)
 
 fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
   asJavaUtilCollection().removeAll(c)
@@ -41,5 +43,24 @@ internal fun <T> MutableCollection<*>.default_toArray(a: Array<T>): Array<T> =
   asJavaUtilCollection().toArray(a)
 
 @Suppress("UNCHECKED_CAST")
-private fun <E> MutableCollection<E>.asJavaUtilCollection(): java.util.Collection<E> =
+private fun <E> Collection<E>.asJavaUtilCollection(): java.util.Collection<E> =
   this as java.util.Collection<E>
+
+@Suppress("UNCHECKED_CAST")
+private fun <E> List<E>.asJavaUtilList(): java.util.List<E> = this as java.util.List<E>
+
+@Suppress("UNCHECKED_CAST")
+private fun <K, V> Map<K, V>.asJavaUtilMap(): java.util.Map<K, V> = this as java.util.Map<K, V>
+
+fun <V> MutableList<V>.java_indexOf(value: Any?): Int = asJavaUtilList().indexOf(value)
+
+fun <V> MutableList<V>.java_lastIndexOf(value: Any?): Int = asJavaUtilList().lastIndexOf(value)
+
+fun <K, V> MutableMap<K, V>.java_containsKey(key: Any?): Boolean = asJavaUtilMap().containsKey(key)
+
+fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean =
+  asJavaUtilMap().containsValue(value)
+
+fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = asJavaUtilMap().get(key)
+
+fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = asJavaUtilMap().remove(key)

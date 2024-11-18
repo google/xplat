@@ -48,14 +48,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   void clear();
 
-  @KtName("java_contains")
   boolean contains(@Nullable Object o);
-
-  /** Only for bookkeeping in the transpiler. Do not call */
-  @KtName("contains")
-  default boolean $kotlin_contains(E e) {
-    return ktNative();
-  }
 
   @KtName("java_containsAll")
   boolean containsAll(Collection<?> c);
@@ -75,14 +68,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
     return ktNative();
   }
 
-  @KtName("java_remove")
   boolean remove(@Nullable Object o);
-
-  /** Only for bookkeeping in the transpiler. Do not call */
-  @KtName("remove")
-  default boolean $kotlin_remove(E e) {
-    return ktNative();
-  }
 
   @KtName("java_removeAll")
   boolean removeAll(Collection<?> c);

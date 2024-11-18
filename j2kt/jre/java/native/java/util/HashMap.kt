@@ -44,25 +44,15 @@ open class HashMap<K, V> private constructor(val ktHashMap: KotlinHashMap<K, V>)
 
   override fun isEmpty(): Boolean = ktHashMap.isEmpty()
 
-  override final fun containsKey(key: K): Boolean = java_containsKey(key)
+  override final fun containsKey(key: K): Boolean = ktHashMap.containsKey(key)
 
-  @Suppress("UNCHECKED_CAST")
-  override fun java_containsKey(key: Any?): Boolean = ktHashMap.containsKey(key as K)
+  override final fun containsValue(value: V): Boolean = ktHashMap.containsValue(value)
 
-  override final fun containsValue(value: V): Boolean = java_containsValue(value)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_containsValue(value: Any?): Boolean = ktHashMap.containsValue(value as V)
-
-  override final operator fun get(key: K): V? = java_get(key)
-
-  @Suppress("UNCHECKED_CAST") override fun java_get(key: Any?): V? = ktHashMap[key as K]
+  override final operator fun get(key: K): V? = ktHashMap[key]
 
   override fun put(key: K, value: V): V? = ktHashMap.put(key, value)
 
-  override final fun remove(key: K): V? = java_remove(key)
-
-  @Suppress("UNCHECKED_CAST") override fun java_remove(key: Any?): V? = ktHashMap.remove(key as K)
+  override final fun remove(key: K): V? = ktHashMap.remove(key)
 
   override fun java_putAll(m: MutableMap<out K, out V>) = ktHashMap.putAll(m)
 

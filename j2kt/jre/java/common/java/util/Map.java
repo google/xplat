@@ -85,10 +85,8 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
     return ktNative();
   }
 
-  @KtName("java_containsKey")
   boolean containsKey(@Nullable Object key);
 
-  @KtName("java_containsValue")
   boolean containsValue(@Nullable Object value);
 
   @KtProperty
@@ -99,7 +97,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
     ktNative();
   }
 
-  @KtName("java_get")
   @Nullable V get(@Nullable Object key);
 
   @KtName("java_getOrDefault")
@@ -129,7 +126,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
     return ktNative();
   }
 
-  @KtName("java_remove")
   @Nullable V remove(@Nullable Object key);
 
   @KtName("java_remove")

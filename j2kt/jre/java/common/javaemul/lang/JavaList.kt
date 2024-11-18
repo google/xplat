@@ -31,15 +31,7 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
     return java_addAll(index, c as MutableCollection<E>)
   }
 
-  override fun contains(e: E): Boolean = super<JavaCollection>.contains(e)
-
   override fun containsAll(c: Collection<E>): Boolean = super<JavaCollection>.containsAll(c)
-
-  override fun indexOf(e: E): Int = java_indexOf(e)
-
-  override fun lastIndexOf(e: E): Int = java_lastIndexOf(e)
-
-  override fun remove(e: E): Boolean = super<JavaCollection>.remove(e)
 
   override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
 
@@ -52,10 +44,6 @@ interface JavaList<E> : MutableList<E>, JavaCollection<E> {
   fun sort(c: Comparator<in E>?) = if (c == null) sortBy { it as Comparable<Any> } else sortWith(c)
 
   fun java_addAll(index: Int, c: MutableCollection<out E>): Boolean
-
-  fun java_indexOf(a: Any?): Int
-
-  fun java_lastIndexOf(a: Any?): Int
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -73,14 +61,6 @@ fun <E> MutableList<E>.sort(c: Comparator<in E>?) {
 @Suppress("UNCHECKED_CAST")
 fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<out E>): Boolean =
   if (this is JavaList) java_addAll(index, c) else addAll(index, c as MutableCollection<E>)
-
-@Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.java_indexOf(a: Any?): Int =
-  if (this is JavaList) java_indexOf(a) else indexOf(a as E)
-
-@Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.java_lastIndexOf(a: Any?): Int =
-  if (this is JavaList) java_lastIndexOf(a) else lastIndexOf(a as E)
 
 internal fun <E> MutableList<E>.default_replaceAll(operator: UnaryOperator<E>) {
   val iterator = listIterator()

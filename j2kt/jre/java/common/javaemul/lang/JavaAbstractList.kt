@@ -28,15 +28,7 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
 
   override fun addAll(c: Collection<E>): Boolean = super<JavaList>.addAll(c)
 
-  override fun contains(e: E): Boolean = super<JavaList>.contains(e)
-
   override fun containsAll(c: Collection<E>): Boolean = super<JavaList>.containsAll(c)
-
-  override fun indexOf(e: E): Int = super<JavaList>.indexOf(e)
-
-  override fun lastIndexOf(e: E): Int = super<JavaList>.lastIndexOf(e)
-
-  override fun remove(e: E): Boolean = super<JavaList>.remove(e)
 
   override fun removeAll(c: Collection<E>): Boolean = super<JavaList>.removeAll(c)
 
@@ -51,20 +43,8 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
     super<AbstractMutableList>.addAll(c)
 
   @Suppress("UNCHECKED_CAST")
-  override fun java_contains(a: Any?): Boolean = super<AbstractMutableList>.contains(a as E)
-
-  @Suppress("UNCHECKED_CAST")
   override fun java_containsAll(c: MutableCollection<out Any?>): Boolean =
     super<AbstractMutableList>.containsAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_indexOf(a: Any?): Int = super<AbstractMutableList>.indexOf(a as E)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_lastIndexOf(a: Any?): Int = super<AbstractMutableList>.lastIndexOf(a as E)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_remove(a: Any?): Boolean = super<AbstractMutableList>.remove(a as E)
 
   @Suppress("UNCHECKED_CAST")
   override fun java_removeAll(c: MutableCollection<out Any?>): Boolean =
@@ -77,9 +57,11 @@ abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   override fun add(index: Int, element: E) {
     throw UnsupportedOperationException()
   }
+
   override fun set(index: Int, element: E): E {
     throw UnsupportedOperationException()
   }
+
   override fun removeAt(index: Int): E {
     throw UnsupportedOperationException()
   }

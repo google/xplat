@@ -47,9 +47,6 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
   public native boolean contains(@Nullable Object o);
 
   @Override
-  public native boolean $kotlin_contains(E e);
-
-  @Override
   public native boolean containsAll(Collection<?> c);
 
   @Override
@@ -63,9 +60,6 @@ public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> 
 
   @Override
   public native boolean remove(@Nullable Object o);
-
-  @Override
-  public native boolean $kotlin_remove(E e);
 
   @Override
   public native boolean removeAll(Collection<?> c);

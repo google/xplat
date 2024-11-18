@@ -34,17 +34,7 @@ public interface Set<E extends @Nullable Object> extends Collection<E> {
   }
 
   @Override
-  default boolean $kotlin_contains(E e) {
-    return ktNative();
-  }
-
-  @Override
   default boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
-
-  @Override
-  default boolean $kotlin_remove(E e) {
     return ktNative();
   }
 
