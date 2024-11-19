@@ -31,6 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
   DeflaterTest.class,
   ErasureTest.class,
   FormatterTest.class,
+  HttpCookieTest.class,
   InflaterTest.class,
   IoTest.class,
   LoggingTest.class,

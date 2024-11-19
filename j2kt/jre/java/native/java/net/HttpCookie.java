@@ -307,7 +307,7 @@ public final class HttpCookie implements Cloneable {
       }
     }
 
-    private void setAttribute(HttpCookie cookie, String name, String value) {
+    private void setAttribute(HttpCookie cookie, String name, @Nullable String value) {
       if (name.equals("comment") && cookie.comment == null) {
         cookie.comment = value;
       } else if (name.equals("commenturl") && cookie.commentURL == null) {
@@ -419,7 +419,7 @@ public final class HttpCookie implements Cloneable {
   private @Nullable String path;
   private @Nullable String portList;
   private boolean secure;
-  private String value;
+  private @Nullable String value;
   private int version = 1;
 
   /**
@@ -430,7 +430,7 @@ public final class HttpCookie implements Cloneable {
    * @param value an opaque value from the HTTP server.
    * @throws IllegalArgumentException if {@code name} is invalid.
    */
-  public HttpCookie(String name, String value) {
+  public HttpCookie(String name, @Nullable String value) {
     String ntrim = name.trim(); // erase leading and trailing whitespace
     if (!isValidName(ntrim)) {
       throw new IllegalArgumentException("Invalid name: " + name);
@@ -480,12 +480,12 @@ public final class HttpCookie implements Cloneable {
   }
 
   /** Returns the {@code Comment} attribute. */
-  public String getComment() {
+  public @Nullable String getComment() {
     return comment;
   }
 
   /** Returns the value of {@code CommentURL} attribute. */
-  public String getCommentURL() {
+  public @Nullable String getCommentURL() {
     return commentURL;
   }
 
@@ -495,7 +495,7 @@ public final class HttpCookie implements Cloneable {
   }
 
   /** Returns the {@code Domain} attribute. */
-  public String getDomain() {
+  public @Nullable String getDomain() {
     return domain;
   }
 
@@ -510,7 +510,7 @@ public final class HttpCookie implements Cloneable {
   }
 
   /** Returns the {@code Path} attribute. This cookie is visible to all subpaths. */
-  public String getPath() {
+  public @Nullable String getPath() {
     return path;
   }
 
@@ -529,7 +529,7 @@ public final class HttpCookie implements Cloneable {
   }
 
   /** Returns the value of this cookie. */
-  public String getValue() {
+  public @Nullable String getValue() {
     return value;
   }
 
@@ -554,12 +554,12 @@ public final class HttpCookie implements Cloneable {
   }
 
   /** Set the {@code Comment} attribute of this cookie. */
-  public void setComment(String comment) {
+  public void setComment(@Nullable String comment) {
     this.comment = comment;
   }
 
   /** Set the {@code CommentURL} attribute of this cookie. */
-  public void setCommentURL(String commentURL) {
+  public void setCommentURL(@Nullable String commentURL) {
     this.commentURL = commentURL;
   }
 
@@ -572,7 +572,7 @@ public final class HttpCookie implements Cloneable {
    * Set the {@code Domain} attribute of this cookie. HTTP clients send cookies only to matching
    * domains.
    */
-  public void setDomain(String pattern) {
+  public void setDomain(@Nullable String pattern) {
     domain = pattern == null ? null : pattern.toLowerCase(Locale.US);
   }
 
@@ -589,7 +589,7 @@ public final class HttpCookie implements Cloneable {
    * Set the {@code Path} attribute of this cookie. HTTP clients send cookies to this path and its
    * subpaths.
    */
-  public void setPath(String path) {
+  public void setPath(@Nullable String path) {
     this.path = path;
   }
 
@@ -604,7 +604,7 @@ public final class HttpCookie implements Cloneable {
   }
 
   /** Sets the opaque value of this cookie. */
-  public void setValue(String value) {
+  public void setValue(@Nullable String value) {
     // FIXME: According to spec, version 0 cookie value does not allow many
     // symbols. But RI does not implement it. Follow RI temporarily.
     this.value = value;
@@ -679,7 +679,8 @@ public final class HttpCookie implements Cloneable {
     return result.toString();
   }
 
-  private void appendAttribute(StringBuilder builder, String name, String value) {
+  private void appendAttribute(
+      @Nullable StringBuilder builder, String name, @Nullable String value) {
     if (value != null && builder != null) {
       builder.append(";$");
       builder.append(name);
