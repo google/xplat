@@ -17,21 +17,14 @@
 package java.net;
 
 import java.util.Date;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 /** Best-effort parser for HTTP dates. */
 @NullMarked
+@KtNative(name = "java.net.HttpDate")
 final class HttpDate {
 
   /** Returns the date for {@code value}. Returns null if the value couldn't be parsed. */
-  public static Date parse(String value) {
-    // TODO: b/377734324 - Implement
-    throw new UnsupportedOperationException();
-  }
-
-  /** Returns the string for {@code value}. */
-  public static String format(Date value) {
-    // TODO: b/377734324 - Implement
-    throw new UnsupportedOperationException();
-  }
+  public static native Date parse(String value);
 }
