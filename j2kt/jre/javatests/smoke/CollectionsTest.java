@@ -140,6 +140,7 @@ public class CollectionsTest {
   }
 
   @Test
+  @SuppressWarnings("argument.type.incompatible") // for `null` in `getOrDefault(..., null)`
   public void testJavaMapSignatures() {
     // Map and HashMap are mapped to separate native types, we test bridged methods with each type
     // as the target because they are dispatched statically.
@@ -157,6 +158,19 @@ public class CollectionsTest {
     assertEquals(null, hashMap.get("c"));
     assertEquals(null, map.get(new Object()));
     assertEquals(null, hashMap.get(new Object()));
+
+    assertEquals((Object) 1, map.getOrDefault("a", 1));
+    assertEquals((Object) 1, hashMap.getOrDefault("a", 1));
+    assertEquals((Object) 2, map.getOrDefault((Object) "b", 2));
+    assertEquals((Object) 2, hashMap.getOrDefault((Object) "b", 2));
+    assertEquals((Object) 3, map.getOrDefault("c", 3));
+    assertEquals((Object) 3, hashMap.getOrDefault("c", 3));
+    assertEquals((Object) 3, map.getOrDefault(new Object(), 3));
+    assertEquals((Object) 3, hashMap.getOrDefault(new Object(), 3));
+    assertNull(map.getOrDefault("c", null));
+    assertNull(hashMap.getOrDefault("c", null));
+    assertNull(map.getOrDefault(new Object(), null));
+    assertNull(hashMap.getOrDefault(new Object(), null));
 
     assertTrue(map.containsKey("b"));
     assertTrue(hashMap.containsKey("b"));
