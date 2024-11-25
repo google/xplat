@@ -51,6 +51,9 @@ public class LinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
     ktNative();
   }
 
+  // Note: This method is only available on J2kt-JVM and J2kt-Web, not J2kt-Native
+  protected native boolean removeEldestEntry(Map.Entry<K, V> eldest);
+
   @Override
   public native Object clone();
 }
