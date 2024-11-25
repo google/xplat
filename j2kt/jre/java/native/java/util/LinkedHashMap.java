@@ -15,36 +15,42 @@
  */
 package java.util;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-// Note: This implementation relies on the fact that Kotlin Native's HashMap is linked.
 /**
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html">the official
  * Java API doc</a> for details.
  */
 @NullMarked
+@KtNative(name = "java.util.LinkedHashMap")
 public class LinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends HashMap<K, V> implements Map<K, V>, Cloneable {
 
   public LinkedHashMap() {
-    super();
+    ktNative();
   }
 
   public LinkedHashMap(int initialCapacity) {
-    super(initialCapacity);
+    ktNative();
   }
 
   public LinkedHashMap(int initialCapacity, float loadFactor) {
-    super(initialCapacity, loadFactor);
+    ktNative();
   }
 
   public LinkedHashMap(Map<? extends K, ? extends V> original) {
-    super(original);
+    ktNative();
+  }
+
+  // Note: This method is only available on J2kt-JVM and J2kt-Web, not J2kt-Native
+  public LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder) {
+    ktNative();
   }
 
   @Override
-  public Object clone() {
-    return new LinkedHashMap<K, V>(this);
-  }
+  public native Object clone();
 }
