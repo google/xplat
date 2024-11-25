@@ -38,9 +38,6 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
   public native boolean addAll(Collection<? extends E> c);
 
   @Override
-  public native boolean $kotlin_addAll($Kotlin_Collection<? extends E> c);
-
-  @Override
   public native void clear();
 
   @Override
@@ -50,25 +47,16 @@ public abstract class AbstractCollection<E extends @Nullable Object> implements 
   public native boolean containsAll(Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c);
-
-  @Override
   public native boolean isEmpty();
 
   @Override
   public native boolean remove(@Nullable Object o);
 
   @Override
-  public native boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c);
-
-  @Override
   public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   @Override
   public native boolean retainAll(Collection<? extends @Nullable Object> c);
-
-  @Override
-  public native boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c);
 
   @Override
   public native Spliterator<E> spliterator();

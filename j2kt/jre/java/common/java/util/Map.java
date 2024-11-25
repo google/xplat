@@ -33,7 +33,8 @@ import org.jspecify.annotations.Nullable;
  */
 @KtNative(name = "kotlin.collections.MutableMap", bridgeName = "javaemul.lang.JavaMap")
 @NullMarked
-public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
+public interface Map<K extends @Nullable Object, V extends @Nullable Object>
+    extends ReadonlyMap<K, V> {
 
   /** Represents an individual map entry. */
   @KtNative(
@@ -119,7 +120,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @Nullable V put(K key, V value);
 
-  @KtName("java_putAll")
   void putAll(Map<? extends K, ? extends V> t);
 
   default @Nullable V putIfAbsent(K key, V value) {
@@ -128,7 +128,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   @Nullable V remove(@Nullable Object key);
 
-  @KtName("java_remove")
   default boolean remove(@Nullable Object key, @Nullable Object value) {
     return ktNative();
   }

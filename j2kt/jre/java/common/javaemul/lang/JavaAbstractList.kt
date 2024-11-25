@@ -24,35 +24,7 @@ import kotlin.native.ObjCName
 /** Bridge class for java.util.AbstractList. */
 @ObjCName("JavaemulLangJavaAbstractList", exact = true)
 abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
-  override fun addAll(index: Int, c: Collection<E>) = super<JavaList>.addAll(index, c)
-
-  override fun addAll(c: Collection<E>): Boolean = super<JavaList>.addAll(c)
-
-  override fun containsAll(c: Collection<E>): Boolean = super<JavaList>.containsAll(c)
-
-  override fun removeAll(c: Collection<E>): Boolean = super<JavaList>.removeAll(c)
-
-  override fun retainAll(c: Collection<E>): Boolean = super<JavaList>.retainAll(c)
-
   override fun spliterator(): Spliterator<E> = super<JavaList>.spliterator()
-
-  override fun java_addAll(index: Int, c: MutableCollection<out E>): Boolean =
-    super<AbstractMutableList>.addAll(index, c)
-
-  override fun java_addAll(c: MutableCollection<out E>): Boolean =
-    super<AbstractMutableList>.addAll(c)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_containsAll(c: MutableCollection<out Any?>): Boolean =
-    super<AbstractMutableList>.containsAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_removeAll(c: MutableCollection<out Any?>): Boolean =
-    super<AbstractMutableList>.removeAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_retainAll(c: MutableCollection<out Any?>): Boolean =
-    super<AbstractMutableList>.retainAll(c as MutableCollection<E>)
 
   override fun add(index: Int, element: E) {
     throw UnsupportedOperationException()

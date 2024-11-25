@@ -33,31 +33,17 @@ import org.jspecify.annotations.Nullable;
     name = "kotlin.collections.MutableCollection",
     bridgeName = "javaemul.lang.JavaCollection")
 @NullMarked
-public interface Collection<E extends @Nullable Object> extends Iterable<E> {
+public interface Collection<E extends @Nullable Object> extends Iterable<E>, ReadonlyCollection<E> {
 
   boolean add(E e);
 
-  @KtName("java_addAll")
   boolean addAll(Collection<? extends E> c);
-
-  /** Only for bookkeeping in the transpiler. Do not call */
-  @KtName("addAll")
-  default boolean $kotlin_addAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
 
   void clear();
 
   boolean contains(@Nullable Object o);
 
-  @KtName("java_containsAll")
   boolean containsAll(Collection<?> c);
-
-  /** Only for bookkeeping in the transpiler. Do not call */
-  @KtName("containsAll")
-  default boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
 
   boolean isEmpty();
 
@@ -70,25 +56,13 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E> {
 
   boolean remove(@Nullable Object o);
 
-  @KtName("java_removeAll")
   boolean removeAll(Collection<?> c);
-
-  @KtName("removeAll")
-  default boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
 
   default boolean removeIf(Predicate<? super E> filter) {
     return ktNative();
   }
 
-  @KtName("java_retainAll")
   boolean retainAll(Collection<?> c);
-
-  @KtName("retainAll")
-  default boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
 
   @KtProperty
   int size();

@@ -89,13 +89,7 @@ public class ArrayList<E extends @Nullable Object> extends AbstractList<E>
   public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   @Override
-  public native boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c);
-
-  @Override
   public native boolean retainAll(Collection<? extends @Nullable Object> c);
-
-  @Override
-  public native boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c);
 
   @Override
   public native E set(int index, E e);

@@ -52,9 +52,15 @@ private fun <E> List<E>.asJavaUtilList(): java.util.List<E> = this as java.util.
 @Suppress("UNCHECKED_CAST")
 private fun <K, V> Map<K, V>.asJavaUtilMap(): java.util.Map<K, V> = this as java.util.Map<K, V>
 
+fun <V> MutableList<V>.java_addAll(index: Int, c: MutableCollection<out V>): Boolean =
+  asJavaUtilList().addAll(index, c)
+
 fun <V> MutableList<V>.java_indexOf(value: Any?): Int = asJavaUtilList().indexOf(value)
 
 fun <V> MutableList<V>.java_lastIndexOf(value: Any?): Int = asJavaUtilList().lastIndexOf(value)
+
+fun <K, V> MutableMap<K, V>.java_putAll(map: MutableMap<out K, out V>): Unit =
+  asJavaUtilMap().putAll(map)
 
 fun <K, V> MutableMap<K, V>.java_containsKey(key: Any?): Boolean = asJavaUtilMap().containsKey(key)
 
@@ -64,3 +70,6 @@ fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean =
 fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = asJavaUtilMap().get(key)
 
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = asJavaUtilMap().remove(key)
+
+fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
+  asJavaUtilMap().remove(key as K, value as V)

@@ -17,11 +17,14 @@ package java.util;
 
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtOut;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Representation of the readonly Kotlin collection interface. Only for use by the JRE emulation.
  */
 @KtNative(name = "kotlin.collections.Collection")
-public interface $Kotlin_Collection<@KtOut E> {
+@NullMarked
+interface ReadonlyCollection<@KtOut E extends @Nullable Object> {
   // Methods omitted (type is only used in native method parameter/return types).
 }

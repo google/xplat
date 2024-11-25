@@ -44,12 +44,6 @@ public abstract class AbstractList<E extends @Nullable Object> extends AbstractC
   public native boolean addAll(int index, Collection<? extends E> c);
 
   @Override
-  public native boolean $kotlin_addAll($Kotlin_Collection<? extends E> c);
-
-  @Override
-  public native boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c);
-
-  @Override
   public native int indexOf(@Nullable Object toFind);
 
   @Override
@@ -68,18 +62,12 @@ public abstract class AbstractList<E extends @Nullable Object> extends AbstractC
   public native E remove(int index);
 
   @Override
-  public native boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c);
-
-  @Override
   public native boolean removeAll(Collection<? extends @Nullable Object> c);
 
   protected native void removeRange(int fromIndex, int endIndex);
 
   @Override
   public native boolean retainAll(Collection<? extends @Nullable Object> c);
-
-  @Override
-  public native boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c);
 
   @Override
   public native E set(int index, E e);

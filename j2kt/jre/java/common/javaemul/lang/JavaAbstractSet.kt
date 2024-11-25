@@ -23,29 +23,6 @@ import kotlin.native.ObjCName
 /** Bridge class for java.util.AbstractSet. */
 @ObjCName("JavaemulLangJavaAbstractSet", exact = true)
 abstract class JavaAbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
-  override fun addAll(c: Collection<E>): Boolean = super<JavaSet>.addAll(c)
-
-  override fun containsAll(c: Collection<E>): Boolean = super<JavaSet>.containsAll(c)
-
-  override fun removeAll(c: Collection<E>): Boolean = super<JavaSet>.removeAll(c)
-
-  override fun retainAll(c: Collection<E>): Boolean = super<JavaSet>.retainAll(c)
-
-  override fun java_addAll(c: MutableCollection<out E>): Boolean =
-    super<AbstractMutableSet>.addAll(c)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_containsAll(c: MutableCollection<out Any?>): Boolean =
-    super<AbstractMutableSet>.containsAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_removeAll(c: MutableCollection<out Any?>): Boolean =
-    super<AbstractMutableSet>.removeAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_retainAll(c: MutableCollection<out Any?>): Boolean =
-    super<AbstractMutableSet>.retainAll(c as MutableCollection<E>)
-
   override fun add(element: E): Boolean {
     throw UnsupportedOperationException()
   }

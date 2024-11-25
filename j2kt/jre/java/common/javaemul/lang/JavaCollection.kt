@@ -27,15 +27,6 @@ import kotlin.native.ObjCName
 /** Bridge class for java.util.Collection. */
 @ObjCName("JavaemulLangJavaCollection", exact = true)
 interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
-  // TODO(b/243046587): Rewrite to handle case in which c is not mutable
-  override fun addAll(c: Collection<E>): Boolean = java_addAll(c as MutableCollection<E>)
-
-  override fun containsAll(c: Collection<E>): Boolean = java_containsAll(c as MutableCollection<E>)
-
-  override fun removeAll(c: Collection<E>): Boolean = java_removeAll(c as MutableCollection<E>)
-
-  override fun retainAll(c: Collection<E>): Boolean = java_retainAll(c as MutableCollection<E>)
-
   fun removeIf(filter: Predicate<in E>): Boolean = default_removeIf(filter)
 
   override fun spliterator(): Spliterator<E> = super<JavaIterable>.spliterator()
@@ -43,14 +34,6 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
   fun stream(): Stream<E> = default_stream()
 
   fun parallelStream(): Stream<E> = default_parallelStream()
-
-  fun java_addAll(c: MutableCollection<out E>): Boolean
-
-  fun java_containsAll(c: MutableCollection<*>): Boolean
-
-  fun java_removeAll(c: MutableCollection<*>): Boolean
-
-  fun java_retainAll(c: MutableCollection<*>): Boolean
 
   fun java_toArray(): Array<Any?>
 

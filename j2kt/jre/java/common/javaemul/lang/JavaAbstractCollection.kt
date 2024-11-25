@@ -23,34 +23,11 @@ import kotlin.native.ObjCName
 
 @ObjCName("JavaemulLangJavaAbstractCollection", exact = true)
 abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaCollection<E> {
-  override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
-
-  override fun containsAll(c: Collection<E>): Boolean = super<JavaCollection>.containsAll(c)
-
-  override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
-
-  override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
-
   override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
 
   override fun add(e: E): Boolean = throw UnsupportedOperationException()
 
   override fun clear(): Unit = super<AbstractMutableCollection>.clear()
-
-  override fun java_addAll(c: MutableCollection<out E>): Boolean =
-    super<AbstractMutableCollection>.addAll(c)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_containsAll(c: MutableCollection<*>): Boolean =
-    super<AbstractMutableCollection>.containsAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_removeAll(c: MutableCollection<*>): Boolean =
-    super<AbstractMutableCollection>.removeAll(c as MutableCollection<E>)
-
-  @Suppress("UNCHECKED_CAST")
-  override fun java_retainAll(c: MutableCollection<*>): Boolean =
-    super<AbstractMutableCollection>.retainAll(c as MutableCollection<E>)
 
   override fun java_toArray(): Array<Any?> = default_toArray()
 

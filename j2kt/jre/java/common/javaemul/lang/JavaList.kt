@@ -24,26 +24,11 @@ import kotlin.native.ObjCName
 
 @ObjCName("JavaemulLangJavaList", exact = true)
 interface JavaList<E> : MutableList<E>, JavaCollection<E> {
-  override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
-
-  // TODO(b/243046587): Rewrite to handle case in which c is not mutable
-  override fun addAll(index: Int, c: Collection<E>): Boolean {
-    return java_addAll(index, c as MutableCollection<E>)
-  }
-
-  override fun containsAll(c: Collection<E>): Boolean = super<JavaCollection>.containsAll(c)
-
-  override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
-
   fun replaceAll(operator: UnaryOperator<E>) = default_replaceAll(operator)
-
-  override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
 
   override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
 
   fun sort(c: Comparator<in E>?) = if (c == null) sortBy { it as Comparable<Any> } else sortWith(c)
-
-  fun java_addAll(index: Int, c: MutableCollection<out E>): Boolean
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -57,10 +42,6 @@ fun <E> MutableList<E>.sort(c: Comparator<in E>?) {
     sortBy { it as Comparable<Any> }
   }
 }
-
-@Suppress("UNCHECKED_CAST")
-fun <E> MutableList<E>.java_addAll(index: Int, c: MutableCollection<out E>): Boolean =
-  if (this is JavaList) java_addAll(index, c) else addAll(index, c as MutableCollection<E>)
 
 internal fun <E> MutableList<E>.default_replaceAll(operator: UnaryOperator<E>) {
   val iterator = listIterator()

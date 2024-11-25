@@ -33,18 +33,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   void add(int index, E element);
 
-  @KtName("java_addAll")
   boolean addAll(int index, Collection<? extends E> c);
-
-  @Override
-  default boolean $kotlin_addAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
-
-  @Override
-  default boolean $kotlin_containsAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
 
   E get(int index);
 
@@ -56,18 +45,8 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
 
   ListIterator<E> listIterator(int from);
 
-  @Override
-  default boolean $kotlin_removeAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
-
   @KtName("removeAt")
   E remove(int index);
-
-  @Override
-  default boolean $kotlin_retainAll($Kotlin_Collection<? extends E> c) {
-    return ktNative();
-  }
 
   default void replaceAll(UnaryOperator<E> operator) {
     ktNative();

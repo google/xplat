@@ -23,13 +23,5 @@ import kotlin.native.ObjCName
 
 @ObjCName("JavaemulLangJavaSet", exact = true)
 interface JavaSet<E> : MutableSet<E>, JavaCollection<E> {
-  override fun addAll(c: Collection<E>): Boolean = super<JavaCollection>.addAll(c)
-
-  override fun containsAll(c: Collection<E>): Boolean = super<JavaCollection>.containsAll(c)
-
-  override fun removeAll(c: Collection<E>): Boolean = super<JavaCollection>.removeAll(c)
-
-  override fun retainAll(c: Collection<E>): Boolean = super<JavaCollection>.retainAll(c)
-
   override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
 }
