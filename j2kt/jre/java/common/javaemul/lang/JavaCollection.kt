@@ -21,6 +21,7 @@ import java.util.Spliterator
 import java.util.function.Predicate
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
+import javaemul.internal.CollectionHelper
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
@@ -48,3 +49,9 @@ internal fun <E> MutableCollection<E>.default_stream(): Stream<E> =
 
 internal fun <E> MutableCollection<E>.default_parallelStream(): Stream<E> =
   StreamSupport.stream(spliterator(), /* parallel= */ true)
+
+internal fun MutableCollection<*>.default_toArray(): Array<Any?> = CollectionHelper.toArray(this)
+
+// Note: There's no relation between the element types of Collection<E> and Array<T> (same as Java).
+internal fun <T> MutableCollection<*>.default_toArray(a: Array<T>): Array<T> =
+  CollectionHelper.toArray(this, a)
