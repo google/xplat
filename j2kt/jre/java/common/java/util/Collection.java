@@ -19,7 +19,6 @@ import static javaemul.internal.KtNativeUtils.ktNative;
 
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.annotations.NullMarked;
@@ -76,11 +75,9 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E>, Rea
     return ktNative();
   }
 
-  @KtName("java_toArray")
   @Nullable Object[] toArray();
 
   // Note: If array `a` is bigger than `this` collection, `a[this.size()]` will be set to `null`
   // even though `T` is not necessarily nullable. This is to remain consistent with JSpecify.
-  @KtName("java_toArray")
   <T extends @Nullable Object> T[] toArray(T[] a);
 }

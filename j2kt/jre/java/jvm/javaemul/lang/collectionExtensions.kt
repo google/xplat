@@ -33,9 +33,9 @@ fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
 fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
   asJavaUtilCollection().retainAll(c)
 
-fun MutableCollection<*>.java_toArray(): Array<Any?> = asJavaUtilCollection().toArray()
+fun MutableCollection<*>.toArray(): Array<Any?> = asJavaUtilCollection().toArray()
 
-fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> = asJavaUtilCollection().toArray(a)
+fun <T> MutableCollection<*>.toArray(a: Array<T>): Array<T> = asJavaUtilCollection().toArray(a)
 
 @Suppress("UNCHECKED_CAST")
 private fun <E> Collection<E>.asJavaUtilCollection(): java.util.Collection<E> =

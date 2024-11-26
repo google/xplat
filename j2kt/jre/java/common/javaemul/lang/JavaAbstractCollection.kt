@@ -29,7 +29,7 @@ abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaC
 
   override fun clear(): Unit = super<AbstractMutableCollection>.clear()
 
-  override fun java_toArray(): Array<Any?> = default_toArray()
+  override fun toArray(): Array<Any?> = default_toArray()
 
-  override fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
+  override fun <T> toArray(a: Array<T>): Array<T> = default_toArray(a)
 }

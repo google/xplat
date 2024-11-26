@@ -36,9 +36,9 @@ interface JavaCollection<E> : MutableCollection<E>, JavaIterable<E> {
 
   fun parallelStream(): Stream<E> = default_parallelStream()
 
-  fun java_toArray(): Array<Any?>
+  fun toArray(): Array<Any?>
 
-  fun <T> java_toArray(a: Array<T>): Array<T>
+  fun <T> toArray(a: Array<T>): Array<T>
 }
 
 internal fun <E> MutableCollection<E>.default_removeIf(filter: Predicate<in E>): Boolean =

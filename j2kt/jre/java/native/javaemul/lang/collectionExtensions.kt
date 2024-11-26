@@ -47,11 +47,11 @@ fun <E> MutableCollection<E>.removeIf(filter: Predicate<in E>): Boolean =
 fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
   retainAll(c as MutableCollection<E>)
 
-fun MutableCollection<*>.java_toArray(): Array<Any?> =
-  if (this is JavaCollection) java_toArray() else default_toArray()
+fun MutableCollection<*>.toArray(): Array<Any?> =
+  if (this is JavaCollection) toArray() else default_toArray()
 
-fun <T> MutableCollection<*>.java_toArray(a: Array<T>): Array<T> =
-  if (this is JavaCollection) java_toArray(a) else default_toArray(a)
+fun <T> MutableCollection<*>.toArray(a: Array<T>): Array<T> =
+  if (this is JavaCollection) toArray(a) else default_toArray(a)
 
 fun <V> MutableList<V>.java_addAll(index: Int, c: MutableCollection<out V>): Boolean =
   addAll(index, c as Collection<V>)

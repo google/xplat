@@ -27,7 +27,7 @@ abstract class JavaAbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
     throw UnsupportedOperationException()
   }
 
-  override fun java_toArray(): Array<Any?> = default_toArray()
+  override fun toArray(): Array<Any?> = default_toArray()
 
-  override fun <T> java_toArray(a: Array<T>): Array<T> = default_toArray(a)
+  override fun <T> toArray(a: Array<T>): Array<T> = default_toArray(a)
 }
