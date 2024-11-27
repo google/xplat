@@ -15,15 +15,15 @@
  */
 @file:OptIn(ExperimentalObjCName::class)
 
-package javaemul.lang
+package java.util
 
-import java.util.Spliterator
+import javaemul.lang.JavaList
+import javaemul.lang.default_toArray
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-/** Bridge class for java.util.AbstractList. */
-@ObjCName("JavaemulLangJavaAbstractList", exact = true)
-abstract class JavaAbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
+@ObjCName("J2ktJavaUtilAbstractList", exact = true)
+abstract class AbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
   override fun spliterator(): Spliterator<E> = super<JavaList>.spliterator()
 
   override fun add(index: Int, element: E) {

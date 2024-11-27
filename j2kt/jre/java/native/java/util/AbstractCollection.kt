@@ -15,14 +15,15 @@
  */
 @file:OptIn(ExperimentalObjCName::class)
 
-package javaemul.lang
+package java.util
 
-import java.util.Spliterator
+import javaemul.lang.JavaCollection
+import javaemul.lang.default_toArray
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-@ObjCName("JavaemulLangJavaAbstractCollection", exact = true)
-abstract class JavaAbstractCollection<E> : AbstractMutableCollection<E>(), JavaCollection<E> {
+@ObjCName("J2ktJavaUtilAbstractCollection", exact = true)
+abstract class AbstractCollection<E> : AbstractMutableCollection<E>(), JavaCollection<E> {
   override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
 
   override fun add(e: E): Boolean = throw UnsupportedOperationException()

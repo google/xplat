@@ -23,9 +23,7 @@ import org.jspecify.annotations.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractSet.html">the official
  * Java API doc</a> for details.
  */
-@KtNative(
-    name = "kotlin.collections.AbstractMutableSet",
-    bridgeName = "javaemul.lang.JavaAbstractSet")
+@KtNative(name = "java.util.AbstractSet")
 @NullMarked
 public abstract class AbstractSet<E extends @Nullable Object> implements Set<E> {
 

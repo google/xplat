@@ -15,14 +15,15 @@
  */
 @file:OptIn(ExperimentalObjCName::class)
 
-package javaemul.lang
+package java.util
 
+import javaemul.lang.JavaSet
+import javaemul.lang.default_toArray
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-/** Bridge class for java.util.AbstractSet. */
-@ObjCName("JavaemulLangJavaAbstractSet", exact = true)
-abstract class JavaAbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
+@ObjCName("J2ktJavaUtilAbstractSet", exact = true)
+abstract class AbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
   override fun add(element: E): Boolean {
     throw UnsupportedOperationException()
   }

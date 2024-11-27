@@ -23,9 +23,7 @@ import org.jspecify.annotations.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractCollection.html">the
  * official Java API doc</a> for details.
  */
-@KtNative(
-    name = "kotlin.collections.AbstractMutableCollection",
-    bridgeName = "javaemul.lang.JavaAbstractCollection")
+@KtNative(name = "java.util.AbstractCollection")
 @NullMarked
 public abstract class AbstractCollection<E extends @Nullable Object> implements Collection<E> {
 
