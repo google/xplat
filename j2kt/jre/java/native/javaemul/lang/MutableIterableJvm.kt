@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google Inc.
+ * Copyright 2024 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,13 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package javaemul.lang
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
-
-/** The base class of all J2kt Iterable implementations */
-@ObjCName("JavaemulLangJavaIterable", exact = true)
-fun interface JavaIterable<T> : MutableIterableJvm<T> {}
+/** A KMP subtype of MutableIterable with all the additional methods of JVM's MutableIterable */
+typealias MutableIterableJvm<E> = java.lang.Iterable<E>

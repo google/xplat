@@ -23,6 +23,7 @@ import java.util.Formatter
 import java.util.Locale
 import java.util.StringJoiner
 import javaemul.lang.appendCodePoint
+import kotlin.collections.Iterable as KotlinIterable
 
 /**
  * Pseudo-constructor for emulated java.lang.String.
@@ -90,7 +91,7 @@ object String {
   fun format(locale: Locale?, format: kotlin.String, vararg values: Any?): kotlin.String =
     Formatter().format(locale, format, *values).toString()
 
-  fun join(delimiter: CharSequence, elements: Iterable<CharSequence>): kotlin.String {
+  fun join(delimiter: CharSequence, elements: KotlinIterable<CharSequence>): kotlin.String {
     val joiner = StringJoiner(delimiter)
     for (element in elements) {
       joiner.add(element)

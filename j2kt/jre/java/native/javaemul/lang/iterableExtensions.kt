@@ -15,16 +15,19 @@
  */
 package javaemul.lang
 
+import java.lang.Iterable as JavaLangIterable
 import java.util.Spliterator
+import java.util.Spliterators
 import java.util.function.Consumer
 
 fun <T> MutableIterable<T>.forEach(consumer: Consumer<in T>) {
-  if (this is JavaIterable) {
-    (this as JavaIterable<T>).forEach(consumer)
+  if (this is JavaLangIterable<*>) {
+    (this as JavaLangIterable<T>).forEach(consumer)
   } else {
-    default_forEach(consumer)
+    forEach(consumer::accept)
   }
 }
 
 fun <T> MutableIterable<T>.spliterator(): Spliterator<T> =
-  if (this is JavaIterable) (this as JavaIterable<T>).spliterator() else default_spliterator()
+  if (this is JavaLangIterable<*>) (this as JavaLangIterable<T>).spliterator()
+  else Spliterators.spliteratorUnknownSize<T>(iterator(), 0)

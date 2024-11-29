@@ -15,11 +15,19 @@
  */
 @file:OptIn(ExperimentalObjCName::class)
 
-package javaemul.lang
+package java.lang
 
+import java.util.Spliterator
+import java.util.Spliterators
+import java.util.function.Consumer
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-/** The base class of all J2kt Iterable implementations */
-@ObjCName("JavaemulLangJavaIterable", exact = true)
-fun interface JavaIterable<T> : MutableIterableJvm<T> {}
+@ObjCName("J2ktJavaLangIterable", exact = true)
+interface Iterable<T> : MutableIterable<T> {
+  fun forEach(consumer: Consumer<in T>) {
+    forEach(consumer::accept)
+  }
+
+  fun spliterator(): Spliterator<T> = Spliterators.spliteratorUnknownSize(iterator(), 0)
+}
