@@ -15,14 +15,15 @@
  */
 @file:OptIn(ExperimentalObjCName::class)
 
-package javaemul.lang
+package java.util
 
+import java.util.function.Consumer
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-@ObjCName("JavaemulLangJavaIterator", exact = true)
-interface JavaIterator<T> : MutableIteratorJvm<T> {
-  override fun remove() {
-    throw UnsupportedOperationException()
+@ObjCName("J2ktJavaUtilIterator", exact = true)
+interface Iterator<T> : MutableIterator<T> {
+  fun forEachRemaining(consumer: Consumer<in T>) {
+    forEach(consumer::accept)
   }
 }

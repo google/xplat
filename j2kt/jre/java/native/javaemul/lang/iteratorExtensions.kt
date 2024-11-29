@@ -15,12 +15,13 @@
  */
 package javaemul.lang
 
+import java.util.Iterator as JavaUtilIterator
 import java.util.function.Consumer
 
 fun <T> MutableIterator<T>.forEachRemaining(consumer: Consumer<in T>) {
-  if (this is JavaIterator) {
-    (this as JavaIterator<T>).forEachRemaining(consumer)
+  if (this is JavaUtilIterator) {
+    (this as JavaUtilIterator<T>).forEachRemaining(consumer)
   } else {
-    default_forEachRemaining(consumer)
+    forEach(consumer::accept)
   }
 }

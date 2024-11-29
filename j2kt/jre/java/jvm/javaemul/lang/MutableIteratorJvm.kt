@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google Inc.
+ * Copyright 2024 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,16 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package javaemul.lang
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
-
-@ObjCName("JavaemulLangJavaIterator", exact = true)
-interface JavaIterator<T> : MutableIteratorJvm<T> {
-  override fun remove() {
-    throw UnsupportedOperationException()
-  }
-}
+/** A KMP subtype of MutableIterator with all the additional methods of JVM's MutableIterator */
+typealias MutableIteratorJvm<E> = MutableIterator<E>
