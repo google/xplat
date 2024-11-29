@@ -17,18 +17,22 @@
 
 package java.util
 
-import javaemul.internal.CollectionHelper
-import javaemul.lang.JavaSet
+import java.lang.Iterable as JavaLangIterable
+import java.util.function.Predicate
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaUtilAbstractSet", exact = true)
-abstract class AbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
-  override fun add(element: E): Boolean {
-    throw UnsupportedOperationException()
-  }
+@ObjCName("J2ktJavaUtilCollection", exact = true)
+interface Collection<E> : MutableCollection<E>, JavaLangIterable<E> {
+  fun removeIf(filter: Predicate<in E>): Boolean = removeAll(filter::test)
 
-  override fun toArray(): Array<Any?> = CollectionHelper.toArray(this)
+  fun stream(): Stream<E> = StreamSupport.stream(spliterator(), parallel = false)
 
-  override fun <T> toArray(a: Array<T>): Array<T> = CollectionHelper.toArray(this, a)
+  fun parallelStream(): Stream<E> = StreamSupport.stream(spliterator(), parallel = false)
+
+  fun toArray(): Array<Any?>
+
+  fun <T> toArray(a: Array<T>): Array<T>
 }

@@ -15,14 +15,19 @@
  */
 package javaemul.lang
 
+import java.util.Collection as JavaUtilCollection
 import java.util.function.Predicate
 import java.util.stream.Stream
+import java.util.stream.StreamSupport
+import javaemul.internal.CollectionHelper
 
 fun <E> MutableCollection<E>.stream(): Stream<E> =
-  if (this is JavaCollection) stream() else default_stream()
+  (this as? JavaUtilCollection<E>)?.run { stream() }
+    ?: StreamSupport.stream(spliterator(), parallel = false)
 
 fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
-  if (this is JavaCollection) parallelStream() else default_parallelStream()
+  (this as? JavaUtilCollection<E>)?.run { parallelStream() }
+    ?: StreamSupport.stream(spliterator(), parallel = true)
 
 fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean = addAll(c)
 
@@ -41,17 +46,17 @@ fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
   removeAll(c as MutableCollection<E>)
 
 fun <E> MutableCollection<E>.removeIf(filter: Predicate<in E>): Boolean =
-  if (this is JavaCollection) removeIf(filter) else default_removeIf(filter)
+  (this as? JavaUtilCollection)?.run { removeIf(filter) } ?: removeAll(filter::test)
 
 @Suppress("UNCHECKED_CAST")
 fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
   retainAll(c as MutableCollection<E>)
 
 fun MutableCollection<*>.toArray(): Array<Any?> =
-  if (this is JavaCollection) toArray() else default_toArray()
+  (this as? JavaUtilCollection<*>)?.run { toArray() } ?: CollectionHelper.toArray(this)
 
 fun <T> MutableCollection<*>.toArray(a: Array<T>): Array<T> =
-  if (this is JavaCollection) toArray(a) else default_toArray(a)
+  (this as? JavaUtilCollection<*>)?.run { toArray(a) } ?: CollectionHelper.toArray(this, a)
 
 fun <V> MutableList<V>.java_addAll(index: Int, c: MutableCollection<out V>): Boolean =
   addAll(index, c as Collection<V>)

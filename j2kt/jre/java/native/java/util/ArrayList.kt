@@ -19,23 +19,24 @@ package java.util
 
 import java.io.Serializable
 import kotlin.Cloneable
-import kotlin.collections.ArrayList as KtArrayList
+import kotlin.collections.ArrayList as KotlinArrayList
+import kotlin.collections.Collection as KotlinCollection
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 private const val DEFAULT_CAPACITY = 10
 
 @ObjCName("J2ktJavaUtilArrayList", exact = true)
-open class ArrayList<T> private constructor(private val ktArrayList: KtArrayList<T>) :
+open class ArrayList<T> private constructor(private val ktArrayList: KotlinArrayList<T>) :
   AbstractList<T>(), Cloneable, RandomAccess, Serializable, MutableList<T> by ktArrayList {
 
-  constructor(initialCapacity: Int = DEFAULT_CAPACITY) : this(KtArrayList(initialCapacity))
+  constructor(initialCapacity: Int = DEFAULT_CAPACITY) : this(KotlinArrayList(initialCapacity))
 
-  constructor(c: Collection<T>) : this(KtArrayList(c))
+  constructor(c: KotlinCollection<T>) : this(KotlinArrayList(c))
 
   fun trimToSize() = ktArrayList.trimToSize()
 
   fun ensureCapacity(capacity: Int) = ktArrayList.ensureCapacity(capacity)
 
-  override fun clone(): Any = ArrayList<T>(KtArrayList<T>(ktArrayList))
+  override fun clone(): Any = ArrayList<T>(KotlinArrayList<T>(ktArrayList))
 }

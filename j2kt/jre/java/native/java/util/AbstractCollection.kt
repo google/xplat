@@ -17,8 +17,8 @@
 
 package java.util
 
+import javaemul.internal.CollectionHelper
 import javaemul.lang.JavaCollection
-import javaemul.lang.default_toArray
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
@@ -30,7 +30,7 @@ abstract class AbstractCollection<E> : AbstractMutableCollection<E>(), JavaColle
 
   override fun clear(): Unit = super<AbstractMutableCollection>.clear()
 
-  override fun toArray(): Array<Any?> = default_toArray()
+  override fun toArray(): Array<Any?> = CollectionHelper.toArray(this)
 
-  override fun <T> toArray(a: Array<T>): Array<T> = default_toArray(a)
+  override fun <T> toArray(a: Array<T>): Array<T> = CollectionHelper.toArray(this, a)
 }
