@@ -100,7 +100,6 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object>
 
   @Nullable V get(@Nullable Object key);
 
-  @KtName("java_getOrDefault")
   default @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
     return ktNative();
   }

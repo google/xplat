@@ -29,4 +29,7 @@ abstract class JavaAbstractMap<K, V> : AbstractMap<K, V>(), JavaMap<K, V> {
   }
 
   override fun remove(key: K, value: V): Boolean = super<JavaMap>.remove(key, value)
+
+  override fun getOrDefault(key: K, defaultValue: V): V =
+    super<JavaMap>.getOrDefault(key, defaultValue)
 }

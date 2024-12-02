@@ -45,21 +45,13 @@ interface JavaMap<K, V> : MutableMap<K, V> {
 
   fun replaceAll(function: BiFunction<in K, in V, out V>) = default_replaceAll(function)
 
-  fun java_getOrDefault(key: Any?, defaultValue: V?): V? = default_getOrDefault(key, defaultValue)
+  fun getOrDefault(key: K, defaultValue: V): V = default_getOrDefault(key, defaultValue)
 
   fun merge(key: K, value: V & Any, remap: BiFunction<in V & Any, in V & Any, out V?>): V? =
     default_merge(key, value, remap)
 
   fun remove(key: K, value: V): Boolean = default_remove(key, value)
 }
-
-// Note: No need to check for the runtime type below. The bridge interface is
-// only necessary to allow overriding with the Java signature. Calling with the
-// Java signature does not require any trampolines, only manual type erasure.
-
-fun <K, V> MutableMap<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
-  if (this is JavaMap) java_getOrDefault(key, defaultValue)
-  else default_getOrDefault(key, defaultValue)
 
 internal inline fun <K, V> MutableMap<K, V>.default_forEach(action: BiConsumer<in K, in V>) {
   this.forEach { entry -> action.accept(entry.key, entry.value) }
@@ -112,13 +104,8 @@ internal fun <K, V> MutableMap<K, V>.default_computeIfPresent(
   return null
 }
 
-@Suppress("UNCHECKED_CAST")
-internal fun <K, V> MutableMap<K, V>.default_getOrDefault(key: Any?, defaultValue: V?): V? {
-  if (this.containsKey(key as K)) {
-    return this[key as K]
-  }
-  return defaultValue
-}
+internal fun <K, V> MutableMap<K, V>.default_getOrDefault(key: K, defaultValue: V): V =
+  this[key].let { if (it != null || containsKey(key)) it as V else defaultValue }
 
 internal fun <K, V> MutableMap<K, V>.default_merge(
   key: K,

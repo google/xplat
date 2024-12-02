@@ -74,10 +74,18 @@ fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean =
 
 fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = (this as MutableMap<Any?, V>).get(key)
 
+fun <K, V> MutableMap<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
+  (this as MutableMap<Any?, V?>).run {
+    if (this is JavaMap) getOrDefault(key, defaultValue)
+    else default_getOrDefault(key, defaultValue)
+  }
+
 fun <K, V> MutableMap<K, V>.java_putAll(map: MutableMap<out K, out V>): Unit =
   putAll(map as Map<out K, V>)
 
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = (this as MutableMap<Any?, V>).remove(key)
 
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
-  default_remove(key as K, value as V)
+  (this as MutableMap<Any?, Any?>).run {
+    if (this is JavaMap) remove(key, value) else default_remove(key, value)
+  }
