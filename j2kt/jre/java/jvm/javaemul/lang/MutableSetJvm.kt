@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google Inc.
+ * Copyright 2024 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,18 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package javaemul.lang
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
-
-@ObjCName("JavaemulLangJavaSet", exact = true)
-interface JavaSet<E> : MutableSetJvm<E> {
-  @Suppress("NOTHING_TO_OVERRIDE") // Super method is hidden on JVM
-  override fun toArray(): Array<Any?>
-
-  @Suppress("NOTHING_TO_OVERRIDE") // Super method is hidden on JVM
-  override fun <T> toArray(a: Array<T>): Array<T>
-}
+/** A KMP subtype of MutableSet with all the additional methods of JVM's MutableSet */
+typealias MutableSetJvm<E> = MutableSet<E>

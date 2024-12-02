@@ -15,16 +15,9 @@
  */
 @file:OptIn(ExperimentalObjCName::class)
 
-package javaemul.lang
+package java.util
 
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-@ObjCName("JavaemulLangJavaSet", exact = true)
-interface JavaSet<E> : MutableSetJvm<E> {
-  @Suppress("NOTHING_TO_OVERRIDE") // Super method is hidden on JVM
-  override fun toArray(): Array<Any?>
-
-  @Suppress("NOTHING_TO_OVERRIDE") // Super method is hidden on JVM
-  override fun <T> toArray(a: Array<T>): Array<T>
-}
+@ObjCName("J2ktJavaUtilSet", exact = true) interface Set<E> : MutableSet<E>, Collection<E> {}
