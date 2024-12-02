@@ -33,6 +33,14 @@ public class Executors {
     return new RunnableAdapter<@Nullable Object>(task, null);
   }
 
+  public static ScheduledExecutorService newSingleThreadScheduledExecutor() {
+    return KotlinExecutor.createSingleThreadScheduledExecutor();
+  }
+
+  public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
+    return KotlinExecutor.createScheduledExecutor(corePoolSize);
+  }
+
   private static final class RunnableAdapter<T extends @Nullable Object> implements Callable<T> {
 
     final Runnable task;
