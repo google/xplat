@@ -15,7 +15,6 @@
  */
 package javaemul.internal;
 
-import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import org.jspecify.annotations.NullMarked;
@@ -27,12 +26,11 @@ public final class CollectionHelper {
     return toArray(collection, new @Nullable Object[collection.size()]);
   }
 
-  @SuppressWarnings("unchecked") // Cast to T[] is safe due to the contract of newInstance().
   public static <E extends @Nullable Object, T extends @Nullable Object> T[] toArray(
       Collection<E> collection, T[] a) {
     int size = collection.size();
     if (a.length < size) {
-      a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
+      a = ArrayHelper.createFrom(a, size);
     }
     @Nullable Object[] result = a;
     Iterator<E> it = collection.iterator();
