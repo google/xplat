@@ -18,7 +18,6 @@
 package java.util
 
 import java.io.Serializable
-import javaemul.lang.JavaAbstractMap
 import kotlin.Cloneable
 import kotlin.collections.HashMap as KotlinHashMap
 import kotlin.collections.Map as KotlinMap
@@ -30,7 +29,7 @@ private const val DEFAULT_LOAD_FACTOR = 0.75f
 
 @ObjCName("J2ktJavaUtilHashMap", exact = true)
 open class HashMap<K, V> private constructor(val ktHashMap: KotlinHashMap<K, V>) :
-  JavaAbstractMap<K, V>(), Cloneable, Serializable {
+  AbstractMap<K, V>(), Cloneable, Serializable {
 
   constructor(
     initialCapacity: Int = DEFAULT_INITIAL_CAPACITY,

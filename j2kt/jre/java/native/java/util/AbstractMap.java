@@ -184,6 +184,14 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
     return getEntryValueOrNull(implFindEntry(key, false));
   }
 
+  // We need to provide an explicit implementation so that the transpiler generates disambiguating
+  // overrides in case a class inherits both J2kt Map's getOrDefault(key, value) and Java Map's
+  // getOrDefault(key, value) from a base class via Java interop
+  @Override
+  public @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    return Map.super.getOrDefault(key, defaultValue);
+  }
+
   @Override
   public int hashCode() {
     return Collections.hashCode(entrySet());
@@ -261,6 +269,14 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
   @Override
   public @Nullable V remove(@Nullable Object key) {
     return getEntryValueOrNull(implFindEntry(key, true));
+  }
+
+  // We need to provide an explicit implementation so that the transpiler generates disambiguating
+  // overrides in case a class inherits both J2kt Map's remove(key, value) and Java Map's
+  // remove(key, value) from a base class via Java interop
+  @Override
+  public boolean remove(@Nullable Object key, @Nullable Object value) {
+    return Map.super.remove(key, value);
   }
 
   @Override
