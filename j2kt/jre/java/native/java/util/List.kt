@@ -15,16 +15,18 @@
  */
 @file:OptIn(ExperimentalObjCName::class)
 
-package javaemul.lang
+package java.util
 
+import java.util.function.UnaryOperator
+import kotlin.Comparator as KotlinComparator
+import kotlin.collections.replaceAll as kotlinReplaceAll
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-@ObjCName("JavaemulLangJavaList", exact = true)
-interface JavaList<E> : MutableListJvm<E> {
-  @Suppress("NOTHING_TO_OVERRIDE") // Super method is hidden on JVM
-  override fun toArray(): Array<Any?>
+@ObjCName("J2ktJavaUtilList", exact = true)
+interface List<E> : MutableList<E>, Collection<E> {
+  fun replaceAll(operator: UnaryOperator<E>): Unit = kotlinReplaceAll(operator::apply)
 
-  @Suppress("NOTHING_TO_OVERRIDE") // Super method is hidden on JVM
-  override fun <T> toArray(a: Array<T>): Array<T>
+  fun sort(c: KotlinComparator<in E>?): Unit =
+    if (c == null) sortBy { it as Comparable<Any> } else sortWith(c)
 }

@@ -15,7 +15,21 @@
  */
 package javaemul.lang
 
+import java.util.List as JavaUtilList
 import java.util.function.UnaryOperator
+import kotlin.collections.replaceAll as kotlinReplaceAll
 
 fun <E> MutableList<E>.replaceAll(operator: UnaryOperator<E>): Unit =
-  if (this is JavaList) (this as JavaList<E>).replaceAll(operator) else default_replaceAll(operator)
+  (this as? JavaUtilList<E>)?.run { replaceAll(operator) } ?: kotlinReplaceAll(operator::apply)
+
+@Suppress("UNCHECKED_CAST")
+fun <E> MutableList<E>.sort(c: Comparator<in E>?): Unit {
+  val asJavaList = this as? JavaUtilList<E>
+  if (asJavaList != null) {
+    asJavaList.sort(c)
+  } else if (c != null) {
+    sortWith(c)
+  } else {
+    sortBy { it as Comparable<Any> }
+  }
+}

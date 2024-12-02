@@ -54,6 +54,8 @@ fun <V> MutableList<V>.java_indexOf(value: Any?): Int = asJavaUtilList().indexOf
 
 fun <V> MutableList<V>.java_lastIndexOf(value: Any?): Int = asJavaUtilList().lastIndexOf(value)
 
+fun <V> MutableList<V>.sort(c: Comparator<in V>?): Unit = asJavaUtilList().sort(c)
+
 fun <K, V> MutableMap<K, V>.java_putAll(map: MutableMap<out K, out V>): Unit =
   asJavaUtilMap().putAll(map)
 
