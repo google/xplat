@@ -17,140 +17,14 @@
 
 package javaemul.lang
 
-import java.util.function.BiConsumer
-import java.util.function.BiFunction
-import java.util.function.Function
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("JavaemulLangJavaMap", exact = true)
-interface JavaMap<K, V> : MutableMap<K, V> {
-
-  fun compute(key: K, remappingFunction: BiFunction<in K, in V?, out V?>): V? =
-    default_compute(key, remappingFunction)
-
-  fun computeIfAbsent(key: K, mappingFunction: Function<in K, out V>): V =
-    default_computeIfAbsent(key, mappingFunction)
-
-  fun computeIfPresent(key: K, remappingFunction: BiFunction<in K, in V & Any, out V?>): V? =
-    default_computeIfPresent(key, remappingFunction)
-
-  fun forEach(action: BiConsumer<in K, in V>) = default_forEach(action)
-
-  fun putIfAbsent(key: K, value: V): V? = default_putIfAbsent(key, value)
-
-  fun replace(key: K, value: V): V? = default_replace(key, value)
-
-  fun replace(key: K, oldValue: V, newValue: V): Boolean = default_replace(key, oldValue, newValue)
-
-  fun replaceAll(function: BiFunction<in K, in V, out V>) = default_replaceAll(function)
-
+interface JavaMap<K, V> : MutableMapJvm<K, V> {
+  // TODO: b/381836571 - Move this to j2kt-native's java.util.Map when konanc can handle that.
   fun getOrDefault(key: K, defaultValue: V): V = default_getOrDefault(key, defaultValue)
-
-  fun merge(key: K, value: V & Any, remap: BiFunction<in V & Any, in V & Any, out V?>): V? =
-    default_merge(key, value, remap)
-
-  fun remove(key: K, value: V): Boolean = default_remove(key, value)
-}
-
-internal inline fun <K, V> MutableMap<K, V>.default_forEach(action: BiConsumer<in K, in V>) {
-  this.forEach { entry -> action.accept(entry.key, entry.value) }
-}
-
-internal fun <K, V> MutableMap<K, V>.default_compute(
-  key: K,
-  remappingFunction: BiFunction<in K, in V?, out V?>,
-): V? {
-  val oldValue = this[key]
-  val newValue = remappingFunction.apply(key, oldValue)
-  if (oldValue != null) {
-    if (newValue != null) {
-      this.put(key, newValue)
-      return newValue
-    } else {
-      this.remove(key)
-      return null
-    }
-  } else if (newValue != null) {
-    this.put(key, newValue)
-    return newValue
-  }
-  return null
-}
-
-internal fun <K, V> MutableMap<K, V>.default_computeIfAbsent(
-  key: K,
-  mappingFunction: Function<in K, out V>,
-): V {
-  val oldValue = this[key]
-  if (oldValue == null) {
-    val newValue = mappingFunction.apply(key)
-    if (newValue != null) this.put(key, newValue)
-    return newValue
-  }
-  return oldValue
-}
-
-internal fun <K, V> MutableMap<K, V>.default_computeIfPresent(
-  key: K,
-  remappingFunction: BiFunction<in K, in V & Any, out V?>,
-): V? {
-  val oldValue = this[key]
-  if (oldValue != null) {
-    val newValue = remappingFunction.apply(key, oldValue)
-    if (newValue != null) this.put(key, newValue) else this.remove(key)
-    return newValue
-  }
-  return null
 }
 
 internal fun <K, V> MutableMap<K, V>.default_getOrDefault(key: K, defaultValue: V): V =
   this[key].let { if (it != null || containsKey(key)) it as V else defaultValue }
-
-internal fun <K, V> MutableMap<K, V>.default_merge(
-  key: K,
-  value: V & Any,
-  remap: BiFunction<in V & Any, in V & Any, out V?>,
-): V? {
-  val oldValue = get(key)
-  val newValue: V? = if (oldValue == null) value else remap.apply(oldValue, value)
-  if (newValue == null) {
-    remove(key)
-  } else {
-    put(key, newValue)
-  }
-  return newValue
-}
-
-internal fun <K, V> MutableMap<K, V>.default_putAll(t: MutableMap<out K, out V>) =
-  putAll(t.toList())
-
-internal fun <K, V> MutableMap<K, V>.default_putIfAbsent(key: K, value: V): V? {
-  var v: V? = get(key)
-  if (v == null) {
-    v = put(key, value)
-  }
-  return v
-}
-
-fun <K, V> MutableMap<K, V>.default_remove(key: K, value: V): Boolean =
-  if (containsKey(key) && this[key] == value) {
-    remove(key)
-    true
-  } else {
-    false
-  }
-
-internal fun <K, V> MutableMap<K, V>.default_replace(key: K, value: V): V? =
-  if (this.containsKey(key)) this.put(key, value) else null
-
-internal fun <K, V> MutableMap<K, V>.default_replace(key: K, oldValue: V, newValue: V): Boolean {
-  if (this.containsKey(key) && this[key] == oldValue) {
-    this[key] = newValue
-    return true
-  } else return false
-}
-
-internal fun <K, V> MutableMap<K, V>.default_replaceAll(function: BiFunction<in K, in V, out V>) {
-  this.forEach { entry -> this[entry.key] = function.apply(entry.key, entry.value) }
-}

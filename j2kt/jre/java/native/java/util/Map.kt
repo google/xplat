@@ -18,12 +18,51 @@
 
 package java.util
 
+import java.util.function.BiConsumer
+import java.util.function.BiFunction
+import java.util.function.Function
+import javaemul.lang.default_compute
+import javaemul.lang.default_computeIfAbsent
+import javaemul.lang.default_computeIfPresent
+import javaemul.lang.default_forEach
+import javaemul.lang.default_merge
+import javaemul.lang.default_putIfAbsent
+import javaemul.lang.default_remove
+import javaemul.lang.default_replace
+import javaemul.lang.default_replaceAll
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-interface Map {
+interface Map<K, V> : MutableMap<K, V> {
 
-  interface Entry {
+  fun compute(key: K, remappingFunction: BiFunction<in K, in V?, out V?>): V? =
+    default_compute(key, remappingFunction)
+
+  fun computeIfAbsent(key: K, mappingFunction: Function<in K, out V>): V =
+    default_computeIfAbsent(key, mappingFunction)
+
+  fun computeIfPresent(key: K, remappingFunction: BiFunction<in K, in V & Any, out V?>): V? =
+    default_computeIfPresent(key, remappingFunction)
+
+  fun forEach(action: BiConsumer<in K, in V>) = default_forEach(action)
+
+  // TODO: b/381836571 - Uncomment this when konanc can handle it.
+  // fun getOrDefault(key: K, defaultValue: V): V = default_getOrDefault(key, defaultValue)
+
+  fun putIfAbsent(key: K, value: V): V? = default_putIfAbsent(key, value)
+
+  fun replace(key: K, value: V): V? = default_replace(key, value)
+
+  fun replace(key: K, oldValue: V, newValue: V): Boolean = default_replace(key, oldValue, newValue)
+
+  fun replaceAll(function: BiFunction<in K, in V, out V>) = default_replaceAll(function)
+
+  fun merge(key: K, value: V & Any, remap: BiFunction<in V & Any, in V & Any, out V?>): V? =
+    default_merge(key, value, remap)
+
+  fun remove(key: K, value: V): Boolean = default_remove(key, value)
+
+  interface Entry<K, V> : MutableMap.MutableEntry<K, V> {
 
     companion object {
       @ObjCName("comparingByKey")
