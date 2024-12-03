@@ -24,7 +24,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaLangIterable", exact = true)
-interface Iterable<T> : MutableIterable<T> {
+fun interface Iterable<T> : MutableIterable<T> {
   fun forEach(consumer: Consumer<in T>) {
     forEach(consumer::accept)
   }

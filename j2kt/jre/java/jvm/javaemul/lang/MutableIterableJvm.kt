@@ -17,3 +17,11 @@ package javaemul.lang
 
 /** A KMP subtype of MutableIterable with all the additional methods of JVM's MutableIterable */
 typealias MutableIterableJvm<E> = MutableIterable<E>
+
+// Make it possible to instantiate with a lambda, like a fun interface.
+inline fun <T> MutableIterableJvm(
+  crossinline iteratorFn: () -> MutableIterator<T>
+): MutableIterableJvm<T> =
+  object : MutableIterableJvm<T> {
+    override fun iterator(): MutableIterator<T> = iteratorFn()
+  }

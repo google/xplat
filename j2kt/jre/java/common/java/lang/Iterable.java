@@ -29,7 +29,9 @@ import org.jspecify.annotations.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">the official Java
  * API doc</a> for details.
  */
-@KtNative(name = "kotlin.collections.MutableIterable", bridgeName = "javaemul.lang.JavaIterable")
+@KtNative(
+    name = "kotlin.collections.MutableIterable",
+    bridgeName = "javaemul.lang.MutableIterableJvm")
 @NullMarked
 public interface Iterable<@KtOut T extends @Nullable Object> {
 
