@@ -33,7 +33,9 @@ module java.base {
   exports java.util.logging;
   exports java.util.regex;
   exports java.util.stream;
+  exports java.util.zip;
   exports javax.annotation.processing;
   // TODO(goktug): Provide a public API for array stamping and stop exporting this.
   exports javaemul.internal;
+  exports javaemul.lang;
 }
