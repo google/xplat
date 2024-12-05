@@ -16,19 +16,5 @@
 
 package javaemul.lang
 
-// Bridge type for transpiled subclasses of Throwable.
-open class JavaThrowable(message: String?, cause: Throwable?) : Throwable(message, cause) {
-
-  constructor(cause: Throwable?) : this(cause?.toString(), cause)
-
-  constructor(message: String?) : this(message, null)
-
-  constructor() : this(null, null)
-
-  override fun getStackTrace(): Array<StackTraceElement> = java_getStackTrace()
-
-  fun java_getStackTrace(): Array<StackTraceElement> = super.getStackTrace()
-}
-
-fun Throwable.java_getStackTrace(): Array<StackTraceElement> =
-  (this as java.lang.Throwable).stackTrace
+/** KMP version of throwable with the additional methods of Throwable from Kotlin/JVM */
+typealias ThrowableJvm = kotlin.Throwable

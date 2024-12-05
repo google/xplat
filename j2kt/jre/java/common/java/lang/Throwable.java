@@ -17,8 +17,8 @@
 
 package java.lang;
 
+import java.io.PrintStream;
 import java.io.PrintWriter;
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.annotations.NullMarked;
@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
 
 @KtNative(
     name = "kotlin.Throwable",
-    bridgeName = "javaemul.lang.JavaThrowable",
+    bridgeName = "javaemul.lang.ThrowableJvm",
     companionName = "java.lang.Throwable")
 @NullMarked
 public class Throwable {
@@ -50,10 +50,11 @@ public class Throwable {
   @KtProperty
   public native @Nullable String getMessage();
 
+  @KtProperty
   public native @Nullable String getLocalizedMessage();
 
-  // Conflict with `fun Throwable.getStacktrace: Array<String>` on Kotlin/Native
-  @KtName("java_getStackTrace")
+  // Treat as a property to avoid conflict with `fun getStacktrace: Array<String>` on Kotlin/Native.
+  @KtProperty
   public native StackTraceElement[] getStackTrace();
 
   public native void setStackTrace(StackTraceElement[] trace);
@@ -64,8 +65,7 @@ public class Throwable {
    */
   public native void printStackTrace();
 
-  // TODO(b/223584513): Temporarily disabled to avoid PrintStream dependency
-  // public native void printStackTrace(PrintStream err);
+  public native void printStackTrace(PrintStream err);
 
   public native void printStackTrace(PrintWriter err);
 
@@ -79,6 +79,7 @@ public class Throwable {
 
   public final native void addSuppressed(Throwable throwable);
 
+  @KtProperty
   public final native Throwable[] getSuppressed();
 
   // Method existing in J2CL-JRE and referenced by user code. This method is not available in
