@@ -18,17 +18,12 @@
 package java.util
 
 import javaemul.internal.CollectionHelper
-import javaemul.lang.JavaCollection
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaUtilAbstractCollection", exact = true)
-abstract class AbstractCollection<E> : AbstractMutableCollection<E>(), JavaCollection<E> {
-  override fun spliterator(): Spliterator<E> = super<JavaCollection>.spliterator()
-
+abstract class AbstractCollection<E> : AbstractMutableCollection<E>(), Collection<E> {
   override fun add(e: E): Boolean = throw UnsupportedOperationException()
-
-  override fun clear(): Unit = super<AbstractMutableCollection>.clear()
 
   override fun toArray(): Array<Any?> = CollectionHelper.toArray(this)
 

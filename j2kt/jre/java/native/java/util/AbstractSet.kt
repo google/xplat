@@ -18,12 +18,11 @@
 package java.util
 
 import javaemul.internal.CollectionHelper
-import javaemul.lang.JavaSet
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaUtilAbstractSet", exact = true)
-abstract class AbstractSet<E> : AbstractMutableSet<E>(), JavaSet<E> {
+abstract class AbstractSet<E> : AbstractMutableSet<E>(), Set<E> {
   override fun add(element: E): Boolean {
     throw UnsupportedOperationException()
   }

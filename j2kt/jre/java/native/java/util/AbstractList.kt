@@ -18,14 +18,11 @@
 package java.util
 
 import javaemul.internal.CollectionHelper
-import javaemul.lang.JavaList
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @ObjCName("J2ktJavaUtilAbstractList", exact = true)
-abstract class AbstractList<E> : AbstractMutableList<E>(), JavaList<E> {
-  override fun spliterator(): Spliterator<E> = super<JavaList>.spliterator()
-
+abstract class AbstractList<E> : AbstractMutableList<E>(), List<E> {
   override fun add(index: Int, element: E) {
     throw UnsupportedOperationException()
   }
