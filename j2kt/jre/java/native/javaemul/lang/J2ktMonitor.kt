@@ -22,7 +22,7 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
-import kotlin.native.internal.createCleaner
+import kotlin.native.ref.createCleaner
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.free
 import kotlinx.cinterop.nativeHeap

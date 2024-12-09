@@ -18,6 +18,7 @@
 
 package java.util
 
+import java.lang.ArrayIndexOutOfBoundsException
 import java.util.function.BinaryOperator
 import java.util.function.DoubleBinaryOperator
 import java.util.function.IntBinaryOperator

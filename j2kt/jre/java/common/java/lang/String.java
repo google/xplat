@@ -153,6 +153,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native char[] toCharArray();
 
+  @KtName("lowercase")
   public native String toLowerCase();
 
   public native String toLowerCase(Locale locale);
@@ -160,6 +161,7 @@ public final class String implements Comparable<String>, CharSequence {
   @Override
   public native String toString();
 
+  @KtName("uppercase")
   public native String toUpperCase();
 
   public native String toUpperCase(Locale locale);

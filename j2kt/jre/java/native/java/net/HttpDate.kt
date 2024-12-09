@@ -16,6 +16,7 @@
 package java.net
 
 import java.util.Date
+import kotlin.native.concurrent.ThreadLocal
 import platform.Foundation.NSDateFormatter
 import platform.Foundation.NSLocale
 import platform.Foundation.localeWithLocaleIdentifier

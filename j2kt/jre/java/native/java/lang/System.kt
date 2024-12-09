@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
+@file:OptIn(ExperimentalObjCName::class, NativeRuntimeApi::class)
 
 package java.lang
 
@@ -22,20 +22,23 @@ import java.io.PrintStream
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import kotlin.native.identityHashCode
-import kotlin.native.internal.GC
-import kotlin.system.getTimeNanos
+import kotlin.native.runtime.GC
+import kotlin.native.runtime.NativeRuntimeApi
+import kotlin.time.TimeSource
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
 import platform.CoreFoundation.CFAbsoluteTimeGetCurrent
 import platform.CoreFoundation.kCFAbsoluteTimeIntervalSince1970
 import platform.posix.write as posixWrite
 
-// TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
 @ObjCName("J2ktJavaLangSystem", exact = true)
 object System {
+  private val timeReference = TimeSource.Monotonic.markNow()
+
   fun getProperty(name: kotlin.String?, def: kotlin.String?): kotlin.String? =
     getProperty(name) ?: def
 
+  // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
   fun getProperty(name: kotlin.String?): kotlin.String? =
     when (name) {
       "jre.checks.api",
@@ -84,7 +87,7 @@ object System {
   fun currentTimeMillis(): kotlin.Long =
     ((CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970) * 1000.0).toLong()
 
-  fun nanoTime(): kotlin.Long = getTimeNanos()
+  fun nanoTime(): kotlin.Long = timeReference.elapsedNow().inWholeNanoseconds
 
   fun gc(): Unit = GC.collect()
 
