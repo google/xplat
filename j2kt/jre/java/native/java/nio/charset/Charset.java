@@ -76,4 +76,9 @@ public abstract class Charset {
   public static Charset defaultCharset() {
     return StandardCharsets.UTF_8;
   }
+
+  @Override
+  public String toString() {
+    return canonicalName;
+  }
 }
