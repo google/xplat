@@ -18,7 +18,6 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkArgument;
 import static javaemul.internal.InternalPreconditions.checkState;
 
-import javaemul.internal.MapUtils;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -43,7 +42,7 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
     @Override
     public boolean contains(@Nullable Object o) {
       if (o instanceof Map.Entry) {
-        return MapUtils.containsEntry(EnumMap.this, (Map.Entry<?, ?>) o);
+        return containsEntry((Map.Entry<?, ?>) o);
       }
       return false;
     }

@@ -18,7 +18,6 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
-import javaemul.internal.MapUtils;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -143,12 +142,12 @@ public class TreeSet<E extends @Nullable Object> extends AbstractSet<E>
 
   @Override
   public @Nullable E pollFirst() {
-    return MapUtils.getEntryKeyOrNull(map.pollFirstEntry());
+    return AbstractMap.getEntryKeyOrNull(map.pollFirstEntry());
   }
 
   @Override
   public @Nullable E pollLast() {
-    return MapUtils.getEntryKeyOrNull(map.pollLastEntry());
+    return AbstractMap.getEntryKeyOrNull(map.pollLastEntry());
   }
 
   @Override
