@@ -21,7 +21,6 @@ import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 import static javaemul.internal.InternalPreconditions.checkState;
 
-import javaemul.internal.Comparators;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 

@@ -32,7 +32,6 @@ import java.util.stream.IntStream
 import java.util.stream.LongStream
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
-import javaemul.internal.Comparators
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArrayBounds
 import kotlin.Comparator as KotlinComparator
 import kotlin.experimental.ExperimentalObjCName

@@ -22,7 +22,6 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 import java.io.Serializable;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import javaemul.internal.Comparators;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
