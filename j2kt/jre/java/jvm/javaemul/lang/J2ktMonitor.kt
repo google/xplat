@@ -15,5 +15,7 @@
  */
 package javaemul.lang
 
-// TODO(b/343465832): Convert to a type alias -- or document why this is not feasible.
+// TODO(b/260232556): Turning this into a typealias for Any causes a
+// "java.lang.ClassNotFoundException:javaemul.lang.J2ktMonitor" for
+// third_party/java_src/j2cl/transpiler/javatests/com/google/j2cl/integration/java/synchronizedblock:j2kt_jvm_test
 open class J2ktMonitor
