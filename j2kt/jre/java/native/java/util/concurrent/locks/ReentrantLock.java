@@ -16,7 +16,7 @@ package java.util.concurrent.locks;
 import javaemul.internal.annotations.KtNative;
 
 /** Partial emulation of ReentrantLock. */
-@KtNative(name = "java.util.concurrent.locks.ReentrantLock")
+@KtNative
 public final class ReentrantLock implements Lock {
 
   @Override

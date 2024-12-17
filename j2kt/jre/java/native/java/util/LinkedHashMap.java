@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
  * Java API doc</a> for details.
  */
 @NullMarked
-@KtNative(name = "java.util.LinkedHashMap")
+@KtNative
 public class LinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends HashMap<K, V> implements Map<K, V>, Cloneable {
 

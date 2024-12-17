@@ -23,7 +23,7 @@ import org.jspecify.annotations.Nullable;
 
 /** KtNative stub of the corresponding JRE-Class */
 @NullMarked
-@KtNative(name = "java.io.IOException")
+@KtNative
 public class IOException extends Exception {
 
   public IOException() {

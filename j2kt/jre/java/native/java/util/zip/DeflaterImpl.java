@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-@KtNative(name = "java.util.zip.DeflaterImpl")
+@KtNative
 class DeflaterImpl {
 
   public static native int deflate(

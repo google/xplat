@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
  * href="https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html">the official Java API
  * doc</a> for details.
  */
-@KtNative(name = "java.util.Arrays") // Reimplemented in Kotlin, not transpiled.
+@KtNative // Reimplemented in Kotlin, not transpiled.
 @NullMarked
 public class Arrays {
 

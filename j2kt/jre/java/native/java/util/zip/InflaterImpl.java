@@ -21,7 +21,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-@KtNative(name = "java.util.zip.InflaterImpl")
+@KtNative
 class InflaterImpl {
 
   public static native NativeZipStream createStream(boolean noHeader1);

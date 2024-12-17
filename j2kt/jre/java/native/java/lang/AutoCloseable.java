@@ -24,7 +24,7 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 // TODO(b/272238387): Map to kotlin.AutoCloseable when that's available in Kotlin JVM and J2cl
-@KtNative(name = "java.lang.AutoCloseable")
+@KtNative
 public interface AutoCloseable {
 
   /**

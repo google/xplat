@@ -21,7 +21,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** General-purpose low-level utility methods. */
-@KtNative(name = "java.lang.System")
+@KtNative
 @NullMarked
 public final class System {
   public static native void arraycopy(Object src, int srcOfs, Object dest, int destOfs, int len);

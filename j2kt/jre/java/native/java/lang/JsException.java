@@ -18,5 +18,5 @@ package java.lang;
 import javaemul.internal.annotations.KtNative;
 
 /** Emulation of JsException class defined in the J2CL JRE. */
-@KtNative(name = "java.lang.JsException") // Can only be used in J2CL.
+@KtNative // Can only be used in J2CL.
 public class JsException extends RuntimeException {}

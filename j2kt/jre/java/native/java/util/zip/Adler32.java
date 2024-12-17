@@ -24,7 +24,7 @@ import org.jspecify.annotations.NullMarked;
  * The Adler-32 class is used to compute the {@code Adler32} checksum from a set of data. Compared
  * to {@link CRC32} it trades reliability for speed. Refer to RFC 1950 for the specification.
  */
-@KtNative(name = "java.util.zip.Adler32")
+@KtNative
 @NullMarked
 public class Adler32 implements Checksum {
 

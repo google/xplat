@@ -24,7 +24,7 @@ import org.jspecify.annotations.NullMarked;
  * The CRC32 class is used to compute a CRC32 checksum from data provided as input value. See also
  * {@link Adler32} which is almost as good, but cheaper.
  */
-@KtNative(name = "java.util.zip.CRC32")
+@KtNative
 @NullMarked
 public class CRC32 implements Checksum {
 

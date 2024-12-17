@@ -20,7 +20,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 /** Partial J2cl emulation of Base64. */
-@KtNative(name = "java.util.Base64") // Reimplemented in Kotlin, not transpiled.
+@KtNative // Reimplemented in Kotlin, not transpiled.
 @NullMarked
 public final class Base64 {
 
@@ -30,14 +30,14 @@ public final class Base64 {
 
   public static native Encoder getEncoder();
 
-  @KtNative(name = "java.util.Base64.Decoder")
+  @KtNative
   public static class Decoder {
     Decoder() {}
 
     public native byte[] decode(String s);
   }
 
-  @KtNative(name = "java.util.Base64.Encoder")
+  @KtNative
   public static class Encoder {
     Encoder() {}
 

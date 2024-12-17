@@ -22,6 +22,6 @@ import org.jspecify.annotations.NullMarked;
  * A monitor for synchronized blocks. Maps to a regular class for JVM and an actual native monitor
  * implementation for native.
  */
-@KtNative(name = "javaemul.lang.J2ktMonitor")
+@KtNative
 @NullMarked
 public class J2ktMonitor {}

@@ -20,7 +20,7 @@ import org.jspecify.annotations.NullMarked;
 
 /** JRE-internal utility functions for working with IPv4 and IPv6 addresses. */
 @NullMarked
-@KtNative(name = "java.net.InetUtil")
+@KtNative
 final class InetUtil {
   public static native boolean isValidIpv4Address(String address);
 

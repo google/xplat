@@ -20,7 +20,7 @@ import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-@KtNative(name = "java.util.zip.NativeZipStream")
+@KtNative
 final class NativeZipStream {
   // Type is opaque to Java.
 }

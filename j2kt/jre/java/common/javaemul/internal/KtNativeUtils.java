@@ -17,7 +17,7 @@ package javaemul.internal;
 
 import javaemul.internal.annotations.KtNative;
 
-@KtNative(name = "javaemul.internal.KtNative")
+@KtNative
 public final class KtNativeUtils {
   public static native <T> T ktNative();
 }

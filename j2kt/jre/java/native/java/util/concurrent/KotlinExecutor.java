@@ -26,7 +26,7 @@ import org.jspecify.annotations.NullMarked;
  * for more details.
  */
 @NullMarked
-@KtNative(name = "java.util.concurrent.KotlinExecutor")
+@KtNative
 public class KotlinExecutor implements ScheduledExecutorService {
 
   static native ScheduledExecutorService createSingleThreadScheduledExecutor();

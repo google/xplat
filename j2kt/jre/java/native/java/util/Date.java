@@ -22,7 +22,7 @@ import org.jspecify.annotations.Nullable;
 
 /** Represents a date and time. */
 @NullMarked
-@KtNative(name = "java.util.Date")
+@KtNative
 public class Date implements Cloneable, Comparable<Date>, Serializable {
 
   public static native long parse(String s);

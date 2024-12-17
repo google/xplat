@@ -20,7 +20,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** JRE Matcher stub; see Matcher.kt for the actual wrapper. */
-@KtNative(name = "java.util.regex.Matcher")
+@KtNative
 @NullMarked
 public class Matcher {
 

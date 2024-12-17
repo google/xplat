@@ -22,7 +22,7 @@ import org.jspecify.annotations.NullMarked;
 
 // On JVM, the "native" version is provided by the JDK. On Kotlin Native, the J2KT JRE includes a
 // Kotlin implementation of java.lang.Math.
-@KtNative(name = "java.lang.Math")
+@KtNative
 @NullMarked
 public final class Math {
   public static final double E = 2.718281828459045;

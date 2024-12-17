@@ -22,7 +22,7 @@ import org.jspecify.annotations.NullMarked;
 
 /** Best-effort parser for HTTP dates. */
 @NullMarked
-@KtNative(name = "java.net.HttpDate")
+@KtNative
 final class HttpDate {
 
   /** Returns the date for {@code value}. Returns null if the value couldn't be parsed. */
