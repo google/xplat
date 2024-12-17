@@ -39,7 +39,6 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.Random;
-import javaemul.internal.LongUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -129,7 +128,7 @@ public class BigInteger extends Number implements Comparable<BigInteger>, Serial
 
   private static BigInteger fromBits(long bits) {
     int lowBits = (int) bits;
-    int highBits = LongUtils.getHighBits(bits);
+    int highBits = (int) (bits >> 32);
     if (highBits != 0) {
       return new BigInteger(1, lowBits, highBits);
     }
@@ -865,10 +864,10 @@ public class BigInteger extends Number implements Comparable<BigInteger>, Serial
    */
   @Override
   public long longValue() {
-    long value =
-        numberLength > 1
-            ? LongUtils.fromBits(digits[0], digits[1])
-            : LongUtils.fromBits(digits[0], 0);
+    long value = digits[0] & 0xffff_ffffL;
+    if (numberLength > 1) {
+      value |= (((long) digits[1]) << 32);
+    }
     return sign > 0 ? value : -value;
   }
 

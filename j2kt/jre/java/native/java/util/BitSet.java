@@ -18,7 +18,6 @@ package java.util;
 
 import static javaemul.internal.InternalPreconditions.checkArraySize;
 
-import javaemul.internal.LongUtils;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -804,9 +803,9 @@ public class BitSet implements Cloneable {
   }
 
   private static long getLong(int[] words, int bitIndex) {
-    int low = getInt(words, bitIndex);
-    int high = getInt(words, bitIndex + 32);
-    return LongUtils.fromBits(low, high);
+    long low = getInt(words, bitIndex) & 0xffff_ffffL;
+    long high = getInt(words, bitIndex + 32);
+    return low | (high << 32);
   }
 
   public static BitSet valueOf(byte[] words) {
