@@ -15,7 +15,6 @@
  */
 package javaemul.internal;
 
-import java.lang.reflect.Array;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -24,7 +23,7 @@ public final class ArrayHelper {
 
   @SuppressWarnings("unchecked")
   public static <T extends @Nullable Object> @Nullable T[] createFrom(T[] array, int newLength) {
-    // J2CL doesn't have Array.newInstance but it has its own javaemul.internal.ArrayHelper
-    return (T[]) Array.newInstance(array.getClass().getComponentType(), newLength);
+    // This works because the code only runs on Kotlin Native and not on the JVM.
+    return (T[]) new Object[newLength];
   }
 }
