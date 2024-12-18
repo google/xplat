@@ -13,23 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package java.lang;
+package java.lang
 
-import javaemul.internal.annotations.KtNative;
-import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
-
-/**
- * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/OutOfMemoryError.html">the
- * official Java API doc</a> for details.
- */
-@NullMarked
-@KtNative
-public class OutOfMemoryError extends Error /* VirtualMachineError */ {
-
-  public OutOfMemoryError() {}
-
-  public OutOfMemoryError(@Nullable String detailMessage) {
-    super(detailMessage);
-  }
-}
+typealias OutOfMemoryError = kotlin.OutOfMemoryError
