@@ -16,6 +16,7 @@
 package javaemul.lang
 
 import java.util.Collection as JavaUtilCollection
+import java.util.Map as JavaUtilMap
 import java.util.function.Predicate
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
@@ -76,7 +77,7 @@ fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = (this as MutableMap<Any?, 
 
 fun <K, V> MutableMap<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
   (this as MutableMap<Any?, V?>).run {
-    if (this is JavaMap) getOrDefault(key, defaultValue)
+    if (this is JavaUtilMap) getOrDefault(key, defaultValue)
     else default_getOrDefault(key, defaultValue)
   }
 
@@ -87,5 +88,5 @@ fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = (this as MutableMap<Any
 
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
   (this as MutableMap<Any?, Any?>).run {
-    if (this is JavaMap) remove(key, value) else default_remove(key, value)
+    if (this is JavaUtilMap) remove(key, value) else default_remove(key, value)
   }

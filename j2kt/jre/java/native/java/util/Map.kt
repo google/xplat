@@ -25,6 +25,7 @@ import javaemul.lang.default_compute
 import javaemul.lang.default_computeIfAbsent
 import javaemul.lang.default_computeIfPresent
 import javaemul.lang.default_forEach
+import javaemul.lang.default_getOrDefault
 import javaemul.lang.default_merge
 import javaemul.lang.default_putIfAbsent
 import javaemul.lang.default_remove
@@ -46,8 +47,7 @@ interface Map<K, V> : MutableMap<K, V> {
 
   fun forEach(action: BiConsumer<in K, in V>) = default_forEach(action)
 
-  // TODO: b/381836571 - Uncomment this when konanc can handle it.
-  // fun getOrDefault(key: K, defaultValue: V): V = default_getOrDefault(key, defaultValue)
+  fun getOrDefault(key: K, defaultValue: V): V = default_getOrDefault(key, defaultValue)
 
   fun putIfAbsent(key: K, value: V): V? = default_putIfAbsent(key, value)
 
