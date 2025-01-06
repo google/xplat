@@ -27,7 +27,7 @@ import org.jspecify.annotations.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">the official Java API
  * doc</a> for details.
  */
-@KtNative(name = "kotlin.collections.MutableList", bridgeName = "javaemul.lang.JavaList")
+@KtNative(name = "kotlin.collections.MutableList", bridgeName = "javaemul.lang.MutableListJvm")
 @NullMarked
 public interface List<E extends @Nullable Object> extends Collection<E> {
 

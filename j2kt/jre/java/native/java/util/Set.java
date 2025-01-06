@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html">the official Java API
  * doc</a> for details.
  */
-@KtNative(name = "kotlin.collections.MutableSet", bridgeName = "javaemul.lang.JavaSet")
+@KtNative(name = "kotlin.collections.MutableSet", bridgeName = "javaemul.lang.MutableSetJvm")
 @NullMarked
 public interface Set<E extends @Nullable Object> extends Collection<E> {
   @Override
