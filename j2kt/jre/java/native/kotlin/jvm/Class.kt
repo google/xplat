@@ -17,21 +17,31 @@ package kotlin.jvm
 
 import java.lang.Class
 import java.lang.Void
+import javaemul.lang.J2ktMonitor
 import kotlin.reflect.KClass
+import kotlin.synchronized
 
+private val objectClassMapMonitor = J2ktMonitor()
 private val objectClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
+
+private val primitiveClassMapMonitor = J2ktMonitor()
 private val primitiveClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
 
-// TODO(b/227166206): Add synchronization to make it thread-safe.
 val <T : Any> KClass<T>.javaObjectType: Class<T>
-  get() = objectClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = false) } as Class<T>
+  get() =
+    synchronized(objectClassMapMonitor) {
+      objectClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = false) } as Class<T>
+    }
 
-// TODO(b/227166206): Add synchronization to make it thread-safe.
 val <T : Any> KClass<T>.javaPrimitiveType: Class<T>?
   get() =
-    if (hasJavaPrimitiveType)
-      primitiveClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = true) } as Class<T>
-    else null
+    if (hasJavaPrimitiveType) {
+      synchronized(primitiveClassMapMonitor) {
+        primitiveClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = true) } as Class<T>
+      }
+    } else {
+      null
+    }
 
 private val KClass<*>.hasJavaPrimitiveType: Boolean
   get() =
