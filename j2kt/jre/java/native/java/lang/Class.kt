@@ -32,7 +32,7 @@ import kotlin.reflect.KClass
 @ObjCName("J2ktJavaLangClass", exact = true)
 class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) :
   Type {
-  val j2ktMonitor = J2ktMonitor()
+  val j2ktMonitor: J2ktMonitor by lazy { J2ktMonitor() }
 
   fun cast(obj: Any?): T? =
     if (obj == null || kClass.isInstance(obj)) obj as T? else throw ClassCastException()
