@@ -16,19 +16,15 @@
 package java.net
 
 import java.util.Date
+import java.util.Locale
 import kotlin.native.concurrent.ThreadLocal
 import platform.Foundation.NSDateFormatter
-import platform.Foundation.NSLocale
-import platform.Foundation.localeWithLocaleIdentifier
 import platform.Foundation.timeIntervalSince1970
-
-// Always use US locale for parsing dates in HTTP Cookie headers.
-@ThreadLocal private val US_LOCALE = NSLocale.localeWithLocaleIdentifier("en_US_POSIX")
 
 @ThreadLocal
 private val STANDARD_DATE_FORMAT: NSDateFormatter =
   NSDateFormatter().apply {
-    locale = US_LOCALE
+    locale = Locale.ROOT.nsLocale
     dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
   }
 
@@ -66,7 +62,7 @@ internal object HttpDate {
     for (formatString in BROWSER_COMPATIBLE_DATE_FORMATS) {
       NSDateFormatter()
         .run {
-          locale = US_LOCALE
+          locale = Locale.ROOT.nsLocale
           dateFormat = formatString
           parse(value)
         }

@@ -34,6 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
   HttpCookieTest.class,
   InflaterTest.class,
   IoTest.class,
+  LocaleTest.class,
   LoggingTest.class,
   MathTest.class,
   OldAndroidChecksumTest.class,

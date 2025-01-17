@@ -20,7 +20,6 @@ import kotlin.native.ObjCName
 import platform.Foundation.NSCaseInsensitiveSearch
 import platform.Foundation.NSDiacriticInsensitiveSearch
 import platform.Foundation.NSLiteralSearch
-import platform.Foundation.NSLocale
 import platform.Foundation.NSMakeRange
 import platform.Foundation.NSString
 import platform.Foundation.NSStringCompareOptions
@@ -38,9 +37,7 @@ internal class IOSCollator(private val locale: Locale) : Collator() {
   // TODO: b/341749964 - Add support for decomposition.
   private var decomposition = NO_DECOMPOSITION
 
-  // TODO: b/341763311 - Ensure that this behaves as expected as there is a fair amount of
-  // differences between assumptions in Java vs iOS.
-  private val nsLocale = NSLocale(locale.toString())
+  private val nsLocale = locale.nsLocale
 
   override fun getDecomposition() = decomposition
 

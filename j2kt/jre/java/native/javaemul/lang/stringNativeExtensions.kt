@@ -93,10 +93,9 @@ fun String.getBytes(charset: Charset): ByteArray =
     else -> throw UnsupportedEncodingException(charset.name())
   }
 
-// TODO(b/230671584): Add support for Locale on Kotlin Native
-fun String.toUpperCase(locale: Locale): String = this.uppercase()
+fun String.toUpperCase(locale: Locale): String = locale.toUppercase(this)
 
-fun String.toLowerCase(locale: Locale): String = this.lowercase()
+fun String.toLowerCase(locale: Locale): String = locale.toLowercase(this)
 
 fun String.getChars(start: Int, end: Int, buffer: CharArray, index: Int) {
   var bufferIndex = index

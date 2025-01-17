@@ -18,6 +18,7 @@ package java.util;
 import static javaemul.internal.KtNativeUtils.ktNative;
 
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtProperty;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -35,11 +36,29 @@ public class Locale {
   public static final Locale ENGLISH = ktNative();
   public static final Locale US = ktNative();
 
+  @KtProperty
+  public native String getLanguage();
+
+  @KtProperty
+  public native String getScript();
+
+  @KtProperty
+  public native String getCountry();
+
+  @KtProperty
+  public native String getVariant();
+
+  public native String toLanguageTag();
+
   /**
    * Returns an instance that represents the browser's default locale (not necessarily the one
    * defined by 'gwt.locale').
    */
   public static native Locale getDefault();
+
+  public static native void setDefault(Locale newLocale);
+
+  public static native Locale forLanguageTag(String languageTag);
 
   // Hidden as we don't support manual creation of Locales.
   private Locale() {}

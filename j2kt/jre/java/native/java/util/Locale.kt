@@ -19,7 +19,20 @@ package java.util
 
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
+import platform.Foundation.NSLocale
+import platform.Foundation.NSString
+import platform.Foundation.NSUserDefaults
+import platform.Foundation.countryCode
+import platform.Foundation.currentLocale
+import platform.Foundation.languageCode
+import platform.Foundation.localeIdentifier
+import platform.Foundation.lowercaseStringWithLocale
+import platform.Foundation.scriptCode
+import platform.Foundation.uppercaseStringWithLocale
+import platform.Foundation.variantCode
 
+// This could be a data class (excluding the NSLocale property), but we want to special-case
+// toUppercase and toLowercase for the ROOT locale.
 /**
  * A very simple emulation of Locale for shared-code patterns like `String.toUpperCase(Locale.US)`.
  *
@@ -27,28 +40,78 @@ import kotlin.native.ObjCName
  * the JRE emulation.
  */
 @ObjCName("J2ktJavaUtilLocale", exact = true)
-open class Locale private constructor() {
+open class Locale
+private constructor(
+  val language: String,
+  val script: String,
+  val country: String,
+  val variant: String,
+  val nsLocale: NSLocale,
+) {
+
+  private constructor(
+    nsLocale: NSLocale
+  ) : this(
+    language = nsLocale.languageCode ?: "",
+    script = nsLocale.scriptCode ?: "",
+    country = nsLocale.countryCode ?: "",
+    variant = nsLocale.variantCode ?: "",
+    nsLocale = nsLocale,
+  )
+
+  open fun toLanguageTag(): String = (nsLocale.localeIdentifier as String).replace('_', '-')
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other !is Locale) return false
+    return language == other.language &&
+      script == other.script &&
+      country == other.country &&
+      variant == other.variant
+  }
+
+  override fun hashCode(): Int {
+    var result = language.hashCode()
+    result = 31 * result + script.hashCode()
+    result = 31 * result + country.hashCode()
+    result = 31 * result + variant.hashCode()
+    return result
+  }
+
+  override fun toString(): String = nsLocale.localeIdentifier
+
+  internal open fun toUppercase(s: String): String =
+    (s as NSString).uppercaseStringWithLocale(nsLocale)
+
+  internal open fun toLowercase(s: String): String =
+    (s as NSString).lowercaseStringWithLocale(nsLocale)
+
   companion object {
     val ROOT: Locale =
-      object : Locale() {
+      object :
+        Locale(language = "", script = "", country = "", variant = "", NSLocale("en_US_POSIX")) {
         override fun toString(): String = ""
+
+        override fun toLanguageTag(): String = "und"
+
+        override fun toUppercase(s: String): String = s.uppercase()
+
+        override fun toLowercase(s: String): String = s.lowercase()
       }
 
-    val ENGLISH: Locale =
-      object : Locale() {
-        override fun toString(): String = "en"
-      }
+    val ENGLISH: Locale = forLanguageTag("en")
+    val US: Locale = forLanguageTag("en_US")
 
-    val US: Locale =
-      object : Locale() {
-        override fun toString(): String = "en_US"
-      }
+    fun forLanguageTag(languageTag: String): Locale =
+      if (languageTag.isEmpty()) ROOT else Locale(NSLocale(languageTag))
 
-    private val defaultLocale: Locale =
-      object : Locale() {
-        override fun toString(): String = "unknown"
-      }
+    fun getDefault(): Locale = Locale(NSLocale.currentLocale)
 
-    fun getDefault(): Locale = defaultLocale
+    fun setDefault(newLocale: Locale): Unit {
+      NSUserDefaults.standardUserDefaults().apply {
+        setObject(newLocale.toLanguageTag(), forKey = "LanguageCode")
+        synchronize()
+      }
+    }
   }
 }

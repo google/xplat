@@ -331,4 +331,12 @@ public class StringTest {
     assertEquals("one ", parts[0]);
     assertEquals(" two cats in the yard", parts[1]);
   }
+
+  @Test
+  public void testUppercaseLowercase_withLocale() {
+    assertEquals("NICE", "nice".toUpperCase(Locale.ROOT));
+    assertEquals("nice", "NICE".toLowerCase(Locale.ROOT));
+    assertEquals("NİCE", "nice".toUpperCase(Locale.forLanguageTag("tr")));
+    assertEquals("nıce", "NICE".toLowerCase(Locale.forLanguageTag("tr")));
+  }
 }
