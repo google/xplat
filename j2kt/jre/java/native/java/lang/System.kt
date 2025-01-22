@@ -29,6 +29,7 @@ import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
 import platform.CoreFoundation.CFAbsoluteTimeGetCurrent
 import platform.CoreFoundation.kCFAbsoluteTimeIntervalSince1970
+import platform.Foundation.NSTemporaryDirectory
 import platform.posix.write as posixWrite
 
 @ObjCName("J2ktJavaLangSystem", exact = true)
@@ -38,9 +39,10 @@ object System {
   fun getProperty(name: kotlin.String?, def: kotlin.String?): kotlin.String? =
     getProperty(name) ?: def
 
-  // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
   fun getProperty(name: kotlin.String?): kotlin.String? =
     when (name) {
+      "java.io.tmpdir" -> NSTemporaryDirectory()
+      // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
       "jre.checks.api",
       "jre.checks.bounds",
       "jre.checks.numeric",

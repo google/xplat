@@ -16,6 +16,7 @@
 package smoke;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -58,7 +59,7 @@ public class SystemTest {
     String[] strArraySrc = {"1", "2", "3", "4", "5"};
     String[] strArrayDst = {"0", "0", "0", "0", "0"};
     System.arraycopy(strArraySrc, 0, strArrayDst, 1, 2);
-    assertEquals(strArrayDst[1], "1");
+    assertEquals("1", strArrayDst[1]);
 
     ExampleObject[] objArraySrc = {new ExampleObject(1), new ExampleObject(2)};
     ExampleObject[] objArrayDst = new ExampleObject[2];
@@ -78,5 +79,10 @@ public class SystemTest {
   public void testHashCode() {
     ExampleObject obj = new ExampleObject(1);
     assertEquals(System.identityHashCode(obj), System.identityHashCode(obj));
+  }
+
+  @Test
+  public void testGetProperty() {
+    assertNotNull(System.getProperty("java.io.tmpdir"));
   }
 }
