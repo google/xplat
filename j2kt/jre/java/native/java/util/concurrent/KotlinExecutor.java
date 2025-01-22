@@ -37,6 +37,9 @@ public class KotlinExecutor implements ScheduledExecutorService {
   static native ScheduledExecutorService createScheduledExecutor(int threads);
 
   @Override
+  public native boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+
+  @Override
   public native ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
 
   @Override

@@ -35,10 +35,7 @@ public interface ExecutorService extends Executor {
 
   boolean isTerminated();
 
-  // Blocking calls cannot be emulated on web. Subclasses of this class in shared code should mark
-  // their override with @GwtIncompatible.
-  // @GwtIncompatible("blocking")
-  // boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+  boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
 
   <T extends @Nullable Object> Future<T> submit(Callable<T> task);
 
