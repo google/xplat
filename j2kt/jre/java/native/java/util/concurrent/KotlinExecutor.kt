@@ -213,8 +213,12 @@ open class KotlinExecutor(
     return isShutdown.value
   }
 
+  @ObjCName("awaitTermination")
   @Throws(InterruptedException::class)
-  override fun awaitTermination(timeout: Long, unit: TimeUnit): Boolean {
+  fun awaitTermination(
+    @ObjCName("withLong") timeout: Long,
+    @ObjCName("withJavaUtilConcurrentTimeUnit") unit: TimeUnit,
+  ): Boolean {
     return runBlocking {
       if (timeout <= 0) {
         supervisorJob.join()
