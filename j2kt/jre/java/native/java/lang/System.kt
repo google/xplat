@@ -42,13 +42,13 @@ object System {
   fun getProperty(name: kotlin.String?): kotlin.String? =
     when (name) {
       "java.io.tmpdir" -> NSTemporaryDirectory()
-      // TODO(b/224765929): Avoid this hack for InternalPreconditions.java and logging.
+      // TODO(b/392585924): Avoid this hack for InternalPreconditions.java and logging.
       "jre.checks.api",
       "jre.checks.bounds",
       "jre.checks.numeric",
       "jre.checks.type" -> "AUTO"
       "jre.checks.checkLevel" -> "NORMAL"
-      "jre.logging.logLevel" -> "INFO"
+      "jre.logging.logLevel" -> "SEVERE"
       "jre.logging.simpleConsoleHandler" -> "ENABLED"
       else -> null
     }
