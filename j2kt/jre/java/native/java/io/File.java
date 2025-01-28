@@ -20,14 +20,56 @@ import org.jspecify.annotations.NullMarked;
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 @NullMarked
 public final class File {
-  private final String pathname;
+  public static final char separatorChar;
 
-  public File(String pathname) {
-    this.pathname = pathname;
+  public static final String separator;
+
+  public static final char pathSeparatorChar;
+
+  public static final String pathSeparator;
+
+  private String path;
+
+  static {
+    separatorChar = System.getProperty("file.separator", "/").charAt(0);
+    pathSeparatorChar = System.getProperty("path.separator", ":").charAt(0);
+    separator = String.valueOf(separatorChar);
+    pathSeparator = String.valueOf(pathSeparatorChar);
+  }
+
+  public File(String path) {
+    this.path = fixSlashes(path);
+  }
+
+  // Removes duplicate adjacent slashes and any trailing slash.
+  private static String fixSlashes(String origPath) {
+    // Remove duplicate adjacent slashes.
+    boolean lastWasSlash = false;
+    char[] newPath = origPath.toCharArray();
+    int length = newPath.length;
+    int newLength = 0;
+    for (int i = 0; i < length; ++i) {
+      char ch = newPath[i];
+      if (ch == '/') {
+        if (!lastWasSlash) {
+          newPath[newLength++] = separatorChar;
+          lastWasSlash = true;
+        }
+      } else {
+        newPath[newLength++] = ch;
+        lastWasSlash = false;
+      }
+    }
+    // Remove any trailing slash (unless this is the root of the file system).
+    if (lastWasSlash && newLength > 1) {
+      newLength--;
+    }
+    // Reuse the original string if possible.
+    return (newLength != length) ? new String(newPath, 0, newLength) : origPath;
   }
 
   public String getPath() {
-    return pathname;
+    return path;
   }
 
   @Override

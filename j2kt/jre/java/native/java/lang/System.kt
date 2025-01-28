@@ -50,6 +50,8 @@ object System {
       "jre.checks.checkLevel" -> "NORMAL"
       "jre.logging.logLevel" -> "SEVERE"
       "jre.logging.simpleConsoleHandler" -> "ENABLED"
+      "file.separator" -> "/"
+      "path.separator" -> ":"
       else -> null
     }
 
