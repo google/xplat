@@ -63,6 +63,9 @@ public class KotlinExecutor implements ScheduledExecutorService {
   public native boolean isTerminated();
 
   @Override
+  public native boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+
+  @Override
   public native <T> Future<T> submit(Callable<T> task);
 
   @Override

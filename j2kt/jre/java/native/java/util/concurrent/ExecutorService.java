@@ -18,13 +18,17 @@
 
 package java.util.concurrent;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import java.util.Collection;
 import java.util.List;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Emulation of ExecutorService. */
 @NullMarked
+@KtNative
 public interface ExecutorService extends Executor {
 
   void shutdown();
@@ -35,10 +39,12 @@ public interface ExecutorService extends Executor {
 
   boolean isTerminated();
 
-  // Blocking calls cannot be emulated on web. Subclasses of this class in shared code should mark
-  // their override with @GwtIncompatible.
-  // @GwtIncompatible("blocking")
-  // boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+  // This is declared as a default method because j2cl subclasses cannot override the method and we
+  // want to allow transpiling j2cl-only code. J2kt Native and J2kt JVM subclasses must still
+  // implement this method. This is enforced by the Kotlin compiler.
+  default boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+    return ktNative();
+  }
 
   <T extends @Nullable Object> Future<T> submit(Callable<T> task);
 
