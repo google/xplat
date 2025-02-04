@@ -15,65 +15,24 @@
  */
 package java.io;
 
+import javaemul.internal.KtNativeUtils;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 @NullMarked
+@KtNative
 public final class File {
-  public static final char separatorChar;
+  public static final char separatorChar = KtNativeUtils.ktNative();
 
-  public static final String separator;
+  public static final String separator = KtNativeUtils.ktNative();
 
-  public static final char pathSeparatorChar;
+  public static final char pathSeparatorChar = KtNativeUtils.ktNative();
 
-  public static final String pathSeparator;
-
-  private String path;
-
-  static {
-    separatorChar = System.getProperty("file.separator", "/").charAt(0);
-    pathSeparatorChar = System.getProperty("path.separator", ":").charAt(0);
-    separator = String.valueOf(separatorChar);
-    pathSeparator = String.valueOf(pathSeparatorChar);
-  }
+  public static final String pathSeparator = KtNativeUtils.ktNative();
 
   public File(String path) {
-    this.path = fixSlashes(path);
   }
 
-  // Removes duplicate adjacent slashes and any trailing slash.
-  private static String fixSlashes(String origPath) {
-    // Remove duplicate adjacent slashes.
-    boolean lastWasSlash = false;
-    char[] newPath = origPath.toCharArray();
-    int length = newPath.length;
-    int newLength = 0;
-    for (int i = 0; i < length; ++i) {
-      char ch = newPath[i];
-      if (ch == '/') {
-        if (!lastWasSlash) {
-          newPath[newLength++] = separatorChar;
-          lastWasSlash = true;
-        }
-      } else {
-        newPath[newLength++] = ch;
-        lastWasSlash = false;
-      }
-    }
-    // Remove any trailing slash (unless this is the root of the file system).
-    if (lastWasSlash && newLength > 1) {
-      newLength--;
-    }
-    // Reuse the original string if possible.
-    return (newLength != length) ? new String(newPath, 0, newLength) : origPath;
-  }
-
-  public String getPath() {
-    return path;
-  }
-
-  @Override
-  public String toString() {
-    return getPath();
-  }
+  public native String getPath();
 }
