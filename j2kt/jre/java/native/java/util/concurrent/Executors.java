@@ -37,6 +37,10 @@ public class Executors {
     return KotlinExecutor.createSingleThreadScheduledExecutor();
   }
 
+  public static ExecutorService newSingleThreadExecutor() {
+    return KotlinExecutor.createSingleThreadScheduledExecutor();
+  }
+
   public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
     return KotlinExecutor.createScheduledExecutor(corePoolSize);
   }
