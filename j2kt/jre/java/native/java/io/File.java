@@ -34,5 +34,7 @@ public final class File {
   public File(String path) {
   }
 
+  public native boolean exists();
+
   public native String getPath();
 }

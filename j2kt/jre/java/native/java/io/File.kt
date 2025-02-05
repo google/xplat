@@ -16,6 +16,7 @@
 package java.io
 
 import java.lang.System
+import platform.Foundation.NSFileManager
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 @OptIn(kotlin.experimental.ExperimentalObjCName::class)
@@ -24,9 +25,9 @@ class File(path: String) {
 
   private val path = fixSlashes(path)
 
-  fun getPath(): String {
-    return path
-  }
+  fun exists() = NSFileManager.defaultManager().fileExistsAtPath(path)
+
+  fun getPath() = path
 
   override fun toString() = getPath()
 
