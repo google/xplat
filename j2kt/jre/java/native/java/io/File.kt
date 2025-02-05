@@ -16,6 +16,11 @@
 package java.io
 
 import java.lang.System
+import kotlinx.cinterop.BooleanVar
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.ptr
+import kotlinx.cinterop.value
 import platform.Foundation.NSFileManager
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
@@ -25,9 +30,30 @@ class File(path: String) {
 
   private val path = fixSlashes(path)
 
+  fun delete() = NSFileManager.defaultManager().removeItemAtPath(path, null)
+
   fun exists() = NSFileManager.defaultManager().fileExistsAtPath(path)
 
   fun getPath() = path
+
+  fun isDirectory(): Boolean {
+    memScoped {
+      val isDirectory = alloc<BooleanVar>()
+      NSFileManager.defaultManager().fileExistsAtPath(path, isDirectory.ptr)
+      return isDirectory.value
+    }
+  }
+
+  fun listFiles(): Array<File>? {
+    return NSFileManager.defaultManager()
+      .contentsOfDirectoryAtPath(path, null)
+      ?.map { File(path + separator + it) }
+      ?.toTypedArray()
+  }
+
+  fun mkdir() = NSFileManager.defaultManager().createDirectoryAtPath(path, false, null, null)
+
+  fun mkdirs() = NSFileManager.defaultManager().createDirectoryAtPath(path, true, null, null)
 
   override fun toString() = getPath()
 

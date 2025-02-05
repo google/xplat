@@ -17,6 +17,9 @@ package smoke;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,6 +30,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.Formatter;
+import java.util.Random;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -94,5 +98,24 @@ public class IoTest {
   public void testFile() {
     File file = new File("foo");
     assertEquals("foo", file.getPath());
+
+    File baseDir =
+        new File(System.getProperty("java.io.tmpdir") + "/" + new Random().nextInt() + "/foo/bar");
+    File testDir = new File(baseDir.getPath() + "/baz");
+    testDir.delete();
+    assertFalse(testDir.exists());
+    assertTrue(testDir.mkdirs());
+    assertTrue(testDir.exists());
+
+    File[] subDirs = baseDir.listFiles();
+    assertNotNull(subDirs);
+    assertEquals(1, subDirs.length);
+    File testDir2 = subDirs[0];
+    assertTrue(
+        "File path '" + testDir2.getPath() + "' ends with /foo/bar/baz",
+        testDir2.getPath().endsWith("/foo/bar/baz"));
+    assertTrue(testDir2 + " exists", testDir2.exists());
+
+    assertTrue(testDir.delete());
   }
 }

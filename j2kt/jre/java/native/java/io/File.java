@@ -18,6 +18,7 @@ package java.io;
 import javaemul.internal.KtNativeUtils;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 @NullMarked
@@ -34,7 +35,17 @@ public final class File {
   public File(String path) {
   }
 
+  public native boolean delete();
+
   public native boolean exists();
 
   public native String getPath();
+
+  public native boolean isDirectory();
+
+  public native File @Nullable [] listFiles();
+
+  public native boolean mkdir();
+
+  public native boolean mkdirs();
 }

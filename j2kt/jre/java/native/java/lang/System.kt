@@ -41,6 +41,8 @@ object System {
 
   fun getProperty(name: kotlin.String?): kotlin.String? =
     when (name) {
+      "file.separator" -> "/"
+      "path.separator" -> ":"
       "java.io.tmpdir" -> NSTemporaryDirectory()
       // TODO(b/392585924): Avoid this hack for InternalPreconditions.java and logging.
       "jre.checks.api",
@@ -50,8 +52,6 @@ object System {
       "jre.checks.checkLevel" -> "NORMAL"
       "jre.logging.logLevel" -> "SEVERE"
       "jre.logging.simpleConsoleHandler" -> "ENABLED"
-      "file.separator" -> "/"
-      "path.separator" -> ":"
       else -> null
     }
 
