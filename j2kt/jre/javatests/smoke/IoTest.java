@@ -98,6 +98,7 @@ public class IoTest {
   public void testFile() {
     File file = new File("foo");
     assertEquals("foo", file.getPath());
+    assertTrue(file.getAbsolutePath().startsWith("/"));
 
     File baseDir =
         new File(System.getProperty("java.io.tmpdir") + "/" + new Random().nextInt() + "/foo/bar");
@@ -117,5 +118,6 @@ public class IoTest {
     assertTrue(testDir2 + " exists", testDir2.exists());
 
     assertTrue(testDir.delete());
+    
   }
 }

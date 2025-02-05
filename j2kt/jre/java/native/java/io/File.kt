@@ -26,13 +26,17 @@ import platform.Foundation.NSFileManager
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 @OptIn(kotlin.experimental.ExperimentalObjCName::class)
 @ObjCName("J2ktJavaIoFile")
-class File(path: String) {
+class File(pathname: String) {
 
-  private val path = fixSlashes(path)
+  private val path = fixSlashes(pathname)
 
   fun delete() = NSFileManager.defaultManager().removeItemAtPath(path, null)
 
   fun exists() = NSFileManager.defaultManager().fileExistsAtPath(path)
+
+  fun getAbsolutePath() =
+    if (path.startsWith(separatorChar)) path
+    else NSFileManager.defaultManager().currentDirectoryPath()
 
   fun getPath() = path
 

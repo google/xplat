@@ -32,12 +32,13 @@ public final class File {
 
   public static final String pathSeparator = KtNativeUtils.ktNative();
 
-  public File(String path) {
-  }
+  public File(String pathname) {}
 
   public native boolean delete();
 
   public native boolean exists();
+
+  public native String getAbsolutePath();
 
   public native String getPath();
 
