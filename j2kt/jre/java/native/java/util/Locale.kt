@@ -21,7 +21,6 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 import platform.Foundation.NSLocale
 import platform.Foundation.NSString
-import platform.Foundation.NSUserDefaults
 import platform.Foundation.countryCode
 import platform.Foundation.currentLocale
 import platform.Foundation.languageCode
@@ -87,6 +86,8 @@ private constructor(
     (s as NSString).lowercaseStringWithLocale(nsLocale)
 
   companion object {
+    private var defaultLocale: Locale? = null
+
     val ROOT: Locale =
       object :
         Locale(language = "", script = "", country = "", variant = "", NSLocale("en_US_POSIX")) {
@@ -105,13 +106,12 @@ private constructor(
     fun forLanguageTag(languageTag: String): Locale =
       if (languageTag.isEmpty()) ROOT else Locale(NSLocale(languageTag))
 
-    fun getDefault(): Locale = Locale(NSLocale.currentLocale)
+    fun getDefault(): Locale {
+      return defaultLocale ?: Locale(NSLocale.currentLocale)
+    }
 
     fun setDefault(newLocale: Locale): Unit {
-      NSUserDefaults.standardUserDefaults().apply {
-        setObject(newLocale.toLanguageTag(), forKey = "LanguageCode")
-        synchronize()
-      }
+      defaultLocale = newLocale
     }
   }
 }
