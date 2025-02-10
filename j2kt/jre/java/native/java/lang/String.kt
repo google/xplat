@@ -83,7 +83,7 @@ object String {
     }
   }
 
-  operator fun invoke(s: kotlin.String) = s + ""
+  operator fun invoke(s: kotlin.String) = StringBuilder(s).toString()
 
   fun format(format: kotlin.String, vararg values: Any?): kotlin.String =
     Formatter().format(format, *values).toString()
