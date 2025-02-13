@@ -34,6 +34,13 @@ public final class File {
 
   public File(String pathname) {}
 
+  public File(@Nullable File parent, String child) {}
+
+  public File(@Nullable String parent, String child) {}
+
+  /** Note */
+  public native boolean createNewFile() throws IOException;
+
   public native boolean delete();
 
   public native boolean exists();
@@ -49,4 +56,6 @@ public final class File {
   public native boolean mkdir();
 
   public native boolean mkdirs();
+
+  public native boolean renameTo(File dest);
 }

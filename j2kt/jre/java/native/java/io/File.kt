@@ -21,14 +21,59 @@ import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.value
+import platform.Foundation.NSData
 import platform.Foundation.NSFileManager
+import platform.Foundation.NSOpenStepRootDirectory
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 @OptIn(kotlin.experimental.ExperimentalObjCName::class)
 @ObjCName("J2ktJavaIoFile")
 class File(pathname: String) {
 
+  constructor(
+    parent: File?,
+    child: String,
+  ) : this(
+    buildString {
+      if (parent != null) {
+        val path = parent.getPath()
+        if (path.isEmpty()) {
+          append(NSOpenStepRootDirectory())
+        } else {
+          append(path)
+        }
+        append(separator)
+      }
+      append(child)
+    }
+  )
+
+  constructor(
+    parent: String?,
+    child: String,
+  ) : this(
+    buildString {
+      if (parent != null) {
+        if (parent.isEmpty()) {
+          append(NSOpenStepRootDirectory())
+        } else {
+          append(parent)
+        }
+        append(separator)
+      }
+      append(child)
+    }
+  )
+
   private val path = fixSlashes(pathname)
+
+  /** Note: In contrast to the Java specificiation, creation and existence checks are not atomic. */
+  fun createNewFile(): Boolean {
+    if (exists()) {
+      return false
+    }
+    return NSFileManager.defaultManager().createFileAtPath(path, NSData(), null)
+  }
 
   fun delete() = NSFileManager.defaultManager().removeItemAtPath(path, null)
 
@@ -58,6 +103,8 @@ class File(pathname: String) {
   fun mkdir() = NSFileManager.defaultManager().createDirectoryAtPath(path, false, null, null)
 
   fun mkdirs() = NSFileManager.defaultManager().createDirectoryAtPath(path, true, null, null)
+
+  fun renameTo(dest: File) = NSFileManager.defaultManager().moveItemAtPath(path, dest.path, null)
 
   override fun toString() = getPath()
 

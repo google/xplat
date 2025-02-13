@@ -95,7 +95,7 @@ public class IoTest {
   }
 
   @Test
-  public void testFile() {
+  public void testFile() throws IOException {
     File file = new File("foo");
     assertEquals("foo", file.getPath());
     assertTrue(file.getAbsolutePath().startsWith("/"));
@@ -118,6 +118,16 @@ public class IoTest {
     assertTrue(testDir2 + " exists", testDir2.exists());
 
     assertTrue(testDir.delete());
-    
+
+    File testFile = new File(baseDir, "file1");
+    File testFile2 = new File(baseDir, "file2");
+    assertFalse(testFile.exists());
+    assertTrue(testFile.createNewFile());
+    assertTrue(testFile.exists());
+    assertFalse(testFile.isDirectory());
+    assertTrue(testFile.renameTo(testFile2));
+    assertFalse(testFile.exists());
+    assertTrue(testFile2.exists());
+    assertTrue(testFile2.delete());
   }
 }
