@@ -68,7 +68,7 @@ public interface CompletionService<V extends @Nullable Object> {
    *
    * @return the Future representing the next completed task, or {@code null} if none are present
    */
-  Future<V> poll();
+  @Nullable Future<V> poll();
 
   /**
    * Retrieves and removes the Future representing the next completed task, waiting if necessary up
@@ -81,5 +81,5 @@ public interface CompletionService<V extends @Nullable Object> {
    * @throws InterruptedException if interrupted while waiting
    */
   @SuppressWarnings("GoodTime")
-  Future<V> poll(long timeout, TimeUnit unit) throws InterruptedException;
+  @Nullable Future<V> poll(long timeout, TimeUnit unit) throws InterruptedException;
 }

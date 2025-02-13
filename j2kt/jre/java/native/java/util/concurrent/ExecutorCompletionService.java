@@ -164,13 +164,13 @@ public class ExecutorCompletionService<V extends @Nullable Object> implements Co
   }
 
   @Override
-  public Future<V> poll() {
+  public @Nullable Future<V> poll() {
     return completionQueue.poll();
   }
 
   @Override
   @SuppressWarnings("GoodTime")
-  public Future<V> poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable Future<V> poll(long timeout, TimeUnit unit) throws InterruptedException {
     return completionQueue.poll(timeout, unit);
   }
 }
