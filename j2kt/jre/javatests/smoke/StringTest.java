@@ -74,7 +74,7 @@ public class StringTest {
 
     assertEquals("HELLO", "hello".toUpperCase(Locale.US));
 
-    char dstCharArray[] = new char[3];
+    char[] dstCharArray = new char[3];
     "abcde".getChars(1, 4, dstCharArray, 0);
     assertEquals("bcd", new String(dstCharArray));
 
