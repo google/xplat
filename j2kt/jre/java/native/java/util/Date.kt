@@ -32,22 +32,28 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.UtcOffset
+import kotlinx.datetime.asTimeZone
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.number
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import platform.Foundation.NSTimeZone
+import platform.Foundation.resetSystemTimeZone
+import platform.Foundation.secondsFromGMT
+import platform.Foundation.systemTimeZone
 
 @ObjCName("J2ktJavaUtilDate", exact = true)
 open class Date private constructor(private var instant: Instant, private var timeZone: TimeZone) :
   Cloneable, Comparable<Date>, Serializable {
-  constructor() : this(Clock.System.now(), TimeZone.currentSystemDefault())
+  constructor() : this(Clock.System.now(), currentSystemDefaultTimeZone())
 
   constructor(
     @ObjCName("Int") year: Int,
     @ObjCName("withInt") month: Int,
-    @ObjCName("withInt") date: Int
+    @ObjCName("withInt") date: Int,
   ) : this(year, month, date, 0, 0, 0)
 
   constructor(
@@ -55,7 +61,7 @@ open class Date private constructor(private var instant: Instant, private var ti
     @ObjCName("withInt") month: Int,
     @ObjCName("withInt") date: Int,
     @ObjCName("withInt") hrs: Int,
-    @ObjCName("withInt") min: Int
+    @ObjCName("withInt") min: Int,
   ) : this(year, month, date, hrs, min, 0)
 
   // Clamping the month and day to match legacy calendar behaviour.
@@ -65,7 +71,7 @@ open class Date private constructor(private var instant: Instant, private var ti
     @ObjCName("withInt") date: Int,
     @ObjCName("withInt") hrs: Int,
     @ObjCName("withInt") min: Int,
-    @ObjCName("withInt") sec: Int
+    @ObjCName("withInt") sec: Int,
   ) : this(
     createInstant(
       year + 1900,
@@ -75,14 +81,14 @@ open class Date private constructor(private var instant: Instant, private var ti
       min,
       sec,
       0,
-      TimeZone.currentSystemDefault()
+      currentSystemDefaultTimeZone(),
     ),
-    TimeZone.currentSystemDefault()
+    currentSystemDefaultTimeZone(),
   )
 
   constructor(
     @ObjCName("Long") date: Long
-  ) : this(Instant.fromEpochMilliseconds(date), TimeZone.currentSystemDefault())
+  ) : this(Instant.fromEpochMilliseconds(date), currentSystemDefaultTimeZone())
 
   constructor(@ObjCName("NSString") date: String) : this(Date.parse(date))
 
@@ -142,7 +148,7 @@ open class Date private constructor(private var instant: Instant, private var ti
         localDateTime.minute,
         localDateTime.second,
         localDateTime.nanosecond,
-        timeZone
+        timeZone,
       )
   }
 
@@ -158,7 +164,7 @@ open class Date private constructor(private var instant: Instant, private var ti
         localDateTime.minute,
         localDateTime.second,
         localDateTime.nanosecond,
-        timeZone
+        timeZone,
       )
   }
 
@@ -175,7 +181,7 @@ open class Date private constructor(private var instant: Instant, private var ti
         minutes,
         localDateTime.second,
         localDateTime.nanosecond,
-        timeZone
+        timeZone,
       )
   }
 
@@ -192,7 +198,7 @@ open class Date private constructor(private var instant: Instant, private var ti
         localDateTime.minute,
         localDateTime.second,
         localDateTime.nanosecond,
-        timeZone
+        timeZone,
       )
   }
 
@@ -209,7 +215,7 @@ open class Date private constructor(private var instant: Instant, private var ti
         localDateTime.minute,
         seconds,
         localDateTime.nanosecond,
-        timeZone
+        timeZone,
       )
   }
 
@@ -231,7 +237,7 @@ open class Date private constructor(private var instant: Instant, private var ti
         localDateTime.minute,
         localDateTime.second,
         localDateTime.nanosecond,
-        timeZone
+        timeZone,
       )
   }
 
@@ -504,11 +510,11 @@ open class Date private constructor(private var instant: Instant, private var ti
       @ObjCName("withInt") date: Int,
       @ObjCName("withInt") hrs: Int,
       @ObjCName("withInt") min: Int,
-      @ObjCName("withInt") sec: Int
+      @ObjCName("withInt") sec: Int,
     ) =
       Date(
           createInstant(year + 1900, month + 1, date, hrs, min, sec, 0, TimeZone.UTC),
-          TimeZone.UTC
+          TimeZone.UTC,
         )
         .getTime()
 
@@ -534,8 +540,40 @@ open class Date private constructor(private var instant: Instant, private var ti
         "Sep",
         "Oct",
         "Nov",
-        "Dec"
+        "Dec",
       )
+
+    private fun twoDigits(n: Long) = if (n < 10) "0$n" else n
+
+    private fun currentSystemDefaultTimeZone(): TimeZone {
+      try {
+        return TimeZone.currentSystemDefault()
+      } catch (e: Exception) {
+        // TODO(b/396634033): Remove this workaround. It will fail for calculating time differences
+        //   accross DST boundaries. We are going ahead with this for now to avoid crashes in prod
+        //   without a significant refactoring until kotlinx.datetime is fixed -- under the
+        //   assumption that this class is only really used for time stamps.
+        NSTimeZone.resetSystemTimeZone() // Avoid stale values
+        var secondsFromGmt = NSTimeZone.systemTimeZone.secondsFromGMT
+
+        // TODO(b/396649080): Workaround for hidden factory function.
+        val negative = secondsFromGmt < 0
+        if (negative) {
+          secondsFromGmt = -secondsFromGmt
+        }
+
+        val seconds = secondsFromGmt % 60
+        val rawMinutes = secondsFromGmt / 60
+        val hours = rawMinutes / 60
+        val minutes = rawMinutes % 60
+
+        val offsetString =
+          (if (negative) "-" else "+") + hours + ":" + twoDigits(minutes) + ":" + twoDigits(seconds)
+
+        val utcOffset = UtcOffset.parse(offsetString)
+        return utcOffset.asTimeZone()
+      }
+    }
 
     /**
      * Sets the date to the given date, overflowing all values as needed into the next higher unit.
@@ -548,7 +586,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       min: Int,
       sec: Int,
       nanosecond: Int = 0,
-      timeZone: TimeZone = TimeZone.currentSystemDefault()
+      timeZone: TimeZone = currentSystemDefaultTimeZone(),
     ): Instant {
       val normalizedNanosecond = nanosecond.mod(1_000_000_000)
 
@@ -566,7 +604,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       val localDateTime =
         LocalDateTime(
           LocalDate(year, 1, 1) + DatePeriod(months = month - 1, days = normalizedDays),
-          LocalTime(normalizedHour, normalizedMinute, normalizedSecond, normalizedNanosecond)
+          LocalTime(normalizedHour, normalizedMinute, normalizedSecond, normalizedNanosecond),
         )
 
       val result = localDateTime.toInstant(timeZone)
