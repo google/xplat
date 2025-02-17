@@ -554,23 +554,7 @@ open class Date private constructor(private var instant: Instant, private var ti
         //   without a significant refactoring until kotlinx.datetime is fixed -- under the
         //   assumption that this class is only really used for time stamps.
         NSTimeZone.resetSystemTimeZone() // Avoid stale values
-        var secondsFromGmt = NSTimeZone.systemTimeZone.secondsFromGMT
-
-        // TODO(b/396649080): Workaround for hidden factory function.
-        val negative = secondsFromGmt < 0
-        if (negative) {
-          secondsFromGmt = -secondsFromGmt
-        }
-
-        val seconds = secondsFromGmt % 60
-        val rawMinutes = secondsFromGmt / 60
-        val hours = rawMinutes / 60
-        val minutes = rawMinutes % 60
-
-        val offsetString =
-          (if (negative) "-" else "+") + hours + ":" + twoDigits(minutes) + ":" + twoDigits(seconds)
-
-        val utcOffset = UtcOffset.parse(offsetString)
+        val utcOffset = UtcOffset(seconds = NSTimeZone.systemTimeZone.secondsFromGMT.toInt())
         return utcOffset.asTimeZone()
       }
     }
