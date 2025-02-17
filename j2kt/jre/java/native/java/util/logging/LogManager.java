@@ -19,6 +19,7 @@ package java.util.logging;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import javaemul.lang.J2ktMonitor;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -44,6 +45,8 @@ public class LogManager {
 
   private HashMap<String, Logger> loggerMap = new HashMap<String, Logger>();
 
+  private final J2ktMonitor mapLock = new J2ktMonitor();
+
   protected LogManager() { }
 
   public boolean addLogger(Logger logger) {
@@ -55,11 +58,15 @@ public class LogManager {
   }
 
   public @Nullable Logger getLogger(String name) {
-    return loggerMap.get(name);
+    synchronized (mapLock) {
+      return loggerMap.get(name);
+    }
   }
 
   public Enumeration<String> getLoggerNames() {
-    return Collections.enumeration(loggerMap.keySet());
+    synchronized (mapLock) {
+      return Collections.enumeration(loggerMap.keySet());
+    }
   }
 
   /**
@@ -83,7 +90,9 @@ public class LogManager {
         logger.addHandler(new SimpleConsoleLogHandler());
       }
     }
-    loggerMap.put(logger.getName(), logger);
+    synchronized (mapLock) {
+      loggerMap.put(logger.getName(), logger);
+    }
   }
 
   /**
@@ -92,13 +101,15 @@ public class LogManager {
    *  for this.
    */
   Logger ensureLogger(String name) {
-    Logger logger = getLogger(name);
-    if (logger == null) {
-      Logger newLogger = new Logger(name, null);
-      addLoggerAndEnsureParents(newLogger);
-      return newLogger;
+    synchronized (mapLock) {
+      Logger logger = getLogger(name);
+      if (logger == null) {
+        Logger newLogger = new Logger(name, null);
+        addLoggerAndEnsureParents(newLogger);
+        return newLogger;
+      }
+      return logger;
     }
-    return logger;
   }
 
   /* Not Implemented */
