@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -129,5 +130,16 @@ public class IoTest {
     assertFalse(testFile.exists());
     assertTrue(testFile2.exists());
     assertTrue(testFile2.delete());
+  }
+
+  @Test
+  public void testFileStreams() throws IOException {
+    File testFile = new File(System.getProperty("java.io.tmpdir") + "/" + new Random().nextInt());
+
+    testFile.createNewFile();
+
+    try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
+      assertEquals(-1, fileInputStream.read());
+    }
   }
 }
