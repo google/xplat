@@ -20,6 +20,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public final class Void {
 
+  @SuppressWarnings("VoidMissingNullable")
   public static final Class<Void> TYPE = void.class;
 
   private Void() {}

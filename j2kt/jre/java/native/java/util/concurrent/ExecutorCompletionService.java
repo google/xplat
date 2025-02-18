@@ -82,7 +82,7 @@ public class ExecutorCompletionService<V extends @Nullable Object> implements Co
   private final BlockingQueue<Future<V>> completionQueue;
 
   /** FutureTask extension to enqueue upon completion */
-  private class QueueingFuture extends FutureTask<Void> {
+  private class QueueingFuture extends FutureTask<@Nullable Void> {
     private final Future<V> task;
 
     QueueingFuture(RunnableFuture<V> task) {
