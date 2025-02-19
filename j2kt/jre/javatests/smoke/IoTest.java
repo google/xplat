@@ -25,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -141,5 +142,75 @@ public class IoTest {
     try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
       assertEquals(-1, fileInputStream.read());
     }
+
+    try (FileOutputStream fileOutputStream = new FileOutputStream(testFile)) {
+      fileOutputStream.write(42);
+    }
+
+    try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
+      assertEquals(42, fileInputStream.read());
+      assertEquals(-1, fileInputStream.read());
+    }
+
+    testFile.delete();
+
+    try (FileOutputStream fileOutputStream = new FileOutputStream(testFile)) {
+      fileOutputStream.write(42);
+    }
+
+    try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
+      assertEquals(42, fileInputStream.read());
+      assertEquals(-1, fileInputStream.read());
+    }
+
+    // Overwrite
+    try (FileOutputStream fileOutputStream = new FileOutputStream(testFile)) {
+      fileOutputStream.write(52);
+    }
+
+    try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
+      assertEquals(52, fileInputStream.read());
+      assertEquals(-1, fileInputStream.read());
+    }
+
+    // Append
+    try (FileOutputStream fileOutputStream = new FileOutputStream(testFile, true)) {
+      fileOutputStream.write(53);
+    }
+
+    try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
+      assertEquals(52, fileInputStream.read());
+      assertEquals(53, fileInputStream.read());
+      assertEquals(-1, fileInputStream.read());
+    }
+  }
+
+  @Test
+  public void testFileStreamsWithByteArrays() throws IOException {
+    File testFile = new File(System.getProperty("java.io.tmpdir") + "/" + new Random().nextInt());
+
+    testFile.createNewFile();
+
+    byte[] data = new byte[] {0, 1, 2, 3};
+
+    try (FileOutputStream fileOutputStream = new FileOutputStream(testFile)) {
+      fileOutputStream.write(data);
+      fileOutputStream.write(data, 1, 2);
+    }
+
+    byte[] result = new byte[6];
+    try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
+      int pos = 0;
+      while (pos < 6) {
+        pos += fileInputStream.read(result, pos, result.length - pos);
+      }
+    }
+
+    assertEquals(0, result[0]);
+    assertEquals(1, result[1]);
+    assertEquals(2, result[2]);
+    assertEquals(3, result[3]);
+    assertEquals(1, result[4]);
+    assertEquals(2, result[5]);
   }
 }
