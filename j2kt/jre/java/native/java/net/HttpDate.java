@@ -19,6 +19,7 @@ package java.net;
 import java.util.Date;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Best-effort parser for HTTP dates. */
 @NullMarked
@@ -26,5 +27,5 @@ import org.jspecify.annotations.NullMarked;
 final class HttpDate {
 
   /** Returns the date for {@code value}. Returns null if the value couldn't be parsed. */
-  public static native Date parse(String value);
+  public static native @Nullable Date parse(String value);
 }
