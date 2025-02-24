@@ -36,9 +36,6 @@ public class FileInputStream extends InputStream {
   public FileInputStream(String path) throws FileNotFoundException {}
 
   @Override
-  public native int available() throws IOException;
-
-  @Override
   public native void close() throws IOException;
 
   @Override
@@ -48,5 +45,5 @@ public class FileInputStream extends InputStream {
   public native int read(byte[] buffer, int byteOffset, int byteCount) throws IOException;
 
   @Override
-  public native long skip(long byteCount) throws IOException;
+  public native byte[] readAllBytes() throws IOException;
 }
