@@ -212,5 +212,12 @@ public class IoTest {
     assertEquals(3, result[3]);
     assertEquals(1, result[4]);
     assertEquals(2, result[5]);
+
+    try (FileInputStream fileInputStream = new FileInputStream(testFile)) {
+      result = fileInputStream.readAllBytes();
+    }
+    assertEquals(6, result.length);
+    assertEquals(0, result[0]);
+    assertEquals(2, result[5]);
   }
 }
