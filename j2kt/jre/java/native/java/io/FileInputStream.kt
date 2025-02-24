@@ -40,7 +40,7 @@ class FileInputStream(file: File) : InputStream() {
 
   init {
     if (!file.exists()) {
-      throw FileNotFoundException()
+      throw FileNotFoundException(file.getPath())
     }
     data = NSFileManager.defaultManager().contentsAtPath(file.getPath())
     if (data == null) {

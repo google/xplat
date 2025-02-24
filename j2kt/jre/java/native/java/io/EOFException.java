@@ -15,13 +15,17 @@
  */
 package java.io;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 @NullMarked
+@KtNative
 public class EOFException extends IOException {
 
   public EOFException(@Nullable String message) {
-    super(message);
+    ktNative();
   }
 }

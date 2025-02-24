@@ -17,15 +17,16 @@
 
 package java.io;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Thrown when a file specified by a program cannot be found. */
 @NullMarked
+@KtNative
 public class FileNotFoundException extends IOException {
-
-  /** Constructs a new {@code FileNotFoundException} with its stack trace filled in. */
-  public FileNotFoundException() {}
 
   /**
    * Constructs a new {@code FileNotFoundException} with its stack trace and detail message filled
@@ -34,6 +35,6 @@ public class FileNotFoundException extends IOException {
    * @param detailMessage the detail message for this exception.
    */
   public FileNotFoundException(@Nullable String detailMessage) {
-    super(detailMessage);
+    ktNative();
   }
 }
