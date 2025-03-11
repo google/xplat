@@ -30,28 +30,27 @@ fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { parallelStream() }
     ?: StreamSupport.stream(spliterator(), parallel = true)
 
-fun <E> MutableCollection<E>.java_addAll(c: MutableCollection<out E>): Boolean = addAll(c)
+fun <E> MutableCollection<E>.java_addAll(c: Collection<out E>): Boolean = addAll(c)
 
-fun <V> MutableCollection<V>.java_contains(value: Any?): Boolean =
+fun <V> Collection<V>.java_contains(value: Any?): Boolean =
   (this as Collection<Any>).contains(value)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_containsAll(c: MutableCollection<*>): Boolean =
-  containsAll(c as MutableCollection<E>)
+fun <E> Collection<E>.java_containsAll(c: Collection<*>): Boolean = containsAll(c as Collection<E>)
 
 fun <V> MutableCollection<V>.java_remove(value: Any?): Boolean =
   (this as MutableCollection<Any?>).remove(value)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_removeAll(c: MutableCollection<*>): Boolean =
+fun <E> MutableCollection<E>.java_removeAll(c: Collection<*>): Boolean =
   removeAll(c as MutableCollection<E>)
 
 fun <E> MutableCollection<E>.removeIf(filter: Predicate<in E>): Boolean =
   (this as? JavaUtilCollection)?.run { removeIf(filter) } ?: removeAll(filter::test)
 
 @Suppress("UNCHECKED_CAST")
-fun <E> MutableCollection<E>.java_retainAll(c: MutableCollection<*>): Boolean =
-  retainAll(c as MutableCollection<E>)
+fun <E> MutableCollection<E>.java_retainAll(c: Collection<*>): Boolean =
+  retainAll(c as Collection<E>)
 
 fun MutableCollection<*>.toArray(): Array<Any?> =
   (this as? JavaUtilCollection<*>)?.run { toArray() } ?: CollectionHelper.toArray(this)
@@ -59,24 +58,22 @@ fun MutableCollection<*>.toArray(): Array<Any?> =
 fun <T> MutableCollection<*>.toArray(a: Array<T>): Array<T> =
   (this as? JavaUtilCollection<*>)?.run { toArray(a) } ?: CollectionHelper.toArray(this, a)
 
-fun <V> MutableList<V>.java_addAll(index: Int, c: MutableCollection<out V>): Boolean =
-  addAll(index, c as Collection<V>)
+fun <V> MutableList<V>.java_addAll(index: Int, c: Collection<V>): Boolean = addAll(index, c)
 
-fun <V> MutableList<V>.java_indexOf(value: Any?): Int = (this as MutableList<Any?>).indexOf(value)
+fun <V> List<V>.java_indexOf(value: Any?): Int = (this as List<Any?>).indexOf(value)
 
-fun <V> MutableList<V>.java_lastIndexOf(value: Any?): Int =
-  (this as MutableList<Any?>).lastIndexOf(value)
+fun <V> List<V>.java_lastIndexOf(value: Any?): Int = (this as List<Any?>).lastIndexOf(value)
 
-fun <K, V> MutableMap<K, V>.java_containsKey(key: Any?): Boolean =
-  (this as MutableMap<Any?, Any?>).containsKey(key)
+fun <K, V> Map<K, V>.java_containsKey(key: Any?): Boolean =
+  (this as Map<Any?, Any?>).containsKey(key)
 
-fun <K, V> MutableMap<K, V>.java_containsValue(value: Any?): Boolean =
-  (this as MutableMap<Any?, Any?>).containsValue(value)
+fun <K, V> Map<K, V>.java_containsValue(value: Any?): Boolean =
+  (this as Map<Any?, Any?>).containsValue(value)
 
-fun <K, V> MutableMap<K, V>.java_get(key: Any?): V? = (this as MutableMap<Any?, V>).get(key)
+fun <K, V> Map<K, V>.java_get(key: Any?): V? = (this as Map<Any?, V>).get(key)
 
-fun <K, V> MutableMap<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
-  (this as MutableMap<Any?, V?>).run {
+fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
+  (this as Map<Any?, V?>).run {
     if (this is JavaUtilMap) getOrDefault(key, defaultValue)
     else default_getOrDefault(key, defaultValue)
   }

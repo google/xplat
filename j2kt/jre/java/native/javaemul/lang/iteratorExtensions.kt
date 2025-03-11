@@ -18,7 +18,7 @@ package javaemul.lang
 import java.util.Iterator as JavaUtilIterator
 import java.util.function.Consumer
 
-fun <T> MutableIterator<T>.forEachRemaining(consumer: Consumer<in T>) {
+fun <T> Iterator<T>.forEachRemaining(consumer: Consumer<in T>) {
   if (this is JavaUtilIterator) {
     (this as JavaUtilIterator<T>).forEachRemaining(consumer)
   } else {

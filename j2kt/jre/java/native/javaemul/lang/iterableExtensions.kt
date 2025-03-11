@@ -20,7 +20,7 @@ import java.util.Spliterator
 import java.util.Spliterators
 import java.util.function.Consumer
 
-fun <T> MutableIterable<T>.forEach(consumer: Consumer<in T>) {
+fun <T> Iterable<T>.forEach(consumer: Consumer<in T>) {
   if (this is JavaLangIterable<*>) {
     (this as JavaLangIterable<T>).forEach(consumer)
   } else {
