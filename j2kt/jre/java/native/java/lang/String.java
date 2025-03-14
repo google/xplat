@@ -222,7 +222,7 @@ public final class String implements Comparable<String>, CharSequence {
       @Nullable Locale locale, String format, @Nullable Object... args);
 
   public static native String join(
-      CharSequence delimiter, Iterable<? extends CharSequence> elements);
+      CharSequence delimiter, Iterable<? extends @Nullable CharSequence> elements);
 
-  public static native String join(CharSequence delimiter, CharSequence... elements);
+  public static native String join(CharSequence delimiter, @Nullable CharSequence... elements);
 }

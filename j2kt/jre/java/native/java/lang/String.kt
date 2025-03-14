@@ -91,7 +91,7 @@ object String {
   fun format(locale: Locale?, format: kotlin.String, vararg values: Any?): kotlin.String =
     Formatter().format(locale, format, *values).toString()
 
-  fun join(delimiter: CharSequence, elements: KotlinIterable<CharSequence>): kotlin.String {
+  fun join(delimiter: CharSequence, elements: KotlinIterable<CharSequence?>): kotlin.String {
     val joiner = StringJoiner(delimiter)
     for (element in elements) {
       joiner.add(element)
@@ -99,7 +99,7 @@ object String {
     return joiner.toString()
   }
 
-  fun join(delimiter: CharSequence, vararg elements: CharSequence): kotlin.String =
+  fun join(delimiter: CharSequence, vararg elements: CharSequence?): kotlin.String =
     join(delimiter, elements.asList())
 
   fun valueOf(c: Char): kotlin.String = c.toString()
