@@ -218,6 +218,7 @@ public class UUIDTest extends TestCase {
   /**
    * @see UUID#equals(Object)
    */
+  @SuppressWarnings("SelfAssertion")
   public void test_equalsObject() {
     UUID uuid1 = new UUID(0, 0);
     assertEquals(uuid1, uuid1);

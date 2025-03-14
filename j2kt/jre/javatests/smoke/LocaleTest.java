@@ -82,6 +82,7 @@ public class LocaleTest {
   }
 
   @Test
+  @SuppressWarnings("SelfAssertion")
   public void equals() {
     assertEquals(Locale.ENGLISH, Locale.ENGLISH);
     assertEquals(Locale.US, Locale.US);
