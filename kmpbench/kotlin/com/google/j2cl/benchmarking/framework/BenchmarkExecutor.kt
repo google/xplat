@@ -16,7 +16,7 @@
 
 package com.google.j2cl.benchmarking.framework
 
-import kotlin.system.measureNanoTime
+import kotlin.time.measureTime
 
 // This is a Kotlin port of the corresponding J2cl Java class in
 // google3/third_party/java_src/j2cl/benchmarking/java/com/google/j2cl/benchmarking/framework/
@@ -65,11 +65,12 @@ object BenchmarkExecutor {
         benchmark.setup()
         var result: Any? = null
         val executionTime =
-          measureNanoTime {
-            // We use the results to avoid V8 or the JVM to figure out whole benchmark doesn't have
-            // side effects, consider it as death code and not even execute it.
-            result = benchmark.run()
-          } / 1000000.0
+          measureTime {
+              // We use the results to avoid V8 or the JVM to figure out whole benchmark doesn't
+              // have side effects, consider it as death code and not even execute it.
+              result = benchmark.run()
+            }
+            .inWholeNanoseconds / 1000000.0
         benchmark.tearDown()
         iterationTime += executionTime
         runs++
