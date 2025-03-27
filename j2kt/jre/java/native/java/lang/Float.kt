@@ -13,11 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
+import kotlin.native.ObjCName
 
 /** java.lang.Float static method emulations */
+@ObjCName("J2ktJavaLangFloat", exact = true)
 object Float {
   operator fun invoke(f: kotlin.Float): kotlin.Float = f
 

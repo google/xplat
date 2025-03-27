@@ -13,19 +13,26 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.jvm.javaPrimitiveType
+import kotlin.native.ObjCName
 
 /** java.lang.Boolean static method emulations */
+@OptIn(ExperimentalObjCRefinement::class)
+@ObjCName("J2ktJavaLangBoolean", exact = true)
 object Boolean {
   operator fun invoke(b: kotlin.Boolean): kotlin.Boolean = b
 
   operator fun invoke(s: kotlin.String?): kotlin.Boolean = parseBoolean(s)
 
-  const val TRUE: kotlin.Boolean = true
+  @HiddenFromObjC const val TRUE: kotlin.Boolean = true
 
-  const val FALSE: kotlin.Boolean = false
+  @HiddenFromObjC const val FALSE: kotlin.Boolean = false
 
   val TYPE: Class<kotlin.Boolean> = kotlin.Boolean::class.javaPrimitiveType!!
 

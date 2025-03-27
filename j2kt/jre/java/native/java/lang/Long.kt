@@ -13,13 +13,18 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
 import javaemul.internal.decodeNumberString
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 import kotlin.math.sign
+import kotlin.native.ObjCName
 
 /** java.lang.Long static method emulations */
+@ObjCName("J2ktJavaLangLong", exact = true)
 object Long {
   operator fun invoke(l: kotlin.Long): kotlin.Long = l
 

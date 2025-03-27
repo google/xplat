@@ -13,11 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
+import kotlin.native.ObjCName
 
 /** java.lang.Double static method emulations */
+@ObjCName("J2ktJavaLangDouble", exact = true)
 object Double {
   operator fun invoke(d: kotlin.Double): kotlin.Double = d
 

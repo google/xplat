@@ -13,12 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalObjCName::class)
+
 package java.lang
 
 import javaemul.internal.decodeNumberString
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
+import kotlin.native.ObjCName
 
 /** java.lang.Short static method emulations */
+@ObjCName("J2ktJavaLangShort", exact = true)
 object Short {
   operator fun invoke(s: kotlin.Short): kotlin.Short = s
 
