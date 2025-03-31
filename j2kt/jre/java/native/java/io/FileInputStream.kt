@@ -23,12 +23,12 @@ import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readByteArray
 
 @OptIn(kotlin.experimental.ExperimentalObjCName::class)
-@ObjCName("J2ktJavaIoFileInputStream")
+@ObjCName("J2ktJavaIoFileInputStream", exact = true)
 class FileInputStream(path: String) : InputStream() {
 
   constructor(file: File) : this(file.getPath())
 
-  val source: Source = SystemFileSystem.source(Path(path)).buffered()
+  internal val source: Source = SystemFileSystem.source(Path(path)).buffered()
 
   override fun close() {
     source.close()
