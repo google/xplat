@@ -1,0 +1,7 @@
+import %workspace%/third_party/java/j2cl/blazerc
+
+build --strategy=J2kt=dynamic
+build --strategy=J2ktStrip=dynamic
+# J2KT is in the critical path for a single target, so minimize worker count.
+build --worker_max_instances=J2kt=1
+build --worker_max_instances=J2ktStrip=1
