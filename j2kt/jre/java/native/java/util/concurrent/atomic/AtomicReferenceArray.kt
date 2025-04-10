@@ -21,35 +21,39 @@ package java.util.concurrent.atomic
 
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
+import kotlinx.atomicfu.AtomicRef
+import kotlinx.atomicfu.atomic
 
 /**
- * GWT emulated version of {@link AtomicReferenceArray}.
+ * J2KT Native emulated version of `AtomicReferenceArray`.
  *
- * @param <V> the element type.
+ * @param V the element type.
  */
 @ObjCName("J2ktJavaUtilConcurrentAtomicReferenceArray", exact = true)
-class AtomicReferenceArray<V> internal constructor(private val values: List<AtomicReference<V>>) {
+class AtomicReferenceArray<V> private constructor(private val array: Array<AtomicRef<V>>) {
 
-  constructor(array: Array<V>) : this(array.map { AtomicReference<V>(it) })
+  constructor(array: Array<V>) : this(Array(array.size) { atomic<V>(array[it]) })
 
-  fun compareAndSet(i: Int, expect: V, update: V) = values[i].compareAndSet(expect, update)
+  fun compareAndSet(i: Int, expect: V, update: V) = array[i].compareAndSet(expect, update)
 
-  fun get(i: Int) = values[i].get()
+  fun get(i: Int) = array[i].value
 
-  fun getAndSet(i: Int, x: V) = values[i].getAndSet(x)
+  fun getAndSet(i: Int, x: V) = array[i].getAndSet(x)
 
-  fun lazySet(i: Int, x: V) = values[i].lazySet(x)
+  fun lazySet(i: Int, x: V) = array[i].lazySet(x)
 
-  fun length(): Int = values.size
+  fun length(): Int = array.size
 
-  fun set(i: Int, x: V) = values[i].set(x)
+  fun set(i: Int, x: V) {
+    array[i].value = x
+  }
 
   fun weakCompareAndSet(i: Int, expect: V, update: V): Boolean = compareAndSet(i, expect, update)
 
-  override fun toString(): String = values.toString()
+  override fun toString(): String = array.toString()
 
   companion object {
     operator fun <V> invoke(length: Int): AtomicReferenceArray<V?> =
-      AtomicReferenceArray<V?>((1..length).map { AtomicReference<V>() })
+      AtomicReferenceArray<V?>(Array(length) { atomic<V?>(null) })
   }
 }

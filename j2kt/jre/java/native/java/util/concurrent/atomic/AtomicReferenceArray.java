@@ -23,7 +23,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * GWT emulated version of {@link AtomicReferenceArray}.
+ * J2KT Native emulated version of AtomicReferenceArray.
  *
  * @param <V> the element type.
  */
