@@ -81,7 +81,7 @@ class File(pathname: String) {
 
   fun getAbsolutePath() =
     if (path.startsWith(separatorChar)) path
-    else NSFileManager.defaultManager().currentDirectoryPath()
+    else fixSlashes(NSFileManager.defaultManager().currentDirectoryPath() + separator + path)
 
   fun getPath() = path
 
