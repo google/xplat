@@ -21,6 +21,7 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.experimental.ExperimentalObjCName
+import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.ObjCName
 import kotlin.native.ref.createCleaner
 import kotlinx.cinterop.alloc
@@ -37,6 +38,7 @@ import platform.posix.pthread_mutexattr_settype
 import platform.posix.pthread_mutexattr_t
 
 /** Native monitor using pthread mutex. */
+@OptIn(ExperimentalObjCRefinement::class)
 open class J2ktMonitor {
 
   private val mutex: pthread_mutex_t = nativeHeap.alloc()
@@ -54,6 +56,7 @@ open class J2ktMonitor {
     }
 
   @OptIn(ExperimentalContracts::class)
+  @HiddenFromObjC
   inline fun <T> synchronizedImpl(block: () -> T): T {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
     lock()
