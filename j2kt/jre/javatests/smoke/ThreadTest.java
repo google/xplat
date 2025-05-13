@@ -16,11 +16,11 @@
 package smoke;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -29,10 +29,10 @@ import org.junit.runners.JUnit4;
 public final class ThreadTest {
 
   @Test
-  public void testThreadId() {
-    assertTrue(Thread.currentThread().getId() > 0);
-    assertSame(Thread.currentThread(), Thread.currentThread());
-    Assert.assertFalse(Thread.currentThread().getName().isEmpty());
+  public void testCurrentThread() {
+    assertTrue("id > 0", Thread.currentThread().getId() > 0);
+    assertSame("Identical instances", Thread.currentThread(), Thread.currentThread());
+    assertFalse("Has a name", Thread.currentThread().getName().isEmpty());
   }
 
   @Test
