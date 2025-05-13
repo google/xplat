@@ -47,6 +47,7 @@ import org.junit.runners.Suite.SuiteClasses;
   SecurityTest.class,
   StringTest.class,
   SystemTest.class,
+  ThreadTest.class,
   ThrowableTest.class,
   UUIDTest.class,
   URITest.class,

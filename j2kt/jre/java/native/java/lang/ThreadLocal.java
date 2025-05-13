@@ -19,43 +19,32 @@
 package java.lang;
 
 import java.util.function.Supplier;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Provides an implementation of {@link java.lang.ThreadLocal} for GWT.
+ * Provides an implementation of {@link java.lang.ThreadLocal}. Please make sure to use remove() if
+ * the thread is expected to out-live the intended scope of a thread local to avoid leaking the
+ * corresponding memory until the thread ends.
  *
  * @param <T> value type.
  */
 @NullMarked
+@KtNative
 public class ThreadLocal<T extends @Nullable Object> {
 
-  private @Nullable T value;
-
   public ThreadLocal() {
-    value = initialValue();
   }
 
-  public @Nullable T get() {
-    return value;
-  }
+  public native @Nullable T get();
 
-  public void set(T value) {
-    this.value = value;
-  }
+  public native void set(T value);
 
-  public void remove() {
-    value = null;
-  }
+  public native void remove();
 
-  protected @Nullable T initialValue() {
-    return null;
-  }
+  protected native @Nullable T initialValue();
 
-  public static <S extends @Nullable Object> ThreadLocal<S> withInitial(
-      Supplier<? extends S> supplier) {
-    ThreadLocal<S> threadLocal = new ThreadLocal<>();
-    threadLocal.set(supplier.get());
-    return threadLocal;
-  }
+  public static native <S extends @Nullable Object> ThreadLocal<S> withInitial(
+      Supplier<? extends S> supplier);
 }
