@@ -15,36 +15,19 @@
  */
 package java.lang;
 
-import java.util.concurrent.atomic.AtomicLong;
+import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
 
 /** Thread subset supporting a threadId for simple logging and thread identity checks. */
+@NullMarked
+@KtNative
 public final class Thread {
 
-  private static final AtomicLong nextId = new AtomicLong(1);
+  public static native Thread currentThread();
 
-  private static final ThreadLocal<Thread> currentThread =
-      new ThreadLocal<Thread>() {
-        @Override
-        protected Thread initialValue() {
-          return new Thread(nextId.getAndIncrement());
-        }
-      };
+  private Thread() {}
 
-  public static Thread currentThread() {
-    return currentThread.get();
-  }
+  public native long getId();
 
-  private final long id;
-
-  private Thread(long id) {
-    this.id = id;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public String getName() {
-    return "Thread-" + id;
-  }
+  public native String getName();
 }
