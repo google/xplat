@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import javaemul.lang.J2ktMonitor;
+import javaemul.internal.DebugDefine;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -85,7 +86,7 @@ public class LogManager {
   }
 
   private void addLoggerImpl(Logger logger) {
-    if (System.getProperty("jre.logging.simpleConsoleHandler").equals("ENABLED")) {
+    if (DebugDefine.getValue()) {
       if (logger.getName().isEmpty()) {
         logger.addHandler(new SimpleConsoleLogHandler());
       }
