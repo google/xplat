@@ -15,8 +15,6 @@
  */
 package javaemul.internal;
 
-import static java.lang.System.getProperty;
-
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 import org.jspecify.annotations.NullMarked;
@@ -78,29 +76,28 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public final class InternalPreconditions {
 
-  private static final String CHECK_TYPE = getProperty("jre.checks.type");
-  private static final String CHECK_NUMERIC = getProperty("jre.checks.numeric");
-  private static final String CHECK_BOUNDS = getProperty("jre.checks.bounds");
-  private static final String CHECK_API = getProperty("jre.checks.api");
+  private static final String CHECK_TYPE = "AUTO";
+  private static final String CHECK_NUMERIC = "AUTO";
+  private static final String CHECK_BOUNDS = "AUTO";
+  private static final String CHECK_API = "AUTO";
+
+  private static final String CHECK_LEVEL = "NORMAL";
+  private static final @Nullable String CHECK_MODE = null;
 
   // Note that == used instead of equals below for comparisons as it is easier/quicker to optimize.
 
   // NORMAL
-  private static final boolean LEVEL_NORMAL_OR_HIGHER =
-      getProperty("jre.checks.checkLevel") == "NORMAL";
+  private static final boolean LEVEL_NORMAL_OR_HIGHER = CHECK_LEVEL == "NORMAL";
   // NORMAL or OPTIMIZED
   private static final boolean LEVEL_OPT_OR_HIGHER =
-      getProperty("jre.checks.checkLevel") == "OPTIMIZED"
-          || getProperty("jre.checks.checkLevel") == "NORMAL";
+      CHECK_LEVEL == "OPTIMIZED" || CHECK_LEVEL == "NORMAL";
   // NORMAL or OPTIMIZED or MINIMAL
   private static final boolean LEVEL_MINIMAL_OR_HIGHER =
-      getProperty("jre.checks.checkLevel") == "MINIMAL"
-          || getProperty("jre.checks.checkLevel") == "OPTIMIZED"
-          || getProperty("jre.checks.checkLevel") == "NORMAL";
+      CHECK_LEVEL == "MINIMAL" || CHECK_LEVEL == "OPTIMIZED" || CHECK_LEVEL == "NORMAL";
 
   static {
     if (!LEVEL_MINIMAL_OR_HIGHER) {
-      throw new IllegalStateException("Incorrect level: " + getProperty("jre.checks.checkLevel"));
+      throw new IllegalStateException("Incorrect level: " + CHECK_LEVEL);
     }
   }
 
@@ -113,7 +110,7 @@ public final class InternalPreconditions {
   private static final boolean IS_NUMERIC_CHECKED =
       CHECK_NUMERIC == "AUTO" && LEVEL_NORMAL_OR_HIGHER || CHECK_NUMERIC == "ENABLED";
 
-  private static final boolean IS_ASSERTED = getProperty("jre.checkedMode") == "ENABLED";
+  private static final boolean IS_ASSERTED = CHECK_MODE == "ENABLED";
 
   /**
    * This method reports if the code is compiled with type checks.

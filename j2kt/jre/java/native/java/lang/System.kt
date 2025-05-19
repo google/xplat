@@ -44,12 +44,6 @@ object System {
       "file.separator" -> "/"
       "path.separator" -> ":"
       "java.io.tmpdir" -> NSTemporaryDirectory()
-      // TODO(b/392585924): Avoid this hack for InternalPreconditions.java and logging.
-      "jre.checks.api",
-      "jre.checks.bounds",
-      "jre.checks.numeric",
-      "jre.checks.type" -> "AUTO"
-      "jre.checks.checkLevel" -> "NORMAL"
       else -> null
     }
 
