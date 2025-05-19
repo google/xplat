@@ -50,7 +50,6 @@ object System {
       "jre.checks.numeric",
       "jre.checks.type" -> "AUTO"
       "jre.checks.checkLevel" -> "NORMAL"
-      "jre.logging.logLevel" -> "SEVERE"
       "jre.logging.simpleConsoleHandler" -> "ENABLED"
       else -> null
     }

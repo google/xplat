@@ -18,6 +18,7 @@ package java.util.logging;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import javaemul.internal.DebugDefine;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -37,22 +38,13 @@ public class Logger {
   private static final boolean SEVERE_ENABLED;
 
   static {
-    // '==' instead of equals makes it compile out faster.
+    boolean debugMode = DebugDefine.getValue();
 
-    String level = System.getProperty("jre.logging.logLevel");
-    if (level != "ALL"
-        && level != "INFO"
-        && level != "WARNING"
-        && level != "SEVERE"
-        && level != "OFF") {
-      throw new AssertionError("Undefined value for jre.logging.logLevel: '" + level + "'");
-    }
-
-    LOGGING_OFF = level == "OFF";
-    ALL_ENABLED = level == "ALL";
-    INFO_ENABLED = level == "ALL" || level == "INFO";
-    WARNING_ENABLED = level == "ALL" || level == "INFO" || level == "WARNING";
-    SEVERE_ENABLED = level == "ALL" || level == "INFO" || level == "WARNING" || level == "SEVERE";
+    LOGGING_OFF = false;
+    ALL_ENABLED = debugMode;
+    INFO_ENABLED = debugMode;
+    WARNING_ENABLED = debugMode;
+    SEVERE_ENABLED = true;
   }
 
   public static Logger getGlobal() {
