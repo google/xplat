@@ -21,7 +21,6 @@ import static javaemul.internal.InternalPreconditions.checkConcurrentModificatio
 import static javaemul.internal.InternalPreconditions.checkCriticalArgument;
 import static javaemul.internal.InternalPreconditions.checkElement;
 import static javaemul.internal.InternalPreconditions.checkState;
-import static javaemul.internal.InternalPreconditions.isApiChecked;
 
 import java.io.Serializable;
 import jsinterop.annotations.JsEnum;
@@ -93,11 +92,6 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   private void structureChanged() {
-    if (!isApiChecked()) {
-      // Shouldn't be necessary but JsCompiler chokes on removing modCount so make sure we don't pay
-      // cost for updating the field.
-      return;
-    }
     this.modCount++;
   }
 

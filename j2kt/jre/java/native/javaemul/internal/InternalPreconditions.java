@@ -20,133 +20,17 @@ import java.util.NoSuchElementException;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-/**
- * A utility class that provides utility functions to do precondition checks inside GWT-SDK.
- *
- * <p>Following table summarizes the grouping of the checks:
- *
- * <pre>
- * ┌────────┬─────────────────────────────────────────────────────┬───────────────────────────────┐
- * │Group   │Description                                          │Common Exception Types         │
- * ├────────┼─────────────────────────────────────────────────────┼───────────────────────────────┤
- * │BOUNDS  │Checks related to the bound checking in collections. │IndexOutBoundsException        │
- * │        │                                                     │ArrayIndexOutOfBoundsException │
- * ├────────┼─────────────────────────────────────────────────────┼───────────────────────────────┤
- * │API     │Checks related to the correct usage of APIs.         │IllegalStateException          │
- * │        │                                                     │NoSuchElementException         │
- * │        │                                                     │NullPointerException           │
- * │        │                                                     │IllegalArgumentException       │
- * │        │                                                     │ConcurrentModificationException│
- * ├────────┼─────────────────────────────────────────────────────┼───────────────────────────────┤
- * │NUMERIC │Checks related to numeric operations.                │ArithmeticException            │
- * ├────────┼─────────────────────────────────────────────────────┼───────────────────────────────┤
- * │TYPE    │Checks related to java type system.                  │ClassCastException             │
- * │        │                                                     │ArrayStoreException            │
- * ├────────┼─────────────────────────────────────────────────────┼───────────────────────────────┤
- * │CRITICAL│Checks for cases where not failing-fast will keep    │IllegalArgumentException       │
- * │        │the object in an inconsistent state and/or degrade   │                               │
- * │        │debugging significantly. Currently disabling these   │                               │
- * │        │checks is not supported.                             │                               │
- * └────────┴─────────────────────────────────────────────────────┴───────────────────────────────┘
- * </pre>
- *
- * <p>Following table summarizes predefined check levels:
- *
- * <pre>
- * ┌────────────────┬──────────┬─────────┬─────────┬─────────┬─────────┐
- * │Check level     │  BOUNDS  │   API   │ NUMERIC |  TYPE   │CRITICAL │
- * ├────────────────┼──────────┼─────────┼─────────┼─────────┼─────────┤
- * │Normal (default)│    X     │    X    │    X    │    X    │    X    │
- * ├────────────────┼──────────┼─────────┼─────────┼─────────┼─────────┤
- * │Optimized       │          │         │         │    X    │    X    │
- * ├────────────────┼──────────┼─────────┼─────────┼─────────┼─────────┤
- * │Minimal         │          │         │         │         │    X    │
- * ├────────────────┼──────────┼─────────┼─────────┼─────────┼─────────┤
- * │None (N/A yet)  │          │         │         │         │         │
- * └────────────────┴──────────┴─────────┴─────────┴─────────┴─────────┘
- * </pre>
- *
- * <p>Please note that, in development mode (jre.checkedMode=ENABLED), these checks will always be
- * performed regardless of configuration but will be converted to AssertionError if check is
- * disabled. This so that any reliance on related exceptions could be detected early on. For this
- * detection to work properly; it is important for apps to share the same config in all
- * environments.
- */
+/** A utility class that provides utility functions to do precondition checks. */
 // Some parts adapted from Guava
 @NullMarked
 public final class InternalPreconditions {
-
-  private static final String CHECK_TYPE = "AUTO";
-  private static final String CHECK_NUMERIC = "AUTO";
-  private static final String CHECK_BOUNDS = "AUTO";
-  private static final String CHECK_API = "AUTO";
-
-  private static final String CHECK_LEVEL = "NORMAL";
-  private static final @Nullable String CHECK_MODE = null;
-
-  // Note that == used instead of equals below for comparisons as it is easier/quicker to optimize.
-
-  // NORMAL
-  private static final boolean LEVEL_NORMAL_OR_HIGHER = CHECK_LEVEL == "NORMAL";
-  // NORMAL or OPTIMIZED
-  private static final boolean LEVEL_OPT_OR_HIGHER =
-      CHECK_LEVEL == "OPTIMIZED" || CHECK_LEVEL == "NORMAL";
-  // NORMAL or OPTIMIZED or MINIMAL
-  private static final boolean LEVEL_MINIMAL_OR_HIGHER =
-      CHECK_LEVEL == "MINIMAL" || CHECK_LEVEL == "OPTIMIZED" || CHECK_LEVEL == "NORMAL";
-
-  static {
-    if (!LEVEL_MINIMAL_OR_HIGHER) {
-      throw new IllegalStateException("Incorrect level: " + CHECK_LEVEL);
-    }
-  }
-
-  private static final boolean IS_TYPE_CHECKED =
-      CHECK_TYPE == "AUTO" && LEVEL_OPT_OR_HIGHER || CHECK_TYPE == "ENABLED";
-  private static final boolean IS_BOUNDS_CHECKED =
-      CHECK_BOUNDS == "AUTO" && LEVEL_NORMAL_OR_HIGHER || CHECK_BOUNDS == "ENABLED";
-  private static final boolean IS_API_CHECKED =
-      CHECK_API == "AUTO" && LEVEL_NORMAL_OR_HIGHER || CHECK_API == "ENABLED";
-  private static final boolean IS_NUMERIC_CHECKED =
-      CHECK_NUMERIC == "AUTO" && LEVEL_NORMAL_OR_HIGHER || CHECK_NUMERIC == "ENABLED";
-
-  private static final boolean IS_ASSERTED = CHECK_MODE == "ENABLED";
-
-  /**
-   * This method reports if the code is compiled with type checks.
-   * It must be used in places where code can be replaced with a simpler one
-   * when we know that no checks will occur.
-   * See {@link System#arraycopy(Object, int, Object, int, int)} for example.
-   * Please note that {@link #checkType(boolean)} should be preferred where feasible.
-   */
-  public static boolean isTypeChecked() {
-    return IS_TYPE_CHECKED || IS_ASSERTED;
-  }
-
-  /**
-   * This method reports if the code is compiled with api checks.
-   * It must be used in places where code can be replaced with a simpler one
-   * when we know that no checks will occur.
-   * Please note that {@code #checkXXX(boolean)} should be preferred where feasible.
-   */
-  public static boolean isApiChecked() {
-    return IS_API_CHECKED || IS_ASSERTED;
-  }
 
   public static void checkType(boolean expression) {
     checkType(expression, null);
   }
 
   public static void checkType(boolean expression, @Nullable String message) {
-    if (IS_TYPE_CHECKED) {
-      checkCriticalType(expression, message);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalType(expression, message);
-      } catch (RuntimeException e) {
-        throw new AssertionError(e);
-      }
-    }
+    checkCriticalType(expression, message);
   }
 
   public static void checkCriticalType(boolean expression) {
@@ -154,24 +38,14 @@ public final class InternalPreconditions {
   }
 
   public static void checkCriticalType(boolean expression, @Nullable String message) {
-    if (!expression) {
-      throw new ClassCastException(message);
-    }
+    throw new ClassCastException(message);
   }
 
   /**
    * Ensures the truth of an expression that verifies array type.
    */
   public static void checkArrayType(boolean expression) {
-    if (IS_TYPE_CHECKED) {
-      checkCriticalArrayType(expression);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalArrayType(expression);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
+    checkCriticalArrayType(expression);
   }
 
   public static void checkCriticalArrayType(boolean expression) {
@@ -184,15 +58,7 @@ public final class InternalPreconditions {
    * Ensures the truth of an expression that verifies array type.
    */
   public static void checkArrayType(boolean expression, Object errorMessage) {
-    if (IS_TYPE_CHECKED) {
-      checkCriticalArrayType(expression, errorMessage);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalArrayType(expression, errorMessage);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
+    checkCriticalArrayType(expression, errorMessage);
   }
 
   public static void checkCriticalArrayType(boolean expression, Object errorMessage) {
@@ -202,15 +68,7 @@ public final class InternalPreconditions {
   }
 
   public static void checkArithmetic(boolean expression) {
-    if (IS_NUMERIC_CHECKED) {
-      checkCriticalArithmetic(expression);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalArithmetic(expression);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
+    checkCriticalArithmetic(expression);
   }
 
   public static void checkCriticalArithmetic(boolean expression) {
@@ -223,15 +81,7 @@ public final class InternalPreconditions {
    * Ensures the truth of an expression involving existence of an element.
    */
   public static void checkElement(boolean expression) {
-    if (IS_API_CHECKED) {
-      checkCriticalElement(expression);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalElement(expression);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
+    checkCriticalElement(expression);
   }
 
   /**
@@ -250,15 +100,7 @@ public final class InternalPreconditions {
    * Ensures the truth of an expression involving existence of an element.
    */
   public static void checkElement(boolean expression, Object errorMessage) {
-    if (IS_API_CHECKED) {
-      checkCriticalElement(expression, errorMessage);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalElement(expression, errorMessage);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
+    checkCriticalElement(expression, errorMessage);
   }
 
   /**
@@ -277,15 +119,7 @@ public final class InternalPreconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    */
   public static void checkArgument(boolean expression) {
-    if (IS_API_CHECKED) {
       checkCriticalArgument(expression);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalArgument(expression);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   /**
@@ -304,15 +138,7 @@ public final class InternalPreconditions {
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    */
   public static void checkArgument(boolean expression, Object errorMessage) {
-    if (IS_API_CHECKED) {
       checkCriticalArgument(expression, errorMessage);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalArgument(expression, errorMessage);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   /**
@@ -335,15 +161,7 @@ public final class InternalPreconditions {
    * @throws IllegalStateException if {@code expression} is false
    */
   public static void checkState(boolean expression) {
-    if (IS_API_CHECKED) {
       checkCriticalState(expression);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalState(expression);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   /**
@@ -364,15 +182,7 @@ public final class InternalPreconditions {
    * involving any parameters to the calling method.
    */
   public static void checkState(boolean expression, Object errorMessage) {
-    if (IS_API_CHECKED) {
       checkCriticalState(expression, errorMessage);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalState(expression, errorMessage);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   /**
@@ -387,15 +197,7 @@ public final class InternalPreconditions {
 
   /** Ensures that an object reference passed as a parameter to the calling method is not null. */
   public static <T> T checkNotNull(@Nullable T reference) {
-    if (IS_API_CHECKED) {
       checkCriticalNotNull(reference);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalNotNull(reference);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
 
     return reference;
   }
@@ -409,15 +211,7 @@ public final class InternalPreconditions {
 
   /** Ensures that an object reference passed as a parameter to the calling method is not null. */
   public static void checkNotNull(@Nullable Object reference, Object errorMessage) {
-    if (IS_API_CHECKED) {
       checkCriticalNotNull(reference, errorMessage);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalNotNull(reference, errorMessage);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   public static void checkCriticalNotNull(@Nullable Object reference, Object errorMessage) {
@@ -430,15 +224,7 @@ public final class InternalPreconditions {
    * Ensures that {@code size} specifies a valid array size (i.e. non-negative).
    */
   public static void checkArraySize(int size) {
-    if (IS_API_CHECKED) {
       checkCriticalArraySize(size);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalArraySize(size);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   public static void checkCriticalArraySize(int size) {
@@ -452,15 +238,7 @@ public final class InternalPreconditions {
    * {@code size}. An element index may range from zero, inclusive, to {@code size}, exclusive.
    */
   public static void checkElementIndex(int index, int size) {
-    if (IS_BOUNDS_CHECKED) {
       checkCriticalElementIndex(index, size);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalElementIndex(index, size);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   public static void checkCriticalElementIndex(int index, int size) {
@@ -470,15 +248,7 @@ public final class InternalPreconditions {
   }
 
   public static void checkStringElementIndex(int index, int size) {
-    if (IS_BOUNDS_CHECKED) {
       checkCriticalStringElementIndex(index, size);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalStringElementIndex(index, size);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   public static void checkCriticalStringElementIndex(int index, int size) {
@@ -492,15 +262,7 @@ public final class InternalPreconditions {
    * size {@code size}. A position index may range from zero to {@code size}, inclusive.
    */
   public static void checkPositionIndex(int index, int size) {
-    if (IS_BOUNDS_CHECKED) {
       checkCriticalPositionIndex(index, size);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalPositionIndex(index, size);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   public static void checkCriticalPositionIndex(int index, int size) {
@@ -515,15 +277,7 @@ public final class InternalPreconditions {
    * {@code size}, inclusive.
    */
   public static void checkPositionIndexes(int start, int end, int size) {
-    if (IS_BOUNDS_CHECKED) {
       checkCriticalPositionIndexes(start, end, size);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalPositionIndexes(start, end, size);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   /**
@@ -563,15 +317,7 @@ public final class InternalPreconditions {
    * @throws StringIndexOutOfBoundsException if the range is not legal
    */
   public static void checkStringBounds(int start, int end, int length) {
-    if (IS_BOUNDS_CHECKED) {
       checkCriticalStringBounds(start, end, length);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalStringBounds(start, end, length);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   /**
@@ -587,15 +333,7 @@ public final class InternalPreconditions {
   }
 
   public static void checkConcurrentModification(int currentModCount, int recordedModCount) {
-    if (IS_API_CHECKED) {
       checkCriticalConcurrentModification(currentModCount, recordedModCount);
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalConcurrentModification(currentModCount, recordedModCount);
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   public static void checkCriticalConcurrentModification(
@@ -615,15 +353,7 @@ public final class InternalPreconditions {
   }
 
   public static void checkExhaustive() {
-    if (IS_API_CHECKED) {
       checkCriticalExhaustive();
-    } else if (IS_ASSERTED) {
-      try {
-        checkCriticalExhaustive();
-      } catch (Exception e) {
-        throw new AssertionError(e);
-      }
-    }
   }
 
   // Hides the constructor for this static utility class.
