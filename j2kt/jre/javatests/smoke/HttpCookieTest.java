@@ -64,7 +64,7 @@ public class HttpCookieTest extends TestCase {
     constructHttpCookie("na\u2029me", value);
 
     try {
-      new HttpCookie(null, value);
+      new HttpCookie((String) null, value);
       fail("Should throw NullPointerException");
     } catch (NullPointerException e) {
       // expected
@@ -558,7 +558,7 @@ public class HttpCookieTest extends TestCase {
   @SuppressWarnings("nullness")
   public void test_Parse_exception() {
     try {
-      HttpCookie.parse(null);
+      HttpCookie.parse((String) null);
       fail("Should throw NullPointerException");
     } catch (NullPointerException e) {
       // expected

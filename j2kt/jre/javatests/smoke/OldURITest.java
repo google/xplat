@@ -112,7 +112,7 @@ public class OldURITest extends TestCase {
   public void test_relativizeLjava_net_URI() throws URISyntaxException {
     try {
       URI b = new URI("http://www.google.com/dir1/dir2");
-      b.relativize(null);
+      b.relativize((URI) null);
       fail("NullPointerException was not thrown.");
     } catch (NullPointerException expected) {
     }
@@ -145,7 +145,7 @@ public class OldURITest extends TestCase {
 
   public void test_ConstructorLjava_lang_String() throws URISyntaxException {
     try {
-      new URI(null);
+      new URI((String) null);
       fail("NullPointerException was not thrown.");
     } catch (NullPointerException expected) {
     }

@@ -300,7 +300,7 @@ public class UUIDTest extends TestCase {
     assertEquals(0xd41d8cd98f003204L, uuid.getMostSignificantBits());
 
     try {
-      UUID.nameUUIDFromBytes(null);
+      UUID.nameUUIDFromBytes((byte[]) null);
       fail("No NPE");
     } catch (NullPointerException e) {
     }
@@ -332,7 +332,7 @@ public class UUIDTest extends TestCase {
     assertEquals(0L, actual.node());
 
     try {
-      UUID.fromString(null);
+      UUID.fromString((String) null);
       fail("No NPE");
     } catch (NullPointerException e) {
     }
