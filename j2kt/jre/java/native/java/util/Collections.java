@@ -1176,7 +1176,7 @@ public class Collections {
     return (Comparator<T>) Comparator.<Comparable>reverseOrder();
   }
 
-  public static <T extends @Nullable Object> @Nullable Comparator<T> reverseOrder(
+  public static <T extends @Nullable Object> Comparator<T> reverseOrder(
       @Nullable Comparator<T> cmp) {
     return cmp == null ? reverseOrder() : cmp.reversed();
   }
