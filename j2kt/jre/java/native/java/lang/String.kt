@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -24,6 +26,8 @@ import java.util.Locale
 import java.util.StringJoiner
 import javaemul.lang.appendCodePoint
 import kotlin.collections.Iterable as KotlinIterable
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 /**
  * Pseudo-constructor for emulated java.lang.String.
@@ -37,7 +41,7 @@ object String {
 
   operator fun invoke(a: CharArray): kotlin.String = valueOf(a)
 
-  operator fun invoke(sb: StringBuilder): kotlin.String = sb.toString()
+  @HiddenFromObjC operator fun invoke(sb: StringBuilder): kotlin.String = sb.toString()
 
   operator fun invoke(a: CharArray, offset: Int, len: Int): kotlin.String = valueOf(a, offset, len)
 

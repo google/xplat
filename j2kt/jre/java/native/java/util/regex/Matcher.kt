@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
+@file:OptIn(ExperimentalObjCName::class, ExperimentalObjCRefinement::class)
 
 package java.util.regex
 
 import kotlin.experimental.ExperimentalObjCName
+import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.math.max
 import kotlin.native.ObjCName
 
@@ -54,6 +55,7 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    * It sets the append position of this matcher to the index of the last character matched, plus
    * one, that is, to end().
    */
+  @HiddenFromObjC
   fun appendReplacement(sb: StringBuilder, replacement: String): Matcher {
     sb.append(region.subSequence(appendPosition, start()))
     sb.append(replacement)
@@ -69,6 +71,7 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    * invocations of the appendReplacement method in order to copy the remainder of the input
    * sequence.
    */
+  @HiddenFromObjC
   fun appendTail(sb: StringBuilder): StringBuilder {
     sb.append(region.subSequence(appendPosition, region.length))
     appendPosition = region.length
