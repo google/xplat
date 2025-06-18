@@ -23,7 +23,7 @@ import kotlin.native.ObjCName
 
 /** The result of applying a `Pattern` to a given input. */
 @ObjCName("J2ktJavaUtilRegexMatcher", exact = true)
-class Matcher(var pattern: Pattern, var input: CharSequence) {
+class Matcher(private var pattern: Pattern, private var input: CharSequence) {
 
   /**
    * Holds the start of the region, or 0 if the matching should start at the beginning of the text.
