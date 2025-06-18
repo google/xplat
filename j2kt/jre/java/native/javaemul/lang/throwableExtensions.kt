@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -19,30 +21,39 @@ import java.io.PrintStream
 import java.io.PrintWriter
 import java.lang.StackTraceElement
 import java.lang.Throwable as JavaLangThrowable
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 val Throwable.suppressed: Array<Throwable>
   get() = suppressedExceptions.toTypedArray()
 
+@HiddenFromObjC
 fun Throwable.initCause(cause: Throwable?): Throwable =
   if (this is InitCauseCapable) initCause(cause) // Generic native bridge case
   // initCause is generally called inside a constructor or right after calling one, so this
   // restriction should not be too bad in practice:
   else throw UnsupportedOperationException("Cannot initCause for native exception")
 
+@HiddenFromObjC
 fun Throwable.printStackTrace(stream: PrintStream) =
   if (this is JavaLangThrowable) printStackTrace(stream) else stream.print(stackTraceToString())
 
+@HiddenFromObjC
 fun Throwable.printStackTrace(writer: PrintWriter) =
   if (this is JavaLangThrowable) printStackTrace(writer) else writer.write(stackTraceToString())
 
+@HiddenFromObjC
 fun Throwable.fillInStackTrace(): Throwable =
   if (this is JavaLangThrowable) fillInStackTrace() else this
 
+@HiddenFromObjC
 val Throwable.stackTrace: Array<StackTraceElement>
   get() = if (this is JavaLangThrowable) stackTrace else emptyArray<StackTraceElement>()
 
+@HiddenFromObjC
 fun Throwable.setStackTrace(trace: Array<StackTraceElement>) =
   if (this is JavaLangThrowable) setStackTrace(trace) else Unit
 
+@HiddenFromObjC
 val Throwable.localizedMessage: String?
   get() = if (this is JavaLangThrowable) localizedMessage else message
