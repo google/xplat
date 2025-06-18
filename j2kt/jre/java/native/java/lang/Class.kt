@@ -37,11 +37,25 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
   fun cast(obj: Any?): T? =
     if (obj == null || kClass.isInstance(obj)) obj as T? else throw ClassCastException()
 
-  fun getName(): kotlin.String = kClass.qualifiedName ?: ""
+  fun getName(): kotlin.String = getCanonicalName() ?: ""
 
-  fun getCanonicalName(): kotlin.String? = kClass.qualifiedName
+  fun getCanonicalName(): kotlin.String? = primitiveName ?: kClass.qualifiedName
 
-  fun getSimpleName(): kotlin.String = kClass.simpleName ?: ""
+  fun getSimpleName(): kotlin.String = primitiveName ?: kClass.simpleName ?: ""
+
+  private val primitiveName: kotlin.String?
+    get() =
+      when (kClass.takeIf { isPrimitive() }) {
+        kotlin.Boolean::class -> "boolean"
+        kotlin.Byte::class -> "byte"
+        kotlin.Short::class -> "short"
+        kotlin.Int::class -> "int"
+        kotlin.Long::class -> "long"
+        kotlin.Float::class -> "float"
+        kotlin.Double::class -> "double"
+        kotlin.Char::class -> "char"
+        else -> null
+      }
 
   fun isPrimitive(): kotlin.Boolean = isPrimitive0
 
@@ -54,7 +68,7 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()
 
-  override fun toString(): kotlin.String = kClass.toString()
+  override fun toString(): kotlin.String = primitiveName ?: kClass.toString()
 }
 
 private val arrayComponentTypeMap: Map<KClass<*>, Class<*>> =
