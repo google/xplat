@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCName::class)
+
 /*
  * Copyright 2023 Google Inc.
  *
@@ -21,6 +23,7 @@ import java.util.function.Predicate
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import javaemul.internal.CollectionHelper
+import kotlin.experimental.ExperimentalObjCName
 
 fun <E> MutableCollection<E>.stream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { stream() }
@@ -81,6 +84,7 @@ fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
 fun <K, V> MutableMap<K, V>.java_putAll(map: MutableMap<out K, out V>): Unit =
   putAll(map as Map<out K, V>)
 
+@ObjCName("java_removeKey") // ObjC export conflict(?) with MutableCollection.java_remove.
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = (this as MutableMap<Any?, V>).remove(key)
 
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
