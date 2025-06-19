@@ -13,15 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import javaemul.internal.CollectionHelper
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaUtilAbstractCollection", exact = true)
 abstract class AbstractCollection<E> : AbstractMutableCollection<E>(), Collection<E> {
   override fun add(e: E): Boolean = throw UnsupportedOperationException()
 

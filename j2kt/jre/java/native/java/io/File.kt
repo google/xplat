@@ -26,8 +26,6 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSOpenStepRootDirectory
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
-@OptIn(kotlin.experimental.ExperimentalObjCName::class)
-@ObjCName("J2ktJavaIoFile")
 class File(pathname: String) {
 
   constructor(

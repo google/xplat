@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class, ExperimentalAtomicApi::class)
+@file:OptIn(ExperimentalAtomicApi::class)
 
 package java.lang
 
 import kotlin.concurrent.atomics.AtomicLong
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.concurrent.atomics.fetchAndIncrement
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 import platform.Foundation.NSThread
 
 private val nextId = AtomicLong(1)
 
 @kotlin.native.concurrent.ThreadLocal private val curentThread = Thread(nextId.fetchAndIncrement())
 
-@ObjCName("J2ktJavaLangThread")
 class Thread internal constructor(private val id: kotlin.Long) {
   private val name = run {
     val osName = NSThread.currentThread.name

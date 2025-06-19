@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.lang
 
 import java.io.PrintStream
@@ -23,10 +21,7 @@ import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 import kotlin.String as KotlinString
 import kotlin.Throwable as KotlinThrowable
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaLangThrowable", exact = true)
 open class Throwable(message: KotlinString? = null) : KotlinThrowable(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

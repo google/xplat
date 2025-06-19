@@ -13,20 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import java.io.Serializable
 import kotlin.Cloneable
 import kotlin.collections.ArrayList as KotlinArrayList
 import kotlin.collections.Collection as KotlinCollection
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
 private const val DEFAULT_CAPACITY = 10
 
-@ObjCName("J2ktJavaUtilArrayList", exact = true)
 open class ArrayList<T> private constructor(private val ktArrayList: KotlinArrayList<T>) :
   AbstractList<T>(), Cloneable, RandomAccess, Serializable, MutableList<T> by ktArrayList {
 

@@ -13,15 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import java.util.function.Consumer
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaUtilIterator", exact = true)
 interface Iterator<T> : MutableIterator<T> {
   fun forEachRemaining(consumer: Consumer<in T>) {
     forEach(consumer::accept)

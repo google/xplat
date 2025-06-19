@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package javaemul.lang
 
 import javaemul.internal.InternalPreconditions.Companion.checkState
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("JavaemulLangCauseHolder", exact = true)
 class CauseHolder() {
   // Holds the cause (a Throwable or null), or this, if no cause was set
   private var thisOrCause: Any? = this

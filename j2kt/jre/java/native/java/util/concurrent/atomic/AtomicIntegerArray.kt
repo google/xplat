@@ -13,21 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util.concurrent.atomic
 
 import java.util.function.IntBinaryOperator
 import java.util.function.IntUnaryOperator
 import kotlin.collections.contentToString
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.getAndUpdate
 import kotlinx.atomicfu.updateAndGet
 
-@ObjCName("J2ktJavaUtilConcurrentAtomicIntegerArray", exact = true)
 class AtomicIntegerArray private constructor(private val array: Array<kotlinx.atomicfu.AtomicInt>) {
 
   constructor(

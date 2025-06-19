@@ -22,8 +22,6 @@ import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readByteArray
 
-@OptIn(kotlin.experimental.ExperimentalObjCName::class)
-@ObjCName("J2ktJavaIoFileInputStream", exact = true)
 class FileInputStream(path: String) : InputStream() {
 
   constructor(file: File) : this(file.getPath())

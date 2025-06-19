@@ -13,9 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util.concurrent
 
 import java.lang.InterruptedException
@@ -24,9 +21,7 @@ import kotlin.collections.MutableCollection
 import kotlin.collections.MutableList
 import kotlin.concurrent.AtomicInt
 import kotlin.concurrent.AtomicReference
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.Throws
-import kotlin.native.ObjCName
 import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
@@ -50,7 +45,6 @@ import kotlinx.coroutines.yield
  *
  * @param dispatcher the dispatcher to execute tasks on.
  */
-@ObjCName("J2ktKotlinExecutor", exact = true)
 open class KotlinExecutor(
   private val dispatcher: CoroutineDispatcher,
   private val timeSource: TimeSource.WithComparableMarks = TimeSource.Monotonic,

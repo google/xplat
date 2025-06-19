@@ -13,17 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package javaemul.lang
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
-
 /** Bridge class for java.lang.Number. */
-@ObjCName("JavaemulLangJavaNumber", exact = true)
 abstract class JavaNumber : kotlin.Number() {
   override fun toByte() = toInt().toByte()
+
   override fun toShort() = toInt().toShort()
+
   override fun toChar() = toInt().toChar()
 }

@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaLangUnsupportedOperationException", exact = true)
 open class UnsupportedOperationException(message: kotlin.String? = null) :
   kotlin.UnsupportedOperationException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()

@@ -13,17 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import java.util.function.UnaryOperator
 import kotlin.Comparator as KotlinComparator
 import kotlin.collections.replaceAll as kotlinReplaceAll
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaUtilList", exact = true)
 interface List<E> : MutableList<E>, Collection<E> {
   fun replaceAll(operator: UnaryOperator<E>): Unit = kotlinReplaceAll(operator::apply)
 

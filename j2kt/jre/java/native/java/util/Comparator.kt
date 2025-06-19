@@ -13,8 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import java.util.function.Function
@@ -22,10 +20,7 @@ import java.util.function.ToDoubleFunction
 import java.util.function.ToIntFunction
 import java.util.function.ToLongFunction
 import kotlin.comparisons.reversed as default_reversed
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaUtilComparator", exact = true)
 fun interface Comparator<T> : kotlin.Comparator<T> {
   override fun compare(a: T, b: T): Int
 
@@ -35,7 +30,7 @@ fun interface Comparator<T> : kotlin.Comparator<T> {
 
   fun <U> thenComparing(
     keyExtractor: Function<in T, out U>,
-    keyComparator: kotlin.Comparator<in U>
+    keyComparator: kotlin.Comparator<in U>,
   ): kotlin.Comparator<T> = thenBy(keyComparator, keyExtractor::apply)
 
   fun <U : Comparable<U>> thenComparing(keyExtractor: Function<in T, out U>): kotlin.Comparator<T> =
@@ -53,7 +48,7 @@ fun interface Comparator<T> : kotlin.Comparator<T> {
   companion object {
     fun <T, U> comparing(
       keyExtractor: Function<in T, out U>,
-      keyComparator: kotlin.Comparator<in U>
+      keyComparator: kotlin.Comparator<in U>,
     ): kotlin.Comparator<T> = compareBy(keyComparator, keyExtractor::apply)
 
     fun <T, U : Comparable<U>> comparing(

@@ -15,12 +15,8 @@
  * limitations under the License.
  */
 // CHECKSTYLE_ON
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util.concurrent.atomic
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
 
@@ -29,7 +25,6 @@ import kotlinx.atomicfu.atomic
  *
  * @param V the element type.
  */
-@ObjCName("J2ktJavaUtilConcurrentAtomicReferenceArray", exact = true)
 class AtomicReferenceArray<V> private constructor(private val array: Array<AtomicRef<V>>) {
 
   constructor(array: Array<V>) : this(Array(array.size) { atomic<V>(array[it]) })

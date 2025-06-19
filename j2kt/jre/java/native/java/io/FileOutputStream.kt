@@ -30,8 +30,6 @@ import platform.Foundation.NSFileHandle
 import platform.Foundation.dataWithBytesNoCopy
 import platform.Foundation.fileHandleForWritingAtPath
 
-@OptIn(kotlin.experimental.ExperimentalObjCName::class)
-@ObjCName("J2ktJavaIoFileOutputStream", exact = true)
 class FileOutputStream(file: File, append: Boolean = false) : OutputStream() {
 
   constructor(path: String, append: Boolean = false) : this(File(path), append)

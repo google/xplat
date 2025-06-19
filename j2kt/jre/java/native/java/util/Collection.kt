@@ -13,18 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import java.lang.Iterable as JavaLangIterable
 import java.util.function.Predicate
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaUtilCollection", exact = true)
 interface Collection<E> : MutableCollection<E>, JavaLangIterable<E> {
   fun removeIf(filter: Predicate<in E>): Boolean = removeAll(filter::test)
 

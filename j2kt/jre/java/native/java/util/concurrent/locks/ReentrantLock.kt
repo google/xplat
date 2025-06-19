@@ -11,14 +11,9 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util.concurrent.locks
 
 import javaemul.lang.J2ktMonitor
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
 /** Implementation of ReentrantLock used in Kotlin Native. */
-@ObjCName("J2ktJavaUtilConcurrentLocksReentrantLock", exact = true)
 class ReentrantLock : Lock, J2ktMonitor() {}

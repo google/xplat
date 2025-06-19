@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package javaemul.lang
 
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArgument
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
 /** Interface for [Throwable]s that implement [initCause]. */
-@ObjCName("JavaemulLangInitCauseCapable", exact = true)
 internal interface InitCauseCapable {
   val causeHolder: CauseHolder
 

@@ -13,12 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.lang
 
 import javaemul.internal.InternalPreconditions.Companion.checkCriticalArithmetic
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.math.IEEErem
 import kotlin.math.nextDown
 import kotlin.math.nextTowards
@@ -29,14 +26,12 @@ import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 import kotlin.math.ulp
 import kotlin.math.withSign
-import kotlin.native.ObjCName
 
 /**
  * Implementation of java.lang.Math for Kotlin Native.
  *
  * This is only meant to be used in generated code. See regular JRE documentation for javadoc.
  */
-@ObjCName("J2ktJavaLangMath", exact = true)
 object Math {
   private const val FLOAT_MANTISSA_BITS: Int = 23
   private const val FLOAT_EXPONENT_BIAS: Int = 127

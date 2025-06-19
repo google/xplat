@@ -13,14 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class, NativeRuntimeApi::class)
+@file:OptIn(NativeRuntimeApi::class)
 
 package java.lang
 
 import java.io.OutputStream
 import java.io.PrintStream
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 import kotlin.native.identityHashCode
 import kotlin.native.runtime.GC
 import kotlin.native.runtime.NativeRuntimeApi
@@ -32,7 +30,6 @@ import platform.CoreFoundation.kCFAbsoluteTimeIntervalSince1970
 import platform.Foundation.NSTemporaryDirectory
 import platform.posix.write as posixWrite
 
-@ObjCName("J2ktJavaLangSystem", exact = true)
 object System {
   private val timeReference = TimeSource.Monotonic.markNow()
 

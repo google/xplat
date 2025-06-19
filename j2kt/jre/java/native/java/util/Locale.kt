@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalObjCName::class)
-
 /*
  * Copyright 2025 Google Inc.
  *
@@ -17,8 +15,6 @@
  */
 package java.util
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 import platform.Foundation.NSLocale
 import platform.Foundation.NSString
 import platform.Foundation.countryCode
@@ -38,7 +34,6 @@ import platform.Foundation.variantCode
  * Note: Any changes to this class should put into account the assumption that was made in rest of
  * the JRE emulation.
  */
-@ObjCName("J2ktJavaUtilLocale", exact = true)
 open class Locale
 private constructor(
   val language: String,

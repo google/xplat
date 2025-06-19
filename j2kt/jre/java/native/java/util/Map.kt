@@ -13,9 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import java.util.function.BiConsumer
@@ -31,8 +28,6 @@ import javaemul.lang.default_putIfAbsent
 import javaemul.lang.default_remove
 import javaemul.lang.default_replace
 import javaemul.lang.default_replaceAll
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
 interface Map<K, V> : MutableMap<K, V> {
 
@@ -65,27 +60,23 @@ interface Map<K, V> : MutableMap<K, V> {
   interface Entry<K, V> : MutableMap.MutableEntry<K, V> {
 
     companion object {
-      @ObjCName("comparingByKey")
       fun <K : Comparable<K>, V> comparingByKey():
         kotlin.Comparator<MutableMap.MutableEntry<K, V>> = comparingByKey(Comparator.naturalOrder())
 
-      @ObjCName("comparingByKey")
       fun <K, V> comparingByKey(
-        @ObjCName("withJavaUtilComparator") cmp: kotlin.Comparator<in K>
+        cmp: kotlin.Comparator<in K>
       ): kotlin.Comparator<MutableMap.MutableEntry<K, V>> =
         object : kotlin.Comparator<MutableMap.MutableEntry<K, V>> {
           override fun compare(a: MutableMap.MutableEntry<K, V>, b: MutableMap.MutableEntry<K, V>) =
             cmp.compare(a.key, b.key)
         }
 
-      @ObjCName("comparingByValue")
       fun <K, V : Comparable<V>> comparingByValue():
         kotlin.Comparator<MutableMap.MutableEntry<K, V>> =
         comparingByValue(Comparator.naturalOrder())
 
-      @ObjCName("comparingByValue")
       fun <K, V> comparingByValue(
-        @ObjCName("withJavaUtilComparator") cmp: kotlin.Comparator<in V>
+        cmp: kotlin.Comparator<in V>
       ): kotlin.Comparator<MutableMap.MutableEntry<K, V>> =
         object : kotlin.Comparator<MutableMap.MutableEntry<K, V>> {
           override fun compare(a: MutableMap.MutableEntry<K, V>, b: MutableMap.MutableEntry<K, V>) =

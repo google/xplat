@@ -13,23 +13,18 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.lang
 
 import java.lang.reflect.Type
 import javaemul.lang.J2ktMonitor
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaObjectType
 import kotlin.jvm.javaPrimitiveType
-import kotlin.native.ObjCName
 import kotlin.reflect.KClass
 
 /**
  * Implementation of java.lang.Class used in Kotlin Native. The constructor and the `kClass`
  * property are not accessible in Java.
  */
-@ObjCName("J2ktJavaLangClass", exact = true)
 class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) :
   Type {
   val j2ktMonitor: J2ktMonitor by lazy { J2ktMonitor() }

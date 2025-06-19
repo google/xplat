@@ -13,11 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
-
-@ObjCName("J2ktJavaUtilSet", exact = true) interface Set<E> : MutableSet<E>, Collection<E> {}
+interface Set<E> : MutableSet<E>, Collection<E> {}

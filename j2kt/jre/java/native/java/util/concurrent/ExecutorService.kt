@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalObjCName::class)
-
 /*
  * Copyright (C) 2017 The Guava Authors
  *
@@ -21,10 +19,7 @@ package java.util.concurrent
 import java.lang.Runnable
 import kotlin.collections.MutableCollection
 import kotlin.collections.MutableList
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
-@ObjCName("J2ktJavaUtilConcurrentExecutorService", exact = true)
 interface ExecutorService : Executor {
   fun shutdown()
 
@@ -34,37 +29,23 @@ interface ExecutorService : Executor {
 
   fun isTerminated(): Boolean
 
-  fun awaitTermination(
-    @ObjCName("withLong") timeout: Long,
-    @ObjCName("withJavaUtilConcurrentTimeUnit") unit: TimeUnit,
-  ): Boolean
+  fun awaitTermination(timeout: Long, unit: TimeUnit): Boolean
 
-  fun <T> submit(@ObjCName("withJavaUtilConcurrentCallable") task: Callable<T>): Future<T>
+  fun <T> submit(task: Callable<T>): Future<T>
 
-  fun <T> submit(
-    @ObjCName("withJavaLangRunnable") task: Runnable,
-    @ObjCName("withId") result: T,
-  ): Future<T>
+  fun <T> submit(task: Runnable, result: T): Future<T>
 
-  fun submit(@ObjCName("withJavaLangRunnable") task: Runnable): Future<*>
+  fun submit(task: Runnable): Future<*>
+
+  fun <T> invokeAll(tasks: MutableCollection<out Callable<T>>): MutableList<Future<T>>
 
   fun <T> invokeAll(
-    @ObjCName("withJavaUtilCollection") tasks: MutableCollection<out Callable<T>>
+    tasks: MutableCollection<out Callable<T>>,
+    timeout: Long,
+    unit: TimeUnit,
   ): MutableList<Future<T>>
 
-  fun <T> invokeAll(
-    @ObjCName("withJavaUtilCollection") tasks: MutableCollection<out Callable<T>>,
-    @ObjCName("withLong") timeout: Long,
-    @ObjCName("withJavaUtilConcurrentTimeUnit") unit: TimeUnit,
-  ): MutableList<Future<T>>
+  fun <T> invokeAny(tasks: MutableCollection<out Callable<T>>): T
 
-  fun <T> invokeAny(
-    @ObjCName("withJavaUtilCollection") tasks: MutableCollection<out Callable<T>>
-  ): T
-
-  fun <T> invokeAny(
-    @ObjCName("withJavaUtilCollection") tasks: MutableCollection<out Callable<T>>,
-    @ObjCName("withLong") timeout: Long,
-    @ObjCName("withJavaUtilConcurrentTimeUnit") unit: TimeUnit,
-  ): T
+  fun <T> invokeAny(tasks: MutableCollection<out Callable<T>>, timeout: Long, unit: TimeUnit): T
 }

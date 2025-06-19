@@ -16,7 +16,6 @@
 package java.text
 
 import java.util.Locale
-import kotlin.native.ObjCName
 import platform.Foundation.NSCaseInsensitiveSearch
 import platform.Foundation.NSDiacriticInsensitiveSearch
 import platform.Foundation.NSLiteralSearch
@@ -29,8 +28,6 @@ import platform.Foundation.compare
  * Replaces missing JRE functionality in java.text.Collator with calls to Kotlin/native ios
  * functionality.
  */
-@OptIn(kotlin.experimental.ExperimentalObjCName::class)
-@ObjCName("J2ktJavaTextIOSCollator", exact = true)
 internal class IOSCollator(private val locale: Locale) : Collator() {
   private var strength = PRIMARY
 

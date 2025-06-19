@@ -13,14 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package javaemul.lang
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
-
-@ObjCName("JavaemulLangJavaIterator", exact = true)
 interface JavaIterator<T> : MutableIteratorJvm<T> {
   override fun remove() {
     throw UnsupportedOperationException()

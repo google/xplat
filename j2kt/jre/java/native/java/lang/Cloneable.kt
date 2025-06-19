@@ -13,15 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.lang
 
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
-
 /** Indicates that a class implements <code>clone()</code>. */
-@ObjCName("J2ktJavaLangCloneable", exact = true)
 interface Cloneable {
   fun clone(): Any
 }

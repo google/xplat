@@ -13,19 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.lang
 
 import java.util.function.Supplier
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 
 // Maps ThreadLocal instances to their thread local values
 @kotlin.native.concurrent.ThreadLocal
 private val threadLocalValues: MutableMap<ThreadLocal<*>, Any> = mutableMapOf()
 
-@ObjCName("J2ktJavaLangThreadLocal", exact = true)
 open class ThreadLocal<T> {
 
   fun get(): T? {

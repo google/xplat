@@ -16,13 +16,9 @@
 
 package java.util
 
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
-import kotlin.native.ObjCName
 
-@OptIn(ExperimentalObjCName::class)
-@ObjCName("J2ktBase64")
 object Base64 {
 
   private val decoder = Decoder()

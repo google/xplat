@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:OptIn(ExperimentalObjCName::class, ExperimentalObjCRefinement::class)
+@file:OptIn(ExperimentalObjCRefinement::class)
 
 package java.util.regex
 
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.math.max
-import kotlin.native.ObjCName
 
 /** The result of applying a `Pattern` to a given input. */
-@ObjCName("J2ktJavaUtilRegexMatcher", exact = true)
 class Matcher(private var pattern: Pattern, private var input: CharSequence) {
 
   /**
