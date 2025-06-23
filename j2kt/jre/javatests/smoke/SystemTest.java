@@ -85,4 +85,10 @@ public class SystemTest {
   public void testGetProperty() {
     assertNotNull(System.getProperty("java.io.tmpdir"));
   }
+
+  @Test
+  public void testSetProperty() {
+    System.setProperty("foobar", "gumbo");
+    assertEquals("gumbo", System.getProperty("foobar"));
+  }
 }

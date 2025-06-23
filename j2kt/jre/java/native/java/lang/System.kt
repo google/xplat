@@ -19,9 +19,11 @@ package java.lang
 
 import java.io.OutputStream
 import java.io.PrintStream
+import javaemul.lang.J2ktMonitor
 import kotlin.native.identityHashCode
 import kotlin.native.runtime.GC
 import kotlin.native.runtime.NativeRuntimeApi
+import kotlin.synchronized
 import kotlin.time.TimeSource
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
@@ -32,17 +34,26 @@ import platform.posix.write as posixWrite
 
 object System {
   private val timeReference = TimeSource.Monotonic.markNow()
+  private val properties = mutableMapOf<kotlin.String, kotlin.String>()
+  private val lock = J2ktMonitor()
 
-  fun getProperty(name: kotlin.String?, def: kotlin.String?): kotlin.String? =
-    getProperty(name) ?: def
+  fun getProperty(name: kotlin.String, def: kotlin.String?): kotlin.String? =
+    synchronized(lock) { getProperty(name) ?: def }
 
-  fun getProperty(name: kotlin.String?): kotlin.String? =
-    when (name) {
-      "file.separator" -> "/"
-      "path.separator" -> ":"
-      "java.io.tmpdir" -> NSTemporaryDirectory()
-      else -> null
+  fun getProperty(name: kotlin.String): kotlin.String? =
+    synchronized(lock) {
+      properties[name]
+        ?: when (name) {
+          "file.separator" -> "/"
+          "path.separator" -> ":"
+          "java.io.tmpdir" -> NSTemporaryDirectory()
+          else -> null
+        }
     }
+
+  fun setProperty(name: kotlin.String, def: kotlin.String) {
+    synchronized(lock) { properties[name] = def }
+  }
 
   fun arraycopy(src: Any?, srcOfs: Int, dest: Any?, destOfs: Int, len: Int) {
     when (src) {
