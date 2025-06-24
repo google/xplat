@@ -24,6 +24,8 @@ open class IllegalArgumentException(message: kotlin.String? = null) :
   override val cause
     get() = causeHolder.cause
 
+  constructor() : this(null, null) {}
+
   constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
