@@ -26,8 +26,8 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class IncompleteAnnotationException extends RuntimeException {
 
-  public final Class<? extends Annotation> annotationType;
-  public final String elementName;
+  private final Class<? extends Annotation> annotationType;
+  private final String elementName;
 
   public IncompleteAnnotationException(
       Class<? extends Annotation> annotationType, String elementName) {
