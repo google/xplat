@@ -134,4 +134,15 @@ public final class Objects {
   public static String toString(@Nullable Object o, @Nullable String nullDefault) {
     return o != null ? o.toString() : nullDefault;
   }
+
+  public static int checkIndex(int index, int length) {
+    if (index < 0 || index >= length) {
+      throw new IndexOutOfBoundsException(badElementIndexMessage(index, length));
+    }
+    return index;
+  }
+
+  private static String badElementIndexMessage(int index, int length) {
+    return "Index " + index + " out of bounds for length " + length;
+  }
 }

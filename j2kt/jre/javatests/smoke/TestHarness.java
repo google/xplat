@@ -37,6 +37,7 @@ import org.junit.runners.Suite.SuiteClasses;
   LocaleTest.class,
   LoggingTest.class,
   MathTest.class,
+  ObjectsTest.class,
   OldAndroidChecksumTest.class,
   OldAndroidURITest.class,
   OldURITest.class,
