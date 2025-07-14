@@ -609,9 +609,10 @@ public class HttpCookieTest extends TestCase {
     checkInvalidCookie("Set-Cookie2:name=test;Secure=se,cure");
     checkInvalidCookie("Set-Cookie2:name=test;se,cure");
     checkInvalidCookie("Set-Cookie2:name=test;Max-Age=se,cure");
-    checkInvalidCookie("Set-Cookie2:name=test;Max-Age=");
-    checkInvalidCookie("Set-Cookie2:name=test;Max-Age=max-age");
-    checkInvalidCookie("Set-Cookie2:name=test;Max-Age=1000.0");
+    // Fail for new RI (b/430690172)
+    // checkInvalidCookie("Set-Cookie2:name=test;Max-Age=");
+    // checkInvalidCookie("Set-Cookie2:name=test;Max-Age=max-age");
+    // checkInvalidCookie("Set-Cookie2:name=test;Max-Age=1000.0");
   }
 
   // Disabled in J2kt (Incomplete Locale)
@@ -908,7 +909,7 @@ public class HttpCookieTest extends TestCase {
         HttpCookie.parse("Set-Cookie:name=test;expires=Tue, 27-Jan-1998 19:14:07 GMT;Max-Age=1000");
     cookie = list.get(0);
     // assertTrue(cookie.getMaxAge() < 0); // Does not pass on RI
-    assertTrue(cookie.hasExpired());
+    // assertTrue(cookie.hasExpired()); // Does not pass on RI
     assertFalse(cookie.getDiscard());
     // Reverse sequence. max-age takes effect and decides the result of
     // hasExpired() method.
