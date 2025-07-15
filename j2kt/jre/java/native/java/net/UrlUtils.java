@@ -17,7 +17,10 @@
 package java.net;
 
 import java.util.Locale;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
+@NullMarked
 final class UrlUtils {
   private UrlUtils() {}
 
@@ -84,7 +87,7 @@ final class UrlUtils {
    * or empty, this can be any path. Otherwise the paths run together like {@code
    * http://android.comindex.html}.
    */
-  public static String authoritySafePath(String authority, String path) {
+  public static String authoritySafePath(@Nullable String authority, String path) {
     if (authority != null && !authority.isEmpty() && !path.isEmpty() && !path.startsWith("/")) {
       return "/" + path;
     }
@@ -96,7 +99,7 @@ final class UrlUtils {
    * a scheme. Scheme prefixes match this pattern: {@code alpha ( alpha | digit | '+' | '-' | '.' )*
    * ':'}
    */
-  public static String getSchemePrefix(String spec) {
+  public static @Nullable String getSchemePrefix(String spec) {
     int colon = spec.indexOf(':');
 
     if (colon < 1) {

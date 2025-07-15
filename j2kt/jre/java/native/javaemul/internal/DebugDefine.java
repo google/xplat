@@ -17,9 +17,11 @@ package javaemul.internal;
 
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
+import org.jspecify.annotations.NullMarked;
 
 /** Exposes the "DEBUG" #define to Java / Kotlin */
 @KtNative
+@NullMarked
 public final class DebugDefine {
 
   @KtProperty

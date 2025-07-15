@@ -16,10 +16,13 @@
 
 package java.nio.charset;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
  * Used to indicate what kind of actions to take in case of encoding/decoding errors. Currently
  * three actions are defined: {@code IGNORE}, {@code REPLACE} and {@code REPORT}.
  */
+@NullMarked
 public class CodingErrorAction {
 
   public static final CodingErrorAction IGNORE = new CodingErrorAction("IGNORE");

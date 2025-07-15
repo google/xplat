@@ -20,6 +20,7 @@ package java.net;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Encodes and decodes {@code application/x-www-form-urlencoded} content. Subclasses define exactly
@@ -28,6 +29,7 @@ import java.nio.charset.StandardCharsets;
  * <p>By default, UTF-8 is used to encode escaped characters. A single input character like "\u0080"
  * may be encoded to multiple octets like %C2%80.
  */
+@NullMarked
 abstract class UriCodec {
 
   /** Returns true if {@code c} does not need to be escaped. */

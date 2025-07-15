@@ -20,11 +20,13 @@ import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A converter that can convert a byte sequence from a charset into a 16-bit Unicode character
  * sequence.
  */
+@NullMarked
 public abstract class CharsetDecoder {
 
   private static final int INIT = 0;

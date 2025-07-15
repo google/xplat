@@ -18,11 +18,10 @@
 package java.nio.charset;
 
 import java.io.IOException;
+import org.jspecify.annotations.NullMarked;
 
-/**
- * A {@code CharacterCodingException} is thrown when an encoding or decoding
- * error occurs.
- */
+/** A {@code CharacterCodingException} is thrown when an encoding or decoding error occurs. */
+@NullMarked
 public class CharacterCodingException extends IOException {
 
     /*

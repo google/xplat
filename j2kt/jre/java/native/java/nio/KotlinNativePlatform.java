@@ -17,9 +17,11 @@
 package java.nio;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
 
 /** Helper class for ByteOrder compilation */
 @KtNative(name = "kotlin.native.Platform")
+@NullMarked
 public final class KotlinNativePlatform {
   public static boolean isLittleEndian;
 }

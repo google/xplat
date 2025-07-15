@@ -17,10 +17,13 @@
 
 package java.nio.charset;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
- * An {@code UnmappableCharacterException} is thrown when an unmappable
- * character for the given charset is encountered.
+ * An {@code UnmappableCharacterException} is thrown when an unmappable character for the given
+ * charset is encountered.
  */
+@NullMarked
 public class UnmappableCharacterException extends CharacterCodingException {
 
     /*

@@ -17,10 +17,13 @@
 
 package java.nio.charset;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
- * A {@code MalformedInputException} is thrown when a malformed input is
- * encountered, for example if a byte sequence is illegal for the given charset.
+ * A {@code MalformedInputException} is thrown when a malformed input is encountered, for example if
+ * a byte sequence is illegal for the given charset.
  */
+@NullMarked
 public class MalformedInputException extends CharacterCodingException {
 
     /*

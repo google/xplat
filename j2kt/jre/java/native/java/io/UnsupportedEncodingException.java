@@ -15,11 +15,14 @@
  */
 package java.io;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
  * A character encoding is not supported - <a
  * href="http://java.sun.com/javase/6/docs/api/java/io/UnsupportedEncodingException.html">[Sun's
  * docs]</a>.
  */
+@NullMarked
 public class UnsupportedEncodingException extends IOException {
 
   public UnsupportedEncodingException() {}

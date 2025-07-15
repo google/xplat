@@ -21,11 +21,13 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class is used to decode a string which is encoded in the {@code
  * application/x-www-form-urlencoded} MIME content type.
  */
+@NullMarked
 public class URLDecoder {
 
   @Deprecated

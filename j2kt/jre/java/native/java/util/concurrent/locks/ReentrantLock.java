@@ -14,9 +14,11 @@
 package java.util.concurrent.locks;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
 
 /** Partial emulation of ReentrantLock. */
 @KtNative
+@NullMarked
 public final class ReentrantLock implements Lock {
 
   @Override

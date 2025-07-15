@@ -13,7 +13,10 @@
  */
 package java.util.concurrent.locks;
 
+import org.jspecify.annotations.NullMarked;
+
 /** Partial emulation of Lock. */
+@NullMarked
 public interface Lock {
 
   void lock();

@@ -19,11 +19,13 @@ package java.net;
 
 import java.io.UnsupportedEncodingException;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * This class is used to encode a string using the format required by {@code
  * application/x-www-form-urlencoded} MIME content type.
  */
+@NullMarked
 public class URLEncoder {
 
   static final String digits = "0123456789ABCDEF";

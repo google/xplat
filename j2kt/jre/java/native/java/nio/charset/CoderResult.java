@@ -18,6 +18,7 @@ package java.nio.charset;
 
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Used to indicate the result of encoding/decoding. There are four types of results:
@@ -36,6 +37,7 @@ import java.nio.BufferUnderflowException;
  *       identity of the unmappable character.
  * </ol>
  */
+@NullMarked
 public class CoderResult {
 
   private static final int TYPE_UNDERFLOW = 1;

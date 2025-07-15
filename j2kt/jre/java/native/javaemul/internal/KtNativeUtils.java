@@ -16,8 +16,11 @@
 package javaemul.internal;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 @KtNative
+@NullMarked
 public final class KtNativeUtils {
-  public static native <T> T ktNative();
+  public static native <T extends @Nullable Object> T ktNative();
 }

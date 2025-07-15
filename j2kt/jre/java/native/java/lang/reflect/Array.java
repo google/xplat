@@ -18,16 +18,17 @@ package java.lang.reflect;
 import static javaemul.internal.InternalPreconditions.checkArgument;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * See <a
- * href="http://java.sun.com/javase/6/docs/api/java/lang/reflect/Array.html">the
- * official Java API doc</a> for details.
+ * See <a href="http://java.sun.com/javase/6/docs/api/java/lang/reflect/Array.html">the official
+ * Java API doc</a> for details.
  */
+@NullMarked
 public final class Array {
 
-  public static Object get(Object array, int index) {
+  public static @Nullable Object get(Object array, int index) {
     if (array instanceof boolean[]) {
       return getBooleanImpl(array, index);
     } else if (array instanceof byte[]) {
@@ -229,7 +230,7 @@ public final class Array {
     return typedArray[index];
   }
 
-  public static void set(Object array, int index, Object value) {
+  public static void set(Object array, int index, @Nullable Object value) {
     if (array instanceof Object[]) {
       Object[] typedArray = (Object[]) array;
       typedArray[index] = value;

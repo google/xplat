@@ -16,9 +16,10 @@
 
 package java.nio.charset;
 
-/**
- * GWT emulation of {@link UnsupportedCharsetException}.
- */
+import org.jspecify.annotations.NullMarked;
+
+/** GWT emulation of {@link UnsupportedCharsetException}. */
+@NullMarked
 public class UnsupportedCharsetException extends IllegalArgumentException {
   private final String charsetName;
 

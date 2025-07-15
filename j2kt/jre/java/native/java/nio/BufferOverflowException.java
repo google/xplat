@@ -16,10 +16,13 @@
 
 package java.nio;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
- * A <code>BufferOverflowException</code> is thrown when elements are written
- * to a buffer but there is not enough remaining space in the buffer.
+ * A <code>BufferOverflowException</code> is thrown when elements are written to a buffer but there
+ * is not enough remaining space in the buffer.
  */
+@NullMarked
 public class BufferOverflowException extends RuntimeException {
 
     private static final long serialVersionUID = -5484897634319144535L;

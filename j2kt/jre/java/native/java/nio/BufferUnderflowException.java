@@ -16,10 +16,13 @@
 
 package java.nio;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
- * A <code>BufferUnderflowException</code> is thrown when elements are read
- * from a buffer but there are not enough remaining elements in the buffer.
+ * A <code>BufferUnderflowException</code> is thrown when elements are read from a buffer but there
+ * are not enough remaining elements in the buffer.
  */
+@NullMarked
 public class BufferUnderflowException extends RuntimeException {
 
     private static final long serialVersionUID = -1713313658691622206L;

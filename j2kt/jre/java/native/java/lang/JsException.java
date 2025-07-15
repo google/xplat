@@ -16,7 +16,9 @@
 package java.lang;
 
 import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
 
 /** Emulation of JsException class defined in the J2CL JRE. */
 @KtNative // Can only be used in J2CL.
+@NullMarked
 public class JsException extends RuntimeException {}

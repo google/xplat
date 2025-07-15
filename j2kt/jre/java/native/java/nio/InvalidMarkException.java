@@ -16,10 +16,13 @@
 
 package java.nio;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
- * An {@code InvalidMarkException} is thrown when {@code reset()} is called on a
- * buffer, but no mark has been set previously.
+ * An {@code InvalidMarkException} is thrown when {@code reset()} is called on a buffer, but no mark
+ * has been set previously.
  */
+@NullMarked
 public class InvalidMarkException extends IllegalStateException {
 
     private static final long serialVersionUID = 1698329710438510774L;

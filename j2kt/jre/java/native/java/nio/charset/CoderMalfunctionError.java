@@ -17,10 +17,10 @@
 
 package java.nio.charset;
 
-/**
- * A {@code CoderMalfunctionError} is thrown when the encoder/decoder is
- * malfunctioning.
- */
+import org.jspecify.annotations.NullMarked;
+
+/** A {@code CoderMalfunctionError} is thrown when the encoder/decoder is malfunctioning. */
+@NullMarked
 public class CoderMalfunctionError extends Error {
 
     /*

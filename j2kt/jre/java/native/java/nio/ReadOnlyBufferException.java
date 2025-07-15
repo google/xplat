@@ -16,10 +16,13 @@
 
 package java.nio;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
- * A {@code ReadOnlyBufferException} is thrown when some write operation is
- * called on a read-only buffer.
+ * A {@code ReadOnlyBufferException} is thrown when some write operation is called on a read-only
+ * buffer.
  */
+@NullMarked
 public class ReadOnlyBufferException extends UnsupportedOperationException {
 
     private static final long serialVersionUID = -1210063976496234090L;
