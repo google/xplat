@@ -14,39 +14,27 @@
 package java.lang.invoke;
 
 import java.io.Serializable;
+import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
 
 /** Exists solely to make javac happy. */
+@NullMarked
+@KtNative
 public final class SerializedLambda implements Serializable {
 
-  public Object getCapturedArg(int i) {
-    return null;
-  }
+  public native Object getCapturedArg(int i);
 
-  public String getFunctionalInterfaceClass() {
-    return null;
-  }
+  public native String getFunctionalInterfaceClass();
 
-  public String getFunctionalInterfaceMethodName() {
-    return null;
-  }
+  public native String getFunctionalInterfaceMethodName();
 
-  public String getFunctionalInterfaceMethodSignature() {
-    return null;
-  }
+  public native String getFunctionalInterfaceMethodSignature();
 
-  public String getImplClass() {
-    return null;
-  }
+  public native String getImplClass();
 
-  public int getImplMethodKind() {
-    return 0;
-  }
+  public native int getImplMethodKind();
 
-  public String getImplMethodName() {
-    return null;
-  }
+  public native String getImplMethodName();
 
-  public String getImplMethodSignature() {
-    return null;
-  }
+  public native String getImplMethodSignature();
 }

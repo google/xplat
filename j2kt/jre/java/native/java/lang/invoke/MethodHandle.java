@@ -13,5 +13,8 @@
  */
 package java.lang.invoke;
 
+import org.jspecify.annotations.NullMarked;
+
 /** Exists solely to make javac happy. */
-class MethodHandle {}
+@NullMarked
+public class MethodHandle {}

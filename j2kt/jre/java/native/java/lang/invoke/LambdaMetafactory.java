@@ -13,23 +13,21 @@
  */
 package java.lang.invoke;
 
+import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
+
 /** Exists solely to make javac happy. */
+@NullMarked
+@KtNative
 public class LambdaMetafactory {
-  public static CallSite metafactory(
+  public static native CallSite metafactory(
       MethodHandles.Lookup caller,
       String interfaceMethodName,
       MethodType factoryType,
       MethodType interfaceMethodType,
       MethodHandle implementation,
-      MethodType dynamicMethodType) {
-    return null;
-  }
+      MethodType dynamicMethodType);
 
-  public static CallSite altMetafactory(
-      MethodHandles.Lookup caller,
-      String interfaceMethodName,
-      MethodType factoryType,
-      Object... a) {
-    return null;
-  }
+  public static native CallSite altMetafactory(
+      MethodHandles.Lookup caller, String interfaceMethodName, MethodType factoryType, Object... a);
 }

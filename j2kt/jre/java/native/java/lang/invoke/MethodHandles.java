@@ -13,7 +13,12 @@
  */
 package java.lang.invoke;
 
+import javaemul.internal.annotations.KtNative;
+import org.jspecify.annotations.NullMarked;
+
 /** Exists solely to make javac happy. */
-class MethodHandles {
-  static class Lookup {}
+@NullMarked
+@KtNative
+public class MethodHandles {
+  public static class Lookup {}
 }
