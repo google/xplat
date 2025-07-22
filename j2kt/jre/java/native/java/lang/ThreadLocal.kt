@@ -26,6 +26,7 @@ open class ThreadLocal<T> {
   fun get(): T? {
     val result = threadLocalValues[this]
     if (result != null) {
+      @Suppress("UNCHECKED_CAST")
       return if (result == NULL_VALUE_MARKER) null else result as T
     }
     val value = initialValue()

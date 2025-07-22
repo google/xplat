@@ -76,6 +76,7 @@ class CRC32 : Checksum {
 
   private fun updateImpl(buf: ByteArray, offset: Int, byteCount: Int, crc: Long): Long {
     buf.usePinned { pinnedBuf ->
+      @Suppress("UNCHECKED_CAST")
       return crc32(
           crc.toULong(),
           pinnedBuf.addressOf(offset) as CPointer<UByteVar>,

@@ -23,5 +23,9 @@ interface List<E> : MutableList<E>, Collection<E> {
   fun replaceAll(operator: UnaryOperator<E>): Unit = kotlinReplaceAll(operator::apply)
 
   fun sort(c: KotlinComparator<in E>?): Unit =
-    if (c == null) sortBy { it as Comparable<Any> } else sortWith(c)
+    if (c == null) {
+      @Suppress("UNCHECKED_CAST") sortBy { it as Comparable<Any> }
+    } else {
+      sortWith(c)
+    }
 }

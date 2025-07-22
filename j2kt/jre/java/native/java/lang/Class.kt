@@ -30,7 +30,12 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
   val j2ktMonitor: J2ktMonitor by lazy { J2ktMonitor() }
 
   fun cast(obj: Any?): T? =
-    if (obj == null || kClass.isInstance(obj)) obj as T? else throw ClassCastException()
+    if (obj == null || kClass.isInstance(obj)) {
+      @Suppress("UNCHECKED_CAST")
+      obj as T?
+    } else {
+      throw ClassCastException()
+    }
 
   fun getName(): kotlin.String = getCanonicalName() ?: ""
 

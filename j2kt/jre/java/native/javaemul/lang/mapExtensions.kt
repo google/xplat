@@ -111,8 +111,10 @@ internal fun <K, V> MutableMap<K, V>.default_computeIfPresent(
   return null
 }
 
-internal fun <K, V> Map<K, V>.default_getOrDefault(key: K, defaultValue: V): V =
-  this[key].let { if (it != null || containsKey(key)) it as V else defaultValue }
+internal fun <K, V> Map<K, V>.default_getOrDefault(key: K, defaultValue: V): V {
+  @Suppress("UNCHECKED_CAST")
+  return this[key].let { if (it != null || containsKey(key)) it as V else defaultValue }
+}
 
 internal fun <K, V> MutableMap<K, V>.default_merge(
   key: K,

@@ -30,6 +30,7 @@ private val primitiveClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
 val <T : Any> KClass<T>.javaObjectType: Class<T>
   get() =
     synchronized(objectClassMapMonitor) {
+      @Suppress("UNCHECKED_CAST")
       objectClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = false) } as Class<T>
     }
 
@@ -37,6 +38,7 @@ val <T : Any> KClass<T>.javaPrimitiveType: Class<T>?
   get() =
     if (hasJavaPrimitiveType) {
       synchronized(primitiveClassMapMonitor) {
+        @Suppress("UNCHECKED_CAST")
         primitiveClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = true) } as Class<T>
       }
     } else {

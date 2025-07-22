@@ -41,7 +41,7 @@ import kotlin.math.min
 object Arrays {
   // TODO(b/239034072): Revisit set after varargs are fixed
   fun <T> asList(vararg elements: T): MutableList<T> {
-    val array: Array<T> = elements as Array<T>
+    @Suppress("UNCHECKED_CAST") val array: Array<T> = elements as Array<T>
     return object : AbstractMutableList<T>(), RandomAccess {
       override val size: Int
         get() = array.size
@@ -660,8 +660,9 @@ object Arrays {
     }
   }
 
-  fun sort(x: Array<Any>) = (x as Array<Comparable<Any>>).sort()
+  @Suppress("UNCHECKED_CAST") fun sort(x: Array<Any>) = (x as Array<Comparable<Any>>).sort()
 
+  @Suppress("UNCHECKED_CAST")
   fun sort(x: Array<Any>, fromIndex: Int, toIndex: Int) =
     if (fromIndex != toIndex) (x as Array<Comparable<Any>>).sort(fromIndex, toIndex) else Unit
 
@@ -769,16 +770,23 @@ object Arrays {
       Spliterator.IMMUTABLE or Spliterator.ORDERED,
     )
 
-  fun <T> spliterator(array: Array<T>): Spliterator<T> =
-    Spliterators.spliterator(array as Array<Any?>, Spliterator.IMMUTABLE or Spliterator.ORDERED)
+  fun <T> spliterator(array: Array<T>): Spliterator<T> {
+    @Suppress("UNCHECKED_CAST")
+    return Spliterators.spliterator(
+      array as Array<Any?>,
+      Spliterator.IMMUTABLE or Spliterator.ORDERED,
+    )
+  }
 
-  fun <T> spliterator(array: Array<T>, startInclusive: Int, endExclusive: Int): Spliterator<T> =
-    Spliterators.spliterator(
+  fun <T> spliterator(array: Array<T>, startInclusive: Int, endExclusive: Int): Spliterator<T> {
+    @Suppress("UNCHECKED_CAST")
+    return Spliterators.spliterator(
       array as Array<Any?>,
       startInclusive,
       endExclusive,
       Spliterator.IMMUTABLE or Spliterator.ORDERED,
     )
+  }
 
   fun stream(
     array: DoubleArray,

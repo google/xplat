@@ -54,6 +54,7 @@ internal object DeflaterImpl {
     bytesReadConsumer: Consumer<Int>,
   ): Int =
     buf.usePinned { pinnedBuf ->
+      @Suppress("UNCHECKED_CAST")
       nativeZipStream.stream.next_out = pinnedBuf.addressOf(offset) as CPointer<UByteVarOf<UByte>>
       nativeZipStream.stream.avail_out = byteCount.toUInt()
 

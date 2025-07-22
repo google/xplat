@@ -35,12 +35,14 @@ fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
 
 fun <E> MutableCollection<E>.java_addAll(c: Collection<out E>): Boolean = addAll(c)
 
+@Suppress("UNCHECKED_CAST")
 fun <V> Collection<V>.java_contains(value: Any?): Boolean =
   (this as Collection<Any>).contains(value)
 
 @Suppress("UNCHECKED_CAST")
 fun <E> Collection<E>.java_containsAll(c: Collection<*>): Boolean = containsAll(c as Collection<E>)
 
+@Suppress("UNCHECKED_CAST")
 fun <V> MutableCollection<V>.java_remove(value: Any?): Boolean =
   (this as MutableCollection<Any?>).remove(value)
 
@@ -67,14 +69,18 @@ fun <V> List<V>.java_indexOf(value: Any?): Int = (this as List<Any?>).indexOf(va
 
 fun <V> List<V>.java_lastIndexOf(value: Any?): Int = (this as List<Any?>).lastIndexOf(value)
 
+@Suppress("UNCHECKED_CAST")
 fun <K, V> Map<K, V>.java_containsKey(key: Any?): Boolean =
   (this as Map<Any?, Any?>).containsKey(key)
 
+@Suppress("UNCHECKED_CAST")
 fun <K, V> Map<K, V>.java_containsValue(value: Any?): Boolean =
   (this as Map<Any?, Any?>).containsValue(value)
 
+@Suppress("UNCHECKED_CAST")
 fun <K, V> Map<K, V>.java_get(key: Any?): V? = (this as Map<Any?, V>).get(key)
 
+@Suppress("UNCHECKED_CAST")
 fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
   (this as Map<Any?, V?>).run {
     if (this is JavaUtilMap) getOrDefault(key, defaultValue)
@@ -84,9 +90,11 @@ fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
 fun <K, V> MutableMap<K, V>.java_putAll(map: MutableMap<out K, out V>): Unit =
   putAll(map as Map<out K, V>)
 
+@Suppress("UNCHECKED_CAST")
 @ObjCName("java_removeKey") // ObjC export conflict(?) with MutableCollection.java_remove.
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = (this as MutableMap<Any?, V>).remove(key)
 
+@Suppress("UNCHECKED_CAST")
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
   (this as MutableMap<Any?, Any?>).run {
     if (this is JavaUtilMap) remove(key, value) else default_remove(key, value)

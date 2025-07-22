@@ -73,6 +73,7 @@ class Adler32 : Checksum {
 
   private fun updateImpl(buf: ByteArray, offset: Int, byteCount: Int, adler: Long): Long {
     buf.usePinned { pinnedBuf ->
+      @Suppress("UNCHECKED_CAST")
       return adler32(
           adler.toULong(),
           pinnedBuf.addressOf(offset) as CPointer<UByteVar>,

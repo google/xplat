@@ -82,8 +82,10 @@ object System {
         if (dest is CharArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
         else throw ArrayStoreException()
       is Array<*> ->
-        if (dest is Array<*>) src.copyInto(dest as Array<Any?>, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
+        if (dest is Array<*>) {
+          @Suppress("UNCHECKED_CAST")
+          src.copyInto(dest as Array<Any?>, destOfs, srcOfs, srcOfs + len)
+        } else throw ArrayStoreException()
       else -> throw ArrayStoreException()
     }
   }
