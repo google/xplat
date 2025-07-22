@@ -22,7 +22,6 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
-import kotlin.native.ObjCName
 import kotlin.native.ref.createCleaner
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.free
@@ -67,12 +66,10 @@ open class J2ktMonitor {
     }
   }
 
-  @ObjCName("lock")
   fun lock() {
     pthread_mutex_lock(mutex.ptr)
   }
 
-  @ObjCName("unlock")
   fun unlock() {
     pthread_mutex_unlock(mutex.ptr)
   }

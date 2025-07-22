@@ -13,16 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(ExperimentalObjCName::class)
-
 package java.util
 
 import java.io.Serializable
 import kotlin.Cloneable
 import kotlin.Comparable
-import kotlin.OptIn
-import kotlin.experimental.ExperimentalObjCName
-import kotlin.native.ObjCName
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.datetime.Clock
@@ -45,33 +40,28 @@ import platform.Foundation.resetSystemTimeZone
 import platform.Foundation.secondsFromGMT
 import platform.Foundation.systemTimeZone
 
-@ObjCName("J2ktJavaUtilDate", exact = true)
 open class Date private constructor(private var instant: Instant, private var timeZone: TimeZone) :
   Cloneable, Comparable<Date>, Serializable {
   constructor() : this(Clock.System.now(), currentSystemDefaultTimeZone())
 
-  constructor(
-    @ObjCName("Int") year: Int,
-    @ObjCName("withInt") month: Int,
-    @ObjCName("withInt") date: Int,
-  ) : this(year, month, date, 0, 0, 0)
+  constructor(year: Int, month: Int, date: Int) : this(year, month, date, 0, 0, 0)
 
   constructor(
-    @ObjCName("Int") year: Int,
-    @ObjCName("withInt") month: Int,
-    @ObjCName("withInt") date: Int,
-    @ObjCName("withInt") hrs: Int,
-    @ObjCName("withInt") min: Int,
+    year: Int,
+    month: Int,
+    date: Int,
+    hrs: Int,
+    min: Int,
   ) : this(year, month, date, hrs, min, 0)
 
   // Clamping the month and day to match legacy calendar behaviour.
   constructor(
-    @ObjCName("Int") year: Int,
-    @ObjCName("withInt") month: Int,
-    @ObjCName("withInt") date: Int,
-    @ObjCName("withInt") hrs: Int,
-    @ObjCName("withInt") min: Int,
-    @ObjCName("withInt") sec: Int,
+    year: Int,
+    month: Int,
+    date: Int,
+    hrs: Int,
+    min: Int,
+    sec: Int,
   ) : this(
     createInstant(
       year + 1900,
@@ -87,18 +77,16 @@ open class Date private constructor(private var instant: Instant, private var ti
   )
 
   constructor(
-    @ObjCName("Long") date: Long
+    date: Long
   ) : this(Instant.fromEpochMilliseconds(date), currentSystemDefaultTimeZone())
 
-  constructor(@ObjCName("NSString") date: String) : this(Date.parse(date))
+  constructor(date: String) : this(Date.parse(date))
 
-  @ObjCName("after")
-  open fun after(@ObjCName("withJavaUtilDate") `when`: Date): Boolean {
+  open fun after(`when`: Date): Boolean {
     return getTime() > `when`.getTime()
   }
 
-  @ObjCName("before")
-  open fun before(@ObjCName("withJavaUtilDate") `when`: Date): Boolean {
+  open fun before(`when`: Date): Boolean {
     return getTime() < `when`.getTime()
   }
 
@@ -108,24 +96,22 @@ open class Date private constructor(private var instant: Instant, private var ti
 
   open override fun equals(obj: Any?) = obj is Date && getTime() == obj.getTime()
 
-  @ObjCName("getDate") open fun getDate(): Int = toLocalDateTime().dayOfMonth
+  open fun getDate(): Int = toLocalDateTime().dayOfMonth
 
-  @ObjCName("getDay") open fun getDay(): Int = toLocalDateTime().dayOfWeek.isoDayNumber
+  open fun getDay(): Int = toLocalDateTime().dayOfWeek.isoDayNumber
 
-  @ObjCName("getHours") open fun getHours(): Int = toLocalDateTime().hour
+  open fun getHours(): Int = toLocalDateTime().hour
 
-  @ObjCName("getMinutes") open fun getMinutes(): Int = toLocalDateTime().minute
+  open fun getMinutes(): Int = toLocalDateTime().minute
 
-  @ObjCName("getMonth") open fun getMonth(): Int = toLocalDateTime().month.number - 1
+  open fun getMonth(): Int = toLocalDateTime().month.number - 1
 
-  @ObjCName("getSeconds") open fun getSeconds(): Int = toLocalDateTime().second
+  open fun getSeconds(): Int = toLocalDateTime().second
 
-  @ObjCName("getTime") open fun getTime(): Long = instant.toEpochMilliseconds()
+  open fun getTime(): Long = instant.toEpochMilliseconds()
 
-  @ObjCName("getTimezoneOffset")
   open fun getTimezoneOffset(): Int = -timeZone.offsetAt(instant).totalSeconds / 60
 
-  @ObjCName("getYear")
   open fun getYear(): Int {
     return toLocalDateTime().year - 1900
   }
@@ -135,8 +121,7 @@ open class Date private constructor(private var instant: Instant, private var ti
     return time.xor(time.ushr(32)).toInt()
   }
 
-  @ObjCName("setDate")
-  open fun setDate(@ObjCName("withInt") date: Int) {
+  open fun setDate(date: Int) {
     val localDateTime = toLocalDateTime()
     val hours = localDateTime.hour
     instant =
@@ -152,8 +137,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       )
   }
 
-  @ObjCName("setHours")
-  open fun setHours(@ObjCName("withInt") hours: Int) {
+  open fun setHours(hours: Int) {
     val localDateTime = toLocalDateTime()
     instant =
       createInstant(
@@ -168,8 +152,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       )
   }
 
-  @ObjCName("setMinutes")
-  open fun setMinutes(@ObjCName("withInt") minutes: Int) {
+  open fun setMinutes(minutes: Int) {
     val localDateTime = toLocalDateTime()
     val hours: Int = localDateTime.hour + minutes / 60
     instant =
@@ -185,8 +168,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       )
   }
 
-  @ObjCName("setMonth")
-  open fun setMonth(@ObjCName("withInt") month: Int) {
+  open fun setMonth(month: Int) {
     val hours: Int = getHours()
     val localDateTime = toLocalDateTime()
     instant =
@@ -202,8 +184,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       )
   }
 
-  @ObjCName("setSeconds")
-  open fun setSeconds(@ObjCName("withInt") seconds: Int) {
+  open fun setSeconds(seconds: Int) {
     val localDateTime = toLocalDateTime()
     val hours: Int = localDateTime.hour + seconds / (60 * 60)
     instant =
@@ -219,13 +200,11 @@ open class Date private constructor(private var instant: Instant, private var ti
       )
   }
 
-  @ObjCName("setTime")
-  open fun setTime(@ObjCName("withLong") time: Long) {
+  open fun setTime(time: Long) {
     instant = Instant.fromEpochMilliseconds(time)
   }
 
-  @ObjCName("setYear")
-  open fun setYear(@ObjCName("withInt") year: Int) {
+  open fun setYear(year: Int) {
     val localDateTime = toLocalDateTime()
     val hours: Int = localDateTime.hour
     instant =
@@ -241,7 +220,6 @@ open class Date private constructor(private var instant: Instant, private var ti
       )
   }
 
-  @ObjCName("toGMTString")
   open fun toGMTString(): String {
     val utcDate = instant.toLocalDateTime(TimeZone.UTC)
     return "" +
@@ -259,7 +237,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       " GMT"
   }
 
-  @ObjCName("toLocaleString") open fun toLocaleString(): String = toString()
+  open fun toLocaleString(): String = toString()
 
   open override fun toString(): String {
     // If we can't parse the zome back, use UTC. This makes sure we can always round-trip
@@ -290,8 +268,7 @@ open class Date private constructor(private var instant: Instant, private var ti
   companion object {
 
     // Copied from Android JRE
-    @ObjCName("parse")
-    fun parse(@ObjCName("withNSString") string: String): Long {
+    fun parse(string: String): Long {
       val creationYear = Date().getYear()
       var sign = '\u0000'
       var commentLevel = 0
@@ -503,24 +480,14 @@ open class Date private constructor(private var instant: Instant, private var ti
 
     fun clamp(n: Int, min: Int, max: Int) = if (n < min) min else if (n > max) max else n
 
-    @ObjCName("UTC")
-    fun UTC(
-      @ObjCName("withInt") year: Int,
-      @ObjCName("withInt") month: Int,
-      @ObjCName("withInt") date: Int,
-      @ObjCName("withInt") hrs: Int,
-      @ObjCName("withInt") min: Int,
-      @ObjCName("withInt") sec: Int,
-    ) =
+    fun UTC(year: Int, month: Int, date: Int, hrs: Int, min: Int, sec: Int) =
       Date(
           createInstant(year + 1900, month + 1, date, hrs, min, sec, 0, TimeZone.UTC),
           TimeZone.UTC,
         )
         .getTime()
 
-    @ObjCName("padTwo")
-    fun padTwo(@ObjCName("withInt") number: Int) =
-      if (number < 10) "0" + number else number.toString()
+    fun padTwo(number: Int) = if (number < 10) "0" + number else number.toString()
 
     private const val ONE_HOUR_IN_MILLISECONDS: Long = 3600000L
 
