@@ -33,7 +33,7 @@ fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { parallelStream() }
     ?: StreamSupport.stream(spliterator(), parallel = true)
 
-fun <E> MutableCollection<E>.java_addAll(c: Collection<out E>): Boolean = addAll(c)
+fun <E> MutableCollection<E>.java_addAll(c: Collection<E>): Boolean = addAll(c)
 
 @Suppress("UNCHECKED_CAST")
 fun <V> Collection<V>.java_contains(value: Any?): Boolean =
