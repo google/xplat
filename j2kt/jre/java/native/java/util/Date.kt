@@ -33,6 +33,7 @@ import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.number
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.plus
+import kotlinx.datetime.toDeprecatedInstant
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import platform.Foundation.NSTimeZone
@@ -558,7 +559,7 @@ open class Date private constructor(private var instant: Instant, private var ti
           LocalTime(normalizedHour, normalizedMinute, normalizedSecond, normalizedNanosecond),
         )
 
-      val result = localDateTime.toInstant(timeZone)
+      val result = localDateTime.toInstant(timeZone).toDeprecatedInstant()
       val oneHourLater = result + 1.hours
       return if (oneHourLater.toLocalDateTime(timeZone) == localDateTime) oneHourLater else result
     }
