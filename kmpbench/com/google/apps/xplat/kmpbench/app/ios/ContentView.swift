@@ -90,7 +90,7 @@ public struct ContentView: View {
 
   // Ideally, this would be actually async -- but the app crashes when the benchmarks are not
   // run on the main thread.
-  func run(benchmark: CombinedBenchmark, kotlin: Bool) -> Double {
+  func run(benchmark: KMPBenchCombinedBenchmark, kotlin: Bool) -> Double {
     let result = kotlin ? benchmark.kotlinBenchmark() : benchmark.javaBenchmark()
     return Double(truncating: result)
   }

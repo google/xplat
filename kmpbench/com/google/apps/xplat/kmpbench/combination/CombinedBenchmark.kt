@@ -15,8 +15,12 @@
  */
 package com.google.apps.xplat.kmpbench.combination
 
+import kotlin.native.ObjCName
+
+@OptIn(kotlin.experimental.ExperimentalObjCName::class)
+@ObjCName("KMPBenchCombinedBenchmark", exact = true)
 data class CombinedBenchmark(
   val name: String,
   val kotlinBenchmark: (() -> Double),
-  val javaBenchmark: (() -> Double)
+  val javaBenchmark: (() -> Double),
 )

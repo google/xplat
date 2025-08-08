@@ -18,8 +18,11 @@ package com.google.apps.xplat.kmpbench.combination
 
 import com.google.j2cl.benchmarking.framework.BenchmarkExecutor
 import com.google.j2cl.benchmarks.AllBenchmarks
+import kotlin.native.ObjCName
 
 /** Manages a list of paired java / kotlin benchmarks */
+@OptIn(kotlin.experimental.ExperimentalObjCName::class)
+@ObjCName("KMPBenchBenchmarkManager", exact = true)
 class BenchmarkManager(javaBenchmarks: Map<String, () -> Double>) {
 
   val benchmarks: List<CombinedBenchmark>
