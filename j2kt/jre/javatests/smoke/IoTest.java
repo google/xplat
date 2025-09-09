@@ -16,11 +16,13 @@
 package smoke;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -219,5 +221,39 @@ public class IoTest {
     assertEquals(6, result.length);
     assertEquals(0, result[0]);
     assertEquals(2, result[5]);
+  }
+
+  @Test
+  public void testBufferedInputStream() throws IOException {
+    ByteArrayInputStream is = new ByteArrayInputStream(new byte[] {1, 2, 3, 4, 5, 6, 7, 8});
+    BufferedInputStream bis = new BufferedInputStream(is);
+    assertEquals(8, is.available());
+    assertEquals(8, bis.available());
+
+    byte[] buf;
+
+    buf = new byte[4];
+    int size = bis.read(buf, 0, 2);
+    assertEquals(2, size);
+    assertArrayEquals(new byte[] {1, 2, 0, 0}, buf);
+    assertEquals(0, is.available());
+    assertEquals(6, bis.available());
+
+    buf = new byte[4];
+    size = bis.read(buf);
+    assertEquals(4, size);
+    assertArrayEquals(new byte[] {3, 4, 5, 6}, buf);
+    assertEquals(0, is.available());
+    assertEquals(2, bis.available());
+
+    buf = new byte[4];
+    size = bis.read(buf);
+    assertEquals(2, size);
+    assertArrayEquals(new byte[] {7, 8, 0, 0}, buf);
+    assertEquals(0, is.available());
+    assertEquals(0, bis.available());
+
+    size = bis.read(buf);
+    assertEquals(-1, size);
   }
 }
