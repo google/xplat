@@ -18,47 +18,52 @@ package java.util.concurrent.atomic
 import java.util.function.LongBinaryOperator
 import java.util.function.LongUnaryOperator
 import kotlin.collections.contentToString
-import kotlinx.atomicfu.atomic
-import kotlinx.atomicfu.getAndUpdate
-import kotlinx.atomicfu.updateAndGet
 
-class AtomicLongArray private constructor(private val array: Array<kotlinx.atomicfu.AtomicLong>) {
+@OptIn(kotlin.concurrent.atomics.ExperimentalAtomicApi::class)
+class AtomicLongArray
+private constructor(private val array: Array<kotlin.concurrent.atomics.AtomicLong>) {
 
   constructor(
     array: LongArray
-  ) : this(Array<kotlinx.atomicfu.AtomicLong>(array.size) { kotlinx.atomicfu.atomic(array[it]) })
+  ) : this(
+    Array<kotlin.concurrent.atomics.AtomicLong>(array.size) {
+      kotlin.concurrent.atomics.AtomicLong(array[it])
+    }
+  )
 
   constructor(
     length: Int
-  ) : this(Array<kotlinx.atomicfu.AtomicLong>(length) { kotlinx.atomicfu.atomic(0L) })
+  ) : this(
+    Array<kotlin.concurrent.atomics.AtomicLong>(length) { kotlin.concurrent.atomics.AtomicLong(0L) }
+  )
 
-  fun get(i: Int): Long = array[i].value
+  fun get(i: Int): Long = array[i].load()
 
   fun getAndAccumulate(i: Int, x: Long, accumulatorFunction: LongBinaryOperator): Long =
-    array[i].getAndUpdate { accumulatorFunction.applyAsLong(x, it) }
+    array[i].fetchAndUpdate { accumulatorFunction.applyAsLong(x, it) }
 
-  fun getAndAdd(i: Int, delta: Long): Long = array[i].getAndAdd(delta)
+  fun getAndAdd(i: Int, delta: Long): Long = array[i].fetchAndAdd(delta)
 
-  fun getAndIncrement(i: Int): Long = array[i].getAndIncrement()
+  fun getAndIncrement(i: Int): Long = array[i].fetchAndAdd(1)
 
-  fun getAndDecrement(i: Int): Long = array[i].getAndDecrement()
+  fun getAndDecrement(i: Int): Long = array[i].fetchAndAdd(-1)
 
-  fun getAndSet(i: Int, newValue: Long): Long = array[i].getAndSet(newValue)
+  fun getAndSet(i: Int, newValue: Long): Long = array[i].exchange(newValue)
 
   fun getAndUpdate(i: Int, updateFunction: LongUnaryOperator): Long =
-    array[i].getAndUpdate { updateFunction.applyAsLong(it) }
+    array[i].fetchAndUpdate { updateFunction.applyAsLong(it) }
 
   fun accumulateAndGet(i: Int, x: Long, accumulatorFunction: LongBinaryOperator): Long =
-    array[i].updateAndGet { accumulatorFunction.applyAsLong(x, it) }
+    array[i].updateAndFetch { accumulatorFunction.applyAsLong(x, it) }
 
-  fun addAndGet(i: Int, delta: Long): Long = array[i].addAndGet(delta)
+  fun addAndGet(i: Int, delta: Long): Long = array[i].addAndFetch(delta)
 
-  fun incrementAndGet(i: Int): Long = array[i].incrementAndGet()
+  fun incrementAndGet(i: Int): Long = array[i].addAndFetch(1)
 
-  fun decrementAndGet(i: Int): Long = array[i].decrementAndGet()
+  fun decrementAndGet(i: Int): Long = array[i].addAndFetch(-1)
 
   fun updateAndGet(i: Int, updateFunction: LongUnaryOperator): Long =
-    array[i].updateAndGet { updateFunction.applyAsLong(it) }
+    array[i].updateAndFetch { updateFunction.applyAsLong(it) }
 
   fun compareAndSet(i: Int, expect: Long, update: Long): Boolean =
     array[i].compareAndSet(expect, update)
@@ -67,12 +72,33 @@ class AtomicLongArray private constructor(private val array: Array<kotlinx.atomi
     compareAndSet(i, expect, update)
 
   fun set(i: Int, newValue: Long) {
-    array[i].value = newValue
+    array[i].store(newValue)
   }
 
-  fun lazySet(i: Int, newValue: Long) = array[i].lazySet(newValue)
+  fun lazySet(i: Int, newValue: Long) {
+    array[i].store(newValue)
+  }
 
   fun length(): Int = array.size
 
   override fun toString(): String = array.contentToString()
+
+  // TODO(b/444408156): Replace this with extension function imports.
+  companion object {
+    fun kotlin.concurrent.atomics.AtomicLong.fetchAndUpdate(transform: (Long) -> Long): Long {
+      while (true) {
+        val old = load()
+        val newValue = transform(old)
+        if (compareAndSet(old, newValue)) return old
+      }
+    }
+
+    fun kotlin.concurrent.atomics.AtomicLong.updateAndFetch(transform: (Long) -> Long): Long {
+      while (true) {
+        val old = load()
+        val newValue = transform(old)
+        if (compareAndSet(old, newValue)) return newValue
+      }
+    }
+  }
 }

@@ -15,51 +15,56 @@
  */
 package java.util.concurrent.atomic
 
-class AtomicLong internal constructor(private val ktAtomicLong: kotlinx.atomicfu.AtomicLong) :
+@OptIn(kotlin.concurrent.atomics.ExperimentalAtomicApi::class)
+@Suppress("DEPRECATION")
+class AtomicLong
+internal constructor(private val ktAtomicLong: kotlin.concurrent.atomics.AtomicLong) :
   kotlin.Number() {
 
-  constructor() : this(kotlinx.atomicfu.atomic(0L))
+  constructor() : this(kotlin.concurrent.atomics.AtomicLong(0L))
 
-  constructor(initialValue: Long) : this(kotlinx.atomicfu.atomic(initialValue))
+  constructor(initialValue: Long) : this(kotlin.concurrent.atomics.AtomicLong(initialValue))
 
-  fun get(): Long = ktAtomicLong.value
+  fun get(): Long = ktAtomicLong.load()
 
   fun set(newValue: Long) {
-    ktAtomicLong.value = newValue
+    ktAtomicLong.store(newValue)
   }
 
-  fun lazySet(newValue: Long) = ktAtomicLong.lazySet(newValue)
+  fun lazySet(newValue: Long) {
+    ktAtomicLong.store(newValue)
+  }
 
-  fun getAndSet(newValue: Long): Long = ktAtomicLong.getAndSet(newValue)
+  fun getAndSet(newValue: Long): Long = ktAtomicLong.exchange(newValue)
 
   fun compareAndSet(expect: Long, update: Long): Boolean =
     ktAtomicLong.compareAndSet(expect, update)
 
-  fun getAndIncrement(): Long = ktAtomicLong.getAndIncrement()
+  fun getAndIncrement(): Long = ktAtomicLong.fetchAndAdd(1)
 
-  fun getAndDecrement(): Long = ktAtomicLong.getAndDecrement()
+  fun getAndDecrement(): Long = ktAtomicLong.fetchAndAdd(-1)
 
-  fun getAndAdd(delta: Long): Long = ktAtomicLong.getAndAdd(delta)
+  fun getAndAdd(delta: Long): Long = ktAtomicLong.fetchAndAdd(delta)
 
-  fun incrementAndGet(): Long = ktAtomicLong.incrementAndGet()
+  fun incrementAndGet(): Long = ktAtomicLong.addAndFetch(1)
 
-  fun decrementAndGet(): Long = ktAtomicLong.decrementAndGet()
+  fun decrementAndGet(): Long = ktAtomicLong.addAndFetch(-1)
 
-  fun addAndGet(delta: Long): Long = ktAtomicLong.addAndGet(delta)
+  fun addAndGet(delta: Long): Long = ktAtomicLong.addAndFetch(delta)
 
   override fun toString(): String = ktAtomicLong.toString()
 
-  override fun toInt(): Int = ktAtomicLong.value.toInt()
+  override fun toInt(): Int = ktAtomicLong.load().toInt()
 
-  override fun toLong(): Long = ktAtomicLong.value
+  override fun toLong(): Long = ktAtomicLong.load()
 
-  override fun toFloat(): Float = ktAtomicLong.value.toFloat()
+  override fun toFloat(): Float = ktAtomicLong.load().toFloat()
 
-  override fun toDouble(): Double = ktAtomicLong.value.toDouble()
+  override fun toDouble(): Double = ktAtomicLong.load().toDouble()
 
-  override fun toByte(): Byte = ktAtomicLong.value.toByte()
+  override fun toByte(): Byte = ktAtomicLong.load().toByte()
 
-  override fun toChar(): Char = ktAtomicLong.value.toChar()
+  override fun toChar(): Char = ktAtomicLong.load().toChar()
 
-  override fun toShort(): Short = ktAtomicLong.value.toShort()
+  override fun toShort(): Short = ktAtomicLong.load().toShort()
 }
