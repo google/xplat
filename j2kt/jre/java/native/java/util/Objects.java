@@ -94,7 +94,7 @@ public final class Objects {
     return o != null ? o.hashCode() : 0;
   }
 
-  public static int hash(@Nullable Object... values) {
+  public static int hash(@Nullable Object @Nullable ... values) {
     return Arrays.hashCode(values);
   }
 
