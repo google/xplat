@@ -170,11 +170,11 @@ public class PrintWriter extends Writer {
     print(String.valueOf(lnum));
   }
 
-  public void print(Object obj) {
+  public void print(@Nullable Object obj) {
     print(String.valueOf(obj));
   }
 
-  public void print(String str) {
+  public void print(@Nullable String str) {
     write(str != null ? str : String.valueOf((Object) null));
   }
 
@@ -215,11 +215,11 @@ public class PrintWriter extends Writer {
     println(String.valueOf(l));
   }
 
-  public void println(Object obj) {
+  public void println(@Nullable Object obj) {
     println(String.valueOf(obj));
   }
 
-  public void println(String str) {
+  public void println(@Nullable String str) {
     synchronized (lock) {
       print(str);
       println();

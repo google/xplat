@@ -41,6 +41,10 @@ public class StringWriter extends Writer {
     buf = new StringBuilder(initialSize);
   }
 
+  public StringBuilder getBuffer() {
+    return buf;
+  }
+
   @Override
   public void close() throws IOException {
     /* empty */
