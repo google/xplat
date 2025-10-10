@@ -17,33 +17,30 @@
 // CHECKSTYLE_ON
 package java.util.concurrent.atomic
 
+import kotlinx.atomicfu.AtomicRef
+import kotlinx.atomicfu.atomic
+
 /**
  * J2KT Native emulated version of `AtomicReferenceArray`.
  *
  * @param V the element type.
  */
-@OptIn(kotlin.concurrent.atomics.ExperimentalAtomicApi::class)
-class AtomicReferenceArray<V>
-private constructor(private val array: Array<kotlin.concurrent.atomics.AtomicReference<V>>) {
+class AtomicReferenceArray<V> private constructor(private val array: Array<AtomicRef<V>>) {
 
-  constructor(
-    array: Array<V>
-  ) : this(Array(array.size) { kotlin.concurrent.atomics.AtomicReference<V>(array[it]) })
+  constructor(array: Array<V>) : this(Array(array.size) { atomic<V>(array[it]) })
 
   fun compareAndSet(i: Int, expect: V, update: V) = array[i].compareAndSet(expect, update)
 
-  fun get(i: Int) = array[i].load()
+  fun get(i: Int) = array[i].value
 
-  fun getAndSet(i: Int, x: V) = array[i].exchange(x)
+  fun getAndSet(i: Int, x: V) = array[i].getAndSet(x)
 
-  fun lazySet(i: Int, x: V) {
-    array[i].store(x)
-  }
+  fun lazySet(i: Int, x: V) = array[i].lazySet(x)
 
   fun length(): Int = array.size
 
   fun set(i: Int, x: V) {
-    array[i].store(x)
+    array[i].value = x
   }
 
   fun weakCompareAndSet(i: Int, expect: V, update: V): Boolean = compareAndSet(i, expect, update)
@@ -52,8 +49,6 @@ private constructor(private val array: Array<kotlin.concurrent.atomics.AtomicRef
 
   companion object {
     operator fun <V> invoke(length: Int): AtomicReferenceArray<V?> =
-      AtomicReferenceArray<V?>(
-        Array(length) { kotlin.concurrent.atomics.AtomicReference<V?>(null) }
-      )
+      AtomicReferenceArray<V?>(Array(length) { atomic<V?>(null) })
   }
 }

@@ -15,30 +15,28 @@
  */
 package java.util.concurrent.atomic
 
+import kotlinx.atomicfu.AtomicRef
+import kotlinx.atomicfu.atomic
+
 /**
  * GWT emulation of AtomicReference.
  *
  * @param <V> The type of object referred to by this reference
  */
-@Suppress("DEPRECATION")
-@OptIn(kotlin.concurrent.atomics.ExperimentalAtomicApi::class)
-class AtomicReference<V>
-internal constructor(private val atomicValue: kotlin.concurrent.atomics.AtomicReference<V>) {
+class AtomicReference<V> internal constructor(private val atomicValue: AtomicRef<V>) {
 
-  constructor(initialValue: V) : this(kotlin.concurrent.atomics.AtomicReference<V>(initialValue))
+  constructor(initialValue: V) : this(atomic<V>(initialValue))
 
   final fun compareAndSet(expect: V, update: V) = atomicValue.compareAndSet(expect, update)
 
-  final fun get(): V = atomicValue.load()
+  final fun get(): V = atomicValue.value
 
-  final fun getAndSet(newValue: V): V = atomicValue.exchange(newValue)
+  final fun getAndSet(newValue: V): V = atomicValue.getAndSet(newValue)
 
-  final fun lazySet(newValue: V) {
-    atomicValue.store(newValue)
-  }
+  final fun lazySet(newValue: V) = atomicValue.lazySet(newValue)
 
   final fun set(newValue: V) {
-    atomicValue.store(newValue)
+    atomicValue.value = newValue
   }
 
   final fun weakCompareAndSet(expect: V, update: V) = atomicValue.compareAndSet(expect, update)
@@ -46,7 +44,6 @@ internal constructor(private val atomicValue: kotlin.concurrent.atomics.AtomicRe
   override fun toString(): String = atomicValue.toString()
 
   companion object {
-    operator fun <V> invoke(): AtomicReference<V?> =
-      AtomicReference<V?>(kotlin.concurrent.atomics.AtomicReference<V?>(null))
+    operator fun <V> invoke(): AtomicReference<V?> = AtomicReference<V?>(atomic<V?>(null))
   }
 }
