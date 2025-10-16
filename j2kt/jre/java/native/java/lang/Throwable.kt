@@ -22,10 +22,12 @@ import javaemul.lang.InitCauseCapable
 import kotlin.String as KotlinString
 import kotlin.Throwable as KotlinThrowable
 
-open class Throwable(message: KotlinString? = null) : KotlinThrowable(message), InitCauseCapable {
+open class Throwable(message: KotlinString?) : KotlinThrowable(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
+
+  constructor() : this(null as KotlinString?)
 
   constructor(cause: KotlinThrowable?) : this() {
     initCause(cause)
@@ -66,4 +68,8 @@ open class Throwable(message: KotlinString? = null) : KotlinThrowable(message), 
 
   open val localizedMessage: KotlinString?
     get() = message
+
+  companion object {
+    fun of(e: Any?): Throwable = throw UnsupportedOperationException()
+  }
 }
