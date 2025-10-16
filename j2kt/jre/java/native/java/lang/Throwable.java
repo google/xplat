@@ -27,7 +27,7 @@ import org.jspecify.annotations.Nullable;
 @KtNative(
     name = "kotlin.Throwable",
     bridgeName = "javaemul.lang.ThrowableJvm",
-    companionName = "java.lang.Throwable")
+    companionName = "java.lang.Throwable.Companion")
 @NullMarked
 public class Throwable {
 
