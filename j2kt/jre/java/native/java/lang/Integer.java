@@ -19,6 +19,7 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -27,18 +28,23 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public final class Integer extends Number implements Comparable<Integer> {
 
+  @HiddenFromObjC // TODO(b/454304796)
   public static final int MAX_VALUE = 0x7fffffff;
 
+  @HiddenFromObjC // TODO(b/454304796)
   public static final int MIN_VALUE = 0x80000000;
 
+  @HiddenFromObjC // TODO(b/454304796)
   public static final int SIZE = 32;
 
+  @HiddenFromObjC // TODO(b/454304796)
   public static final int BYTES = SIZE / Byte.SIZE;
 
   public static final Class<Integer> TYPE = ktNative();
 
   public Integer(int value) {}
 
+  @HiddenFromObjC
   public Integer(String string) throws NumberFormatException {}
 
   @Override
@@ -49,6 +55,7 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public static native int compare(int lhs, int rhs);
 
+  @HiddenFromObjC
   public static native Integer decode(String string) throws NumberFormatException;
 
   @Override
@@ -68,6 +75,7 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public static native @Nullable Integer getInteger(@Nullable String string);
 
+  @HiddenFromObjC
   public static native Integer getInteger(@Nullable String string, int defaultValue);
 
   public static native @Nullable Integer getInteger(
@@ -106,8 +114,10 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public static native String toUnsignedString(int i, int radix);
 
+  @HiddenFromObjC
   public static native Integer valueOf(String string) throws NumberFormatException;
 
+  @HiddenFromObjC
   public static native Integer valueOf(String string, int radix) throws NumberFormatException;
 
   public static native int highestOneBit(int i);
@@ -130,6 +140,7 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public static native int signum(int i);
 
+  @HiddenFromObjC
   public static native Integer valueOf(int i);
 
   public static native int hashCode(int i);
