@@ -19,6 +19,7 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
@@ -38,65 +39,65 @@ public final class Character implements Comparable<Character> {
 
   public static final Class<Character> TYPE = ktNative();
 
-  public static final byte UNASSIGNED = 0;
+  @HiddenFromObjC public static final byte UNASSIGNED = 0;
 
-  public static final byte UPPERCASE_LETTER = 1;
+  @HiddenFromObjC public static final byte UPPERCASE_LETTER = 1;
 
-  public static final byte LOWERCASE_LETTER = 2;
+  @HiddenFromObjC public static final byte LOWERCASE_LETTER = 2;
 
-  public static final byte TITLECASE_LETTER = 3;
+  @HiddenFromObjC public static final byte TITLECASE_LETTER = 3;
 
-  public static final byte MODIFIER_LETTER = 4;
+  @HiddenFromObjC public static final byte MODIFIER_LETTER = 4;
 
-  public static final byte OTHER_LETTER = 5;
+  @HiddenFromObjC public static final byte OTHER_LETTER = 5;
 
-  public static final byte NON_SPACING_MARK = 6;
+  @HiddenFromObjC public static final byte NON_SPACING_MARK = 6;
 
-  public static final byte ENCLOSING_MARK = 7;
+  @HiddenFromObjC public static final byte ENCLOSING_MARK = 7;
 
-  public static final byte COMBINING_SPACING_MARK = 8;
+  @HiddenFromObjC public static final byte COMBINING_SPACING_MARK = 8;
 
-  public static final byte DECIMAL_DIGIT_NUMBER = 9;
+  @HiddenFromObjC public static final byte DECIMAL_DIGIT_NUMBER = 9;
 
-  public static final byte LETTER_NUMBER = 10;
+  @HiddenFromObjC public static final byte LETTER_NUMBER = 10;
 
-  public static final byte OTHER_NUMBER = 11;
+  @HiddenFromObjC public static final byte OTHER_NUMBER = 11;
 
-  public static final byte SPACE_SEPARATOR = 12;
+  @HiddenFromObjC public static final byte SPACE_SEPARATOR = 12;
 
-  public static final byte LINE_SEPARATOR = 13;
+  @HiddenFromObjC public static final byte LINE_SEPARATOR = 13;
 
-  public static final byte PARAGRAPH_SEPARATOR = 14;
+  @HiddenFromObjC public static final byte PARAGRAPH_SEPARATOR = 14;
 
-  public static final byte CONTROL = 15;
+  @HiddenFromObjC public static final byte CONTROL = 15;
 
-  public static final byte FORMAT = 16;
+  @HiddenFromObjC public static final byte FORMAT = 16;
 
-  public static final byte PRIVATE_USE = 18;
+  @HiddenFromObjC public static final byte PRIVATE_USE = 18;
 
-  public static final byte SURROGATE = 19;
+  @HiddenFromObjC public static final byte SURROGATE = 19;
 
-  public static final byte DASH_PUNCTUATION = 20;
+  @HiddenFromObjC public static final byte DASH_PUNCTUATION = 20;
 
-  public static final byte START_PUNCTUATION = 21;
+  @HiddenFromObjC public static final byte START_PUNCTUATION = 21;
 
-  public static final byte END_PUNCTUATION = 22;
+  @HiddenFromObjC public static final byte END_PUNCTUATION = 22;
 
-  public static final byte CONNECTOR_PUNCTUATION = 23;
+  @HiddenFromObjC public static final byte CONNECTOR_PUNCTUATION = 23;
 
-  public static final byte OTHER_PUNCTUATION = 24;
+  @HiddenFromObjC public static final byte OTHER_PUNCTUATION = 24;
 
-  public static final byte MATH_SYMBOL = 25;
+  @HiddenFromObjC public static final byte MATH_SYMBOL = 25;
 
-  public static final byte CURRENCY_SYMBOL = 26;
+  @HiddenFromObjC public static final byte CURRENCY_SYMBOL = 26;
 
-  public static final byte MODIFIER_SYMBOL = 27;
+  @HiddenFromObjC public static final byte MODIFIER_SYMBOL = 27;
 
-  public static final byte OTHER_SYMBOL = 28;
+  @HiddenFromObjC public static final byte OTHER_SYMBOL = 28;
 
-  public static final byte INITIAL_QUOTE_PUNCTUATION = 29;
+  @HiddenFromObjC public static final byte INITIAL_QUOTE_PUNCTUATION = 29;
 
-  public static final byte FINAL_QUOTE_PUNCTUATION = 30;
+  @HiddenFromObjC public static final byte FINAL_QUOTE_PUNCTUATION = 30;
 
   public static final byte DIRECTIONALITY_UNDEFINED = -1;
 
@@ -156,7 +157,7 @@ public final class Character implements Comparable<Character> {
 
   public static final int MAX_CODE_POINT = 0X10FFFF;
 
-  public static int SIZE = 16;
+  @HiddenFromObjC public static int SIZE = 16;
 
   // J2KT removed: Subset, UnicodeBlock
 
@@ -215,6 +216,7 @@ public final class Character implements Comparable<Character> {
 
   public static native int digit(char c, int radix);
 
+  @HiddenFromObjC
   public static native int digit(int codePoint, int radix);
 
   @Override
@@ -222,22 +224,31 @@ public final class Character implements Comparable<Character> {
 
   public static native char forDigit(int digit, int radix);
 
+  @HiddenFromObjC
   public static native String getName(int codePoint);
 
+  @HiddenFromObjC
   public static native int getNumericValue(char c);
 
+  @HiddenFromObjC
   public static native int getNumericValue(int codePoint);
 
+  @HiddenFromObjC
   public static native int getType(char c);
 
+  @HiddenFromObjC
   public static native int getType(int codePoint);
 
+  @HiddenFromObjC
   public static native byte getDirectionality(char c);
 
+  @HiddenFromObjC
   public static native byte getDirectionality(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isMirrored(char c);
 
+  @HiddenFromObjC
   public static native boolean isMirrored(int codePoint);
 
   @Override
@@ -247,52 +258,72 @@ public final class Character implements Comparable<Character> {
 
   public static native char lowSurrogate(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isAlphabetic(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isBmpCodePoint(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isDefined(char c);
 
+  @HiddenFromObjC
   public static native boolean isDefined(int codePoint);
 
   public static native boolean isDigit(char c);
 
   public static native boolean isDigit(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isIdentifierIgnorable(char c);
 
+  @HiddenFromObjC
   public static native boolean isIdeographic(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isIdentifierIgnorable(int codePoint);
 
   public static native boolean isISOControl(char c);
 
+  @HiddenFromObjC
   public static native boolean isISOControl(int c);
 
+  @HiddenFromObjC
   public static native boolean isJavaIdentifierPart(char c);
 
+  @HiddenFromObjC
   public static native boolean isJavaIdentifierPart(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isJavaIdentifierStart(char c);
 
+  @HiddenFromObjC
   public static native boolean isJavaIdentifierStart(int codePoint);
 
   @Deprecated
+  @HiddenFromObjC
   public static native boolean isJavaLetter(char c);
 
   @Deprecated
+  @HiddenFromObjC
   public static native boolean isJavaLetterOrDigit(char c);
 
+  @HiddenFromObjC
   public static native boolean isLetter(char c);
 
+  @HiddenFromObjC
   public static native boolean isLetter(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isLetterOrDigit(char c);
 
+  @HiddenFromObjC
   public static native boolean isLetterOrDigit(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isLowerCase(char c);
 
+  @HiddenFromObjC
   public static native boolean isLowerCase(int codePoint);
 
   @Deprecated
@@ -302,26 +333,34 @@ public final class Character implements Comparable<Character> {
 
   public static native boolean isSpaceChar(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isTitleCase(char c);
 
+  @HiddenFromObjC
   public static native boolean isTitleCase(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isUnicodeIdentifierPart(char c);
 
+  @HiddenFromObjC
   public static native boolean isUnicodeIdentifierPart(int codePoint);
 
+  @HiddenFromObjC
   public static native boolean isUnicodeIdentifierStart(char c);
 
+  @HiddenFromObjC
   public static native boolean isUnicodeIdentifierStart(int codePoint);
 
   public static native boolean isUpperCase(char c);
 
+  @HiddenFromObjC
   public static native boolean isUpperCase(int codePoint);
 
   public static native boolean isWhitespace(char c);
 
   public static native boolean isWhitespace(int codePoint);
 
+  @HiddenFromObjC
   public static native char reverseBytes(char c);
 
   public static native char toLowerCase(char c);
@@ -335,8 +374,10 @@ public final class Character implements Comparable<Character> {
 
   public static native String toString(int value);
 
+  @HiddenFromObjC
   public static native char toTitleCase(char c);
 
+  @HiddenFromObjC
   public static native int toTitleCase(int codePoint);
 
   public static native char toUpperCase(char c);

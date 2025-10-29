@@ -19,42 +19,44 @@ import javaemul.internal.decodeNumberString
 import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Short static method emulations */
-object Short {
-  operator fun invoke(s: kotlin.Short): kotlin.Short = s
+class Short {
+  companion object {
+    operator fun invoke(s: kotlin.Short): kotlin.Short = s
 
-  operator fun invoke(s: kotlin.String): kotlin.Short = s.toShort()
+    operator fun invoke(s: kotlin.String): kotlin.Short = s.toShort()
 
-  const val MAX_VALUE = kotlin.Short.MAX_VALUE
+    const val MAX_VALUE = kotlin.Short.MAX_VALUE
 
-  const val MIN_VALUE = kotlin.Short.MIN_VALUE
+    const val MIN_VALUE = kotlin.Short.MIN_VALUE
 
-  const val SIZE = kotlin.Short.SIZE_BITS
+    const val SIZE = kotlin.Short.SIZE_BITS
 
-  const val BYTES = kotlin.Short.SIZE_BYTES
+    const val BYTES = kotlin.Short.SIZE_BYTES
 
-  val TYPE: Class<kotlin.Short> = kotlin.Short::class.javaPrimitiveType!!
+    val TYPE: Class<kotlin.Short> = kotlin.Short::class.javaPrimitiveType!!
 
-  fun valueOf(s: kotlin.Short): kotlin.Short = s
+    fun valueOf(s: kotlin.Short): kotlin.Short = s
 
-  fun valueOf(str: kotlin.String): kotlin.Short = str.toShort()
+    fun valueOf(str: kotlin.String): kotlin.Short = str.toShort()
 
-  fun valueOf(s: kotlin.String, radix: Int): kotlin.Short = s.toShort(radix)
+    fun valueOf(s: kotlin.String, radix: Int): kotlin.Short = s.toShort(radix)
 
-  fun compare(s1: kotlin.Short, s2: kotlin.Short): Int = s1.compareTo(s2)
+    fun compare(s1: kotlin.Short, s2: kotlin.Short): Int = s1.compareTo(s2)
 
-  fun decode(s: kotlin.String): kotlin.Short {
-    val (radix, payload) = decodeNumberString(s)
-    return payload.toShort(radix)
+    fun decode(s: kotlin.String): kotlin.Short {
+      val (radix, payload) = decodeNumberString(s)
+      return payload.toShort(radix)
+    }
+
+    fun toString(s: kotlin.Short): kotlin.String = s.toString()
+
+    fun parseShort(str: kotlin.String): kotlin.Short = str.toShort()
+
+    fun parseShort(s: kotlin.String, radix: Int): kotlin.Short = s.toShort(radix)
+
+    fun hashCode(s: kotlin.Short): Int = s.hashCode()
+
+    fun reverseBytes(s: kotlin.Short): kotlin.Short =
+      (((s.toInt() shr 8) and 0xff) or ((s.toInt() and 0xff) shl 8)).toShort()
   }
-
-  fun toString(s: kotlin.Short): kotlin.String = s.toString()
-
-  fun parseShort(str: kotlin.String): kotlin.Short = str.toShort()
-
-  fun parseShort(s: kotlin.String, radix: Int): kotlin.Short = s.toShort(radix)
-
-  fun hashCode(s: kotlin.Short): Int = s.hashCode()
-
-  fun reverseBytes(s: kotlin.Short): kotlin.Short =
-    (((s.toInt() shr 8) and 0xff) or ((s.toInt() and 0xff) shl 8)).toShort()
 }

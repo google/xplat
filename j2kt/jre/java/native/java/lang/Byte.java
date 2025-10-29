@@ -19,6 +19,7 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -80,6 +81,7 @@ public final class Byte extends Number implements Comparable<Byte> {
   public native String toString();
 
   // Internal-only (visibility-checked by konanc). Used by code ported from Android.
+  @HiddenFromObjC
   public static native String toHexString(byte b, boolean upperCase);
 
   public static native String toString(byte value);

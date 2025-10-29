@@ -28,16 +28,12 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public final class Integer extends Number implements Comparable<Integer> {
 
-  @HiddenFromObjC // TODO(b/454304796)
   public static final int MAX_VALUE = 0x7fffffff;
 
-  @HiddenFromObjC // TODO(b/454304796)
   public static final int MIN_VALUE = 0x80000000;
 
-  @HiddenFromObjC // TODO(b/454304796)
   public static final int SIZE = 32;
 
-  @HiddenFromObjC // TODO(b/454304796)
   public static final int BYTES = SIZE / Byte.SIZE;
 
   public static final Class<Integer> TYPE = ktNative();

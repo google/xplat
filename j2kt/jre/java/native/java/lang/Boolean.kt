@@ -20,26 +20,28 @@ import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Boolean static method emulations */
 @OptIn(ExperimentalObjCRefinement::class)
-object Boolean {
-  operator fun invoke(b: kotlin.Boolean): kotlin.Boolean = b
+class Boolean {
+  companion object {
+    operator fun invoke(b: kotlin.Boolean): kotlin.Boolean = b
 
-  operator fun invoke(s: kotlin.String?): kotlin.Boolean = parseBoolean(s)
+    operator fun invoke(s: kotlin.String?): kotlin.Boolean = parseBoolean(s)
 
-  @HiddenFromObjC const val TRUE: kotlin.Boolean = true
+    @HiddenFromObjC const val TRUE: kotlin.Boolean = true
 
-  @HiddenFromObjC const val FALSE: kotlin.Boolean = false
+    @HiddenFromObjC const val FALSE: kotlin.Boolean = false
 
-  val TYPE: Class<kotlin.Boolean> = kotlin.Boolean::class.javaPrimitiveType!!
+    val TYPE: Class<kotlin.Boolean> = kotlin.Boolean::class.javaPrimitiveType!!
 
-  fun valueOf(b: kotlin.Boolean): kotlin.Boolean = b
+    fun valueOf(b: kotlin.Boolean): kotlin.Boolean = b
 
-  fun valueOf(s: kotlin.String?): kotlin.Boolean = s.toBoolean()
+    fun valueOf(s: kotlin.String?): kotlin.Boolean = s.toBoolean()
 
-  fun hashCode(b: kotlin.Boolean): Int = b.hashCode()
+    fun hashCode(b: kotlin.Boolean): Int = b.hashCode()
 
-  fun parseBoolean(s: kotlin.String?): kotlin.Boolean = s.toBoolean()
+    fun parseBoolean(s: kotlin.String?): kotlin.Boolean = s.toBoolean()
 
-  fun toString(b: kotlin.Boolean): kotlin.String = b.toString()
+    fun toString(b: kotlin.Boolean): kotlin.String = b.toString()
 
-  fun compare(b1: kotlin.Boolean, b2: kotlin.Boolean): Int = b1.compareTo(b2)
+    fun compare(b1: kotlin.Boolean, b2: kotlin.Boolean): Int = b1.compareTo(b2)
+  }
 }

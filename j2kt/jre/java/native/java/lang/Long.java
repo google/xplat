@@ -19,6 +19,7 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -66,10 +67,13 @@ public final class Long extends Number implements Comparable<Long> {
 
   public static native long sum(long a, long b);
 
+  @HiddenFromObjC
   public static native @Nullable Long getLong(@Nullable String string);
 
+  @HiddenFromObjC
   public static native Long getLong(@Nullable String string, long defaultValue);
 
+  @HiddenFromObjC
   public static native @Nullable Long getLong(@Nullable String string, @Nullable Long defaultValue);
 
   @Override

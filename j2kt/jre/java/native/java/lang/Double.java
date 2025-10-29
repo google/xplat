@@ -19,6 +19,7 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
@@ -118,6 +119,7 @@ public final class Double extends Number implements Comparable<Double> {
 
   public static native Double valueOf(double d);
 
+  @HiddenFromObjC
   public static native String toHexString(double d);
 
   public static native int hashCode(double d);

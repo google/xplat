@@ -19,6 +19,7 @@ package java.lang;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
@@ -120,6 +121,7 @@ public final class Float extends Number implements Comparable<Float> {
 
   public static native Float valueOf(float f);
 
+  @HiddenFromObjC
   public static native String toHexString(float f);
 
   public static native int hashCode(float f);
