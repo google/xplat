@@ -17,6 +17,7 @@
 
 package java.lang;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import javaemul.internal.annotations.KtNative;
@@ -84,5 +85,6 @@ public class Throwable {
 
   // Method existing in J2CL-JRE and referenced by user code. This method is not available in
   // j2kt-native and j2kt-jvm.
+  @HiddenFromObjC
   public static native Throwable of(@Nullable Object e);
 }

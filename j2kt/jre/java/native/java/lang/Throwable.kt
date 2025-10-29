@@ -68,8 +68,4 @@ open class Throwable(message: KotlinString?) : KotlinThrowable(message), InitCau
 
   open val localizedMessage: KotlinString?
     get() = message
-
-  companion object {
-    fun of(e: Any?): Throwable = throw UnsupportedOperationException()
-  }
 }
