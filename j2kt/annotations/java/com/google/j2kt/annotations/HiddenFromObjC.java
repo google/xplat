@@ -21,7 +21,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/** Informs J2KT to not generate J2objC compat header entries for this. */
+/** Informs J2KT to include @HiddenFromObjC annotation in the generated source code. */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
 @Documented
