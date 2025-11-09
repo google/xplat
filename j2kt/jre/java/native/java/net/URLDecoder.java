@@ -61,7 +61,7 @@ public class URLDecoder {
     return decode(s, charset);
   }
 
-  private static String decode(String s, Charset charset) {
+  public static String decode(String s, Charset charset) {
 
     StringBuilder sb = new StringBuilder(s.length());
     byte[] buf = new byte[s.length() / 3];

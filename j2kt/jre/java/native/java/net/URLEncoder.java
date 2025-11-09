@@ -18,6 +18,7 @@
 package java.net;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
@@ -29,9 +30,6 @@ import org.jspecify.annotations.NullMarked;
 public class URLEncoder {
 
   static final String digits = "0123456789ABCDEF";
-
-  /** Prevents this class from being instantiated. */
-  private URLEncoder() {}
 
   @Deprecated
   public static String encode(String s) {
@@ -58,13 +56,20 @@ public class URLEncoder {
     return buf.toString();
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public static String encode(String s, String enc) throws UnsupportedEncodingException {
+
     if (s == null || enc == null) {
       throw new NullPointerException();
     }
     // check for UnsupportedEncodingException
-    "".getBytes(enc);
+    var unused = "".getBytes(enc);
+    return encode(s, Charset.forName(enc));
+  }
+
+  public static String encode(String s, Charset enc) {
+    if (s == null || enc == null) {
+      throw new NullPointerException();
+    }
 
     // Guess a bit bigger for encoded form
     StringBuilder buf = new StringBuilder(s.length() + 16);
@@ -96,8 +101,7 @@ public class URLEncoder {
     return buf.toString();
   }
 
-  private static void convert(String s, StringBuilder buf, @NonNull String enc)
-      throws UnsupportedEncodingException {
+  private static void convert(String s, StringBuilder buf, @NonNull Charset enc) {
     byte[] bytes = s.getBytes(enc);
     for (int j = 0; j < bytes.length; j++) {
       buf.append('%');
@@ -105,4 +109,7 @@ public class URLEncoder {
       buf.append(digits.charAt(bytes[j] & 0xf));
     }
   }
+
+  /** Prevents this class from being instantiated. */
+  private URLEncoder() {}
 }
