@@ -40,7 +40,6 @@ public final class Integer extends Number implements Comparable<Integer> {
 
   public Integer(int value) {}
 
-  @HiddenFromObjC
   public Integer(String string) throws NumberFormatException {}
 
   @Override
