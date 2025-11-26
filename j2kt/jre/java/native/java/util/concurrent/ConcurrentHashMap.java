@@ -19,29 +19,33 @@
 package java.util.concurrent;
 
 import java.util.AbstractMap;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javaemul.lang.J2ktMonitor;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Minimal emulation of {@link java.util.concurrent.ConcurrentHashMap}.
  *
- * <p>Note that the javascript is single-threaded, it is essentially a {@link java.util.HashMap},
- * implementing the new methods introduced by {@link ConcurrentMap}.
- *
  * @param <K> key type
  * @param <V> value type
  */
+// TODO(b/458160722): The current implementation provides synchronized access methods, but
+//   doesn't provide a safe entry set or value collection and also doesn't provide safe iterators,
+//   which the original implementation does. So we need to either also wrap the entry set in a safe
+//   way and provide safe itertors or port the original source code, probably replacing unsafe
+//   access with atomics.
 @NullMarked
 public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   private final Map<K, V> backingMap;
+  private final J2ktMonitor lock = new J2ktMonitor();
 
   public ConcurrentHashMap() {
     this.backingMap = new HashMap<K, V>();
@@ -59,41 +63,89 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
     this.backingMap = new HashMap<K, V>(t);
   }
 
+  @Override
+  public void clear() {
+    synchronized (lock) {
+      backingMap.clear();
+    }
+  }
+
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    synchronized (lock) {
+      return backingMap.equals(obj);
+    }
+  }
+
+  @Override
+  public @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    synchronized (lock) {
+      return backingMap.getOrDefault(key, defaultValue);
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    synchronized (lock) {
+      return backingMap.hashCode();
+    }
+  }
+
+  @Override
+  public Set<K> keySet() {
+    synchronized (lock) {
+      // Make sure to use a wrapping implementation by calling super.
+      return super.keySet();
+    }
+  }
+
+  @Override
   public @Nullable V putIfAbsent(K key, V value) {
-    if (!containsKey(key)) {
-      return put(key, value);
-    } else {
-      return get(key);
+    synchronized (lock) {
+      if (!containsKey(key)) {
+        return put(key, value);
+      } else {
+        return get(key);
+      }
     }
   }
 
+  @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
-    if (containsKey(key) && get(key).equals(value)) {
-      remove(key);
-      return true;
-    } else {
-      return false;
+    synchronized (lock) {
+      if (containsKey(key) && get(key).equals(value)) {
+        remove(key);
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
+  @Override
   public boolean replace(K key, V oldValue, V newValue) {
-    if (oldValue == null || newValue == null) {
-      throw new NullPointerException();
-    } else if (containsKey(key) && get(key).equals(oldValue)) {
-      put(key, newValue);
-      return true;
-    } else {
-      return false;
+    synchronized (lock) {
+      if (oldValue == null || newValue == null) {
+        throw new NullPointerException();
+      } else if (containsKey(key) && get(key).equals(oldValue)) {
+        put(key, newValue);
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
+  @Override
   public @Nullable V replace(K key, V value) {
-    if (value == null) {
-      throw new NullPointerException();
-    } else if (containsKey(key)) {
-      return put(key, value);
-    } else {
-      return null;
+    synchronized (lock) {
+      if (value == null) {
+        throw new NullPointerException();
+      } else if (containsKey(key)) {
+        return put(key, value);
+      } else {
+        return null;
+      }
     }
   }
 
@@ -102,7 +154,9 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
     if (key == null) {
       throw new NullPointerException();
     }
-    return backingMap.containsKey(key);
+    synchronized (lock) {
+      return backingMap.containsKey(key);
+    }
   }
 
   @Override
@@ -110,7 +164,9 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
     if (key == null) {
       throw new NullPointerException();
     }
-    return backingMap.get(key);
+    synchronized (lock) {
+      return backingMap.get(key);
+    }
   }
 
   @Override public @Nullable V put(K key, V value) {
@@ -125,7 +181,9 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
     if (value == null) {
       throw new NullPointerException();
     }
-    return backingMap.containsValue(value);
+    synchronized (lock) {
+      return backingMap.containsValue(value);
+    }
   }
 
   @Override
@@ -133,12 +191,16 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
     if (key == null) {
       throw new NullPointerException();
     }
-    return backingMap.remove(key);
+    synchronized (lock) {
+      return backingMap.remove(key);
+    }
   }
 
   @Override
   public Set<Entry<K, V>> entrySet() {
-    return backingMap.entrySet();
+    synchronized (lock) {
+      return backingMap.entrySet();
+    }
   }
 
   public boolean contains(@Nullable Object value) {
@@ -146,14 +208,50 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
   }
 
   public Enumeration<V> elements() {
-    return Collections.enumeration(values());
+    synchronized (lock) {
+      return Collections.enumeration(values());
+    }
   }
 
   public Enumeration<K> keys() {
-    return Collections.enumeration(keySet());
+    synchronized (lock) {
+      return Collections.enumeration(keySet());
+    }
+  }
+
+  @Override
+  public void putAll(Map<? extends K, ? extends V> map) {
+    synchronized (lock) {
+      backingMap.putAll(map);
+    }
+  }
+
+  @Override
+  public int size() {
+    synchronized (lock) {
+      return backingMap.size();
+    }
+  }
+
+  @Override
+  public String toString() {
+    synchronized (lock) {
+      return backingMap.toString();
+    }
+  }
+
+  private String toString(@Nullable Object o) {
+    return o == this ? "(this Map)" : String.valueOf(o);
+  }
+
+  @Override
+  public Collection<V> values() {
+    synchronized (lock) {
+      return backingMap.values();
+    }
   }
 
   public static <T extends @Nullable Object> Set<T> newKeySet() {
-    return new HashSet<>();
+    return Collections.newSetFromMap(new ConcurrentHashMap<T, Boolean>());
   }
 }
