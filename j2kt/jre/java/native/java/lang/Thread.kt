@@ -38,5 +38,12 @@ class Thread internal constructor(private val id: kotlin.Long) {
 
   companion object {
     fun currentThread(): Thread = curentThread
+
+    // J2KT threads does not support interruption, so this method always returns false.
+    fun interrupted(): kotlin.Boolean = false
+  }
+
+  fun interface UncaughtExceptionHandler {
+    fun uncaughtException(t: Thread, e: kotlin.Throwable)
   }
 }

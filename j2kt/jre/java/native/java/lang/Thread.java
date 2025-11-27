@@ -25,9 +25,16 @@ public final class Thread {
 
   public static native Thread currentThread();
 
+  // J2KT threads does not support interruption, so this method always returns false.
+  public static native boolean interrupted();
+
   private Thread() {}
 
   public native long getId();
 
   public native String getName();
+
+  public interface UncaughtExceptionHandler {
+    void uncaughtException(Thread t, Throwable e);
+  }
 }
