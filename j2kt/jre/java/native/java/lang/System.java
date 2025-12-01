@@ -55,4 +55,6 @@ public final class System {
   public static native void setProperty(String key, String def);
 
   public static native String lineSeparator();
+
+  private System() {}
 }

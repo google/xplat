@@ -13,13 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-@file:OptIn(NativeRuntimeApi::class)
+@file:OptIn(NativeRuntimeApi::class, ExperimentalObjCName::class)
 
 package java.lang
 
 import java.io.OutputStream
 import java.io.PrintStream
 import javaemul.lang.J2ktMonitor
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.identityHashCode
 import kotlin.native.runtime.GC
 import kotlin.native.runtime.NativeRuntimeApi
@@ -32,96 +33,98 @@ import platform.CoreFoundation.kCFAbsoluteTimeIntervalSince1970
 import platform.Foundation.NSTemporaryDirectory
 import platform.posix.write as posixWrite
 
-object System {
-  private val timeReference = TimeSource.Monotonic.markNow()
-  private val properties = mutableMapOf<kotlin.String, kotlin.String>()
-  private val lock = J2ktMonitor()
+class System private constructor() {
+  companion object {
+    private val timeReference = TimeSource.Monotonic.markNow()
+    private val properties = mutableMapOf<kotlin.String, kotlin.String>()
+    private val lock = J2ktMonitor()
 
-  fun getProperty(name: kotlin.String, def: kotlin.String?): kotlin.String? =
-    synchronized(lock) { getProperty(name) ?: def }
+    fun getProperty(name: kotlin.String, def: kotlin.String?): kotlin.String? =
+      synchronized(lock) { getProperty(name) ?: def }
 
-  fun getProperty(name: kotlin.String): kotlin.String? =
-    synchronized(lock) {
-      properties[name]
-        ?: when (name) {
-          "file.separator" -> "/"
-          "path.separator" -> ":"
-          "java.io.tmpdir" -> NSTemporaryDirectory()
-          else -> null
+    fun getProperty(name: kotlin.String): kotlin.String? =
+      synchronized(lock) {
+        properties[name]
+          ?: when (name) {
+            "file.separator" -> "/"
+            "path.separator" -> ":"
+            "java.io.tmpdir" -> NSTemporaryDirectory()
+            else -> null
+          }
+      }
+
+    fun setProperty(name: kotlin.String, def: kotlin.String) {
+      synchronized(lock) { properties[name] = def }
+    }
+
+    fun arraycopy(src: Any?, srcOfs: Int, dest: Any?, destOfs: Int, len: Int) {
+      when (src) {
+        is ByteArray ->
+          if (dest is ByteArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is ShortArray ->
+          if (dest is ShortArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is IntArray ->
+          if (dest is IntArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is LongArray ->
+          if (dest is LongArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is FloatArray ->
+          if (dest is FloatArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is DoubleArray ->
+          if (dest is DoubleArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is BooleanArray ->
+          if (dest is BooleanArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is CharArray ->
+          if (dest is CharArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
+          else throw ArrayStoreException()
+        is Array<*> ->
+          if (dest is Array<*>) {
+            @Suppress("UNCHECKED_CAST")
+            src.copyInto(dest as Array<Any?>, destOfs, srcOfs, srcOfs + len)
+          } else throw ArrayStoreException()
+        else -> throw ArrayStoreException()
+      }
+    }
+
+    fun currentTimeMillis(): kotlin.Long =
+      ((CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970) * 1000.0).toLong()
+
+    fun nanoTime(): kotlin.Long = timeReference.elapsedNow().inWholeNanoseconds
+
+    fun gc(): Unit = GC.collect()
+
+    @OptIn(kotlin.ExperimentalStdlibApi::class)
+    fun identityHashCode(o: Any?): Int = o.identityHashCode()
+
+    private fun stdOutputStream(fd: Int) =
+      object : OutputStream() {
+        override fun write(b: ByteArray, off: Int, len: Int) {
+          b.usePinned { posixWrite(fd, it.addressOf(off), len.toULong()) }
         }
-    }
 
-  fun setProperty(name: kotlin.String, def: kotlin.String) {
-    synchronized(lock) { properties[name] = def }
-  }
-
-  fun arraycopy(src: Any?, srcOfs: Int, dest: Any?, destOfs: Int, len: Int) {
-    when (src) {
-      is ByteArray ->
-        if (dest is ByteArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is ShortArray ->
-        if (dest is ShortArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is IntArray ->
-        if (dest is IntArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is LongArray ->
-        if (dest is LongArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is FloatArray ->
-        if (dest is FloatArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is DoubleArray ->
-        if (dest is DoubleArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is BooleanArray ->
-        if (dest is BooleanArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is CharArray ->
-        if (dest is CharArray) src.copyInto(dest, destOfs, srcOfs, srcOfs + len)
-        else throw ArrayStoreException()
-      is Array<*> ->
-        if (dest is Array<*>) {
-          @Suppress("UNCHECKED_CAST")
-          src.copyInto(dest as Array<Any?>, destOfs, srcOfs, srcOfs + len)
-        } else throw ArrayStoreException()
-      else -> throw ArrayStoreException()
-    }
-  }
-
-  fun currentTimeMillis(): kotlin.Long =
-    ((CFAbsoluteTimeGetCurrent() + kCFAbsoluteTimeIntervalSince1970) * 1000.0).toLong()
-
-  fun nanoTime(): kotlin.Long = timeReference.elapsedNow().inWholeNanoseconds
-
-  fun gc(): Unit = GC.collect()
-
-  @OptIn(kotlin.ExperimentalStdlibApi::class)
-  fun identityHashCode(o: Any?): Int = o.identityHashCode()
-
-  private fun stdOutputStream(fd: Int) =
-    object : OutputStream() {
-      override fun write(b: ByteArray, off: Int, len: Int) {
-        b.usePinned { posixWrite(fd, it.addressOf(off), len.toULong()) }
+        override fun write(b: Int) {
+          write(byteArrayOf(b.toByte()))
+        }
       }
 
-      override fun write(b: Int) {
-        write(byteArrayOf(b.toByte()))
-      }
+    @ObjCName("err_") var err = PrintStream(stdOutputStream(2))
+
+    @ObjCName("out_") var out = PrintStream(stdOutputStream(1))
+
+    fun setErr(err: PrintStream) {
+      this.err = err
     }
 
-  var err = PrintStream(stdOutputStream(2))
+    fun setOut(out: PrintStream) {
+      this.out = out
+    }
 
-  var out = PrintStream(stdOutputStream(1))
-
-  fun setErr(err: PrintStream) {
-    this.err = err
+    fun lineSeparator(): kotlin.String = "\n"
   }
-
-  fun setOut(out: PrintStream) {
-    this.out = out
-  }
-
-  fun lineSeparator(): kotlin.String = "\n"
 }
