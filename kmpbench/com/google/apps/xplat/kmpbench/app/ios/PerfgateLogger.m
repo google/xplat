@@ -1,5 +1,5 @@
 #import "third_party/java_src/xplat/kmpbench/com/google/apps/xplat/kmpbench/app/ios/PerfgateLogger.h"
-#import "googlemac/iPhone/Shared/Testing/Performance/Presto/Presto.h"
+#import "googlemac/iPhone/Shared/Testing/Performance/Presto/Classes/Logger/PSTLogger.h"
 
 @implementation PerfgateLogger {
   PSTLogger *_logger;
