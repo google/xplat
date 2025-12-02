@@ -19,7 +19,7 @@ import org.jspecify.annotations.NullMarked;
 /** Partial emulation of ReentrantLock. */
 @KtNative
 @NullMarked
-public final class ReentrantLock implements Lock {
+public class ReentrantLock implements Lock {
 
   @Override
   public native void lock();

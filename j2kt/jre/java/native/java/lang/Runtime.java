@@ -18,26 +18,14 @@ package java.lang;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
-/** Thread subset supporting a threadId for simple logging and thread identity checks. */
+/** Partial Runtime emulation. */
 @NullMarked
 @KtNative
-public final class Thread {
+public final class Runtime {
 
-  public static native Thread currentThread();
+  private Runtime() {}
 
-  // J2KT threads does not support interruption, so this method always returns false.
-  public static native boolean interrupted();
+  public static native Runtime getRuntime();
 
-  private Thread() {}
-
-  @SuppressWarnings("NamedLikeContextualKeyword")
-  public static native void yield();
-
-  public native long getId();
-
-  public native String getName();
-
-  public interface UncaughtExceptionHandler {
-    void uncaughtException(Thread t, Throwable e);
-  }
+  public native int availableProcessors();
 }

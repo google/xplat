@@ -13,31 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package java.lang;
+package java.util.concurrent.locks;
 
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
-/** Thread subset supporting a threadId for simple logging and thread identity checks. */
-@NullMarked
+/** Partial emulation of LockSupport */
 @KtNative
-public final class Thread {
+@NullMarked
+public final class LockSupport {
 
-  public static native Thread currentThread();
+  private LockSupport() {}
 
-  // J2KT threads does not support interruption, so this method always returns false.
-  public static native boolean interrupted();
+  public static native void park();
 
-  private Thread() {}
+  public static native void park(Object lock);
 
-  @SuppressWarnings("NamedLikeContextualKeyword")
-  public static native void yield();
-
-  public native long getId();
-
-  public native String getName();
-
-  public interface UncaughtExceptionHandler {
-    void uncaughtException(Thread t, Throwable e);
-  }
+  public static native void unpark(Thread thread);
 }

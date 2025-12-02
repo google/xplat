@@ -31,6 +31,7 @@ public final class ThreadTest {
   @Test
   public void testCurrentThread() {
     assertTrue("id > 0", Thread.currentThread().getId() > 0);
+    Thread.yield();
     assertSame("Identical instances", Thread.currentThread(), Thread.currentThread());
     assertFalse("Has a name", Thread.currentThread().getName().isEmpty());
   }
@@ -50,5 +51,10 @@ public final class ThreadTest {
 
     ThreadLocal<String> withInitial = ThreadLocal.withInitial(() -> "Initial");
     assertEquals("Initial", withInitial.get());
+  }
+
+  @Test
+  public void availableProcessors_atLeastOne() {
+    assertTrue(Runtime.getRuntime().availableProcessors() >= 1);
   }
 }
