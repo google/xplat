@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalObjCRefinement::class)
+@file:OptIn(ExperimentalObjCRefinement::class, ExperimentalObjCName::class)
 
 /*
  * Copyright 2022 Google Inc.
@@ -21,8 +21,10 @@ import java.io.PrintStream
 import java.io.PrintWriter
 import java.lang.StackTraceElement
 import java.lang.Throwable as JavaLangThrowable
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
+import kotlin.native.ObjCName
 
 val Throwable.suppressed: Array<Throwable>
   get() = suppressedExceptions.toTypedArray()
@@ -34,12 +36,12 @@ fun Throwable.initCause(cause: Throwable?): Throwable =
   // restriction should not be too bad in practice:
   else throw UnsupportedOperationException("Cannot initCause for native exception")
 
-@HiddenFromObjC
-fun Throwable.printStackTrace(stream: PrintStream) =
+@ObjCName("java_printStackTrace")
+fun Throwable.printStackTrace(@ObjCName("withJavaIoPrintStream") stream: PrintStream) =
   if (this is JavaLangThrowable) printStackTrace(stream) else stream.print(stackTraceToString())
 
-@HiddenFromObjC
-fun Throwable.printStackTrace(writer: PrintWriter) =
+@ObjCName("java_printStackTrace")
+fun Throwable.printStackTrace(@ObjCName("withJavaIoPrintWriter") writer: PrintWriter) =
   if (this is JavaLangThrowable) printStackTrace(writer) else writer.write(stackTraceToString())
 
 @HiddenFromObjC
