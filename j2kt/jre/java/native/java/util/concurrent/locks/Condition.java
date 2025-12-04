@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Google Inc.
+ * Copyright 2025 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,15 +13,13 @@
  */
 package java.util.concurrent.locks;
 
-import org.jspecify.annotations.NullMarked;
+/** Partial emulation of Condition. */
+public interface Condition {
+  public void await() throws InterruptedException;
 
-/** Partial emulation of Lock. */
-@NullMarked
-public interface Lock {
+  public long awaitNanos(long nanos) throws InterruptedException;
 
-  void lock();
+  public void signal();
 
-  void unlock();
-
-  Condition newCondition();
+  public void signalAll();
 }

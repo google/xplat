@@ -26,4 +26,7 @@ public class ReentrantLock implements Lock {
 
   @Override
   public native void unlock();
+
+  @Override
+  public native Condition newCondition();
 }
