@@ -25,6 +25,13 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public abstract class Enum<E extends Enum<E>> implements Comparable<E> {
 
+  /** Exists solely to make javac happy. */
+  public static final class EnumDesc<E extends Enum<E>> {
+    public static <E extends Enum<E>> Enum.EnumDesc<E> of(Object... args) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
   protected Enum(String name, int ordinal) {}
 
   @KtProperty
