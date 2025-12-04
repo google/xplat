@@ -165,4 +165,8 @@ class Thread internal constructor(private val id: kotlin.Long) {
       arena.clear()
     }
   }
+
+  fun interface UncaughtExceptionHandler {
+    fun uncaughtException(t: Thread, e: kotlin.Throwable)
+  }
 }
