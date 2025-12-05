@@ -17,8 +17,10 @@ package smoke;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -41,5 +43,21 @@ public final class ConcurrentTest {
       lock.unlock();
     }
     assertTrue(true);
+  }
+
+  @Test
+  public void linkedBlockingQueue_smoke() {
+    LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
+    Assert.assertTrue(queue.isEmpty());
+    queue.add("Hello");
+    Assert.assertFalse(queue.isEmpty());
+    queue.add("World");
+    Assert.assertFalse(queue.isEmpty());
+    Assert.assertEquals("Hello", queue.peek());
+    Assert.assertEquals("Hello", queue.remove());
+    Assert.assertFalse(queue.isEmpty());
+    Assert.assertEquals("World", queue.poll());
+    Assert.assertNull(queue.poll());
+    Assert.assertTrue(queue.isEmpty());
   }
 }

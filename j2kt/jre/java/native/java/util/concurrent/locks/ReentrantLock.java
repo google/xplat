@@ -24,6 +24,13 @@ public class ReentrantLock implements Lock {
   @Override
   public native void lock();
 
+  /**
+   * Note that this falls back to lock(), as we generally don't support interrupting threads for
+   * j2kt-native. This is consistent with the API contract.
+   */
+  @Override
+  public native void lockInterruptibly();
+
   @Override
   public native void unlock();
 

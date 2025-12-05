@@ -21,6 +21,8 @@ public interface Lock {
 
   void lock();
 
+  void lockInterruptibly();
+
   void unlock();
 
   Condition newCondition();
