@@ -23,13 +23,18 @@ import kotlin.concurrent.atomics.fetchAndIncrement
 import kotlin.native.ref.createCleaner
 import kotlinx.cinterop.Arena
 import kotlinx.cinterop.alloc
+import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.nativeHeap
 import kotlinx.cinterop.ptr
 import platform.Foundation.NSThread
+import platform.posix.CLOCK_REALTIME
+import platform.posix.ETIMEDOUT
+import platform.posix.clock_gettime
 import platform.posix.pthread_cond_destroy
 import platform.posix.pthread_cond_init
 import platform.posix.pthread_cond_signal
 import platform.posix.pthread_cond_t
+import platform.posix.pthread_cond_timedwait
 import platform.posix.pthread_cond_wait
 import platform.posix.pthread_mutex_destroy
 import platform.posix.pthread_mutex_init
@@ -40,6 +45,7 @@ import platform.posix.pthread_mutexattr_init
 import platform.posix.pthread_mutexattr_settype
 import platform.posix.pthread_mutexattr_t
 import platform.posix.sched_yield
+import platform.posix.timespec
 
 private val nextId = AtomicLong(1)
 
@@ -53,6 +59,9 @@ class Thread internal constructor(private val id: kotlin.Long) {
 
   internal val parking: Parking by lazy { Parking() }
 
+  // J2KT threads do not support interruption, so this method is a no-op.
+  fun interrupt() {}
+
   fun getId() = id
 
   fun getName() = name
@@ -60,7 +69,7 @@ class Thread internal constructor(private val id: kotlin.Long) {
   companion object {
     fun currentThread(): Thread = curentThread
 
-    // J2KT threads does not support interruption, so this method always returns false.
+    // J2KT threads do not support interruption, so this method always returns false.
     fun interrupted(): kotlin.Boolean = false
 
     fun yield() {
@@ -92,13 +101,17 @@ class Thread internal constructor(private val id: kotlin.Long) {
     @ExperimentalStdlibApi
     private val cleaner = createCleaner(nativeMonitor) { it.dispose() }
 
-    fun park(blocker: Any) {
+    fun park(blocker: Any, nanos: kotlin.Long? = null) {
       nativeMonitor.lock()
       this.blocker = blocker
       when (parked) {
         State.NOT_PARKED -> {
           parked = State.PARKED
-          nativeMonitor.wait()
+          if (nanos == null) {
+            nativeMonitor.wait()
+          } else {
+            nativeMonitor.wait(nanos)
+          }
           parked = State.NOT_PARKED
         }
         State.PREUNPARKED -> parked = State.NOT_PARKED
@@ -149,6 +162,26 @@ class Thread internal constructor(private val id: kotlin.Long) {
       val errorCode = pthread_cond_wait(cond.ptr, mutex.ptr)
       if (errorCode != 0) {
         throw IllegalMonitorStateException("pthread_cond_wait error code $errorCode")
+      }
+    }
+
+    fun wait(nanos: kotlin.Long) {
+      if (nanos <= 0) {
+        return
+      }
+      memScoped {
+        val ts = alloc<timespec>()
+
+        clock_gettime(CLOCK_REALTIME.toUInt(), ts.ptr)
+
+        val targetNanos = nanos % 1_000_000_000L + ts.tv_nsec
+
+        ts.tv_nsec = targetNanos % 1_000_000_000L
+        ts.tv_sec += targetNanos / 1_000_000_000L + nanos / 1_000_000_000L
+        val errorCode = pthread_cond_timedwait(cond.ptr, mutex.ptr, ts.ptr)
+        if (errorCode != 0 && errorCode != ETIMEDOUT) {
+          throw IllegalMonitorStateException("pthread_cond_timedwait error code $errorCode")
+        }
       }
     }
 

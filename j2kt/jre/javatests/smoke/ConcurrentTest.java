@@ -17,8 +17,10 @@ package smoke;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,6 +29,20 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class ConcurrentTest {
+
+  @Test
+  public void futureTask_smoke() {
+    FutureTask<String> task = new FutureTask<>(() -> "Hello World");
+    Assert.assertFalse(task.isCancelled());
+    Assert.assertFalse(task.isDone());
+  }
+
+  @Test
+  public void lockSupport_smoke() {
+    LockSupport.unpark(Thread.currentThread());
+    LockSupport.park();
+    LockSupport.parkNanos("smoke", 1);
+  }
 
   @Test
   public void reentrantLock_isReentrant() {

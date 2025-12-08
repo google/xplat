@@ -28,6 +28,8 @@ class LockSupport {
 
     fun park(blocker: Any) = Thread.currentThread().parking.park(blocker)
 
+    fun parkNanos(blocker: Any, nanos: Long) = Thread.currentThread().parking.park(blocker, nanos)
+
     fun unpark(thread: Thread) = thread.parking.unpark()
   }
 }

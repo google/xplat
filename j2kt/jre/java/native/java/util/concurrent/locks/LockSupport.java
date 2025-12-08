@@ -29,5 +29,7 @@ public final class LockSupport {
 
   public static native void park(Object lock);
 
+  public static native void parkNanos(Object lock, long nanos);
+
   public static native void unpark(Thread thread);
 }
