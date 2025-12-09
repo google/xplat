@@ -17,6 +17,8 @@ package smoke;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Lock;
@@ -75,5 +77,23 @@ public final class ConcurrentTest {
     Assert.assertEquals("World", queue.poll());
     Assert.assertNull(queue.poll());
     Assert.assertTrue(queue.isEmpty());
+  }
+
+  @Test
+  public void concurrentHashMap_concurrentIteration() {
+    ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+
+    map.put("Foo", 1);
+    map.put("Bar", 2);
+
+    Iterator<String> keyIterator = map.keySet().iterator();
+
+    assertTrue(keyIterator.hasNext());
+    keyIterator.next();
+
+    map.put("Baz", 3);
+
+    assertTrue(keyIterator.hasNext());
+    keyIterator.next();
   }
 }
