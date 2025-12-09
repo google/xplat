@@ -62,6 +62,9 @@ class Thread internal constructor(private val id: kotlin.Long) {
   // J2KT threads do not support interruption, so this method is a no-op.
   fun interrupt() {}
 
+  // J2KT threads do not support interruption, so this method always returns false.
+  fun isInterrupted(): kotlin.Boolean = false
+
   fun getId() = id
 
   fun getName() = name

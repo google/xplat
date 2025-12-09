@@ -40,6 +40,9 @@ public final class Thread {
   /** Note that this is a no-op for j2kt-native. */
   public native void interrupt();
 
+  /** Note that this always returns false for j2kt-native. */
+  public native boolean isInterrupted();
+
   public interface UncaughtExceptionHandler {
     void uncaughtException(Thread t, Throwable e);
   }
