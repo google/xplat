@@ -50,4 +50,9 @@ public interface Predicate<T extends @Nullable Object> {
     checkCriticalNotNull(other);
     return t -> test(t) || other.test(t);
   }
+
+  @SuppressWarnings("unchecked")
+  static <T> Predicate<T> not(Predicate<? super T> other) {
+    return (Predicate<T>) other.negate();
+  }
 }
