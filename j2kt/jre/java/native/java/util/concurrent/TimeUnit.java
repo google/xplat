@@ -177,4 +177,9 @@ public enum TimeUnit {
   public abstract long toHours(long duration);
 
   public abstract long toDays(long duration);
+
+  public void timedWait(javaemul.lang.J2ktMonitorWithNotification lock, long timeout) {
+    long nanos = toNanos(timeout);
+    lock.wait(nanos / 1_000_000, (int) (nanos % 1_000_000));
+  }
 }

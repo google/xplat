@@ -16,7 +16,7 @@
 package javaemul.lang
 
 /** A native j2kt monitor that supports wait / notify */
-class J2ktMonitorWithNotification : J2ktMonitor() {
+open class J2ktMonitorWithNotification : J2ktMonitor() {
   private val condition = newCondition()
 
   fun wait() {
