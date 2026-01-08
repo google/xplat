@@ -59,7 +59,7 @@ class AtomicLong internal constructor(private val ktAtomicLong: kotlinx.atomicfu
 
   override fun toByte(): Byte = ktAtomicLong.value.toByte()
 
-  override fun toChar(): Char = ktAtomicLong.value.toChar()
+  override fun toChar(): Char = ktAtomicLong.value.toInt().toChar()
 
   override fun toShort(): Short = ktAtomicLong.value.toShort()
 }
