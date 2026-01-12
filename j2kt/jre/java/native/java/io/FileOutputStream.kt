@@ -30,31 +30,21 @@ import platform.Foundation.NSFileHandle
 import platform.Foundation.dataWithBytesNoCopy
 import platform.Foundation.fileHandleForWritingAtPath
 
-class FileOutputStream(file: File, append: Boolean = false) : OutputStream() {
+class FileOutputStream : OutputStream {
+  // TODO(b/475181476): Make access to this handle thread-safe.
+  private var handle: NSFileHandle? // null after closing
 
-  constructor(path: String, append: Boolean = false) : this(File(path), append)
-
-  var handle: NSFileHandle? // null after closing
-
-  init {
-    if (!file.exists()) {
-      file.createNewFile()
-    }
-    val localHandle = NSFileHandle.fileHandleForWritingAtPath(file.getPath()) ?: throw IOException()
-    handle = localHandle
-    if (append) {
-      memScoped {
-        val pos = alloc<ULongVar>()
-        if (!localHandle.seekToEndReturningOffset(pos.ptr, null)) {
-          throw IOException()
-        }
-      }
-    } else {
-      if (!localHandle.truncateAtOffset(0UL, null)) {
-        throw IOException()
-      }
-    }
+  private constructor(handle: NSFileHandle) {
+    this.handle = handle
   }
+
+  constructor(file: File, append: Boolean) : this(createHandle(file, append))
+
+  constructor(path: String, append: Boolean) : this(File(path), append)
+
+  constructor(file: File) : this(file, false)
+
+  constructor(path: String) : this(File(path))
 
   override fun close() {
     val localHandle = handle
@@ -91,6 +81,31 @@ class FileOutputStream(file: File, append: Boolean = false) : OutputStream() {
       if (!localHandle.writeData(nsdata, null)) {
         throw IOException()
       }
+    }
+  }
+
+  companion object {
+    private fun createHandle(file: File, append: Boolean): NSFileHandle {
+      if (!file.exists()) {
+        file.createNewFile()
+      }
+
+      val handle = NSFileHandle.fileHandleForWritingAtPath(file.getPath()) ?: throw IOException()
+
+      if (append) {
+        memScoped {
+          val pos = alloc<ULongVar>()
+          if (!handle.seekToEndReturningOffset(pos.ptr, null)) {
+            throw IOException()
+          }
+        }
+      } else {
+        if (!handle.truncateAtOffset(0UL, null)) {
+          throw IOException()
+        }
+      }
+
+      return handle
     }
   }
 }
