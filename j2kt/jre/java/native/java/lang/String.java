@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.stream.Stream;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
@@ -119,6 +120,9 @@ public final class String implements Comparable<String>, CharSequence {
 
   public native boolean isEmpty();
 
+  @KtName("java_isBlank")
+  public native boolean isBlank();
+
   public native int lastIndexOf(int c);
 
   public native int lastIndexOf(int c, int start);
@@ -169,6 +173,14 @@ public final class String implements Comparable<String>, CharSequence {
   @KtName("java_trim")
   public native String trim();
 
+  public native String strip();
+
+  public native String stripLeading();
+
+  public native String stripTrailing();
+
+  public native String stripIndent();
+
   public static native String valueOf(char[] data);
 
   public static native String valueOf(char[] data, int start, int length);
@@ -202,6 +214,9 @@ public final class String implements Comparable<String>, CharSequence {
   public native String[] split(String regularExpression);
 
   public native String[] split(String regularExpression, int limit);
+
+  @KtName("java_lines")
+  public native Stream<String> lines();
 
   @Override
   public native CharSequence subSequence(int start, int end);

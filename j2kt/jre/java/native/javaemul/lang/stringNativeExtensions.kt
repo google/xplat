@@ -20,8 +20,10 @@ import java.lang.Character
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
+import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
+import java.util.stream.Stream
 import kotlin.text.CharacterCodingException
 
 fun String.equalsIgnoreCase(str: String?) = this.equals(str, ignoreCase = true)
@@ -172,3 +174,62 @@ private fun String.encodeToByteArrayUnmapped(maxValue: Int): ByteArray {
   }
   return result
 }
+
+fun String.java_isBlank(): Boolean = all(Character::isWhitespace)
+
+fun String.strip(): String = trim(Character::isWhitespace)
+
+fun String.stripLeading(): String = trimStart(Character::isWhitespace)
+
+fun String.stripTrailing(): String = trimEnd(Character::isWhitespace)
+
+fun String.stripIndent(): String {
+  if (isEmpty()) {
+    return this
+  }
+  val lines = java_splitLinesToList()
+  var outdent = computeOutdent(lines)
+
+  return lines
+    .map {
+      val line = it.stripTrailing()
+      if (!line.isEmpty() && outdent > 0) {
+        if (outdent < line.length) line.substring(outdent) else ""
+      } else {
+        line
+      }
+    }
+    .joinToString("\n")
+}
+
+private fun computeOutdent(lines: List<String>): Int {
+  var minWhitespace = Int.MAX_VALUE
+  for (i in lines.indices) {
+    val line = lines[i]
+    // Don't consider entirely blank lines, except for the last line.
+    if (i != lines.size - 1 && line.java_isBlank()) {
+      continue
+    }
+    var firstNonWhitespace = line.indexOfFirst { !it.isWhitespace() }
+    val lengthOfLeadingWhitespace =
+      if (firstNonWhitespace == -1) {
+        line.length
+      } else {
+        firstNonWhitespace
+      }
+    minWhitespace = minOf(minWhitespace, lengthOfLeadingWhitespace)
+    if (minWhitespace == 0) {
+      // Once we find a line that doesn't start with whitespace, we can stop.
+      return 0
+    }
+  }
+  return minWhitespace
+}
+
+fun String.java_lines(): Stream<String> {
+  val lines = java_splitLinesToList()
+  val limit = if (lines.last().isEmpty()) lines.size - 1 else lines.size
+  return Arrays.stream(lines.toTypedArray(), 0, limit)
+}
+
+private fun String.java_splitLinesToList(): List<String> = split("\r?\n|\r".toRegex())

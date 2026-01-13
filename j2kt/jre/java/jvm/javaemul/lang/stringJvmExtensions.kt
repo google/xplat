@@ -17,6 +17,7 @@ package javaemul.lang
 
 import java.nio.charset.Charset
 import java.util.Locale
+import java.util.stream.Stream
 
 fun String.equalsIgnoreCase(str: String?) = asJavaString().equalsIgnoreCase(str)
 
@@ -64,5 +65,9 @@ fun String.split(regex: String, limit: Int): Array<String> = asJavaString().spli
 
 fun String.java_replace(target: CharSequence, replacement: CharSequence): String =
   asJavaString().replace(target, replacement)
+
+fun String.java_isBlank(): Boolean = asJavaString().isBlank()
+
+fun String.java_lines(): Stream<String> = asJavaString().lines()
 
 private fun String.asJavaString(): java.lang.String = this as java.lang.String
