@@ -37,4 +37,6 @@ public final class SerializedLambda implements Serializable {
   public native String getImplMethodName();
 
   public native String getImplMethodSignature();
+
+  public native String getInstantiatedMethodType();
 }
