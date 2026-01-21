@@ -56,5 +56,17 @@ public final class System {
 
   public static native String lineSeparator();
 
+  // TODO(b/477643941): Remove this if/when Checker Framework tolerates it being absent.
+  static void setProperties(Object properties) {
+    // Stub for Checker Framework which expects this method to exist or will crash.
+    throw new AssertionError();
+  }
+
+  // TODO(b/477643941): Remove this if/when Checker Framework tolerates it being absent.
+  static void clearProperty(String key) {
+    // Stub for Checker Framework which expects this method to exist or will crash.
+    throw new AssertionError();
+  }
+
   private System() {}
 }
