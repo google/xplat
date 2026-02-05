@@ -20,6 +20,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractCollection;
@@ -873,5 +874,17 @@ public class CollectionsTest {
     public Set<Entry<K, V>> entrySet() {
       return new EmptySet<>();
     }
+  }
+
+  @SuppressWarnings("nullness")
+  @Test
+  public void testMapEntry() {
+    Map.Entry<String, String> entry = Map.entry("hello", "world");
+    assertEquals("hello", entry.getKey());
+    assertEquals("world", entry.getValue());
+    assertThrows(UnsupportedOperationException.class, () -> entry.setValue("new world"));
+
+    assertThrows(NullPointerException.class, () -> Map.entry(null, "world"));
+    assertThrows(NullPointerException.class, () -> Map.entry("hello", null));
   }
 }

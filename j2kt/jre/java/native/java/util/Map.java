@@ -31,7 +31,10 @@ import org.jspecify.annotations.Nullable;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html">the official Java API
  * doc</a> for details.
  */
-@KtNative(name = "kotlin.collections.MutableMap", bridgeName = "javaemul.lang.MutableMapJvm")
+@KtNative(
+    name = "kotlin.collections.MutableMap",
+    bridgeName = "javaemul.lang.MutableMapJvm",
+    companionName = "java.util.Map")
 @NullMarked
 public interface Map<K extends @Nullable Object, V extends @Nullable Object>
     extends ReadonlyMap<K, V> {
@@ -148,4 +151,8 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object>
 
   @KtProperty
   Collection<V> values();
+
+  static <K, V> Entry<K, V> entry(K k, V v) {
+    return ktNative();
+  }
 }

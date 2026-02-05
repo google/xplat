@@ -31,6 +31,11 @@ import javaemul.lang.default_replaceAll
 
 interface Map<K, V> : MutableMap<K, V> {
 
+  companion object {
+    fun <K : Any, V : Any> entry(k: K, v: V): MutableMap.MutableEntry<K, V> =
+      AbstractMap.SimpleImmutableEntry(k, v)
+  }
+
   fun compute(key: K, remappingFunction: BiFunction<in K, in V?, out V?>): V? =
     default_compute(key, remappingFunction)
 
