@@ -66,4 +66,10 @@ public final class Boolean implements Comparable<Boolean> {
   public static native Boolean valueOf(boolean b);
 
   public static native int hashCode(boolean value);
+
+  public static native boolean logicalAnd(boolean a, boolean b);
+
+  public static native boolean logicalOr(boolean a, boolean b);
+
+  public static native boolean logicalXor(boolean a, boolean b);
 }

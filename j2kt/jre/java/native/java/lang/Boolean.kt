@@ -43,5 +43,11 @@ class Boolean {
     fun toString(b: kotlin.Boolean): kotlin.String = b.toString()
 
     fun compare(b1: kotlin.Boolean, b2: kotlin.Boolean): Int = b1.compareTo(b2)
+
+    fun logicalAnd(a: kotlin.Boolean, b: kotlin.Boolean): kotlin.Boolean = a && b
+
+    fun logicalOr(a: kotlin.Boolean, b: kotlin.Boolean): kotlin.Boolean = a || b
+
+    fun logicalXor(a: kotlin.Boolean, b: kotlin.Boolean): kotlin.Boolean = a xor b
   }
 }

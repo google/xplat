@@ -46,6 +46,24 @@ public class PrimitivesTest {
   }
 
   @Test
+  public void testBooleanLogicalOps() {
+    assertTrue(Boolean.logicalAnd(true, true));
+    assertFalse(Boolean.logicalAnd(true, false));
+    assertFalse(Boolean.logicalAnd(false, true));
+    assertFalse(Boolean.logicalAnd(false, false));
+
+    assertTrue(Boolean.logicalOr(true, true));
+    assertTrue(Boolean.logicalOr(true, false));
+    assertTrue(Boolean.logicalOr(false, true));
+    assertFalse(Boolean.logicalOr(false, false));
+
+    assertFalse(Boolean.logicalXor(true, true));
+    assertTrue(Boolean.logicalXor(true, false));
+    assertTrue(Boolean.logicalXor(false, true));
+    assertFalse(Boolean.logicalXor(false, false));
+  }
+
+  @Test
   public void testInt() {
     assertEquals((Object) 9, Integer.valueOf(9));
     assertEquals((Object) 9, Integer.valueOf("9"));
