@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -255,5 +256,54 @@ public class IoTest {
 
     size = bis.read(buf);
     assertEquals(-1, size);
+  }
+
+  @Test
+  public void testBufferedOutputStream() throws IOException {
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    BufferedOutputStream bos = new BufferedOutputStream(os, 4);
+
+    bos.write(1);
+    bos.write(new byte[] {2, 3});
+    assertEquals(0, os.size()); // Should be buffered
+
+    bos.write(4);
+    assertEquals(0, os.size()); // Should still be buffered (buffer is now full)
+
+    bos.write(5);
+    assertEquals(
+        4, os.size()); // bos.write(5) triggers flush of the first 4 bytes, then buffers '5'
+    assertArrayEquals(
+        new byte[] {1, 2, 3, 4}, os.toByteArray().length == 4 ? os.toByteArray() : new byte[4]);
+    assertEquals(4, os.toByteArray().length);
+
+    bos.write(
+        new byte[] {
+          6, 7, 8, 9, 10
+        }); // len(5) >= buf.length(4), flushes '5' then writes 5 bytes directly
+    assertEquals(10, os.size());
+    assertArrayEquals(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, os.toByteArray());
+  }
+
+  @Test
+  public void testBufferedOutputStream_writeWithOffsetAndLen() throws IOException {
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    BufferedOutputStream bos = new BufferedOutputStream(os, 10);
+
+    byte[] data = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    bos.write(data, 2, 5); // Should buffer {2, 3, 4, 5, 6}
+    assertEquals(0, os.size());
+
+    bos.write(
+        data, 7, 3); // Should buffer {7, 8, 9}, buffer is now {2, 3, 4, 5, 6, 7, 8, 9} (count=8)
+    assertEquals(0, os.size());
+
+    bos.write(data, 0, 3); // len(3) > 10 - 8 (2). Should flushBuffer() then buffer {0, 1, 2}
+    assertEquals(8, os.size());
+    assertArrayEquals(new byte[] {2, 3, 4, 5, 6, 7, 8, 9}, os.toByteArray());
+
+    bos.flush();
+    assertEquals(11, os.size());
+    assertArrayEquals(new byte[] {2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2}, os.toByteArray());
   }
 }
