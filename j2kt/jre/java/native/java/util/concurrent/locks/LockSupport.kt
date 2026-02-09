@@ -21,15 +21,15 @@ import java.lang.Thread
 class LockSupport {
 
   companion object {
-    fun park() {
-      val thread = Thread.currentThread()
-      thread.parking.park(thread)
-    }
+    fun park() = park(null)
 
-    fun park(blocker: Any) = Thread.currentThread().parking.park(blocker)
+    fun park(blocker: Any?) = Thread.currentThread().parking.park(blocker ?: Thread.currentThread())
 
-    fun parkNanos(blocker: Any, nanos: Long) = Thread.currentThread().parking.park(blocker, nanos)
+    fun parkNanos(blocker: Any?, nanos: Long) =
+      Thread.currentThread().parking.park(blocker ?: Thread.currentThread(), nanos)
 
-    fun unpark(thread: Thread) = thread.parking.unpark()
+    fun parkNanos(nanos: Long) = parkNanos(null, nanos)
+
+    fun unpark(thread: Thread?) = thread?.parking?.unpark()
   }
 }

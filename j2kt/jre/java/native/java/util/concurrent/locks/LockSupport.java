@@ -17,6 +17,7 @@ package java.util.concurrent.locks;
 
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /** Partial emulation of LockSupport */
 @KtNative
@@ -27,9 +28,11 @@ public final class LockSupport {
 
   public static native void park();
 
-  public static native void park(Object lock);
+  public static native void park(@Nullable Object blocker);
 
-  public static native void parkNanos(Object lock, long nanos);
+  public static native void parkNanos(long nanos);
 
-  public static native void unpark(Thread thread);
+  public static native void parkNanos(@Nullable Object blocker, long nanos);
+
+  public static native void unpark(@Nullable Thread thread);
 }
