@@ -17,9 +17,9 @@
 
 package java.io;
 
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import javaemul.lang.J2ktMonitor;
 import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 
 /**
  * Wraps an existing {@link OutputStream} and <em>buffers</em> the output. Expensive interaction
@@ -42,10 +42,15 @@ import org.jspecify.annotations.Nullable;
 public class BufferedOutputStream extends FilterOutputStream {
   private final J2ktMonitor lock;
 
+  @GuardedBy("lock")
+  private boolean closed;
+
   /** The buffer containing the bytes to be written to the target stream. */
-  protected byte @Nullable [] buf;
+  @GuardedBy("lock")
+  protected byte[] buf;
 
   /** The total number of bytes inside the byte array {@code buf}. */
+  @GuardedBy("lock")
   protected int count;
 
   /**
@@ -90,8 +95,9 @@ public class BufferedOutputStream extends FilterOutputStream {
     }
   }
 
+  @GuardedBy("lock")
   private void checkNotClosed() throws IOException {
-    if (buf == null) {
+    if (closed) {
       throw new IOException("BufferedOutputStream is closed");
     }
   }
@@ -142,14 +148,14 @@ public class BufferedOutputStream extends FilterOutputStream {
   @Override
   public void close() throws IOException {
     synchronized (lock) {
-      if (buf == null) {
+      if (closed) {
         return;
       }
 
       try {
         super.close();
       } finally {
-        buf = null;
+        closed = true;
       }
     }
   }
@@ -176,6 +182,7 @@ public class BufferedOutputStream extends FilterOutputStream {
   }
 
   /** Flushes only internal buffer. */
+  @GuardedBy("lock")
   private void flushInternal() throws IOException {
     if (count > 0) {
       out.write(buf, 0, count);
