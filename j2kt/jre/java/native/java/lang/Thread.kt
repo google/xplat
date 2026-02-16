@@ -28,8 +28,11 @@ import kotlinx.cinterop.nativeHeap
 import kotlinx.cinterop.ptr
 import platform.Foundation.NSThread
 import platform.posix.CLOCK_REALTIME
+import platform.posix.EINTR
 import platform.posix.ETIMEDOUT
 import platform.posix.clock_gettime
+import platform.posix.nanosleep
+import platform.posix.posix_errno
 import platform.posix.pthread_cond_destroy
 import platform.posix.pthread_cond_init
 import platform.posix.pthread_cond_signal
@@ -77,6 +80,20 @@ class Thread internal constructor(private val id: kotlin.Long) {
 
     fun yield() {
       sched_yield()
+    }
+
+    fun sleep(millis: kotlin.Long) = sleep(millis, 0)
+
+    fun sleep(millis: kotlin.Long, nanos: kotlin.Int) {
+      if (millis < 0) {
+        throw IllegalArgumentException()
+      }
+      memScoped {
+        val ts = alloc<timespec>()
+        ts.tv_nsec = nanos + (millis % 1000) * 1_000_000
+        ts.tv_sec = millis / 1000
+        while (nanosleep(ts.ptr, ts.ptr) != 0 && posix_errno() == EINTR) {}
+      }
     }
 
     private val MUTEX_ATTR =

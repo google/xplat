@@ -54,6 +54,13 @@ public final class ThreadTest {
   }
 
   @Test
+  public void testSleep() throws InterruptedException {
+    long t0 = System.currentTimeMillis();
+    Thread.sleep(1);
+    assertTrue(System.currentTimeMillis() > t0);
+  }
+
+  @Test
   public void availableProcessors_atLeastOne() {
     assertTrue(Runtime.getRuntime().availableProcessors() >= 1);
   }

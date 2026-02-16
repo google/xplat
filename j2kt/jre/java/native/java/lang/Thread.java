@@ -28,6 +28,10 @@ public final class Thread {
   // J2KT threads do not support interruption, so this method always returns false.
   public static native boolean interrupted();
 
+  public static native void sleep(long millis) throws InterruptedException;
+
+  public static native void sleep(long millis, int nanos) throws InterruptedException;
+
   private Thread() {}
 
   @SuppressWarnings("NamedLikeContextualKeyword")
