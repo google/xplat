@@ -39,7 +39,6 @@ import static javaemul.internal.InternalPreconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.Random;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -566,7 +565,7 @@ public class BigInteger extends Number implements Comparable<BigInteger>, Serial
    * @throws NullPointerException if {@code val == null}.
    */
   @Override
-  public int compareTo(@NonNull BigInteger val) {
+  public int compareTo(BigInteger val) {
     if (sign > val.sign) {
       return GREATER;
     }

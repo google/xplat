@@ -19,7 +19,6 @@ package java.net;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -101,7 +100,7 @@ public class URLEncoder {
     return buf.toString();
   }
 
-  private static void convert(String s, StringBuilder buf, @NonNull Charset enc) {
+  private static void convert(String s, StringBuilder buf, Charset enc) {
     byte[] bytes = s.getBytes(enc);
     for (int j = 0; j < bytes.length; j++) {
       buf.append('%');
