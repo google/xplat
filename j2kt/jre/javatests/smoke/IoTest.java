@@ -30,10 +30,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.SequenceInputStream;
 import java.io.StringReader;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.Random;
 import org.junit.Ignore;
@@ -305,5 +309,19 @@ public class IoTest {
     bos.flush();
     assertEquals(11, os.size());
     assertArrayEquals(new byte[] {2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2}, os.toByteArray());
+  }
+
+  @Test
+  public void testSequenceInputStream() throws IOException {
+    ByteArrayInputStream is1 = new ByteArrayInputStream(new byte[] {1, 2, 3});
+    ByteArrayInputStream is2 = new ByteArrayInputStream(new byte[] {4, 5});
+    ByteArrayInputStream is3 = new ByteArrayInputStream(new byte[] {6});
+
+    Enumeration<? extends InputStream> e =
+        Collections.enumeration(java.util.Arrays.asList(is1, is2, is3));
+    try (SequenceInputStream sis = new SequenceInputStream(e)) {
+      byte[] result = sis.readAllBytes();
+      assertArrayEquals(new byte[] {1, 2, 3, 4, 5, 6}, result);
+    }
   }
 }
