@@ -21,11 +21,11 @@ import java.util.function.BiFunction
 import java.util.function.Function
 
 fun <K, V> MutableMap<K, V>.compute(key: K, mappingFunction: BiFunction<in K, in V?, out V?>): V? =
-  if (this is JavaUtilMap) (this as JavaUtilMap<K, V>).compute(key, mappingFunction)
+  if (this is JavaUtilMap) this.compute(key, mappingFunction)
   else default_compute(key, mappingFunction)
 
 fun <K, V> MutableMap<K, V>.computeIfAbsent(key: K, mappingFunction: Function<in K, out V>): V =
-  if (this is JavaUtilMap) (this as JavaUtilMap<K, V>).computeIfAbsent(key, mappingFunction)
+  if (this is JavaUtilMap) this.computeIfAbsent(key, mappingFunction)
   else default_computeIfAbsent(key, mappingFunction)
 
 fun <K, V> MutableMap<K, V>.computeIfPresent(
@@ -36,7 +36,7 @@ fun <K, V> MutableMap<K, V>.computeIfPresent(
   else default_computeIfPresent(key, mappingFunction)
 
 fun <K, V> MutableMap<K, V>.forEach(action: BiConsumer<in K, in V>) =
-  if (this is JavaUtilMap) (this as JavaUtilMap<K, V>).forEach(action) else default_forEach(action)
+  if (this is JavaUtilMap) this.forEach(action) else default_forEach(action)
 
 fun <K, V> MutableMap<K, V>.merge(
   key: K,
@@ -45,20 +45,17 @@ fun <K, V> MutableMap<K, V>.merge(
 ): V? = if (this is JavaUtilMap) merge(key, value, remap) else default_merge(key, value, remap)
 
 fun <K, V> MutableMap<K, V>.putIfAbsent(key: K, value: V): V? =
-  if (this is JavaUtilMap) (this as JavaUtilMap<K, V>).putIfAbsent(key, value)
-  else default_putIfAbsent(key, value)
+  if (this is JavaUtilMap) this.putIfAbsent(key, value) else default_putIfAbsent(key, value)
 
 fun <K, V> MutableMap<K, V>.replace(key: K, value: V): V? =
-  if (this is JavaUtilMap) (this as JavaUtilMap<K, V>).replace(key, value)
-  else default_replace(key, value)
+  if (this is JavaUtilMap) this.replace(key, value) else default_replace(key, value)
 
 fun <K, V> MutableMap<K, V>.replace(key: K, oldValue: V, newValue: V): Boolean =
-  if (this is JavaUtilMap) (this as JavaUtilMap<K, V>).replace(key, oldValue, newValue)
+  if (this is JavaUtilMap) this.replace(key, oldValue, newValue)
   else default_replace(key, oldValue, newValue)
 
 fun <K, V> MutableMap<K, V>.replaceAll(function: BiFunction<in K, in V, out V>) =
-  if (this is JavaUtilMap) (this as JavaUtilMap<K, V>).replaceAll(function)
-  else default_replaceAll(function)
+  if (this is JavaUtilMap) this.replaceAll(function) else default_replaceAll(function)
 
 internal inline fun <K, V> MutableMap<K, V>.default_forEach(action: BiConsumer<in K, in V>) {
   this.forEach { entry -> action.accept(entry.key, entry.value) }

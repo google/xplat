@@ -26,7 +26,7 @@ open class LinkedHashMap<K, V> : HashMap<K, V>, MutableMap<K, V>, Cloneable {
 
   constructor(initialCapacity: Int, loadFactor: Float) : super(initialCapacity, loadFactor)
 
-  constructor(original: MutableMap<out K, out V>) : super(original)
+  constructor(from: MutableMap<out K, out V>) : super(from)
 
   override fun clone(): Any = LinkedHashMap(this)
 }

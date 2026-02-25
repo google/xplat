@@ -82,10 +82,10 @@ internal object InflaterImpl {
     bytesReadConsumer: Consumer<Int>,
     needDictCallback: Runnable,
   ): Int =
-    (if (byteCount === 0) singleByteArray else buf).usePinned { pinnedBuf ->
+    (if (byteCount == 0) singleByteArray else buf).usePinned { pinnedBuf ->
       @Suppress("UNCHECKED_CAST")
       nativeZipStream.stream.next_out =
-        pinnedBuf.addressOf(if (byteCount === 0) 0 else offset) as CPointer<UByteVarOf<UByte>>
+        pinnedBuf.addressOf(if (byteCount == 0) 0 else offset) as CPointer<UByteVarOf<UByte>>
       nativeZipStream.stream.avail_out = byteCount.toUInt()
 
       val initialNextIn = nativeZipStream.stream.next_in

@@ -56,16 +56,16 @@ class FileOutputStream : OutputStream {
     }
   }
 
-  override fun write(buffer: ByteArray, byteOffset: Int, byteCount: Int) {
-    if (byteCount < 0 || byteOffset + byteCount > buffer.size) {
+  override fun write(buffer: ByteArray, offset: Int, count: Int) {
+    if (count < 0 || offset + count > buffer.size) {
       throw IllegalArgumentException()
     }
     val localHandle = handle ?: throw IOException()
-    if (byteCount == 0) {
+    if (count == 0) {
       return
     }
     buffer.usePinned {
-      val nsdata = NSData.dataWithBytesNoCopy(it.addressOf(byteOffset), byteCount.toULong())
+      val nsdata = NSData.dataWithBytesNoCopy(it.addressOf(offset), count.toULong())
       if (!localHandle.writeData(nsdata, null)) {
         throw IOException()
       }

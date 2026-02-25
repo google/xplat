@@ -104,12 +104,12 @@ class System private constructor() {
 
     private fun stdOutputStream(fd: Int) =
       object : OutputStream() {
-        override fun write(b: ByteArray, off: Int, len: Int) {
-          b.usePinned { posixWrite(fd, it.addressOf(off), len.toULong()) }
+        override fun write(buffer: ByteArray, offset: Int, count: Int) {
+          buffer.usePinned { posixWrite(fd, it.addressOf(offset), count.toULong()) }
         }
 
-        override fun write(b: Int) {
-          write(byteArrayOf(b.toByte()))
+        override fun write(oneByte: Int) {
+          write(byteArrayOf(oneByte.toByte()))
         }
       }
 

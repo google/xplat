@@ -22,6 +22,7 @@ import kotlin.collections.Collection as KotlinCollection
 
 private const val DEFAULT_CAPACITY = 10
 
+@Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE")
 open class ArrayList<T> private constructor(private val ktArrayList: KotlinArrayList<T>) :
   AbstractList<T>(), Cloneable, RandomAccess, Serializable, MutableList<T> by ktArrayList {
 

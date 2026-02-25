@@ -49,8 +49,8 @@ class Adler32 : Checksum {
    *
    * @param i the byte to update checksum with.
    */
-  override fun update(i: Int) {
-    adler = updateImpl(byteArrayOf(i.toByte()), 0, 1, adler)
+  override fun update(`val`: Int) {
+    adler = updateImpl(byteArrayOf(`val`.toByte()), 0, 1, adler)
   }
 
   /**
@@ -66,9 +66,9 @@ class Adler32 : Checksum {
    * Update this `Adler32` checksum with the contents of `buf`, starting from `offset` and reading
    * `byteCount` bytes of data.
    */
-  override fun update(buf: ByteArray, offset: Int, byteCount: Int) {
-    checkCriticalArrayBounds(offset, offset + byteCount, buf.size)
-    adler = updateImpl(buf, offset, byteCount, adler)
+  override fun update(buf: ByteArray, off: Int, nbytes: Int) {
+    checkCriticalArrayBounds(off, off + nbytes, buf.size)
+    adler = updateImpl(buf, off, nbytes, adler)
   }
 
   private fun updateImpl(buf: ByteArray, offset: Int, byteCount: Int, adler: Long): Long {

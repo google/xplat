@@ -21,5 +21,9 @@ abstract class JavaNumber : kotlin.Number() {
 
   override fun toShort() = toInt().toShort()
 
+  @Deprecated(
+    "Direct conversion to Char is deprecated. Use toInt().toChar() or other conversions instead.",
+    ReplaceWith("toInt().toChar()"),
+  )
   override fun toChar() = toInt().toChar()
 }

@@ -46,14 +46,14 @@ private constructor(
   private constructor(
     nsLocale: NSLocale
   ) : this(
-    language = nsLocale.languageCode ?: "",
+    language = nsLocale.languageCode,
     script = nsLocale.scriptCode ?: "",
     country = nsLocale.countryCode ?: "",
     variant = nsLocale.variantCode ?: "",
     nsLocale = nsLocale,
   )
 
-  open fun toLanguageTag(): String = (nsLocale.localeIdentifier as String).replace('_', '-')
+  open fun toLanguageTag(): String = nsLocale.localeIdentifier.replace('_', '-')
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -75,10 +75,10 @@ private constructor(
   override fun toString(): String = nsLocale.localeIdentifier
 
   internal open fun toUppercase(s: String): String =
-    (s as NSString).uppercaseStringWithLocale(nsLocale)
+    (s as Any as NSString).uppercaseStringWithLocale(nsLocale)
 
   internal open fun toLowercase(s: String): String =
-    (s as NSString).lowercaseStringWithLocale(nsLocale)
+    (s as Any as NSString).lowercaseStringWithLocale(nsLocale)
 
   companion object {
     private var defaultLocale: Locale? = null

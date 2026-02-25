@@ -59,6 +59,10 @@ class AtomicLong internal constructor(private val ktAtomicLong: kotlinx.atomicfu
 
   override fun toByte(): Byte = ktAtomicLong.value.toByte()
 
+  @Deprecated(
+    "Direct conversion to Char is deprecated. Use toInt().toChar() or other conversions instead.",
+    ReplaceWith("toInt().toChar()"),
+  )
   override fun toChar(): Char = ktAtomicLong.value.toInt().toChar()
 
   override fun toShort(): Short = ktAtomicLong.value.toShort()

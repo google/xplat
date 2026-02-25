@@ -26,6 +26,9 @@ private const val DEFAULT_LOAD_FACTOR = 0.75f
 open class HashMap<K, V> private constructor(val ktHashMap: KotlinHashMap<K, V>) :
   AbstractMap<K, V>(), Cloneable, Serializable {
 
+  override fun equals(obj: Any?): Boolean =
+    if (obj is HashMap<*, *>) ktHashMap == obj.ktHashMap else ktHashMap == obj
+
   constructor(
     initialCapacity: Int = DEFAULT_INITIAL_CAPACITY,
     loadFactor: Float = DEFAULT_LOAD_FACTOR,
@@ -48,7 +51,7 @@ open class HashMap<K, V> private constructor(val ktHashMap: KotlinHashMap<K, V>)
 
   override final fun remove(key: K): V? = ktHashMap.remove(key)
 
-  override fun putAll(m: KotlinMap<out K, V>) = ktHashMap.putAll(m)
+  override fun putAll(map: KotlinMap<out K, V>) = ktHashMap.putAll(map)
 
   override fun clear() = ktHashMap.clear()
 

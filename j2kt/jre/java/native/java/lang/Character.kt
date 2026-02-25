@@ -85,7 +85,7 @@ class Character {
 
     // As Kotlin native doesn't seem to have support for digit checks for code points, we
     // assume false for code points outside of the 16 bit char range.
-    fun isDigit(cp: Int): kotlin.Boolean = cp >= 0 && cp <= 0xffff && (cp as Char).isDigit()
+    fun isDigit(cp: Int): kotlin.Boolean = cp >= 0 && cp <= 0xffff && cp.toChar().isDigit()
 
     fun isISOControl(c: Char): kotlin.Boolean = c.isISOControl()
 
@@ -298,10 +298,10 @@ class Character {
 
     fun toTitleCase(c: Char) = c.titlecaseChar()
 
-    fun lowSurrogate(codePoint: Int) =
-      (MIN_LOW_SURROGATE + ((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) and 1023)).toChar()
+    fun lowSurrogate(codePoint: Int): Char =
+      (MIN_LOW_SURROGATE + ((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) and 1023))
 
-    fun highSurrogate(codePoint: Int) =
-      (MIN_HIGH_SURROGATE + (((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) shr 10) and 1023)).toChar()
+    fun highSurrogate(codePoint: Int): Char =
+      (MIN_HIGH_SURROGATE + (((codePoint - MIN_SUPPLEMENTARY_CODE_POINT) shr 10) and 1023))
   }
 }

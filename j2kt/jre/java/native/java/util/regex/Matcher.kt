@@ -113,7 +113,7 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
     if (start < 0 || end < 0 || start > input.length || end > input.length || start > end) {
       throw IndexOutOfBoundsException()
     }
-    this.input = input!!.toString()
+    this.input = input.toString()
     regionStart = start
     region = input.substring(start, end)
     matchResult = null

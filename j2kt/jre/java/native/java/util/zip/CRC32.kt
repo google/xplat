@@ -51,8 +51,8 @@ class CRC32 : Checksum {
    *
    * @param `val` represents the byte to update the checksum.
    */
-  override fun update(value: Int) {
-    crc = updateImpl(byteArrayOf(value.toByte()), 0, 1, crc)
+  override fun update(`val`: Int) {
+    crc = updateImpl(byteArrayOf(`val`.toByte()), 0, 1, crc)
   }
 
   /**
@@ -68,10 +68,10 @@ class CRC32 : Checksum {
    * Update this `CRC32` checksum with the contents of `buf`, starting from `offset` and reading
    * `byteCount` bytes of data.
    */
-  override fun update(buf: ByteArray, offset: Int, byteCount: Int) {
-    checkCriticalArrayBounds(offset, offset + byteCount, buf.size)
-    tbytes += byteCount.toLong()
-    crc = updateImpl(buf, offset, byteCount, crc)
+  override fun update(buf: ByteArray, off: Int, nbytes: Int) {
+    checkCriticalArrayBounds(off, off + nbytes, buf.size)
+    tbytes += nbytes.toLong()
+    crc = updateImpl(buf, off, nbytes, crc)
   }
 
   private fun updateImpl(buf: ByteArray, offset: Int, byteCount: Int, crc: Long): Long {

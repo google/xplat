@@ -24,8 +24,8 @@ import java.lang.Character as JavaCharacter
  */
 operator fun Char.Companion.invoke(c: Char): Char = JavaCharacter(c) as Char
 
-fun Char.shr(pos: Int): Int = toInt().shr(pos)
+fun Char.shr(pos: Int): Int = code.shr(pos)
 
-fun Char.ushr(pos: Int): Int = toInt().ushr(pos)
+fun Char.ushr(pos: Int): Int = code.ushr(pos)
 
-operator fun Char.unaryMinus(): Int = toInt().unaryMinus()
+operator fun Char.unaryMinus(): Int = code.unaryMinus()

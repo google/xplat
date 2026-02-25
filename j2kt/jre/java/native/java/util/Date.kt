@@ -94,9 +94,9 @@ open class Date private constructor(private var instant: Instant, private var ti
 
   open override fun compareTo(other: Date): Int = getTime().compareTo(other.getTime())
 
-  open override fun equals(obj: Any?) = obj is Date && getTime() == obj.getTime()
+  open override fun equals(other: Any?) = other is Date && getTime() == other.getTime()
 
-  open fun getDate(): Int = toLocalDateTime().dayOfMonth
+  open fun getDate(): Int = toLocalDateTime().day
 
   open fun getDay(): Int = toLocalDateTime().dayOfWeek.isoDayNumber
 
@@ -141,14 +141,14 @@ open class Date private constructor(private var instant: Instant, private var ti
     val localDateTime = toLocalDateTime()
     instant =
       createInstant(
-        localDateTime.year,
-        localDateTime.month.number,
-        localDateTime.dayOfMonth,
-        hours,
-        localDateTime.minute,
-        localDateTime.second,
-        localDateTime.nanosecond,
-        timeZone,
+        year = localDateTime.year,
+        month = localDateTime.month.number,
+        date = localDateTime.day,
+        hrs = hours,
+        min = localDateTime.minute,
+        sec = localDateTime.second,
+        nanosecond = localDateTime.nanosecond,
+        timeZone = timeZone,
       )
   }
 
@@ -157,14 +157,14 @@ open class Date private constructor(private var instant: Instant, private var ti
     val hours: Int = localDateTime.hour + minutes / 60
     instant =
       createInstant(
-        localDateTime.year,
-        localDateTime.month.number,
-        localDateTime.dayOfMonth,
-        localDateTime.hour,
-        minutes,
-        localDateTime.second,
-        localDateTime.nanosecond,
-        timeZone,
+        year = localDateTime.year,
+        month = localDateTime.month.number,
+        date = localDateTime.day,
+        hrs = localDateTime.hour,
+        min = minutes,
+        sec = localDateTime.second,
+        nanosecond = localDateTime.nanosecond,
+        timeZone = timeZone,
       )
   }
 
@@ -173,14 +173,14 @@ open class Date private constructor(private var instant: Instant, private var ti
     val localDateTime = toLocalDateTime()
     instant =
       createInstant(
-        localDateTime.year,
-        month + 1,
-        localDateTime.dayOfMonth,
-        localDateTime.hour,
-        localDateTime.minute,
-        localDateTime.second,
-        localDateTime.nanosecond,
-        timeZone,
+        year = localDateTime.year,
+        month = month + 1,
+        date = localDateTime.day,
+        hrs = localDateTime.hour,
+        min = localDateTime.minute,
+        sec = localDateTime.second,
+        nanosecond = localDateTime.nanosecond,
+        timeZone = timeZone,
       )
   }
 
@@ -189,14 +189,14 @@ open class Date private constructor(private var instant: Instant, private var ti
     val hours: Int = localDateTime.hour + seconds / (60 * 60)
     instant =
       createInstant(
-        localDateTime.year,
-        localDateTime.month.number,
-        localDateTime.dayOfMonth,
-        localDateTime.hour,
-        localDateTime.minute,
-        seconds,
-        localDateTime.nanosecond,
-        timeZone,
+        year = localDateTime.year,
+        month = localDateTime.month.number,
+        date = localDateTime.day,
+        hrs = localDateTime.hour,
+        min = localDateTime.minute,
+        sec = seconds,
+        nanosecond = localDateTime.nanosecond,
+        timeZone = timeZone,
       )
   }
 
@@ -209,21 +209,21 @@ open class Date private constructor(private var instant: Instant, private var ti
     val hours: Int = localDateTime.hour
     instant =
       createInstant(
-        year + 1900,
-        localDateTime.month.number,
-        localDateTime.dayOfMonth,
-        localDateTime.hour,
-        localDateTime.minute,
-        localDateTime.second,
-        localDateTime.nanosecond,
-        timeZone,
+        year = year + 1900,
+        month = localDateTime.month.number,
+        date = localDateTime.day,
+        hrs = localDateTime.hour,
+        min = localDateTime.minute,
+        sec = localDateTime.second,
+        nanosecond = localDateTime.nanosecond,
+        timeZone = timeZone,
       )
   }
 
   open fun toGMTString(): String {
     val utcDate = instant.toLocalDateTime(TimeZone.UTC)
     return "" +
-      utcDate.dayOfMonth +
+      utcDate.day +
       " " +
       Date.MONTHS[utcDate.month.number - 1] +
       " " +
@@ -250,7 +250,7 @@ open class Date private constructor(private var instant: Instant, private var ti
       " " +
       MONTHS[localDateTime.month.number - 1] +
       " " +
-      Date.padTwo(localDateTime.dayOfMonth) +
+      Date.padTwo(localDateTime.day) +
       " " +
       Date.padTwo(localDateTime.hour) +
       ":" +
@@ -337,7 +337,7 @@ open class Date private constructor(private var instant: Instant, private var ti
             if (year == -1 && (next.isWhitespace() || next == ',' || next == '/' || next == '\r')) {
               year = digit
             } else {
-              throw parseError("digit:$digit; next:${next.toInt()}, year:$year:" + string)
+              throw parseError("digit:$digit; next:${next.code}, year:$year:" + string)
             }
           } else if (next == ':') {
             if (hour == -1) {

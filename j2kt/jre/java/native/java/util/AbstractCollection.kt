@@ -18,9 +18,9 @@ package java.util
 import javaemul.internal.CollectionHelper
 
 abstract class AbstractCollection<E> : AbstractMutableCollection<E>(), Collection<E> {
-  override fun add(e: E): Boolean = throw UnsupportedOperationException()
+  override fun add(element: E): Boolean = throw UnsupportedOperationException()
 
   override fun toArray(): Array<Any?> = CollectionHelper.toArray(this)
 
-  override fun <T> toArray(a: Array<T>): Array<T> = CollectionHelper.toArray(this, a)
+  override fun <T> toArray(array: Array<T>): Array<T> = CollectionHelper.toArray(this, array)
 }

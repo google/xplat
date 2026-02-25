@@ -18,4 +18,4 @@ package javaemul.lang
 import java.lang.Class
 import kotlin.jvm.javaObjectType
 
-fun <T : Any> T.getClass(): Class<out T> = this::class.javaObjectType as Class<out T>
+fun <T : Any> T.getClass(): Class<out T> = this::class.javaObjectType

@@ -20,7 +20,7 @@ import java.util.function.Consumer
 
 fun <T> Iterator<T>.forEachRemaining(consumer: Consumer<in T>) {
   if (this is JavaUtilIterator) {
-    (this as JavaUtilIterator<T>).forEachRemaining(consumer)
+    this.forEachRemaining(consumer)
   } else {
     forEach(consumer::accept)
   }

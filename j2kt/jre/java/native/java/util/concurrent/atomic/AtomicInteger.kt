@@ -58,6 +58,10 @@ open class AtomicInteger internal constructor(private val ktAtomicInt: kotlinx.a
 
   override fun toByte(): Byte = ktAtomicInt.value.toByte()
 
+  @Deprecated(
+    "Direct conversion to Char is deprecated. Use toInt().toChar() or other conversions instead.",
+    ReplaceWith("toInt().toChar()"),
+  )
   override fun toChar(): Char = ktAtomicInt.value.toChar()
 
   override fun toShort(): Short = ktAtomicInt.value.toShort()

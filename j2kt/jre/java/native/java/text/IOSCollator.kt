@@ -38,23 +38,23 @@ internal class IOSCollator(private val locale: Locale) : Collator() {
 
   override fun getDecomposition() = decomposition
 
-  override fun setDecomposition(decompositionMode: Int) {
-    require(decompositionMode in NO_DECOMPOSITION..FULL_DECOMPOSITION) {
-      "decomposition must match any decomposition constant from java.text.Collator, was $decompositionMode"
+  override fun setDecomposition(value: Int) {
+    require(value in NO_DECOMPOSITION..FULL_DECOMPOSITION) {
+      "decomposition must match any decomposition constant from java.text.Collator, was $value"
     }
-    decomposition = decompositionMode
+    decomposition = value
   }
 
-  override fun setStrength(newStrength: Int) {
-    require(newStrength in PRIMARY..IDENTICAL) {
-      "strength must match any strength constant from java.text.Collator, was $newStrength"
+  override fun setStrength(value: Int) {
+    require(value in PRIMARY..IDENTICAL) {
+      "strength must match any strength constant from java.text.Collator, was $value"
     }
-    strength = newStrength
+    strength = value
   }
 
   override fun getStrength() = strength
 
-  override fun hashCode() = nsLocale.hash() as Int
+  override fun hashCode() = nsLocale.hash().toInt()
 
   override fun equals(other: Any?): Boolean {
     if (this === other) {
@@ -85,7 +85,7 @@ internal class IOSCollator(private val locale: Locale) : Collator() {
 
     // TODO(b/309016405) : Inline this variable when bug is fixed.
     val string1Length = string1.length.toULong()
-    return (string1 as NSString)
+    return (string1 as Any as NSString)
       .compare(string2, compareOptions, NSMakeRange(0u, string1Length), nsLocale)
       .toInt()
   }
@@ -100,7 +100,7 @@ internal class IOSCollator(private val locale: Locale) : Collator() {
 }
 
 internal class IOSCollationKey(source: String) : CollationKey(source) {
-  override fun compareTo(other: CollationKey) = 0
+  override fun compareTo(value: CollationKey) = 0
 
   override fun toByteArray(): ByteArray {
     return getSourceString().encodeToByteArray()

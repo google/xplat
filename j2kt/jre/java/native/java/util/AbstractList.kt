@@ -32,5 +32,5 @@ abstract class AbstractList<E> : AbstractMutableList<E>(), List<E> {
 
   override fun toArray(): Array<Any?> = CollectionHelper.toArray(this)
 
-  override fun <T> toArray(a: Array<T>): Array<T> = CollectionHelper.toArray(this, a)
+  override fun <T> toArray(array: Array<T>): Array<T> = CollectionHelper.toArray(this, array)
 }
