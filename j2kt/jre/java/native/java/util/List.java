@@ -58,6 +58,14 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
     ktNative();
   }
 
+  default E getFirst() {
+    return ktNative();
+  }
+
+  default E getLast() {
+    return ktNative();
+  }
+
   List<E> subList(int fromIndex, int toIndex);
 
   // Override equals() to teach Error Prone that an ArrayList can be equal to a LinkedList.

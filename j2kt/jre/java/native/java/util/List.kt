@@ -28,4 +28,8 @@ interface List<E> : MutableList<E>, Collection<E> {
     } else {
       sortWith(c)
     }
+
+  fun getFirst(): E = if (isEmpty()) throw NoSuchElementException() else get(0)
+
+  fun getLast(): E = if (isEmpty()) throw NoSuchElementException() else get(size - 1)
 }

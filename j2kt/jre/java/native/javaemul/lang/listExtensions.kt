@@ -33,3 +33,25 @@ fun <E> MutableList<E>.sort(c: Comparator<in E>?): Unit {
     sortBy { it as Comparable<Any> }
   }
 }
+
+fun <E> List<E>.getFirst(): E {
+  val asJavaList = this as? JavaUtilList<E>
+  if (asJavaList != null) {
+    return asJavaList.getFirst()
+  } else if (!isEmpty()) {
+    return get(0)
+  } else {
+    throw NoSuchElementException()
+  }
+}
+
+fun <E> List<E>.getLast(): E {
+  val asJavaList = this as? JavaUtilList<E>
+  if (asJavaList != null) {
+    return asJavaList.getLast()
+  } else if (!isEmpty()) {
+    return get(size - 1)
+  } else {
+    throw NoSuchElementException()
+  }
+}

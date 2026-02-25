@@ -41,7 +41,7 @@ private fun <E> Collection<E>.asJavaUtilCollection(): java.util.Collection<E> =
   this as java.util.Collection<E>
 
 @Suppress("UNCHECKED_CAST")
-private fun <E> List<E>.asJavaUtilList(): java.util.List<E> = this as java.util.List<E>
+internal fun <E> List<E>.asJavaUtilList(): java.util.List<E> = this as java.util.List<E>
 
 @Suppress("UNCHECKED_CAST")
 private fun <K, V> Map<K, V>.asJavaUtilMap(): java.util.Map<K, V> = this as java.util.Map<K, V>

@@ -469,6 +469,8 @@ public class CollectionsTest {
     public int streamCalls = 0;
     public int toArrayCalls = 0;
     public int toArrayTypedCalls = 0;
+    public int getFirstCalls = 0;
+    public int getLastCalls = 0;
 
     public TestList(E theElement) {
       this.theElement = theElement;
@@ -578,6 +580,18 @@ public class CollectionsTest {
       toArrayTypedCalls++;
       return super.toArray(a);
     }
+
+    @Override
+    public E getFirst() {
+      getFirstCalls++;
+      return super.getFirst();
+    }
+
+    @Override
+    public E getLast() {
+      getLastCalls++;
+      return super.getLast();
+    }
   }
 
   @Test
@@ -595,6 +609,36 @@ public class CollectionsTest {
     assertEquals(2, testList.streamCalls);
     parallelStream = list.parallelStream();
     assertEquals(2, testList.parallelStreamCalls);
+  }
+
+  @Test
+  public void testListGetFirstLast() {
+    List<String> list = new ArrayList<>();
+    list.add("first");
+    list.add("middle");
+    list.add("last");
+
+    assertEquals("first", list.getFirst());
+    assertEquals("last", list.getLast());
+  }
+
+  @Test
+  public void testListGetFirstLast_empty() {
+    List<String> list = new ArrayList<>();
+    assertThrows(NoSuchElementException.class, () -> list.getFirst());
+    assertThrows(NoSuchElementException.class, () -> list.getLast());
+  }
+
+  @Test
+  public void testCustomList_getFirstLastOverridesAreCalled() {
+    TestList<String> testList = new TestList<>("only");
+    List<String> list = testList;
+
+    assertEquals("only", list.getFirst());
+    assertEquals(1, testList.getFirstCalls);
+
+    assertEquals("only", list.getLast());
+    assertEquals(1, testList.getLastCalls);
   }
 
   @Test
