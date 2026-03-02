@@ -41,6 +41,7 @@ import org.junit.runners.Suite.SuiteClasses;
   OldAndroidChecksumTest.class,
   OldAndroidURITest.class,
   OldURITest.class,
+  NumberTest.class,
   PrimitivesTest.class,
   RandomTest.class,
   ReflectArrayTest.class,

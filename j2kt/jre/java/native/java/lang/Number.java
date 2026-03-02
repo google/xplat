@@ -26,7 +26,7 @@ import org.jspecify.annotations.NullMarked;
  * See <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html">the official Java
  * API doc</a> for details.
  */
-@KtNative(name = "kotlin.Number", bridgeName = "javaemul.lang.JavaNumber")
+@KtNative(name = "kotlin.Number")
 @NullMarked
 public abstract class Number {
 
