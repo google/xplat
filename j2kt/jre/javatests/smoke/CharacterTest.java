@@ -17,6 +17,8 @@
 package smoke;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,5 +32,16 @@ public final class CharacterTest {
   public void testCharacter() {
     assertEquals('U', Character.toUpperCase('u'));
     assertEquals('l', Character.toLowerCase('L'));
+  }
+
+  @Test
+  public void testIsDefined() {
+    assertTrue(Character.isDefined('a'));
+    assertTrue(Character.isDefined('\u0000')); // Control characters are defined
+    assertFalse(Character.isDefined('\uFFFF'));
+    assertFalse(Character.isDefined('\u0378'));
+
+    assertTrue(Character.isDefined((int) 'a'));
+    assertFalse(Character.isDefined(0x110000)); // Outside Unicode range
   }
 }

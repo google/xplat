@@ -81,11 +81,15 @@ class Character {
     // TODO(b/367245215): Implement this method properly when Kotlin native supports it.
     fun getDirectionality(c: Char): kotlin.Byte = DIRECTIONALITY_UNDEFINED
 
+    fun isDefined(c: Char): kotlin.Boolean = c.isDefined()
+
+    fun isDefined(cp: Int): kotlin.Boolean = cp in 0..0xffff && cp.toChar().isDefined()
+
     fun isDigit(c: Char): kotlin.Boolean = c.isDigit()
 
     // As Kotlin native doesn't seem to have support for digit checks for code points, we
     // assume false for code points outside of the 16 bit char range.
-    fun isDigit(cp: Int): kotlin.Boolean = cp >= 0 && cp <= 0xffff && cp.toChar().isDigit()
+    fun isDigit(cp: Int): kotlin.Boolean = cp in 0..0xffff && cp.toChar().isDigit()
 
     fun isISOControl(c: Char): kotlin.Boolean = c.isISOControl()
 
