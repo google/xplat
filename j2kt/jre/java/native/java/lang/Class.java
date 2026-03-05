@@ -50,4 +50,7 @@ public final class Class<T> implements Type {
   public native T @Nullable [] getEnumConstants();
 
   public native boolean desiredAssertionStatus();
+
+  // Supported only in j2kt-web or j2kt-jvm, but not in j2kt-native.
+  public native @Nullable Class<? super T> getSuperclass();
 }
