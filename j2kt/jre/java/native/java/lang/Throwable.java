@@ -87,4 +87,9 @@ public class Throwable {
   // j2kt-native and j2kt-jvm.
   @HiddenFromObjC
   public static native Throwable of(@Nullable Object e);
+
+  // Property existing in J2CL, not available in j2kt-native.
+  @HiddenFromObjC
+  @KtProperty
+  public native @Nullable Object getBackingJsObject();
 }
