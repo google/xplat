@@ -27,8 +27,6 @@ public final class Class<T> implements Type {
 
   private Class() {}
 
-  public native @Nullable T cast(@Nullable Object obj);
-
   public native String getName();
 
   public native @Nullable String getCanonicalName();
@@ -37,20 +35,22 @@ public final class Class<T> implements Type {
 
   public native @Nullable Class<?> getComponentType();
 
+  public native boolean isInstance(@Nullable Object obj);
+
   public native boolean isArray();
 
   public native boolean isEnum();
 
   public native boolean isInterface();
 
-  public native boolean isInstance(@Nullable Object obj);
-
   public native boolean isPrimitive();
 
   public native T @Nullable [] getEnumConstants();
 
-  public native boolean desiredAssertionStatus();
-
   // Supported only in j2kt-web or j2kt-jvm, but not in j2kt-native.
   public native @Nullable Class<? super T> getSuperclass();
+
+  public native @Nullable T cast(@Nullable Object obj);
+
+  public native boolean desiredAssertionStatus();
 }

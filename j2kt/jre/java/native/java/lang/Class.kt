@@ -29,14 +29,6 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
   Type {
   val j2ktMonitor: J2ktMonitor by lazy { J2ktMonitor() }
 
-  fun cast(obj: Any?): T? =
-    if (obj == null || kClass.isInstance(obj)) {
-      @Suppress("UNCHECKED_CAST")
-      obj as T?
-    } else {
-      throw ClassCastException()
-    }
-
   fun getName(): kotlin.String = getCanonicalName() ?: ""
 
   fun getCanonicalName(): kotlin.String? = primitiveName ?: kClass.qualifiedName
@@ -57,16 +49,24 @@ class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: ko
         else -> null
       }
 
-  fun isPrimitive(): kotlin.Boolean = isPrimitive0
-
-  fun isArray(): kotlin.Boolean = getComponentType() != null
+  fun getComponentType(): Class<*>? = arrayComponentTypeMap[kClass]
 
   fun isInstance(obj: Any?): kotlin.Boolean = !isPrimitive0 && kClass.isInstance(obj)
 
-  fun getComponentType(): Class<*>? = arrayComponentTypeMap[kClass]
+  fun isArray(): kotlin.Boolean = getComponentType() != null
+
+  fun isPrimitive(): kotlin.Boolean = isPrimitive0
 
   // TODO(b/235808937): Implement
   fun getEnumConstants(): Array<T>? = throw UnsupportedOperationException()
+
+  fun cast(obj: Any?): T? =
+    if (obj == null || kClass.isInstance(obj)) {
+      @Suppress("UNCHECKED_CAST")
+      obj as T?
+    } else {
+      throw ClassCastException()
+    }
 
   override fun toString(): kotlin.String = primitiveName ?: kClass.toString()
 }
