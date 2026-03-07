@@ -73,6 +73,41 @@ public abstract class Charset {
     }
   }
 
+  /**
+   * Returns a new {@code ByteBuffer} containing the bytes encoding the characters from {@code
+   * buffer}. This method uses {@code CodingErrorAction.REPLACE}.
+   *
+   * <p>Applications should generally create a {@link CharsetEncoder} using {@link #newEncoder} for
+   * performance.
+   *
+   * @param buffer the character buffer containing the content to be encoded.
+   * @return the result of the encoding.
+   */
+  public final ByteBuffer encode(CharBuffer buffer) {
+    try {
+      return newEncoder()
+          .onMalformedInput(CodingErrorAction.REPLACE)
+          .onUnmappableCharacter(CodingErrorAction.REPLACE)
+          .encode(buffer);
+    } catch (CharacterCodingException ex) {
+      throw new Error(ex.getMessage(), ex);
+    }
+  }
+
+  /**
+   * Returns a new {@code ByteBuffer} containing the bytes encoding the characters from {@code s}.
+   * This method uses {@code CodingErrorAction.REPLACE}.
+   *
+   * <p>Applications should generally create a {@link CharsetEncoder} using {@link #newEncoder} for
+   * performance.
+   *
+   * @param s the string to be encoded.
+   * @return the result of the encoding.
+   */
+  public final ByteBuffer encode(String s) {
+    return encode(CharBuffer.wrap(s));
+  }
+
   public static Charset defaultCharset() {
     return StandardCharsets.UTF_8;
   }
