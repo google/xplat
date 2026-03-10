@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.PushbackInputStream;
 import java.io.SequenceInputStream;
 import java.io.StringReader;
 import java.util.Collections;
@@ -322,6 +323,32 @@ public class IoTest {
     try (SequenceInputStream sis = new SequenceInputStream(e)) {
       byte[] result = sis.readAllBytes();
       assertArrayEquals(new byte[] {1, 2, 3, 4, 5, 6}, result);
+    }
+  }
+
+  @Test
+  public void testPushbackInputStream() throws IOException {
+    byte[] data = new byte[] {1, 2, 3, 4, 5};
+    ByteArrayInputStream is = new ByteArrayInputStream(data);
+    try (PushbackInputStream pis = new PushbackInputStream(is, 5)) {
+      assertEquals(1, pis.read());
+      pis.unread(1);
+      assertEquals(1, pis.read());
+
+      pis.unread(new byte[] {10, 11});
+      assertEquals(10, pis.read());
+      assertEquals(11, pis.read());
+      assertEquals(2, pis.read());
+
+      byte[] buf = new byte[2];
+      pis.unread(new byte[] {20, 21, 22}, 1, 2); // 21, 22
+      assertEquals(2, pis.read(buf));
+      assertArrayEquals(new byte[] {21, 22}, buf);
+
+      assertEquals(3, pis.available());
+
+      assertEquals(1, pis.skip(1)); // Skips 3
+      assertEquals(4, pis.read());
     }
   }
 }
