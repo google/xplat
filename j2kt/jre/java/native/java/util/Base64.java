@@ -16,6 +16,7 @@
 
 package java.util;
 
+import java.io.OutputStream;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
@@ -30,11 +31,23 @@ public final class Base64 {
 
   public static native Encoder getEncoder();
 
+  public static native Encoder getUrlEncoder();
+
+  public static native Decoder getUrlDecoder();
+
+  public static native Encoder getMimeEncoder();
+
+  public static native Encoder getMimeEncoder(int lineLength, byte[] lineSeparator);
+
+  public static native Decoder getMimeDecoder();
+
   @KtNative
   public static class Decoder {
     Decoder() {}
 
     public native byte[] decode(String s);
+
+    public native byte[] decode(byte[] b);
   }
 
   @KtNative
@@ -42,5 +55,11 @@ public final class Base64 {
     Encoder() {}
 
     public native String encodeToString(byte[] b);
+
+    public native byte[] encode(byte[] b);
+
+    public native OutputStream wrap(OutputStream os);
+
+    public native Encoder withoutPadding();
   }
 }

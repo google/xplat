@@ -23,6 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   ArraysTest.class,
   AtomicTest.class,
+  Base64Test.class,
   BitSetTest.class,
   CharacterTest.class,
   ClassTest.class,
