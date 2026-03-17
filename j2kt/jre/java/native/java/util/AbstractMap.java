@@ -64,13 +64,13 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
    * Basic {@link Map.Entry} implementation used by {@link SimpleEntry} and {@link
    * SimpleImmutableEntry}.
    */
-  private abstract static class AbstractEntry<
-          K extends @Nullable Object, V extends @Nullable Object>
+  // TODO(b/493533932): Made public to workaround Kotlin visibility restrictions.
+  public abstract static class AbstractEntry<K extends @Nullable Object, V extends @Nullable Object>
       implements Entry<K, V> {
     private final K key;
     private V value;
 
-    protected AbstractEntry(K key, V value) {
+    private AbstractEntry(K key, V value) {
       this.key = key;
       this.value = value;
     }

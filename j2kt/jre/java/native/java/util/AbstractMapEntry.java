@@ -19,8 +19,10 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Basic {@link Map.Entry} implementation that implements hashCode, equals, and toString. */
+// TODO(b/493533932): Made public to workaround Kotlin visibility restrictions.
+// TODO(b/493517382): Remove this class.
 @NullMarked
-abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable Object>
+public abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable Object>
     implements Map.Entry<K, V> {
   private final K entryKey;
   private V entryValue;
@@ -54,7 +56,7 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
     }
   }
 
-  protected AbstractMapEntry(K key, V value) {
+  AbstractMapEntry(K key, V value) {
     this.entryKey = key;
     this.entryValue = value;
   }

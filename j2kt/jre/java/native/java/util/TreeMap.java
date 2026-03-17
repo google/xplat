@@ -597,14 +597,14 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
     return new BoundedMap(false, null, Bound.NO_BOUND, null, Bound.NO_BOUND).navigableKeySet();
   }
 
-  private static class Node<K extends @Nullable Object, V extends @Nullable Object>
+  static class Node<K extends @Nullable Object, V extends @Nullable Object>
       extends SimpleEntry<K, V> {
     @Nullable Node<K, V> parent;
     @Nullable Node<K, V> left;
     @Nullable Node<K, V> right;
     int height;
 
-    Node(@Nullable Node<K, V> parent, K key) {
+    private Node(@Nullable Node<K, V> parent, K key) {
       super(key, null);
       this.parent = parent;
       this.height = 1;

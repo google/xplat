@@ -620,7 +620,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @FunctionalInterface
-  private interface MapEntryType<
+  interface MapEntryType<
       R extends @Nullable Object, K extends @Nullable Object, V extends @Nullable Object> {
     R get(AbstractMapEntry<K, V> entry);
   }

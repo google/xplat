@@ -2350,7 +2350,8 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
   /* ----------------Views -------------- */
 
   /** Base class for views. */
-  abstract static class CollectionView<
+  // TODO(b/493533932): Made public to workaround Kotlin visibility restrictions.
+  public abstract static class CollectionView<
           K extends @Nullable Object, V extends @Nullable Object, E extends @Nullable Object>
       implements Collection<E>, java.io.Serializable {
     final ConcurrentHashMap<K, V> map;

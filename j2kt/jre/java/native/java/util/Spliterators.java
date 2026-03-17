@@ -36,13 +36,13 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public final class Spliterators {
 
-  private abstract static class BaseSpliterator<
-          T extends @Nullable Object, S extends Spliterator<T>>
+  // TODO(b/493533932): Made public to workaround Kotlin visibility restrictions.
+  public abstract static class BaseSpliterator<T extends @Nullable Object, S extends Spliterator<T>>
       implements Spliterator<T> {
     private final int characteristics;
     private long sizeEstimate;
 
-    BaseSpliterator(long size, int characteristics) {
+    private BaseSpliterator(long size, int characteristics) {
       this.sizeEstimate = size;
       this.characteristics = (characteristics & Spliterator.SIZED) != 0 ?
           characteristics | Spliterator.SUBSIZED : characteristics;

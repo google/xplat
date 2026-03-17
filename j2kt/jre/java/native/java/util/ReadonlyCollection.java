@@ -21,10 +21,12 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Representation of the readonly Kotlin collection interface. Only for use by the JRE emulation.
+ * Representation of the readonly Kotlin collection interface. The corresponding Kotlin class is
+ * public, so for clarity this one is also public, however it is only intended for use by the JRE
+ * emulation.
  */
 @KtNative(name = "kotlin.collections.Collection")
 @NullMarked
-interface ReadonlyCollection<@KtOut E extends @Nullable Object> {
+public interface ReadonlyCollection<@KtOut E extends @Nullable Object> {
   // Methods omitted (type is only used in native method parameter/return types).
 }
