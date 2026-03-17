@@ -15,8 +15,6 @@
  */
 package java.util;
 
-import static java.util.AbstractMapEntry.SimpleEntry;
-import static java.util.AbstractMapEntry.SimpleImmutableEntry;
 import static javaemul.internal.InternalPreconditions.checkConcurrentModification;
 import static javaemul.internal.InternalPreconditions.checkCriticalArgument;
 import static javaemul.internal.InternalPreconditions.checkElement;
