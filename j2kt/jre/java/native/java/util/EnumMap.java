@@ -92,7 +92,7 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
     }
   }
 
-  private class MapEntry extends AbstractMapEntry<K, V> {
+  private class MapEntry extends AbstractMap.AbstractEntry<K, V> {
 
     public MapEntry(K key) {
       // Note: the value is going to be ignored.
@@ -107,6 +107,26 @@ public class EnumMap<K extends Enum<K>, V extends @Nullable Object> extends Abst
     @Override
     public V setValue(V value) {
       return setAt(getKey(), value);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object other) {
+      if (!(other instanceof Entry)) {
+        return false;
+      }
+      Entry<?, ?> entry = (Entry<?, ?>) other;
+      return Objects.equals(getKey(), entry.getKey())
+          && Objects.equals(getValue(), entry.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(getKey()) ^ Objects.hashCode(getValue());
+    }
+
+    @Override
+    public String toString() {
+      return getKey() + "=" + getValue();
     }
   }
 

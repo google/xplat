@@ -77,7 +77,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
   private static final Object NULL_OBJECT = new Object(); // $NON-LOCK-1$
 
   static class IdentityHashMapEntry<K extends @Nullable Object, V extends @Nullable Object>
-      extends AbstractMapEntry<K, V> implements Cloneable {
+      extends AbstractMap.AbstractEntry<K, V> implements Cloneable {
     private final IdentityHashMap<K, V> map;
 
     IdentityHashMapEntry(IdentityHashMap<K, V> map, K theKey, V theValue) {
@@ -622,7 +622,7 @@ public class IdentityHashMap<K extends @Nullable Object, V extends @Nullable Obj
   @FunctionalInterface
   interface MapEntryType<
       R extends @Nullable Object, K extends @Nullable Object, V extends @Nullable Object> {
-    R get(AbstractMapEntry<K, V> entry);
+    R get(AbstractMap.AbstractEntry<K, V> entry);
   }
 
   private static int secondaryIdentityHash(@Nullable Object key) {

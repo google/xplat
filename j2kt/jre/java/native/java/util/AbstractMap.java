@@ -70,7 +70,7 @@ public abstract class AbstractMap<K extends @Nullable Object, V extends @Nullabl
     private final K key;
     private V value;
 
-    private AbstractEntry(K key, V value) {
+    AbstractEntry(K key, V value) {
       this.key = key;
       this.value = value;
     }
