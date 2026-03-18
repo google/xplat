@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Contains only the subset functionality offered by the native WeakReference implementation.
  */
-@KtNative(name = "java.lang.ref.WeakReference")
+@KtNative
 @NullMarked
 public class WeakReference<T> {
 
