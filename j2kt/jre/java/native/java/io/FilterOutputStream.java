@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
 public class FilterOutputStream extends OutputStream {
 
   /** The target output stream for this filter stream. */
-  @Nullable protected OutputStream out;
+  protected @Nullable OutputStream out;
 
   /**
    * Constructs a new {@code FilterOutputStream} with {@code out} as its target stream.
