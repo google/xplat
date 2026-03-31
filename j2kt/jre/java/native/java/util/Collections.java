@@ -272,7 +272,8 @@ public class Collections {
     }
   }
 
-  private static final class SingletonSet<E> extends AbstractSet<E> implements Serializable {
+  private static final class SingletonSet<E extends @Nullable Object> extends AbstractSet<E>
+      implements Serializable {
     private final E element;
 
     SingletonSet(E element) {
