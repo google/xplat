@@ -31,6 +31,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -861,6 +862,30 @@ public class CollectionsTest {
     assertEquals("b", identityHashMap.get(i1Prime));
     assertEquals("c", identityHashMap.get(i2));
     assertNull(identityHashMap.get(new IdentityHashMapTestObject(1)));
+  }
+
+  @Test
+  public void testSingleton_throwsOnHashCode() {
+    Object o =
+        new Object() {
+          @Override
+          public int hashCode() {
+            throw new RuntimeException("hashCode throws");
+          }
+        };
+    Set<Object> unused = Collections.singleton(o);
+  }
+
+  @Test
+  public void testSingletonMap_throwsOnHashCode() {
+    Object k =
+        new Object() {
+          @Override
+          public int hashCode() {
+            throw new RuntimeException("hashCode throws");
+          }
+        };
+    Map<Object, String> unused = Collections.singletonMap(k, "value");
   }
 
   static class EmptyIterator<E extends @Nullable Object> implements Iterator<E> {

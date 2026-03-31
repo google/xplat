@@ -272,6 +272,50 @@ public class Collections {
     }
   }
 
+  private static final class SingletonSet<E> extends AbstractSet<E> implements Serializable {
+    private final E element;
+
+    SingletonSet(E element) {
+      this.element = element;
+    }
+
+    @Override
+    public boolean contains(@Nullable Object item) {
+      return Objects.equals(element, item);
+    }
+
+    @Override
+    public int size() {
+      return 1;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return new Iterator<E>() {
+        boolean hasNext = true;
+
+        @Override
+        public boolean hasNext() {
+          return hasNext;
+        }
+
+        @Override
+        public E next() {
+          if (hasNext) {
+            hasNext = false;
+            return element;
+          }
+          throw new NoSuchElementException();
+        }
+
+        @Override
+        public void remove() {
+          throw new UnsupportedOperationException();
+        }
+      };
+    }
+  }
+
   private static final class SingletonList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable {
     private final E element;
@@ -294,6 +338,48 @@ public class Collections {
     @Override
     public int size() {
       return 1;
+    }
+  }
+
+  private static final class SingletonMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMap<K, V> implements Serializable {
+    private final K key;
+    private final V value;
+
+    SingletonMap(K key, V value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    @Override
+    public boolean containsKey(@Nullable Object k) {
+      return Objects.equals(key, k);
+    }
+
+    @Override
+    public boolean containsValue(@Nullable Object v) {
+      return Objects.equals(value, v);
+    }
+
+    @Override
+    public @Nullable V get(@Nullable Object k) {
+      return containsKey(k) ? value : null;
+    }
+
+    @Override
+    public int size() {
+      return 1;
+    }
+
+    private transient @Nullable Set<Map.Entry<K, V>> entrySet;
+
+    @Override
+    public Set<Map.Entry<K, V>> entrySet() {
+      if (entrySet == null) {
+        entrySet =
+            new SingletonSet<Map.Entry<K, V>>(new AbstractMap.SimpleImmutableEntry<>(key, value));
+      }
+      return entrySet;
     }
   }
 
@@ -1259,9 +1345,7 @@ public class Collections {
   }
 
   public static <T extends @Nullable Object> Set<T> singleton(T o) {
-    HashSet<T> set = new HashSet<T>(1);
-    set.add(o);
-    return unmodifiableSet(set);
+    return new SingletonSet<T>(o);
   }
 
   // TODO(tobyr) Is it worth creating custom singleton sets, lists, and maps?
@@ -1273,9 +1357,7 @@ public class Collections {
 
   public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> singletonMap(
       K key, V value) {
-    Map<K, V> map = new HashMap<K, V>(1);
-    map.put(key, value);
-    return unmodifiableMap(map);
+    return new SingletonMap<K, V>(key, value);
   }
 
   public static <T extends Comparable<? super T>> void sort(List<T> target) {
