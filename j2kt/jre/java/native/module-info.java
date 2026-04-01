@@ -24,6 +24,7 @@ module java.base {
   exports java.net;
   exports java.nio;
   exports java.nio.charset;
+  exports java.nio.charset.spi;
   exports java.nio.file;
   exports java.security;
   exports java.sql;

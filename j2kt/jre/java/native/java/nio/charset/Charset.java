@@ -17,7 +17,10 @@ package java.nio.charset;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -26,9 +29,22 @@ import org.jspecify.annotations.Nullable;
 public abstract class Charset {
 
   private String canonicalName;
+  private final Set<String> aliasSet;
 
   protected Charset(String canonicalName, String @Nullable [] aliases) {
     this.canonicalName = canonicalName;
+    Set<String> aliasSet = new HashSet<>();
+    if (aliases != null) {
+      for (String alias : aliases) {
+        aliasSet.add(alias);
+      }
+    }
+    this.aliasSet = Collections.unmodifiableSet(aliasSet);
+  }
+
+  /** Returns an unmodifiable set of this charset's aliases. */
+  public final Set<String> aliases() {
+    return aliasSet; // Unmodifyable; see ctor.
   }
 
   public String name() {
