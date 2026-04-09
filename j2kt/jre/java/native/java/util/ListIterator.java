@@ -16,6 +16,8 @@
 
 package java.util;
 
+import static javaemul.internal.KtNativeUtils.ktNative;
+
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -45,4 +47,8 @@ public interface ListIterator<E extends @Nullable Object> extends Iterator<E> {
   void remove();
 
   void set(E e);
+
+  default ListIterator<E> asMutableListIterator() {
+    return ktNative();
+  }
 }

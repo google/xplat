@@ -75,6 +75,10 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E>, Rea
     return ktNative();
   }
 
+  default Collection<E> asMutableCollection() {
+    return ktNative();
+  }
+
   @Nullable Object[] toArray();
 
   // Note: If array `a` is bigger than `this` collection, `a[this.size()]` will be set to `null`

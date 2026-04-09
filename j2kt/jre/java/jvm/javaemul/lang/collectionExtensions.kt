@@ -71,3 +71,25 @@ fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = asJavaUtilMap().remove(
 
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
   asJavaUtilMap().remove(key as K, value as V)
+
+@JvmSynthetic
+internal inline fun <reified T> Any.asMutable(): T =
+  this as? T ?: throw UnsupportedOperationException()
+
+@JvmSynthetic fun <T> Collection<T>.asMutableCollection(): MutableCollection<T> = asMutable()
+
+@JvmName("alreadyMutableAsMutableCollection")
+@JvmSynthetic
+fun <T> MutableCollection<T>.asMutableCollection(): MutableCollection<T> = this
+
+@JvmSynthetic fun <E> List<E>.asMutableList(): MutableList<E> = asMutable()
+
+@JvmName("alreadyMutableAsMutableList")
+@JvmSynthetic
+fun <E> MutableList<E>.asMutableList(): MutableList<E> = this
+
+@JvmSynthetic fun <V> Set<V>.asMutableSet(): MutableSet<V> = asMutable()
+
+@JvmName("alreadyMutableAsMutableSet")
+@JvmSynthetic
+fun <V> MutableSet<V>.asMutableSet(): MutableSet<V> = this

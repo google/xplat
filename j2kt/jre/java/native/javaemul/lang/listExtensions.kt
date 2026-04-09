@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2023 Google Inc.
  *
@@ -18,6 +20,7 @@ package javaemul.lang
 import java.util.List as JavaUtilList
 import java.util.function.UnaryOperator
 import kotlin.collections.replaceAll as kotlinReplaceAll
+import kotlin.experimental.ExperimentalObjCRefinement
 
 fun <E> MutableList<E>.replaceAll(operator: UnaryOperator<E>): Unit =
   (this as? JavaUtilList<E>)?.run { replaceAll(operator) } ?: kotlinReplaceAll(operator::apply)
@@ -55,3 +58,9 @@ fun <E> List<E>.getLast(): E {
     throw NoSuchElementException()
   }
 }
+
+@HiddenFromObjC
+fun <E> List<E>.asMutableList(): MutableList<E> =
+  this as? MutableList<E> ?: throw UnsupportedOperationException()
+
+@HiddenFromObjC fun <E> MutableList<E>.asMutableList(): MutableList<E> = this

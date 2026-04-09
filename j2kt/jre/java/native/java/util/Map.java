@@ -53,6 +53,10 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object>
 
     V setValue(V value);
 
+    default Map.Entry<K, V> asMutableEntry() {
+      return ktNative();
+    }
+
     static <K extends Comparable<? super K>, V> Comparator<Map.Entry<K, V>> comparingByKey() {
       return ktNative();
     }
@@ -144,6 +148,10 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object>
 
   default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     ktNative();
+  }
+
+  default Map<K, V> asMutableMap() {
+    return ktNative();
   }
 
   @KtProperty

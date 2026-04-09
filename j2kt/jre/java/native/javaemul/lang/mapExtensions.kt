@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2023 Google Inc.
  *
@@ -19,6 +21,7 @@ import java.util.Map as JavaUtilMap
 import java.util.function.BiConsumer
 import java.util.function.BiFunction
 import java.util.function.Function
+import kotlin.experimental.ExperimentalObjCRefinement
 
 fun <K, V> MutableMap<K, V>.compute(key: K, mappingFunction: BiFunction<in K, in V?, out V?>): V? =
   if (this is JavaUtilMap) this.compute(key, mappingFunction)
@@ -164,3 +167,23 @@ internal fun <K, V> MutableMap<K, V>.default_replace(key: K, oldValue: V, newVal
 internal fun <K, V> MutableMap<K, V>.default_replaceAll(function: BiFunction<in K, in V, out V>) {
   forEach { entry -> this[entry.key] = function.apply(entry.key, entry.value) }
 }
+
+@HiddenFromObjC fun <K, V> Map<K, V>.asMutableMap(): MutableMap<K, V> = asMutable()
+
+@HiddenFromObjC fun <K, V> MutableMap<K, V>.asMutableMap(): MutableMap<K, V> = this
+
+@HiddenFromObjC
+fun <K, V> Map.Entry<K, V>.asMutableEntry(): MutableMap.MutableEntry<K, V> = asMutable()
+
+@HiddenFromObjC
+fun <K, V> MutableMap.MutableEntry<K, V>.asMutableEntry(): MutableMap.MutableEntry<K, V> = this
+
+@HiddenFromObjC
+@Suppress("UNCHECKED_CAST")
+fun <K, V> Set<Map.Entry<K, V>>.asMutableEntrySet(): MutableSet<MutableMap.MutableEntry<K, V>> =
+  asMutable()
+
+@HiddenFromObjC
+@Suppress("UNCHECKED_CAST")
+fun <K, V> MutableSet<Map.Entry<K, V>>.asMutableEntrySet():
+  MutableSet<MutableMap.MutableEntry<K, V>> = this as MutableSet<MutableMap.MutableEntry<K, V>>

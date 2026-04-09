@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalObjCName::class)
+@file:OptIn(ExperimentalObjCName::class, ExperimentalObjCRefinement::class)
 
 /*
  * Copyright 2023 Google Inc.
@@ -24,6 +24,8 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import javaemul.internal.CollectionHelper
 import kotlin.experimental.ExperimentalObjCName
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 fun <E> MutableCollection<E>.stream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { stream() }
@@ -63,11 +65,22 @@ fun MutableCollection<*>.toArray(): Array<Any?> =
 fun <T> MutableCollection<*>.toArray(a: Array<T>): Array<T> =
   (this as? JavaUtilCollection<*>)?.run { toArray(a) } ?: CollectionHelper.toArray(this, a)
 
+internal inline fun <reified T> Any.asMutable(): T =
+  this as? T ?: throw UnsupportedOperationException()
+
+@HiddenFromObjC fun <T> Collection<T>.asMutableCollection(): MutableCollection<T> = asMutable()
+
+@HiddenFromObjC fun <T> MutableCollection<T>.asMutableCollection(): MutableCollection<T> = this
+
 fun <V> MutableList<V>.java_addAll(index: Int, c: Collection<V>): Boolean = addAll(index, c)
 
 fun <V> List<V>.java_indexOf(value: Any?): Int = (this as List<Any?>).indexOf(value)
 
 fun <V> List<V>.java_lastIndexOf(value: Any?): Int = (this as List<Any?>).lastIndexOf(value)
+
+@HiddenFromObjC fun <V> Set<V>.asMutableSet(): MutableSet<V> = asMutable()
+
+@HiddenFromObjC fun <V> MutableSet<V>.asMutableSet(): MutableSet<V> = this
 
 @Suppress("UNCHECKED_CAST")
 fun <K, V> Map<K, V>.java_containsKey(key: Any?): Boolean =

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCName::class, ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2023 Google Inc.
  *
@@ -17,6 +19,11 @@ package javaemul.lang
 
 import java.util.Iterator as JavaUtilIterator
 import java.util.function.Consumer
+import kotlin.collections.MutableIterator
+import kotlin.collections.MutableListIterator
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 fun <T> Iterator<T>.forEachRemaining(consumer: Consumer<in T>) {
   if (this is JavaUtilIterator) {
@@ -25,3 +32,13 @@ fun <T> Iterator<T>.forEachRemaining(consumer: Consumer<in T>) {
     forEach(consumer::accept)
   }
 }
+
+@HiddenFromObjC fun <T> Iterator<T>.asMutableIterator(): MutableIterator<T> = asMutable()
+
+@HiddenFromObjC fun <T> MutableIterator<T>.asMutableIterator(): MutableIterator<T> = this
+
+@HiddenFromObjC
+fun <T> ListIterator<T>.asMutableListIterator(): MutableListIterator<T> = asMutable()
+
+@HiddenFromObjC
+fun <T> MutableListIterator<T>.asMutableListIterator(): MutableListIterator<T> = this

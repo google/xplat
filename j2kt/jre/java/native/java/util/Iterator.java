@@ -45,4 +45,8 @@ public interface Iterator<@KtOut E extends @Nullable Object> {
   default void forEachRemaining(Consumer<? super E> consumer) {
     ktNative();
   }
+
+  default Iterator<E> asMutableIterator() {
+    return ktNative();
+  }
 }

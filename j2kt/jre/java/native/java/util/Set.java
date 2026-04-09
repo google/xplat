@@ -32,4 +32,12 @@ public interface Set<E extends @Nullable Object> extends Collection<E> {
   default Spliterator<E> spliterator() {
     return ktNative();
   }
+
+  default Set<E> asMutableSet() {
+    return ktNative();
+  }
+
+  default <K, V> Set<Map.Entry<K, V>> asMutableEntrySet() {
+    return ktNative();
+  }
 }
