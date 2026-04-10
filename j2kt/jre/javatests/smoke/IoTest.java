@@ -15,6 +15,8 @@
  */
 package smoke;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -41,7 +43,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.Random;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -62,8 +63,6 @@ public class IoTest {
     reader.close();
   }
 
-  // TODO: b/378477917 - This relies on Charset.newDecoder which is not implemented yet.
-  @Ignore
   @Test
   public void testInputStreamReader() throws Exception {
     ByteArrayInputStream is = new ByteArrayInputStream("Hello, World".getBytes(UTF_8));
@@ -72,6 +71,27 @@ public class IoTest {
     int count = reader.read(buf);
     assertEquals(12, count);
     assertEquals("Hello, World", String.valueOf(buf, 0, count));
+  }
+
+  @Test
+  public void testUsAsciiDecoder() throws Exception {
+    ByteArrayInputStream is = new ByteArrayInputStream("Hello ASCII".getBytes(US_ASCII));
+    InputStreamReader reader = new InputStreamReader(is, US_ASCII);
+    char[] buf = new char[64];
+    int count = reader.read(buf);
+    assertEquals(11, count);
+    assertEquals("Hello ASCII", String.valueOf(buf, 0, count));
+  }
+
+  @Test
+  public void testIso88591Decoder() throws Exception {
+    byte[] latin1Bytes = new byte[] {'H', 'i', ' ', (byte) 0xC4};
+    ByteArrayInputStream is = new ByteArrayInputStream(latin1Bytes);
+    InputStreamReader reader = new InputStreamReader(is, ISO_8859_1);
+    char[] buf = new char[64];
+    int count = reader.read(buf);
+    assertEquals(4, count);
+    assertEquals("Hi Ä", String.valueOf(buf, 0, count));
   }
 
   @Test

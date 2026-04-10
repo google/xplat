@@ -18,11 +18,40 @@ package javaemul.internal;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CoderResult;
 import org.jspecify.annotations.NullMarked;
 
 /** Provides Charset implementations (currently UTF-8 only) */
 @NullMarked
 public class EmulatedCharset extends Charset {
+
+  private static final class FixedSingleByteCharsetDecoder extends CharsetDecoder {
+
+    FixedSingleByteCharsetDecoder(Charset cs) {
+      super(cs, 1.0f, 1.0f);
+    }
+
+    @Override
+    protected CoderResult decodeLoop(java.nio.ByteBuffer in, java.nio.CharBuffer out) {
+      if (!in.hasRemaining()) {
+        return CoderResult.UNDERFLOW;
+      }
+
+      int len = in.remaining();
+      byte[] bytes = new byte[len];
+      in.get(bytes);
+
+      String decoded = new String(bytes, this.charset());
+
+      if (out.remaining() < decoded.length()) {
+        in.position(in.position() - len);
+        return CoderResult.OVERFLOW;
+      }
+
+      out.put(decoded);
+      return CoderResult.UNDERFLOW;
+    }
+  }
 
   public static final EmulatedCharset UTF_8 = new EmulatedCharset("UTF-8");
   public static final EmulatedCharset ISO_8859_1 = new EmulatedCharset("ISO-8859-1");
@@ -43,7 +72,13 @@ public class EmulatedCharset extends Charset {
 
   @Override
   public CharsetDecoder newDecoder() {
-    throw new UnsupportedOperationException();
+    if (this.equals(UTF_8)) {
+      return new Utf8Decoder();
+    } else if (this.equals(ISO_8859_1) || this.equals(US_ASCII)) {
+      return new FixedSingleByteCharsetDecoder(this);
+    } else {
+      throw new UnsupportedOperationException("Decoder not supported for " + this.name());
+    }
   }
 
   @Override
