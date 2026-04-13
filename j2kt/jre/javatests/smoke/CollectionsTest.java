@@ -115,22 +115,41 @@ public class CollectionsTest {
       return super.add(item);
     }
 
-    // TODO(b/255291878): These work for j2kt-native, but for j2kt-jre, the
-    //    names are still translated to java_addAll etc., and then they don't override anything.
-    //
-    // @Override public boolean addAll(Collection<? extends T> c) { return super.addAll(c); }
-    // @Override public boolean contains(@Nullable Object o) { return super.contains(o); }
-    // @Override public boolean containsAll(Collection<?> c) { return super.containsAll(c); }
-    // @Override public boolean remove(@Nullable Object o) { return super.remove(o); }
-    // @Override public boolean removeAll(Collection<?> c) { return super.removeAll(c); }
-    // @Override public boolean retainAll(Collection<?> c) { return super.retainAll(c); }
+    @Override
+    public boolean addAll(Collection<? extends T> c) {
+      return super.addAll(c);
+    }
+
+    @Override
+    public boolean contains(@Nullable Object o) {
+      return super.contains(o);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+      return super.containsAll(c);
+    }
+
+    @Override
+    public boolean remove(@Nullable Object o) {
+      return super.remove(o);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+      return super.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+      return super.retainAll(c);
+    }
   }
 
   @Test
   public void testJavaListSignatures() {
     ArrayList<String> arrayList = new ArrayList<>();
-    // TODO(b/255291878): Enable the line below
-    // AbstractList<String> abstractList = arrayList;
+    AbstractList<String> abstractList = arrayList; // Verify assignability to AbstractList
     arrayList.add("Hello");
     assertEquals(1, arrayList.size());
     assertEquals("Hello", arrayList.get(0));
