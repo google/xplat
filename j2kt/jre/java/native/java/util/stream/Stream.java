@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -340,6 +341,11 @@ public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream
   }
 
   @Nullable Object[] toArray();
+
+  @SuppressWarnings("unchecked") // toArray() returns Object[] and we need to cast it to T[]
+  default List<T> toList() {
+    return (List<T>) Collections.unmodifiableList(new ArrayList<>(Arrays.asList(toArray())));
+  }
 
   <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator);
 }
