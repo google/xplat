@@ -342,10 +342,10 @@ public interface Stream<T extends @Nullable Object> extends BaseStream<T, Stream
 
   @Nullable Object[] toArray();
 
+  <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator);
+
   @SuppressWarnings("unchecked") // toArray() returns Object[] and we need to cast it to T[]
   default List<T> toList() {
     return (List<T>) Collections.unmodifiableList(new ArrayList<>(Arrays.asList(toArray())));
   }
-
-  <A extends @Nullable Object> A[] toArray(IntFunction<A[]> generator);
 }
