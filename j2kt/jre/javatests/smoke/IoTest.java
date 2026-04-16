@@ -38,6 +38,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.PushbackInputStream;
 import java.io.SequenceInputStream;
+import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -370,5 +371,26 @@ public class IoTest {
       assertEquals(1, pis.skip(1)); // Skips 3
       assertEquals(4, pis.read());
     }
+  }
+
+  @Test
+  public void testStreamTokenizer() throws IOException {
+    String input = "hello Greetings 123 world 0.456 ! \'walking on the moon\'";
+    StreamTokenizer st = new StreamTokenizer(new StringReader(input));
+
+    assertEquals(StreamTokenizer.TT_WORD, st.nextToken());
+    assertEquals("hello", st.sval);
+    assertEquals(StreamTokenizer.TT_WORD, st.nextToken());
+    assertEquals("Greetings", st.sval);
+    assertEquals(StreamTokenizer.TT_NUMBER, st.nextToken());
+    assertEquals(123.0, st.nval, 0.1);
+    assertEquals(StreamTokenizer.TT_WORD, st.nextToken());
+    assertEquals("world", st.sval);
+    assertEquals(StreamTokenizer.TT_NUMBER, st.nextToken());
+    assertEquals(0.456, st.nval, 0.1);
+    assertEquals('!', st.nextToken());
+    assertEquals('\'', st.nextToken());
+    assertEquals("walking on the moon", st.sval);
+    assertEquals(StreamTokenizer.TT_EOF, st.nextToken());
   }
 }
