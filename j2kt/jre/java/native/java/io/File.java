@@ -47,6 +47,8 @@ public final class File {
 
   public native String getAbsolutePath();
 
+  public native @Nullable String getParent();
+
   public native String getPath();
 
   public native boolean isDirectory();

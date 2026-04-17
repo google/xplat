@@ -20,9 +20,6 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -125,42 +122,7 @@ public class IoTest {
     assertEquals("1234 null", os.toString());
   }
 
-  @Test
-  public void testFile() throws IOException {
-    File file = new File("foo");
-    assertEquals("foo", file.getPath());
-    assertTrue(file.getAbsolutePath().startsWith("/"));
 
-    File baseDir =
-        new File(System.getProperty("java.io.tmpdir") + "/" + new Random().nextInt() + "/foo/bar");
-    File testDir = new File(baseDir.getPath() + "/baz");
-    testDir.delete();
-    assertFalse(testDir.exists());
-    assertTrue(testDir.mkdirs());
-    assertTrue(testDir.exists());
-
-    File[] subDirs = baseDir.listFiles();
-    assertNotNull(subDirs);
-    assertEquals(1, subDirs.length);
-    File testDir2 = subDirs[0];
-    assertTrue(
-        "File path '" + testDir2.getPath() + "' ends with /foo/bar/baz",
-        testDir2.getPath().endsWith("/foo/bar/baz"));
-    assertTrue(testDir2 + " exists", testDir2.exists());
-
-    assertTrue(testDir.delete());
-
-    File testFile = new File(baseDir, "file1");
-    File testFile2 = new File(baseDir, "file2");
-    assertFalse(testFile.exists());
-    assertTrue(testFile.createNewFile());
-    assertTrue(testFile.exists());
-    assertFalse(testFile.isDirectory());
-    assertTrue(testFile.renameTo(testFile2));
-    assertFalse(testFile.exists());
-    assertTrue(testFile2.exists());
-    assertTrue(testFile2.delete());
-  }
 
   @Test
   public void testFileStreams() throws IOException {

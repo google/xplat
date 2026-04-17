@@ -44,13 +44,26 @@ class System private constructor() {
 
     fun getProperty(name: kotlin.String): kotlin.String? =
       synchronized(lock) {
-        properties[name]
-          ?: when (name) {
-            "file.separator" -> "/"
-            "path.separator" -> ":"
-            "java.io.tmpdir" -> NSTemporaryDirectory()
-            else -> null
+        val prop = properties[name]
+        if (prop != null) {
+          return@synchronized prop as kotlin.String?
+        }
+        return@synchronized (when (name) {
+          "file.separator" -> "/"
+          "path.separator" -> ":"
+          "java.io.tmpdir" -> NSTemporaryDirectory()
+          "user.dir" -> {
+            val paths =
+              platform.Foundation.NSSearchPathForDirectoriesInDomains(
+                platform.Foundation.NSDocumentDirectory,
+                platform.Foundation.NSUserDomainMask,
+                true,
+              )
+            (paths.firstOrNull() as? kotlin.String) ?: platform.Foundation.NSHomeDirectory()
           }
+          else -> null
+        }
+          as kotlin.String?)
       }
 
     fun setProperty(name: kotlin.String, def: kotlin.String) {

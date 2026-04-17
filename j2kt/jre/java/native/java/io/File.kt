@@ -24,6 +24,8 @@ import kotlinx.cinterop.value
 import platform.Foundation.NSData
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSOpenStepRootDirectory
+import platform.Foundation.NSString
+import platform.Foundation.stringByDeletingLastPathComponent
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 class File(pathname: String) {
@@ -77,9 +79,29 @@ class File(pathname: String) {
 
   fun exists() = NSFileManager.defaultManager().fileExistsAtPath(path)
 
-  fun getAbsolutePath() =
-    if (path.startsWith(separatorChar)) path
-    else fixSlashes(NSFileManager.defaultManager().currentDirectoryPath() + separator + path)
+  fun getAbsolutePath(): String {
+    val userDir = System.getProperty("user.dir")!!
+    if (path.startsWith(separatorChar)) {
+      val homeDir = platform.Foundation.NSHomeDirectory()
+      // If the path is absolute but does not start with the sandbox root (homeDir),
+      // it is likely a logical absolute path that needs to be mapped to the app's writable
+      // container. We resolve it relative to user.dir.
+      if (!path.startsWith(homeDir)) {
+        return fixSlashes(userDir + path)
+      }
+      // path is already absolute and starts with the sandbox root, so it is a physical
+      // absolute path. Return it as is.
+      return path
+    }
+    // For relative paths, resolve against user.dir.
+    return fixSlashes(userDir + separator + path)
+  }
+
+  fun getParent(): String? {
+    if (path == separator) return null
+    val parentPath = (path as NSString).stringByDeletingLastPathComponent()
+    return if (parentPath.isEmpty()) null else parentPath
+  }
 
   fun getPath() = path
 
