@@ -74,6 +74,8 @@ class Character {
 
     const val SIZE: Int = Char.SIZE_BITS
 
+    const val BYTES: Int = SIZE / Byte.SIZE
+
     fun valueOf(c: Char): Char = c
 
     fun compare(c1: Char, c2: Char): Int = c1.compareTo(c2)

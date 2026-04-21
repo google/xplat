@@ -159,6 +159,8 @@ public final class Character implements Comparable<Character> {
 
   @HiddenFromObjC public static int SIZE = 16;
 
+  public static final int BYTES = SIZE / Byte.SIZE;
+
   // J2KT removed: Subset, UnicodeBlock
 
   public Character(char value) {}

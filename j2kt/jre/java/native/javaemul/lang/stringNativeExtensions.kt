@@ -24,7 +24,6 @@ import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 import java.util.stream.Stream
-import kotlin.text.CharacterCodingException
 
 fun String.equalsIgnoreCase(str: String?) = this.equals(str, ignoreCase = true)
 
@@ -168,9 +167,10 @@ private fun String.encodeToByteArrayUnmapped(maxValue: Int): ByteArray {
   for (i in 0 until length) {
     val c = this[i].toInt()
     if (c > maxValue) {
-      throw CharacterCodingException()
+      result[i] = '?'.toByte()
+    } else {
+      result[i] = c.toByte()
     }
-    result[i] = c.toByte()
   }
   return result
 }

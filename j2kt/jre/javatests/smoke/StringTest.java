@@ -150,6 +150,10 @@ public class StringTest {
     assertArrayEquals(ABC, "ABC".getBytes("ASCII"));
     assertArrayEquals(ABC, "ABC".getBytes(StandardCharsets.US_ASCII));
 
+    // Test replacement for unmappable characters
+    assertArrayEquals(new byte[] {(byte) '?'}, "π".getBytes(StandardCharsets.ISO_8859_1));
+    assertArrayEquals(new byte[] {(byte) '?'}, "é".getBytes(StandardCharsets.US_ASCII));
+
     assertEquals(-1, "ABCDEABCDE".indexOf('F'));
     assertEquals(-1, "ABCDEABCDE".indexOf(0x1f602));
     assertEquals(-1, "ABCDEABCDE".lastIndexOf('F'));
