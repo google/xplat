@@ -1,3 +1,5 @@
+@file:OptIn(kotlin.experimental.ExperimentalObjCName::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -19,7 +21,11 @@ import java.lang.reflect.Type
 import javaemul.lang.J2ktMonitor
 import kotlin.jvm.javaObjectType
 import kotlin.jvm.javaPrimitiveType
+import kotlin.native.ObjCName
 import kotlin.reflect.KClass
+import kotlinx.cinterop.ObjCClass
+import kotlinx.cinterop.ObjCProtocol
+import kotlinx.cinterop.getOriginalKotlinClass
 
 /**
  * Implementation of java.lang.Class used in Kotlin Native. The constructor and the `kClass`
@@ -28,6 +34,24 @@ import kotlin.reflect.KClass
 class Class<T : Any>(private val kClass: KClass<T>, private val isPrimitive0: kotlin.Boolean) :
   Type {
   val j2ktMonitor: J2ktMonitor by lazy { J2ktMonitor() }
+
+  companion object {
+    /**
+     * Returns the [Class] object corresponding to the given Objective-C class, or `null` if the
+     * Objective-C class is not originally a Kotlin class.
+     */
+    @ObjCName("fromObjC")
+    fun fromObjCClass(@ObjCName("class") objCClass: ObjCClass): Class<*>? =
+      getOriginalKotlinClass(objCClass)?.javaObjectType
+
+    /**
+     * Returns the [Class] object corresponding to the given Objective-C protocol, or `null` if the
+     * Objective-C protocol is not originally a Kotlin interface.
+     */
+    @ObjCName("fromObjC")
+    fun fromObjCProtocol(@ObjCName("protocol") objCProtocol: ObjCProtocol): Class<*>? =
+      getOriginalKotlinClass(objCProtocol)?.javaObjectType
+  }
 
   fun getName(): kotlin.String = getCanonicalName() ?: ""
 
