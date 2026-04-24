@@ -65,7 +65,13 @@ class FileOutputStream : OutputStream {
       return
     }
     buffer.usePinned {
-      val nsdata = NSData.dataWithBytesNoCopy(it.addressOf(offset), count.toULong())
+      // The Objective-C dataWithBytesNoCopy: defaults to freeWhenDone:YES.
+      // We must pass freeWhenDone = false because the memory is owned by the
+      // Kotlin heap and will be freed when the pinned buffer is unpinned or
+      // collected by the Kotlin GC. It is safe to do so because writeData is
+      // synchronous and does not retain the data object for later use.
+      val nsdata =
+        NSData.dataWithBytesNoCopy(it.addressOf(offset), count.toULong(), /* freeWhenDone= */ false)
       if (!localHandle.writeData(nsdata, null)) {
         throw IOException()
       }
@@ -77,7 +83,9 @@ class FileOutputStream : OutputStream {
     memScoped {
       val byteVar = alloc<ByteVar>()
       byteVar.value = oneByte.toByte()
-      val nsdata = NSData.dataWithBytesNoCopy(byteVar.ptr, 1UL)
+      // Similar to above, pass freeWhenDone = false to avoid double free of
+      // memory managed by memScoped arena.
+      val nsdata = NSData.dataWithBytesNoCopy(byteVar.ptr, 1UL, /* freeWhenDone= */ false)
       if (!localHandle.writeData(nsdata, null)) {
         throw IOException()
       }
