@@ -389,6 +389,8 @@ public abstract class MessageDigest extends MessageDigestSpi {
         return new Md5Digest();
       case "SHA-256":
         return new SHA256Digest();
+      case "SHA-1":
+        return new SHA1Digest();
       default:
         throw new NoSuchAlgorithmException(algorithm + " not supported");
     }

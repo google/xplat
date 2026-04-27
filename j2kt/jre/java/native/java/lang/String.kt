@@ -131,9 +131,10 @@ object String {
     for (i in offset until end) {
       val c = this[i].toInt() and 255
       if (ascii && c > 127) {
-        throw CharacterCodingException()
+        sb.append('\uFFFD')
+      } else {
+        sb.append(c.toChar())
       }
-      sb.append(c.toChar())
     }
     return sb.toString()
   }

@@ -171,6 +171,10 @@ public class StringTest {
 
     // No exception for illegal sequence in constructors.
     assertEquals("\ufffdBC", new String(AEBC_ISO, StandardCharsets.UTF_8));
+
+    // Test replacement for unmappable ASCII characters
+    byte[] invalidAscii = {(byte) 65, (byte) 128, (byte) 67}; // 'A', invalid, 'C'
+    assertEquals("A\uFFFDC", new String(invalidAscii, StandardCharsets.US_ASCII));
   }
 
   @Test

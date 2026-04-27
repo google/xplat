@@ -67,6 +67,11 @@ public class SHA256Digest extends MessageDigest {
   }
 
   @Override
+  protected int engineGetDigestLength() {
+    return 32;
+  }
+
+  @Override
   protected void engineUpdate(byte input) {
     wordBuffer[wordOff] = input;
     wordOff++;
