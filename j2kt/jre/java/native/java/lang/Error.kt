@@ -23,6 +23,8 @@ open class Error(message: kotlin.String? = null) : kotlin.Error(message), InitCa
   override val cause
     get() = causeHolder.cause
 
+  constructor() : this(message = null)
+
   constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
