@@ -22,10 +22,13 @@ import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.value
 import platform.Foundation.NSData
+import platform.Foundation.NSDate
 import platform.Foundation.NSFileManager
+import platform.Foundation.NSFileModificationDate
 import platform.Foundation.NSOpenStepRootDirectory
 import platform.Foundation.NSString
 import platform.Foundation.stringByDeletingLastPathComponent
+import platform.Foundation.timeIntervalSince1970
 
 /** Minimal File emulation currently only suitable for pass-through purposes. */
 class File(pathname: String) {
@@ -111,6 +114,13 @@ class File(pathname: String) {
       NSFileManager.defaultManager().fileExistsAtPath(path, isDirectory.ptr)
       return isDirectory.value
     }
+  }
+
+  fun lastModified(): Long {
+    val attributes = NSFileManager.defaultManager().attributesOfItemAtPath(path, null)
+    val date = attributes?.get(NSFileModificationDate) as? NSDate
+    val timeInSeconds = date?.timeIntervalSince1970 ?: 0.0
+    return (timeInSeconds * 1000).toLong()
   }
 
   fun listFiles(): Array<File>? {

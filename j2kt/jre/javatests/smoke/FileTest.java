@@ -69,6 +69,25 @@ public class FileTest {
   }
 
   @Test
+  public void testLastModified() throws IOException {
+    File baseDir = new File(System.getProperty("java.io.tmpdir") + "/" + new Random().nextInt());
+    assertTrue(baseDir.mkdirs());
+    File testFile = new File(baseDir, "testFile");
+
+    long startTime = System.currentTimeMillis();
+    assertTrue(testFile.createNewFile());
+    long endTime = System.currentTimeMillis();
+
+    long lastModified = testFile.lastModified();
+
+    assertTrue("lastModified should be >= startTime - 1000", lastModified >= startTime - 1000);
+    assertTrue("lastModified should be <= endTime + 1000", lastModified <= endTime + 1000);
+
+    assertTrue(testFile.delete());
+    assertTrue(baseDir.delete());
+  }
+
+  @Test
   public void testGetParent() {
     assertEquals("/foo", new File("/foo/bar").getParent());
     assertEquals("/", new File("/foo").getParent());

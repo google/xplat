@@ -53,6 +53,8 @@ public final class File {
 
   public native boolean isDirectory();
 
+  public native long lastModified();
+
   public native File @Nullable [] listFiles();
 
   public native boolean mkdir();
