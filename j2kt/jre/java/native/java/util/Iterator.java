@@ -46,7 +46,7 @@ public interface Iterator<@KtOut E extends @Nullable Object> {
     ktNative();
   }
 
-  default Iterator<E> asMutableIterator() {
+  default MutableIterator<E> asMutableIterator() {
     return ktNative();
   }
 }

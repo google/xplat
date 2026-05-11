@@ -53,7 +53,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object>
 
     V setValue(V value);
 
-    default Map.Entry<K, V> asMutableEntry() {
+    default MutableMap.MutableEntry<K, V> asMutableEntry() {
       return ktNative();
     }
 
@@ -150,7 +150,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object>
     ktNative();
   }
 
-  default Map<K, V> asMutableMap() {
+  default MutableMap<K, V> asMutableMap() {
     return ktNative();
   }
 

@@ -66,7 +66,7 @@ public interface List<E extends @Nullable Object> extends Collection<E> {
     return ktNative();
   }
 
-  default List<E> asMutableList() {
+  default MutableList<E> asMutableList() {
     return ktNative();
   }
 

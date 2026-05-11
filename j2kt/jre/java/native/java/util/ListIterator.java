@@ -48,7 +48,7 @@ public interface ListIterator<E extends @Nullable Object> extends Iterator<E> {
 
   void set(E e);
 
-  default ListIterator<E> asMutableListIterator() {
+  default MutableListIterator<E> asMutableListIterator() {
     return ktNative();
   }
 }

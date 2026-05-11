@@ -75,7 +75,7 @@ public interface Collection<E extends @Nullable Object> extends Iterable<E>, Rea
     return ktNative();
   }
 
-  default Collection<E> asMutableCollection() {
+  default MutableCollection<E> asMutableCollection() {
     return ktNative();
   }
 

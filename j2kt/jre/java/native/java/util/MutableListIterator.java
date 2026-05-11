@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Google Inc.
+ * Copyright 2026 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,25 +15,11 @@
  */
 package java.util;
 
-import static javaemul.internal.KtNativeUtils.ktNative;
-
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-/**
- * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html">the official Java API
- * doc</a> for details.
- */
-@KtNative(name = "kotlin.collections.MutableSet", bridgeName = "javaemul.lang.MutableSetJvm")
+// Internal type, only for use in the compiler.
+@KtNative(name = "kotlin.collections.MutableListIterator")
 @NullMarked
-public interface Set<E extends @Nullable Object> extends Collection<E> {
-  @Override
-  default Spliterator<E> spliterator() {
-    return ktNative();
-  }
-
-  default MutableSet<E> asMutableSet() {
-    return ktNative();
-  }
-}
+interface MutableListIterator<E extends @Nullable Object> extends ListIterator<E> {}
