@@ -33,6 +33,7 @@ import org.junit.runners.Suite.SuiteClasses;
   ErasureTest.class,
   FileTest.class,
   FormatterTest.class,
+  GZIPInputStreamTest.class,
   HttpCookieTest.class,
   InflaterTest.class,
   IoTest.class,
