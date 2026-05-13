@@ -22,20 +22,26 @@ import java.security.NoSuchAlgorithmException
 import java.security.Provider
 import java.security.spec.AlgorithmParameterSpec
 import kotlin.Cloneable
+import kotlin.native.ref.createCleaner
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.nativeHeap
+import kotlinx.cinterop.ptr
 import kotlinx.cinterop.refTo
-import platform.CoreCrypto.CCHmac
+import kotlinx.cinterop.sizeOf
 import platform.CoreCrypto.CCHmacAlgorithm
+import platform.CoreCrypto.CCHmacContext
+import platform.CoreCrypto.CCHmacFinal
+import platform.CoreCrypto.CCHmacInit
+import platform.CoreCrypto.CCHmacUpdate
 import platform.CoreCrypto.CC_MD5_DIGEST_LENGTH
 import platform.CoreCrypto.CC_SHA256_DIGEST_LENGTH
 import platform.CoreCrypto.kCCHmacAlgMD5
 import platform.CoreCrypto.kCCHmacAlgSHA256
+import platform.posix.memcpy
 
 /**
- * Partial implementation for Mac on Kotlin Native which uses the built-in CoreCrypto library from
- * the CommonCrypto module.
- *
- * Note that this currently only supports one-shot encryption, the message may not be updated after
- * initialization.
+ * Partial implementation for Mac on Kotlin Native which uses the built-in CommonCrypto library from
+ * the CoreCrypto module.
  *
  * Currently supported hashing algorithms are: Sha256 and MD5.
  *
@@ -49,10 +55,12 @@ private constructor(
   private val algorithmId: CCHmacAlgorithm,
   private val macLength: Int,
   private var key: Key? = null,
-  private var message: ByteArray? = null
 ) : Cloneable {
 
-  // TODO(b/253428486): Complete this implementation of message hashing.
+  private val ctx = nativeHeap.alloc<CCHmacContext>()
+
+  // Ensure native memory is freed when this object is GC'd
+  private val cleaner = createCleaner(ctx) { nativeHeap.free(it.ptr.rawValue) }
 
   /** Returns the name of the MAC algorithm. */
   fun getAlgorithm(): String = this.algorithm
@@ -145,8 +153,10 @@ private constructor(
    * @throws RuntimeException if the specified key cannot be used to initialize this algorithm.
    */
   public fun init(key: Key) {
-    if (key.getEncoded() == null) throw InvalidKeyException()
+    val encodedKey = key.getEncoded() ?: throw InvalidKeyException()
     this.key = key
+    val keyPtr = if (encodedKey.isNotEmpty()) encodedKey.refTo(0) else null
+    CCHmacInit(ctx.ptr, algorithmId, keyPtr, encodedKey.size.toULong())
   }
 
   /**
@@ -157,20 +167,20 @@ private constructor(
    */
   public fun update(input: Byte) {
     checkNotNull(key)
-    throw UnsupportedOperationException("updating HMAC message is not supported")
+    CCHmacUpdate(ctx.ptr, kotlinx.cinterop.cValuesOf(input), 1.toULong())
   }
 
   /**
-   * Copies the buffer provided as input for further processing.
+   * Updates this [Mac] instance with the specified buffer.
    *
    * @param input the buffer.
    * @throws IllegalStateException if this MAC is not initialized.
    */
   public fun update(input: ByteArray) {
     checkNotNull(key)
-    if (message != null)
-      throw UnsupportedOperationException("updating HMAC message is not supported")
-    this.message = input
+    if (input.isNotEmpty()) {
+      CCHmacUpdate(ctx.ptr, input.refTo(0), input.size.toULong())
+    }
   }
 
   /**
@@ -186,7 +196,10 @@ private constructor(
    */
   public fun update(input: ByteArray, offset: Int, length: Int) {
     checkNotNull(key)
-    throw UnsupportedOperationException("updating the message is not supported")
+    if (offset < 0 || length < 0 || offset + length > input.size) {
+      throw IllegalArgumentException("Invalid offset or length")
+    }
+    CCHmacUpdate(ctx.ptr, input.refTo(offset), length.toULong())
   }
 
   /**
@@ -200,7 +213,6 @@ private constructor(
    */
   public fun doFinal(): ByteArray {
     checkNotNull(key)
-    checkNotNull(message)
     val digest = ByteArray(getMacLength())
     return doFinal(digest, 0)
   }
@@ -220,18 +232,9 @@ private constructor(
    * @throws IllegalStateException if this MAC is not initialized.
    */
   public fun doFinal(output: ByteArray, outOffset: Int): ByteArray {
-    val message: ByteArray = checkNotNull(message) { "message must be not-null" }
+    checkNotNull(key)
     if (output.size < outOffset + getMacLength()) throw ShortBufferException()
-    val encodedKey: ByteArray =
-      checkNotNull(checkNotNull(key).getEncoded()) { "encoded key must be not-null" }
-    CCHmac(
-      algorithmId,
-      encodedKey.refTo(0),
-      encodedKey.size.toULong(),
-      message.refTo(0),
-      message.size.toULong(),
-      output.refTo(outOffset)
-    )
+    CCHmacFinal(ctx.ptr, output.refTo(outOffset))
     this.reset()
     return output
   }
@@ -249,9 +252,7 @@ private constructor(
    */
   public fun doFinal(input: ByteArray): ByteArray {
     checkNotNull(key)
-    if (message != null)
-      throw UnsupportedOperationException("updating the message is not supported")
-    this.message = input
+    update(input)
     return doFinal()
   }
 
@@ -262,8 +263,10 @@ private constructor(
    * computation with the same parameters or initialized with different parameters.
    */
   public fun reset() {
-    checkNotNull(key)
-    message = null
+    val key = checkNotNull(this.key)
+    val encodedKey = checkNotNull(key.getEncoded())
+    val keyPtr = if (encodedKey.isNotEmpty()) encodedKey.refTo(0) else null
+    CCHmacInit(ctx.ptr, algorithmId, keyPtr, encodedKey.size.toULong())
   }
 
   /**
@@ -272,5 +275,13 @@ private constructor(
    * @return the cloned instance.
    * @throws CloneNotSupportedException if the underlying implementation does not support cloning.
    */
-  public override fun clone(): Mac = Mac(algorithm, algorithmId, macLength, key, message)
+  public override fun clone(): Mac {
+    val clone = Mac(algorithm, algorithmId, macLength, key)
+    if (this.key != null) {
+      // Copy the native state to the new instance.
+      // CCHmacContext is a struct, so a bitwise copy is sufficient.
+      memcpy(clone.ctx.ptr, this.ctx.ptr, sizeOf<CCHmacContext>().toULong())
+    }
+    return clone
+  }
 }
