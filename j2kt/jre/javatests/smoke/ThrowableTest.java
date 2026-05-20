@@ -18,13 +18,11 @@ package smoke;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import org.checkerframework.checker.initialization.qual.Initialized;
-import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.jspecify.annotations.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,18 +37,15 @@ public class ThrowableTest {
     assertNull(nfe.getCause());
 
     RuntimeException theCause = new RuntimeException();
-    assertSame(nfe, castAsInitialized(nfe.initCause(theCause)));
+    assertSame(nfe, nfe.initCause(theCause));
     assertSame(theCause, nfe.getCause());
 
-    try {
-      nfe.initCause(new RuntimeException());
-      fail("Calling initCause twice should not succeed");
-    } catch (IllegalStateException e) {
-      // Expected
-    }
+    assertThrows(
+        "Calling initCause twice should not succeed",
+        IllegalStateException.class,
+        () -> nfe.initCause(new RuntimeException()));
   }
 
-  // initCause's annotation wrt. initialization is incorrect (correct one can't be expressed).
   private static class TranspiledException extends Exception {
 
     TranspiledException() {
@@ -68,25 +63,21 @@ public class ThrowableTest {
     assertNull(exception.getCause());
 
     RuntimeException theCause = new RuntimeException();
-    assertSame(exception, castAsInitialized(exception.initCause(theCause)));
+    assertSame(exception, exception.initCause(theCause));
     assertSame(theCause, exception.getCause());
 
-    try {
-      exception.initCause(new RuntimeException());
-      fail("Calling initCause twice should not succeed");
-    } catch (IllegalStateException e) {
-      // Expected
-    }
+    assertThrows(
+        "Calling initCause twice should not succeed",
+        IllegalStateException.class,
+        () -> exception.initCause(new RuntimeException()));
 
-    exception = new TranspiledException(/* cause= */ theCause);
-    assertSame(theCause, exception.getCause());
+    Exception exceptionWithCause = new TranspiledException(/* cause= */ theCause);
+    assertSame(theCause, exceptionWithCause.getCause());
 
-    try {
-      exception.initCause(new RuntimeException());
-      fail("Calling initCause should not succeed if cause was provided to constructor");
-    } catch (IllegalStateException e) {
-      // Expected
-    }
+    assertThrows(
+        "Calling initCause should not succeed if cause was provided to constructor",
+        IllegalStateException.class,
+        () -> exceptionWithCause.initCause(new InterruptedException()));
   }
 
   @Test
@@ -135,10 +126,5 @@ public class ThrowableTest {
     Throwable throwable = new RuntimeException("exception message 123");
     StackTraceElement[] stackTrace = throwable.getStackTrace();
     throwable.setStackTrace(stackTrace);
-  }
-
-  @SuppressWarnings("initialization.invalid.cast")
-  private static <T> T castAsInitialized(@UnknownInitialization T t) {
-    return (@Initialized T) t;
   }
 }
