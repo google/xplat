@@ -23,6 +23,6 @@ import java.lang.annotation.Target;
 
 /** Informs J2KT to include @HiddenFromObjC annotation in the generated source code. */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Documented
 public @interface HiddenFromObjC {}
