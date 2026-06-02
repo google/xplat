@@ -26,9 +26,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 abstract class HeapByteBuffer extends BaseByteBuffer {
 
-  protected final byte[] backingArray;
+  final byte[] backingArray;
 
-  protected final int offset;
+  final int offset;
 
   HeapByteBuffer(byte[] backingArray) {
     this(backingArray, backingArray.length, 0);

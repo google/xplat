@@ -100,4 +100,8 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
     }
     return this;
   }
+
+  final J2ktMonitor lock() {
+    return lock;
+  }
 }

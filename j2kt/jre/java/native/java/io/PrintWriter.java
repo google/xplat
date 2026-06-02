@@ -52,7 +52,7 @@ public class PrintWriter extends Writer {
   }
 
   public PrintWriter(Writer wr, boolean autoFlush) {
-    super(wr.lock);
+    super(wr.lock());
     this.autoFlush = autoFlush;
     out = wr;
   }

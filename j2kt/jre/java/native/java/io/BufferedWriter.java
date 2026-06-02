@@ -39,7 +39,7 @@ public class BufferedWriter extends Writer {
   }
 
   public BufferedWriter(Writer out, int size) {
-    super(out.lock);
+    super(out.lock());
     checkArgument(size > 0, "Buffer size <= 0");
     this.out = out;
     this.buf = new char[size];

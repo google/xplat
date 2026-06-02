@@ -24,7 +24,7 @@ import org.jspecify.annotations.Nullable;
 /** Emulation of ExecutionException. */
 @NullMarked
 public class ExecutionException extends Exception {
-  protected ExecutionException() { }
+  protected ExecutionException() {}
 
   protected ExecutionException(@Nullable String message) {
     super(message);
@@ -36,5 +36,9 @@ public class ExecutionException extends Exception {
 
   public ExecutionException(@Nullable Throwable cause) {
     super(cause);
+  }
+
+  static ExecutionException create() {
+    return new ExecutionException();
   }
 }

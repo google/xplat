@@ -26,9 +26,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 abstract class IntArrayBuffer extends IntBuffer {
 
-  protected final int[] backingArray;
+  final int[] backingArray;
 
-  protected final int offset;
+  final int offset;
 
   IntArrayBuffer(int[] array) {
     this(array.length, array, 0);

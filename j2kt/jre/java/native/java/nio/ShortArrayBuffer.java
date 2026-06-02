@@ -26,9 +26,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 abstract class ShortArrayBuffer extends ShortBuffer {
 
-  protected final short[] backingArray;
+  final short[] backingArray;
 
-  protected final int offset;
+  final int offset;
 
   ShortArrayBuffer(short[] array) {
     this(array.length, array, 0);

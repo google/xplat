@@ -73,6 +73,15 @@ public abstract class AbstractExecutorService implements ExecutorService {
     return new FutureTask<T>(callable);
   }
 
+  final <T extends @Nullable Object> RunnableFuture<T> internalNewTaskFor(
+      Runnable runnable, T value) {
+    return newTaskFor(runnable, value);
+  }
+
+  final <T extends @Nullable Object> RunnableFuture<T> internalNewTaskFor(Callable<T> callable) {
+    return newTaskFor(callable);
+  }
+
   /**
    * @throws RejectedExecutionException {@inheritDoc}
    * @throws NullPointerException {@inheritDoc}
@@ -168,7 +177,7 @@ public abstract class AbstractExecutorService implements ExecutorService {
       }
 
       if (ee == null) {
-        ee = new ExecutionException();
+        ee = ExecutionException.create();
       }
       throw ee;
 

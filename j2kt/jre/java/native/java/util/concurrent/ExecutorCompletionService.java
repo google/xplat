@@ -100,7 +100,7 @@ public class ExecutorCompletionService<V extends @Nullable Object> implements Co
     if (aes == null) {
       return new FutureTask<V>(task);
     } else {
-      return aes.newTaskFor(task);
+      return aes.internalNewTaskFor(task);
     }
   }
 
@@ -108,7 +108,7 @@ public class ExecutorCompletionService<V extends @Nullable Object> implements Co
     if (aes == null) {
       return new FutureTask<V>(task, result);
     } else {
-      return aes.newTaskFor(task, result);
+      return aes.internalNewTaskFor(task, result);
     }
   }
 

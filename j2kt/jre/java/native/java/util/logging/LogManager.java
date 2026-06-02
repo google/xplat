@@ -36,7 +36,7 @@ public class LogManager {
   public static LogManager getLogManager() {
     if (singleton == null) {
       singleton = new LogManager();
-      Logger rootLogger = new Logger("", null);
+      Logger rootLogger = Logger.create("", null);
       rootLogger.setLevel(Level.INFO);
       singleton.addLoggerImpl(rootLogger);
     }
@@ -102,7 +102,7 @@ public class LogManager {
     synchronized (mapLock) {
       Logger logger = getLogger(name);
       if (logger == null) {
-        Logger newLogger = new Logger(name, null);
+        Logger newLogger = Logger.create(name, null);
         addLoggerAndEnsureParents(newLogger);
         return newLogger;
       }

@@ -26,9 +26,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 abstract class LongArrayBuffer extends LongBuffer {
 
-  protected final long[] backingArray;
+  final long[] backingArray;
 
-  protected final int offset;
+  final int offset;
 
   LongArrayBuffer(long[] array) {
     this(array.length, array, 0);

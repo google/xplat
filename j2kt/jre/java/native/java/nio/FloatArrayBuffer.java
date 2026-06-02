@@ -26,9 +26,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 abstract class FloatArrayBuffer extends FloatBuffer {
 
-  protected final float[] backingArray;
+  final float[] backingArray;
 
-  protected final int offset;
+  final int offset;
 
   FloatArrayBuffer(float[] array) {
     this(array.length, array, 0);

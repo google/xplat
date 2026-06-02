@@ -26,9 +26,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 abstract class DoubleArrayBuffer extends DoubleBuffer {
 
-  protected final double[] backingArray;
+  final double[] backingArray;
 
-  protected final int offset;
+  final int offset;
 
   DoubleArrayBuffer(double[] array) {
     this(array.length, array, 0);

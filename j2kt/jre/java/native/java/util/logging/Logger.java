@@ -75,6 +75,11 @@ public class Logger {
     this.useParentHandlers = true;
   }
 
+  static Logger create(
+      @Nullable String name, @SuppressWarnings("unused") @Nullable String resourceName) {
+    return new Logger(name, resourceName);
+  }
+
   public void addHandler(Handler handler) {
     if (LOGGING_OFF) {
       return;

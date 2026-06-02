@@ -26,9 +26,9 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 abstract class CharArrayBuffer extends CharBuffer {
 
-  protected final char[] backingArray;
+  final char[] backingArray;
 
-  protected final int offset;
+  final int offset;
 
   CharArrayBuffer(char[] array) {
     this(array.length, array, 0);
