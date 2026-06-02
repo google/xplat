@@ -17,6 +17,7 @@ package interop.collections;
 
 import static java.util.Collections.unmodifiableList;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import org.jspecify.annotations.NullMarked;
@@ -29,7 +30,7 @@ public class J2KtCollections {
   public static <T> void accept(List<T> list) {}
 
   /** Returns new list which is mutable. */
-  public static <T> List<T> newMutableList() {
+  public static <T> AbstractList<T> newMutableList() {
     return new ArrayList<>();
   }
 

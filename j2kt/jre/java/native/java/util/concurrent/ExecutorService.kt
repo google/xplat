@@ -17,13 +17,11 @@
 package java.util.concurrent
 
 import java.lang.Runnable
-import kotlin.collections.MutableCollection
-import kotlin.collections.MutableList
 
 interface ExecutorService : Executor {
   fun shutdown()
 
-  fun shutdownNow(): MutableList<Runnable>
+  fun shutdownNow(): List<Runnable>
 
   fun isShutdown(): Boolean
 
@@ -37,15 +35,15 @@ interface ExecutorService : Executor {
 
   fun submit(task: Runnable): Future<*>
 
-  fun <T> invokeAll(tasks: MutableCollection<out Callable<T>>): MutableList<Future<T>>
+  fun <T> invokeAll(tasks: Collection<out Callable<T>>): List<Future<T>>
 
   fun <T> invokeAll(
-    tasks: MutableCollection<out Callable<T>>,
+    tasks: Collection<out Callable<T>>,
     timeout: Long,
     unit: TimeUnit,
-  ): MutableList<Future<T>>
+  ): List<Future<T>>
 
-  fun <T> invokeAny(tasks: MutableCollection<out Callable<T>>): T
+  fun <T> invokeAny(tasks: Collection<out Callable<T>>): T
 
-  fun <T> invokeAny(tasks: MutableCollection<out Callable<T>>, timeout: Long, unit: TimeUnit): T
+  fun <T> invokeAny(tasks: Collection<out Callable<T>>, timeout: Long, unit: TimeUnit): T
 }

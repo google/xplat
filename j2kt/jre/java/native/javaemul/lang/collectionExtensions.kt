@@ -27,11 +27,11 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
-fun <E> MutableCollection<E>.stream(): Stream<E> =
+fun <E> Collection<E>.stream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { stream() }
     ?: StreamSupport.stream(spliterator(), parallel = false)
 
-fun <E> MutableCollection<E>.parallelStream(): Stream<E> =
+fun <E> Collection<E>.parallelStream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { parallelStream() }
     ?: StreamSupport.stream(spliterator(), parallel = true)
 
@@ -59,10 +59,10 @@ fun <E> MutableCollection<E>.removeIf(filter: Predicate<in E>): Boolean =
 fun <E> MutableCollection<E>.java_retainAll(c: Collection<*>): Boolean =
   retainAll(c as Collection<E>)
 
-fun MutableCollection<*>.toArray(): Array<Any?> =
+fun Collection<*>.toArray(): Array<Any?> =
   (this as? JavaUtilCollection<*>)?.run { toArray() } ?: CollectionHelper.toArray(this)
 
-fun <T> MutableCollection<*>.toArray(a: Array<T>): Array<T> =
+fun <T> Collection<*>.toArray(a: Array<T>): Array<T> =
   (this as? JavaUtilCollection<*>)?.run { toArray(a) } ?: CollectionHelper.toArray(this, a)
 
 internal inline fun <reified T> Any.asMutable(): T =
@@ -100,8 +100,7 @@ fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
     else default_getOrDefault(key, defaultValue)
   }
 
-fun <K, V> MutableMap<K, V>.java_putAll(map: MutableMap<out K, out V>): Unit =
-  putAll(map as Map<out K, V>)
+fun <K, V> MutableMap<K, V>.java_putAll(map: Map<out K, V>): Unit = putAll(map)
 
 @Suppress("UNCHECKED_CAST")
 @ObjCName("java_removeKey") // ObjC export conflict(?) with MutableCollection.java_remove.

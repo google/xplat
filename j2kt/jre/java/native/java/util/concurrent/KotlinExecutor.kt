@@ -17,8 +17,6 @@ package java.util.concurrent
 
 import java.lang.InterruptedException
 import java.lang.Runnable
-import kotlin.collections.MutableCollection
-import kotlin.collections.MutableList
 import kotlin.concurrent.AtomicInt
 import kotlin.concurrent.AtomicReference
 import kotlin.jvm.Throws
@@ -59,19 +57,19 @@ open class KotlinExecutor(
     scope.launch { command.run() }
   }
 
-  override fun <T> invokeAll(tasks: MutableCollection<out Callable<T>>): MutableList<Future<T>> {
+  override fun <T> invokeAll(tasks: Collection<Callable<T>>): List<Future<T>> {
     checkNotShutdown()
     return invokeAllInternal(tasks, 0, TimeUnit.MILLISECONDS)
   }
 
   override fun <T> invokeAll(
-    tasks: MutableCollection<out Callable<T>>,
+    tasks: Collection<Callable<T>>,
     timeout: Long,
     unit: TimeUnit,
-  ): MutableList<Future<T>> {
+  ): List<Future<T>> {
     if (timeout <= 0) {
       // Immediate timeout, return all futures canceled.
-      return tasks.map { ImmediateFuture.immediateCanceledFuture<T>() }.toMutableList<Future<T>>()
+      return tasks.map { ImmediateFuture.immediateCanceledFuture<T>() }
     }
     return invokeAllInternal(tasks, timeout, unit)
   }
@@ -80,10 +78,7 @@ open class KotlinExecutor(
    * Invokes all tasks in parallel (based on the dispatcher) and returns a list of completed
    * futures.
    *
-   * If the timeout is reached before all tasks complete, the remaining tasks are canceled. The Java
-   * API requires that the list of tasks is mutable, but the behavior is undefined if the list is
-   * modified during the execution of this method. In this case, removing all tasks from the list
-   * may result in the invocation never completing.
+   * If the timeout is reached before all tasks complete, the remaining tasks are canceled.
    *
    * @param tasks the tasks to invoke.
    * @param timeout the timeout for the tasks to complete. (pass 0 for no timeout)
@@ -91,24 +86,21 @@ open class KotlinExecutor(
    * @return a list of futures representing the results of the tasks.
    */
   private fun <T> invokeAllInternal(
-    tasks: MutableCollection<out Callable<T>>,
+    tasks: Collection<Callable<T>>,
     timeout: Long,
     unit: TimeUnit,
-  ): MutableList<Future<T>> {
+  ): List<Future<T>> {
     checkNotShutdown()
     if (tasks.isEmpty()) {
-      return mutableListOf()
+      return emptyList()
     }
     val taskCount = AtomicInt(tasks.size)
     val allCompleted = CompletableDeferred<Boolean>()
-    val list =
-      tasks.map {
-        val task = scope.async { it.call() }
-        task.invokeOnCompletion({
-          if (taskCount.decrementAndGet() == 0) allCompleted.complete(true)
-        })
-        task
-      }
+    val list = tasks.map {
+      val task = scope.async { it.call() }
+      task.invokeOnCompletion({ if (taskCount.decrementAndGet() == 0) allCompleted.complete(true) })
+      task
+    }
     return runBlocking {
       if (timeout > 0) {
         try {
@@ -121,21 +113,17 @@ open class KotlinExecutor(
         allCompleted.await()
       }
       // Return all completed tasks.
-      list.map { KotlinFuture(it) }.toMutableList()
+      list.map { KotlinFuture(it) }
     }
   }
 
   @Throws(ExecutionException::class)
-  override fun <T> invokeAny(tasks: MutableCollection<out Callable<T>>): T {
+  override fun <T> invokeAny(tasks: Collection<Callable<T>>): T {
     return invokeAnyInternal(tasks, 0, TimeUnit.MILLISECONDS)
   }
 
   @Throws(ExecutionException::class, TimeoutException::class)
-  override fun <T> invokeAny(
-    tasks: MutableCollection<out Callable<T>>,
-    timeout: Long,
-    unit: TimeUnit,
-  ): T {
+  override fun <T> invokeAny(tasks: Collection<Callable<T>>, timeout: Long, unit: TimeUnit): T {
     if (timeout <= 0) {
       throw TimeoutException("No task succeeded within timeout")
     }
@@ -161,7 +149,7 @@ open class KotlinExecutor(
    * @throws IllegalArgumentException if the list of tasks is empty.
    */
   private fun <T> invokeAnyInternal(
-    tasks: MutableCollection<out Callable<T>>,
+    tasks: Collection<Callable<T>>,
     timeout: Long,
     unit: TimeUnit,
   ): T {
@@ -170,18 +158,17 @@ open class KotlinExecutor(
     }
     val taskCount = AtomicInt(tasks.size)
     val firstCompleted = CompletableDeferred<T>()
-    val list =
-      tasks.map {
-        scope.async {
-          try {
-            firstCompleted.complete(it.call())
-          } catch (e: Exception) {
-            if (taskCount.decrementAndGet() == 0) {
-              firstCompleted.completeExceptionally(ExecutionException(e))
-            }
+    val list = tasks.map {
+      scope.async {
+        try {
+          firstCompleted.complete(it.call())
+        } catch (e: Exception) {
+          if (taskCount.decrementAndGet() == 0) {
+            firstCompleted.completeExceptionally(ExecutionException(e))
           }
         }
       }
+    }
     return runBlocking {
       if (timeout > 0) {
         try {
@@ -246,11 +233,11 @@ open class KotlinExecutor(
     }
   }
 
-  override fun shutdownNow(): MutableList<Runnable> {
+  override fun shutdownNow(): List<Runnable> {
     shutdown()
     supervisorJob.cancel()
     // Currently this attempts to cancel all tasks.
-    return mutableListOf()
+    return emptyList()
   }
 
   override fun submit(task: Runnable): Future<*> {
@@ -330,27 +317,26 @@ open class KotlinExecutor(
     checkNotShutdown()
     val scheduledExecutionTime: AtomicReference<ComparableTimeMark> =
       AtomicReference(timeSource.markNow() + unit.toMillis(initialDelay).milliseconds)
-    val task =
-      scope.async {
-        if (initialDelay > 0L) {
-          delay(unit.toMillis(initialDelay))
-        }
-        var result: T? = null
-        while (true) {
-          checkNotShutdown()
-          result = block()
-          if (period == 0L) {
-            // If period is 0, we should only run once.
-            break
-          }
-          scheduledExecutionTime.compareAndSet(
-            scheduledExecutionTime.value,
-            timeSource.markNow() + unit.toMillis(period).milliseconds,
-          )
-          delay(unit.toMillis(period))
-        }
-        return@async result as T
+    val task = scope.async {
+      if (initialDelay > 0L) {
+        delay(unit.toMillis(initialDelay))
       }
+      var result: T? = null
+      while (true) {
+        checkNotShutdown()
+        result = block()
+        if (period == 0L) {
+          // If period is 0, we should only run once.
+          break
+        }
+        scheduledExecutionTime.compareAndSet(
+          scheduledExecutionTime.value,
+          timeSource.markNow() + unit.toMillis(period).milliseconds,
+        )
+        delay(unit.toMillis(period))
+      }
+      return@async result
+    }
     return KotlinDelayedFuture<T>(task, scheduledExecutionTime)
   }
 

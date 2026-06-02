@@ -29,7 +29,8 @@ import org.jspecify.annotations.Nullable;
  * Java API doc</a> for details.
  */
 @KtNative(
-    name = "kotlin.collections.MutableCollection",
+    name = "kotlin.collections.Collection",
+    mutableName = "kotlin.collections.MutableCollection",
     bridgeName = "javaemul.lang.MutableCollectionJvm")
 @NullMarked
 public interface Collection<E extends @Nullable Object> extends Iterable<E>, ReadonlyCollection<E> {

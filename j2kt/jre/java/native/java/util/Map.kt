@@ -28,6 +28,8 @@ import javaemul.lang.default_putIfAbsent
 import javaemul.lang.default_remove
 import javaemul.lang.default_replace
 import javaemul.lang.default_replaceAll
+import kotlin.Comparator as KotlinComparator
+import kotlin.collections.Map as KotlinMap
 
 interface Map<K, V> : MutableMap<K, V> {
 
@@ -65,26 +67,25 @@ interface Map<K, V> : MutableMap<K, V> {
   interface Entry<K, V> : MutableMap.MutableEntry<K, V> {
 
     companion object {
-      fun <K : Comparable<K>, V> comparingByKey():
-        kotlin.Comparator<MutableMap.MutableEntry<K, V>> = comparingByKey(Comparator.naturalOrder())
+      fun <K : Comparable<K>, V> comparingByKey(): KotlinComparator<KotlinMap.Entry<K, V>> =
+        comparingByKey(Comparator.naturalOrder())
 
       fun <K, V> comparingByKey(
-        cmp: kotlin.Comparator<in K>
-      ): kotlin.Comparator<MutableMap.MutableEntry<K, V>> =
-        object : kotlin.Comparator<MutableMap.MutableEntry<K, V>> {
-          override fun compare(a: MutableMap.MutableEntry<K, V>, b: MutableMap.MutableEntry<K, V>) =
+        cmp: KotlinComparator<in K>
+      ): KotlinComparator<KotlinMap.Entry<K, V>> =
+        object : KotlinComparator<KotlinMap.Entry<K, V>> {
+          override fun compare(a: KotlinMap.Entry<K, V>, b: KotlinMap.Entry<K, V>) =
             cmp.compare(a.key, b.key)
         }
 
-      fun <K, V : Comparable<V>> comparingByValue():
-        kotlin.Comparator<MutableMap.MutableEntry<K, V>> =
+      fun <K, V : Comparable<V>> comparingByValue(): KotlinComparator<KotlinMap.Entry<K, V>> =
         comparingByValue(Comparator.naturalOrder())
 
       fun <K, V> comparingByValue(
-        cmp: kotlin.Comparator<in V>
-      ): kotlin.Comparator<MutableMap.MutableEntry<K, V>> =
-        object : kotlin.Comparator<MutableMap.MutableEntry<K, V>> {
-          override fun compare(a: MutableMap.MutableEntry<K, V>, b: MutableMap.MutableEntry<K, V>) =
+        cmp: KotlinComparator<in V>
+      ): KotlinComparator<KotlinMap.Entry<K, V>> =
+        object : KotlinComparator<KotlinMap.Entry<K, V>> {
+          override fun compare(a: KotlinMap.Entry<K, V>, b: KotlinMap.Entry<K, V>) =
             cmp.compare(a.value, b.value)
         }
     }

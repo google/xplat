@@ -32,7 +32,8 @@ import org.jspecify.annotations.Nullable;
  * doc</a> for details.
  */
 @KtNative(
-    name = "kotlin.collections.MutableMap",
+    name = "kotlin.collections.Map",
+    mutableName = "kotlin.collections.MutableMap",
     bridgeName = "javaemul.lang.MutableMapJvm",
     companionName = "java.util.Map")
 @NullMarked
@@ -41,7 +42,9 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object>
 
   /** Represents an individual map entry. */
   @KtNative(
-      name = "kotlin.collections.MutableMap.MutableEntry",
+      name = "kotlin.collections.Map.Entry",
+      mutableName = "kotlin.collections.MutableMap.MutableEntry",
+      bridgeName = "kotlin.collections.MutableMap.MutableEntry",
       // The name of the type containing the companion
       companionName = "java.util.Map.Entry")
   interface Entry<K extends @Nullable Object, V extends @Nullable Object> {

@@ -29,7 +29,8 @@ import org.jspecify.annotations.Nullable;
  * API doc</a> for details.
  */
 @KtNative(
-    name = "kotlin.collections.MutableIterator",
+    name = "kotlin.collections.Iterator",
+    mutableName = "kotlin.collections.MutableIterator",
     bridgeName = "javaemul.lang.MutableIteratorJvm")
 @NullMarked
 public interface Iterator<@KtOut E extends @Nullable Object> {

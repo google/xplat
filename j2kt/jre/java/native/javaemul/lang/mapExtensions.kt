@@ -38,7 +38,7 @@ fun <K, V> MutableMap<K, V>.computeIfPresent(
   if (this is JavaUtilMap) computeIfPresent(key, mappingFunction)
   else default_computeIfPresent(key, mappingFunction)
 
-fun <K, V> MutableMap<K, V>.forEach(action: BiConsumer<in K, in V>) =
+fun <K, V> Map<K, V>.forEach(action: BiConsumer<in K, in V>) =
   if (this is JavaUtilMap) this.forEach(action) else default_forEach(action)
 
 fun <K, V> MutableMap<K, V>.merge(
@@ -60,7 +60,7 @@ fun <K, V> MutableMap<K, V>.replace(key: K, oldValue: V, newValue: V): Boolean =
 fun <K, V> MutableMap<K, V>.replaceAll(function: BiFunction<in K, in V, out V>) =
   if (this is JavaUtilMap) this.replaceAll(function) else default_replaceAll(function)
 
-internal inline fun <K, V> MutableMap<K, V>.default_forEach(action: BiConsumer<in K, in V>) {
+internal inline fun <K, V> Map<K, V>.default_forEach(action: BiConsumer<in K, in V>) {
   this.forEach { entry -> action.accept(entry.key, entry.value) }
 }
 

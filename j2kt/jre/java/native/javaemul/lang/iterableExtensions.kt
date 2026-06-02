@@ -28,6 +28,6 @@ fun <T> Iterable<T>.forEach(consumer: Consumer<in T>) {
   }
 }
 
-fun <T> MutableIterable<T>.spliterator(): Spliterator<T> =
+fun <T> Iterable<T>.spliterator(): Spliterator<T> =
   if (this is JavaLangIterable<*>) (this as JavaLangIterable<T>).spliterator()
   else Spliterators.spliteratorUnknownSize<T>(iterator(), 0)

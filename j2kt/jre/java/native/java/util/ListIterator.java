@@ -29,7 +29,10 @@ import org.jspecify.annotations.Nullable;
  *
  * @param <E> element type.
  */
-@KtNative(name = "kotlin.collections.MutableListIterator")
+@KtNative(
+    name = "kotlin.collections.ListIterator",
+    mutableName = "kotlin.collections.MutableListIterator",
+    bridgeName = "kotlin.collections.MutableListIterator")
 @NullMarked
 public interface ListIterator<E extends @Nullable Object> extends Iterator<E> {
 

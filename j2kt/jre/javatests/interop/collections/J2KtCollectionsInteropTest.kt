@@ -20,11 +20,9 @@ import kotlin.test.Test
 /** Tests interop between Kotlin and J2KT-generated code. */
 class J2KtCollectionsInteropTest {
 
-  // At this moment, J2KT collections map to mutable collections in Kotlin, so it's not possible to
-  // pass read-only collections as arguments to J2KT methods.
   @Test
   fun j2kt_acceptsKotlinList() {
-    // J2KtCollections.accept(listOf("foo", "bar"))
+    J2KtCollections.accept(listOf("foo", "bar"))
   }
 
   @Test
@@ -40,7 +38,7 @@ class J2KtCollectionsInteropTest {
   // At this moment, collections from J2KT can be assigned to mutable collections in Kotlin.
   @Test
   fun j2ktMutableList_assignsToMutableList() {
-    val unused: MutableList<String> = J2KtCollections.newMutableList()
+    val unused: List<String> = J2KtCollections.newMutableList()
   }
 
   @Test
@@ -54,16 +52,10 @@ class J2KtCollectionsInteropTest {
     val unused: List<String> = J2KtCollections.newReadonlyList()
   }
 
-  // At this moment, collections from J2KT can be assigned to mutable collections in Kotlin.
-  @Test
-  fun j2ktReadonlyList_assignsToKotlinMutableList() {
-    val unused: MutableList<String> = J2KtCollections.newReadonlyList()
-  }
-
-  // At this moment, collections from J2KT are mutable, so mutation is allowed but unsupported.
+  // Collections from J2KT are mutable at runtime, but mutation may fail.
   @Test
   fun j2ktReadonlyList_kotlinMutationUnsupported() {
-    val list: MutableList<String> = J2KtCollections.newReadonlyList()
+    val list: MutableList<String> = J2KtCollections.newReadonlyList<String>() as MutableList<String>
     try {
       list.add("foo")
     } catch (e: UnsupportedOperationException) {

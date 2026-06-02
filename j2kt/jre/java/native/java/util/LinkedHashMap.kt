@@ -17,6 +17,7 @@
 package java.util
 
 import kotlin.Cloneable
+import kotlin.collections.Map as KotlinMap
 
 // Note: This implementation relies on the fact that Kotlin Native's HashMap is linked.
 open class LinkedHashMap<K, V> : HashMap<K, V>, MutableMap<K, V>, Cloneable {
@@ -26,7 +27,7 @@ open class LinkedHashMap<K, V> : HashMap<K, V>, MutableMap<K, V>, Cloneable {
 
   constructor(initialCapacity: Int, loadFactor: Float) : super(initialCapacity, loadFactor)
 
-  constructor(from: MutableMap<out K, out V>) : super(from)
+  constructor(from: KotlinMap<out K, out V>) : super(from)
 
   override fun clone(): Any = LinkedHashMap(this)
 }
