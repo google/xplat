@@ -53,14 +53,14 @@ class ClassInteropTest {
   @Test
   fun fromObjCProtocol_withNonKotlinProtocol_returnsNull() {
     val protocol = objc_getProtocol("NSCopying")
-    val javaClass = Class.fromObjCProtocol(requireNotNull(protocol) as ObjCProtocol)
+    val javaClass = Class.fromObjCProtocol(requireNotNull(protocol) as Any as ObjCProtocol)
     assertNull(javaClass)
   }
 
   @Test
   fun fromObjCProtocol_withKotlinRunnableProtocol_returnsJavaClass() {
     val protocol = objc_getProtocol("J2ktJavaLangRunnable")
-    val javaClass = Class.fromObjCProtocol(requireNotNull(protocol) as ObjCProtocol)
+    val javaClass = Class.fromObjCProtocol(requireNotNull(protocol) as Any as ObjCProtocol)
     assertEquals(Runnable::class.javaObjectType, javaClass)
   }
 }
