@@ -35,8 +35,6 @@ fun <E> Collection<E>.parallelStream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { parallelStream() }
     ?: StreamSupport.stream(spliterator(), parallel = true)
 
-fun <E> MutableCollection<E>.java_addAll(c: Collection<E>): Boolean = addAll(c)
-
 @Suppress("UNCHECKED_CAST")
 fun <V> Collection<V>.java_contains(value: Any?): Boolean =
   (this as Collection<Any>).contains(value)
@@ -72,8 +70,6 @@ internal inline fun <reified T> Any.asMutable(): T =
 
 @HiddenFromObjC fun <T> MutableCollection<T>.asMutableCollection(): MutableCollection<T> = this
 
-fun <V> MutableList<V>.java_addAll(index: Int, c: Collection<V>): Boolean = addAll(index, c)
-
 fun <V> List<V>.java_indexOf(value: Any?): Int = (this as List<Any?>).indexOf(value)
 
 fun <V> List<V>.java_lastIndexOf(value: Any?): Int = (this as List<Any?>).lastIndexOf(value)
@@ -99,8 +95,6 @@ fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
     if (this is JavaUtilMap) getOrDefault(key, defaultValue)
     else default_getOrDefault(key, defaultValue)
   }
-
-fun <K, V> MutableMap<K, V>.java_putAll(map: Map<out K, V>): Unit = putAll(map)
 
 @Suppress("UNCHECKED_CAST")
 @ObjCName("java_removeKey") // ObjC export conflict(?) with MutableCollection.java_remove.

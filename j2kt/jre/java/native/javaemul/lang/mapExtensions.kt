@@ -131,10 +131,6 @@ internal fun <K, V> MutableMap<K, V>.default_merge(
   return newValue
 }
 
-internal fun <K, V> MutableMap<K, V>.default_putAll(t: MutableMap<out K, out V>) {
-  putAll(t.toList())
-}
-
 internal fun <K, V> MutableMap<K, V>.default_putIfAbsent(key: K, value: V): V? {
   var v: V? = get(key)
   if (v == null) {

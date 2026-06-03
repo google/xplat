@@ -15,9 +15,6 @@
  */
 package javaemul.lang
 
-fun <E> MutableCollection<E>.java_addAll(c: Collection<out E>): Boolean =
-  asJavaUtilCollection().addAll(c)
-
 fun <V> Collection<V>.java_contains(value: Any?): Boolean = asJavaUtilCollection().contains(value)
 
 fun <E> Collection<E>.java_containsAll(c: Collection<*>): Boolean =
@@ -46,16 +43,11 @@ internal fun <E> List<E>.asJavaUtilList(): java.util.List<E> = this as java.util
 @Suppress("UNCHECKED_CAST")
 private fun <K, V> Map<K, V>.asJavaUtilMap(): java.util.Map<K, V> = this as java.util.Map<K, V>
 
-fun <V> MutableList<V>.java_addAll(index: Int, c: Collection<V>): Boolean =
-  asJavaUtilList().addAll(index, c)
-
 fun <V> List<V>.java_indexOf(value: Any?): Int = asJavaUtilList().indexOf(value)
 
 fun <V> List<V>.java_lastIndexOf(value: Any?): Int = asJavaUtilList().lastIndexOf(value)
 
 fun <V> MutableList<V>.sort(c: Comparator<in V>?): Unit = asJavaUtilList().sort(c)
-
-fun <K, V> MutableMap<K, V>.java_putAll(map: Map<out K, out V>): Unit = asJavaUtilMap().putAll(map)
 
 fun <K, V> Map<K, V>.java_containsKey(key: Any?): Boolean = asJavaUtilMap().containsKey(key)
 

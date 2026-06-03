@@ -37,8 +37,7 @@ import org.jspecify.annotations.Nullable;
     bridgeName = "javaemul.lang.MutableMapJvm",
     companionName = "java.util.Map")
 @NullMarked
-public interface Map<K extends @Nullable Object, V extends @Nullable Object>
-    extends ReadonlyMap<K, V> {
+public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
 
   /** Represents an individual map entry. */
   @KtNative(
