@@ -165,9 +165,9 @@ fun String.java_trim(): String {
 private fun String.encodeToByteArrayUnmapped(maxValue: Int): ByteArray {
   val result = ByteArray(length)
   for (i in 0 until length) {
-    val c = this[i].toInt()
+    val c = this[i].code
     if (c > maxValue) {
-      result[i] = '?'.toByte()
+      result[i] = '?'.code.toByte()
     } else {
       result[i] = c.toByte()
     }
