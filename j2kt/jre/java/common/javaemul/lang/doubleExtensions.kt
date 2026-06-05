@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -16,6 +18,8 @@
 package javaemul.lang
 
 import java.lang.Double as JavaDouble
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 /**
  * Pseudo-constructor for emulated java.lang.Double.
@@ -26,6 +30,6 @@ operator fun Double.Companion.invoke(d: Double): Double = JavaDouble(d) as Doubl
 
 operator fun Double.Companion.invoke(s: String): Double = JavaDouble(s) as Double
 
-inline fun Double.toInt_toByte() = toInt().toByte()
+@HiddenFromObjC inline fun Double.toInt_toByte() = toInt().toByte()
 
-inline fun Double.toInt_toShort() = toInt().toShort()
+@HiddenFromObjC inline fun Double.toInt_toShort() = toInt().toShort()

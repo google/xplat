@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -16,6 +18,8 @@
 package javaemul.lang
 
 import java.lang.Float as JavaFloat
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 /**
  * Pseudo-constructor for emulated java.lang.Float.
@@ -26,6 +30,6 @@ operator fun Float.Companion.invoke(f: Float): Float = JavaFloat(f) as Float
 
 operator fun Float.Companion.invoke(s: String): Float = JavaFloat(s) as Float
 
-inline fun Float.toInt_toByte() = toInt().toByte()
+@HiddenFromObjC inline fun Float.toInt_toByte() = toInt().toByte()
 
-inline fun Float.toInt_toShort() = toInt().toShort()
+@HiddenFromObjC inline fun Float.toInt_toShort() = toInt().toShort()

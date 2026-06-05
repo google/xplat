@@ -25,6 +25,7 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
+@HiddenFromObjC
 fun <T> Iterator<T>.forEachRemaining(consumer: Consumer<in T>) {
   if (this is JavaUtilIterator) {
     this.forEachRemaining(consumer)

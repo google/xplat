@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -18,6 +20,8 @@ package kotlin.jvm
 import java.lang.Class
 import java.lang.Void
 import javaemul.lang.J2ktMonitor
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 import kotlin.reflect.KClass
 import kotlin.synchronized
 
@@ -27,6 +31,7 @@ private val objectClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
 private val primitiveClassMapMonitor = J2ktMonitor()
 private val primitiveClassMap: MutableMap<KClass<*>, Class<*>> = mutableMapOf()
 
+@HiddenFromObjC
 val <T : Any> KClass<T>.javaObjectType: Class<T>
   get() =
     synchronized(objectClassMapMonitor) {
@@ -34,6 +39,7 @@ val <T : Any> KClass<T>.javaObjectType: Class<T>
       objectClassMap.getOrPut(this) { Class<T>(this, isPrimitive0 = false) } as Class<T>
     }
 
+@HiddenFromObjC
 val <T : Any> KClass<T>.javaPrimitiveType: Class<T>?
   get() =
     if (hasJavaPrimitiveType) {

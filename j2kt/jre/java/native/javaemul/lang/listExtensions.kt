@@ -21,11 +21,14 @@ import java.util.List as JavaUtilList
 import java.util.function.UnaryOperator
 import kotlin.collections.replaceAll as kotlinReplaceAll
 import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
+@HiddenFromObjC
 fun <E> MutableList<E>.replaceAll(operator: UnaryOperator<E>): Unit =
   (this as? JavaUtilList<E>)?.run { replaceAll(operator) } ?: kotlinReplaceAll(operator::apply)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <E> MutableList<E>.sort(c: Comparator<in E>?): Unit {
   val asJavaList = this as? JavaUtilList<E>
   if (asJavaList != null) {
@@ -37,6 +40,7 @@ fun <E> MutableList<E>.sort(c: Comparator<in E>?): Unit {
   }
 }
 
+@HiddenFromObjC
 fun <E> List<E>.getFirst(): E {
   val asJavaList = this as? JavaUtilList<E>
   if (asJavaList != null) {
@@ -48,6 +52,7 @@ fun <E> List<E>.getFirst(): E {
   }
 }
 
+@HiddenFromObjC
 fun <E> List<E>.getLast(): E {
   val asJavaList = this as? JavaUtilList<E>
   if (asJavaList != null) {

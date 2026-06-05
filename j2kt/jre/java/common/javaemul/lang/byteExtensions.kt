@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -16,6 +18,8 @@
 package javaemul.lang
 
 import java.lang.Byte as JavaByte
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
 /**
  * Pseudo-constructor for emulated java.lang.Byte.
@@ -26,16 +30,19 @@ operator fun Byte.Companion.invoke(b: Byte): Byte =
   // In Kotlin JVM, java.lang.Byte(b) is not assignable to kotlin.Byte without the extra cast.
   JavaByte(b) as Byte
 
+@HiddenFromObjC
 fun Byte.shl(pos: Int): Int {
   val intVal = this.toInt()
   return intVal.shl(pos)
 }
 
+@HiddenFromObjC
 fun Byte.shr(pos: Int): Int {
   val intVal = this.toInt()
   return intVal.shr(pos)
 }
 
+@HiddenFromObjC
 fun Byte.and(other: Byte): Int {
   val intVal = this.toInt()
   val otherIntVal = other.toInt()

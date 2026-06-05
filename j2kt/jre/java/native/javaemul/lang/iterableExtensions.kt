@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2023 Google Inc.
  *
@@ -19,7 +21,10 @@ import java.lang.Iterable as JavaLangIterable
 import java.util.Spliterator
 import java.util.Spliterators
 import java.util.function.Consumer
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
+@HiddenFromObjC
 fun <T> Iterable<T>.forEach(consumer: Consumer<in T>) {
   if (this is JavaLangIterable<*>) {
     (this as JavaLangIterable<T>).forEach(consumer)
@@ -28,6 +33,7 @@ fun <T> Iterable<T>.forEach(consumer: Consumer<in T>) {
   }
 }
 
+@HiddenFromObjC
 fun <T> Iterable<T>.spliterator(): Spliterator<T> =
   if (this is JavaLangIterable<*>) (this as JavaLangIterable<T>).spliterator()
   else Spliterators.spliteratorUnknownSize<T>(iterator(), 0)

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -24,8 +26,10 @@ import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 import java.util.stream.Stream
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
-fun String.equalsIgnoreCase(str: String?) = this.equals(str, ignoreCase = true)
+@HiddenFromObjC fun String.equalsIgnoreCase(str: String?) = this.equals(str, ignoreCase = true)
 
 internal fun String.Companion.fromCodePoint(codePoint: Int): String {
   if (codePoint >= Char.MIN_SUPPLEMENTARY_CODE_POINT) {
@@ -37,18 +41,22 @@ internal fun String.Companion.fromCodePoint(codePoint: Int): String {
   }
 }
 
-fun String.codePointAt(index: Int) = Character.codePointAt(this, index)
+@HiddenFromObjC fun String.codePointAt(index: Int) = Character.codePointAt(this, index)
 
-fun String.codePointBefore(index: Int): Int = Character.codePointBefore(this, index)
+@HiddenFromObjC fun String.codePointBefore(index: Int): Int = Character.codePointBefore(this, index)
 
+@HiddenFromObjC
 fun String.codePointCount(beginIndex: Int, endIndex: Int): Int =
   Character.codePointCount(this, beginIndex, endIndex)
 
+@HiddenFromObjC
 fun String.offsetByCodePoints(index: Int, codePointOffset: Int): Int =
   Character.offsetByCodePoints(this, index, codePointOffset)
 
+@HiddenFromObjC
 fun String.compareToIgnoreCase(str: String): Int = this.compareTo(str, ignoreCase = true)
 
+@HiddenFromObjC
 fun String.getBytes(): ByteArray {
   var replaced: StringBuilder? = null
   var copiedTo = 0
@@ -78,6 +86,7 @@ fun String.getBytes(): ByteArray {
   return encodeToByteArray()
 }
 
+@HiddenFromObjC
 fun String.getBytes(charsetName: String): ByteArray {
   try {
     return getBytes(Charset.forName(charsetName))
@@ -86,6 +95,7 @@ fun String.getBytes(charsetName: String): ByteArray {
   }
 }
 
+@HiddenFromObjC
 fun String.getBytes(charset: Charset): ByteArray =
   when (charset) {
     StandardCharsets.US_ASCII -> encodeToByteArrayUnmapped(127)
@@ -94,10 +104,11 @@ fun String.getBytes(charset: Charset): ByteArray =
     else -> throw UnsupportedEncodingException(charset.name())
   }
 
-fun String.toUpperCase(locale: Locale): String = locale.toUppercase(this)
+@HiddenFromObjC fun String.toUpperCase(locale: Locale): String = locale.toUppercase(this)
 
-fun String.toLowerCase(locale: Locale): String = locale.toLowercase(this)
+@HiddenFromObjC fun String.toLowerCase(locale: Locale): String = locale.toLowercase(this)
 
+@HiddenFromObjC
 fun String.getChars(start: Int, end: Int, buffer: CharArray, index: Int) {
   var bufferIndex = index
   for (srcIndex in start until end) {
@@ -105,6 +116,7 @@ fun String.getChars(start: Int, end: Int, buffer: CharArray, index: Int) {
   }
 }
 
+@HiddenFromObjC
 fun String.indexOf(codePoint: Int, fromIndex: Int = 0): Int {
   if (codePoint < Char.MIN_SUPPLEMENTARY_CODE_POINT) {
     return indexOf(codePoint.toChar(), fromIndex)
@@ -113,6 +125,7 @@ fun String.indexOf(codePoint: Int, fromIndex: Int = 0): Int {
   }
 }
 
+@HiddenFromObjC
 fun String.lastIndexOf(codePoint: Int, fromIndex: Int = Int.MAX_VALUE): Int {
   if (codePoint < Char.MIN_SUPPLEMENTARY_CODE_POINT) {
     return lastIndexOf(codePoint.toChar(), fromIndex)
@@ -121,9 +134,11 @@ fun String.lastIndexOf(codePoint: Int, fromIndex: Int = Int.MAX_VALUE): Int {
   }
 }
 
+@HiddenFromObjC
 fun String.replaceAll(regex: String, replacement: String): String =
   Pattern.compile(regex).matcher(this).replaceAll(replacement)
 
+@HiddenFromObjC
 fun String.regionMatches(
   ignoreCase: Boolean,
   thisOffset: Int,
@@ -138,18 +153,22 @@ fun String.regionMatches(
       otherOffset + len <= other.length
   else regionMatches(thisOffset, other, otherOffset, len, ignoreCase = ignoreCase)
 
-fun String.java_matches(regex: String) = Regex(regex).matches(this)
+@HiddenFromObjC fun String.java_matches(regex: String) = Regex(regex).matches(this)
 
+@HiddenFromObjC
 fun String.split(regularExpression: String): Array<String> =
   Pattern.compile(regularExpression).split(this)
 
+@HiddenFromObjC
 fun String.split(regularExpression: String, limit: Int): Array<String> =
   Pattern.compile(regularExpression).split(this, limit)
 
+@HiddenFromObjC
 fun String.java_replace(target: CharSequence, replacement: CharSequence): String {
   return this.replace(target.toString(), replacement.toString())
 }
 
+@HiddenFromObjC
 fun String.java_trim(): String {
   var start = 0
   while (start < length && this[start] <= ' ') {
@@ -175,14 +194,15 @@ private fun String.encodeToByteArrayUnmapped(maxValue: Int): ByteArray {
   return result
 }
 
-fun String.java_isBlank(): Boolean = all(Character::isWhitespace)
+@HiddenFromObjC fun String.java_isBlank(): Boolean = all(Character::isWhitespace)
 
-fun String.strip(): String = trim(Character::isWhitespace)
+@HiddenFromObjC fun String.strip(): String = trim(Character::isWhitespace)
 
-fun String.stripLeading(): String = trimStart(Character::isWhitespace)
+@HiddenFromObjC fun String.stripLeading(): String = trimStart(Character::isWhitespace)
 
-fun String.stripTrailing(): String = trimEnd(Character::isWhitespace)
+@HiddenFromObjC fun String.stripTrailing(): String = trimEnd(Character::isWhitespace)
 
+@HiddenFromObjC
 fun String.stripIndent(): String {
   if (isEmpty()) {
     return this
@@ -226,6 +246,7 @@ private fun computeOutdent(lines: List<String>): Int {
   return minWhitespace
 }
 
+@HiddenFromObjC
 fun String.java_lines(): Stream<String> {
   val lines = java_splitLinesToList()
   val limit = if (lines.last().isEmpty()) lines.size - 1 else lines.size

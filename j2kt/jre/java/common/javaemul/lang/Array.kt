@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -15,6 +17,10 @@
  */
 package javaemul.lang
 
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
+
+@HiddenFromObjC
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T> uninitializedArrayOf(size: Int): Array<T> = arrayOfNulls<T>(size) as Array<T>
 

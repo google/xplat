@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -16,6 +18,8 @@
 package javaemul.lang
 
 import java.lang.Class
+import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.jvm.javaObjectType
+import kotlin.native.HiddenFromObjC
 
-fun <T : Any> T.getClass(): Class<out T> = this::class.javaObjectType
+@HiddenFromObjC fun <T : Any> T.getClass(): Class<out T> = this::class.javaObjectType

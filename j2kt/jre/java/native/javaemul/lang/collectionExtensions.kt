@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalObjCName::class, ExperimentalObjCRefinement::class)
+@file:OptIn(ExperimentalObjCRefinement::class)
 
 /*
  * Copyright 2023 Google Inc.
@@ -23,46 +23,56 @@ import java.util.function.Predicate
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 import javaemul.internal.CollectionHelper
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
+@HiddenFromObjC
 fun <E> Collection<E>.stream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { stream() }
     ?: StreamSupport.stream(spliterator(), parallel = false)
 
+@HiddenFromObjC
 fun <E> Collection<E>.parallelStream(): Stream<E> =
   (this as? JavaUtilCollection<E>)?.run { parallelStream() }
     ?: StreamSupport.stream(spliterator(), parallel = true)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <V> Collection<V>.java_contains(value: Any?): Boolean =
   (this as Collection<Any>).contains(value)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <E> Collection<E>.java_containsAll(c: Collection<*>): Boolean = containsAll(c as Collection<E>)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <V> MutableCollection<V>.java_remove(value: Any?): Boolean =
   (this as MutableCollection<Any?>).remove(value)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <E> MutableCollection<E>.java_removeAll(c: Collection<*>): Boolean =
   removeAll(c as MutableCollection<E>)
 
+@HiddenFromObjC
 fun <E> MutableCollection<E>.removeIf(filter: Predicate<in E>): Boolean =
   (this as? JavaUtilCollection)?.run { removeIf(filter) } ?: removeAll(filter::test)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <E> MutableCollection<E>.java_retainAll(c: Collection<*>): Boolean =
   retainAll(c as Collection<E>)
 
+@HiddenFromObjC
 fun Collection<*>.toArray(): Array<Any?> =
   (this as? JavaUtilCollection<*>)?.run { toArray() } ?: CollectionHelper.toArray(this)
 
+@HiddenFromObjC
 fun <T> Collection<*>.toArray(a: Array<T>): Array<T> =
   (this as? JavaUtilCollection<*>)?.run { toArray(a) } ?: CollectionHelper.toArray(this, a)
 
+@HiddenFromObjC
 internal inline fun <reified T> Any.asMutable(): T =
   this as? T ?: throw UnsupportedOperationException()
 
@@ -70,8 +80,9 @@ internal inline fun <reified T> Any.asMutable(): T =
 
 @HiddenFromObjC fun <T> MutableCollection<T>.asMutableCollection(): MutableCollection<T> = this
 
-fun <V> List<V>.java_indexOf(value: Any?): Int = (this as List<Any?>).indexOf(value)
+@HiddenFromObjC fun <V> List<V>.java_indexOf(value: Any?): Int = (this as List<Any?>).indexOf(value)
 
+@HiddenFromObjC
 fun <V> List<V>.java_lastIndexOf(value: Any?): Int = (this as List<Any?>).lastIndexOf(value)
 
 @HiddenFromObjC fun <V> Set<V>.asMutableSet(): MutableSet<V> = asMutable()
@@ -79,17 +90,21 @@ fun <V> List<V>.java_lastIndexOf(value: Any?): Int = (this as List<Any?>).lastIn
 @HiddenFromObjC fun <V> MutableSet<V>.asMutableSet(): MutableSet<V> = this
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <K, V> Map<K, V>.java_containsKey(key: Any?): Boolean =
   (this as Map<Any?, Any?>).containsKey(key)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <K, V> Map<K, V>.java_containsValue(value: Any?): Boolean =
   (this as Map<Any?, Any?>).containsValue(value)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <K, V> Map<K, V>.java_get(key: Any?): V? = (this as Map<Any?, V>).get(key)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
   (this as Map<Any?, V?>).run {
     if (this is JavaUtilMap) getOrDefault(key, defaultValue)
@@ -97,10 +112,11 @@ fun <K, V> Map<K, V>.java_getOrDefault(key: Any?, defaultValue: V?): V? =
   }
 
 @Suppress("UNCHECKED_CAST")
-@ObjCName("java_removeKey") // ObjC export conflict(?) with MutableCollection.java_remove.
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?): V? = (this as MutableMap<Any?, V>).remove(key)
 
 @Suppress("UNCHECKED_CAST")
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.java_remove(key: Any?, value: Any?): Boolean =
   (this as MutableMap<Any?, Any?>).run {
     if (this is JavaUtilMap) remove(key, value) else default_remove(key, value)

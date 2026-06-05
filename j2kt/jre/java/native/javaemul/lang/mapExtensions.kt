@@ -22,15 +22,19 @@ import java.util.function.BiConsumer
 import java.util.function.BiFunction
 import java.util.function.Function
 import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.compute(key: K, mappingFunction: BiFunction<in K, in V?, out V?>): V? =
   if (this is JavaUtilMap) this.compute(key, mappingFunction)
   else default_compute(key, mappingFunction)
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.computeIfAbsent(key: K, mappingFunction: Function<in K, out V>): V =
   if (this is JavaUtilMap) this.computeIfAbsent(key, mappingFunction)
   else default_computeIfAbsent(key, mappingFunction)
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.computeIfPresent(
   key: K,
   mappingFunction: BiFunction<in K, in V & Any, out V?>,
@@ -38,32 +42,40 @@ fun <K, V> MutableMap<K, V>.computeIfPresent(
   if (this is JavaUtilMap) computeIfPresent(key, mappingFunction)
   else default_computeIfPresent(key, mappingFunction)
 
+@HiddenFromObjC
 fun <K, V> Map<K, V>.forEach(action: BiConsumer<in K, in V>) =
   if (this is JavaUtilMap) this.forEach(action) else default_forEach(action)
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.merge(
   key: K,
   value: V & Any,
   remap: BiFunction<in V & Any, in V & Any, out V?>,
 ): V? = if (this is JavaUtilMap) merge(key, value, remap) else default_merge(key, value, remap)
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.putIfAbsent(key: K, value: V): V? =
   if (this is JavaUtilMap) this.putIfAbsent(key, value) else default_putIfAbsent(key, value)
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.replace(key: K, value: V): V? =
   if (this is JavaUtilMap) this.replace(key, value) else default_replace(key, value)
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.replace(key: K, oldValue: V, newValue: V): Boolean =
   if (this is JavaUtilMap) this.replace(key, oldValue, newValue)
   else default_replace(key, oldValue, newValue)
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.replaceAll(function: BiFunction<in K, in V, out V>) =
   if (this is JavaUtilMap) this.replaceAll(function) else default_replaceAll(function)
 
+@HiddenFromObjC
 internal inline fun <K, V> Map<K, V>.default_forEach(action: BiConsumer<in K, in V>) {
   this.forEach { entry -> action.accept(entry.key, entry.value) }
 }
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_compute(
   key: K,
   remappingFunction: BiFunction<in K, in V?, out V?>,
@@ -85,6 +97,7 @@ internal fun <K, V> MutableMap<K, V>.default_compute(
   return null
 }
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_computeIfAbsent(
   key: K,
   mappingFunction: Function<in K, out V>,
@@ -98,6 +111,7 @@ internal fun <K, V> MutableMap<K, V>.default_computeIfAbsent(
   return oldValue
 }
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_computeIfPresent(
   key: K,
   remappingFunction: BiFunction<in K, in V & Any, out V?>,
@@ -111,11 +125,13 @@ internal fun <K, V> MutableMap<K, V>.default_computeIfPresent(
   return null
 }
 
+@HiddenFromObjC
 internal fun <K, V> Map<K, V>.default_getOrDefault(key: K, defaultValue: V): V {
   @Suppress("UNCHECKED_CAST")
   return this[key].let { if (it != null || containsKey(key)) it as V else defaultValue }
 }
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_merge(
   key: K,
   value: V & Any,
@@ -131,6 +147,7 @@ internal fun <K, V> MutableMap<K, V>.default_merge(
   return newValue
 }
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_putIfAbsent(key: K, value: V): V? {
   var v: V? = get(key)
   if (v == null) {
@@ -139,6 +156,7 @@ internal fun <K, V> MutableMap<K, V>.default_putIfAbsent(key: K, value: V): V? {
   return v
 }
 
+@HiddenFromObjC
 fun <K, V> MutableMap<K, V>.default_remove(key: K, value: V): Boolean {
   if (containsKey(key) && this[key] == value) {
     remove(key)
@@ -148,9 +166,11 @@ fun <K, V> MutableMap<K, V>.default_remove(key: K, value: V): Boolean {
   }
 }
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_replace(key: K, value: V): V? =
   if (this.containsKey(key)) this.put(key, value) else null
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_replace(key: K, oldValue: V, newValue: V): Boolean {
   if (this.containsKey(key) && this[key] == oldValue) {
     this[key] = newValue
@@ -160,6 +180,7 @@ internal fun <K, V> MutableMap<K, V>.default_replace(key: K, oldValue: V, newVal
   }
 }
 
+@HiddenFromObjC
 internal fun <K, V> MutableMap<K, V>.default_replaceAll(function: BiFunction<in K, in V, out V>) {
   forEach { entry -> this[entry.key] = function.apply(entry.key, entry.value) }
 }
