@@ -35,15 +35,11 @@ interface ExecutorService : Executor {
 
   fun submit(task: Runnable): Future<*>
 
-  fun <T> invokeAll(tasks: Collection<out Callable<T>>): List<Future<T>>
+  fun <T> invokeAll(tasks: Collection<Callable<T>>): List<Future<T>>
 
-  fun <T> invokeAll(
-    tasks: Collection<out Callable<T>>,
-    timeout: Long,
-    unit: TimeUnit,
-  ): List<Future<T>>
+  fun <T> invokeAll(tasks: Collection<Callable<T>>, timeout: Long, unit: TimeUnit): List<Future<T>>
 
-  fun <T> invokeAny(tasks: Collection<out Callable<T>>): T
+  fun <T> invokeAny(tasks: Collection<Callable<T>>): T
 
-  fun <T> invokeAny(tasks: Collection<out Callable<T>>, timeout: Long, unit: TimeUnit): T
+  fun <T> invokeAny(tasks: Collection<Callable<T>>, timeout: Long, unit: TimeUnit): T
 }
