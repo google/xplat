@@ -22,6 +22,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtOut;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
@@ -37,7 +38,7 @@ import org.jspecify.annotations.Nullable;
     bridgeName = "javaemul.lang.MutableMapJvm",
     companionName = "java.util.Map")
 @NullMarked
-public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
+public interface Map<K extends @Nullable Object, @KtOut V extends @Nullable Object> {
 
   /** Represents an individual map entry. */
   @KtNative(
@@ -46,7 +47,7 @@ public interface Map<K extends @Nullable Object, V extends @Nullable Object> {
       bridgeName = "kotlin.collections.MutableMap.MutableEntry",
       // The name of the type containing the companion
       companionName = "java.util.Map.Entry")
-  interface Entry<K extends @Nullable Object, V extends @Nullable Object> {
+  interface Entry<@KtOut K extends @Nullable Object, @KtOut V extends @Nullable Object> {
     @KtProperty
     K getKey();
 

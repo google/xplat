@@ -20,6 +20,7 @@ import static javaemul.internal.KtNativeUtils.ktNative;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtOut;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -33,7 +34,7 @@ import org.jspecify.annotations.Nullable;
     mutableName = "kotlin.collections.MutableCollection",
     bridgeName = "javaemul.lang.MutableCollectionJvm")
 @NullMarked
-public interface Collection<E extends @Nullable Object> extends Iterable<E> {
+public interface Collection<@KtOut E extends @Nullable Object> extends Iterable<E> {
 
   boolean add(E e);
 

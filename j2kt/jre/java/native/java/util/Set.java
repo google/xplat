@@ -18,6 +18,7 @@ package java.util;
 import static javaemul.internal.KtNativeUtils.ktNative;
 
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtOut;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -30,7 +31,7 @@ import org.jspecify.annotations.Nullable;
     mutableName = "kotlin.collections.MutableSet",
     bridgeName = "javaemul.lang.MutableSetJvm")
 @NullMarked
-public interface Set<E extends @Nullable Object> extends Collection<E> {
+public interface Set<@KtOut E extends @Nullable Object> extends Collection<E> {
   @Override
   default Spliterator<E> spliterator() {
     return ktNative();

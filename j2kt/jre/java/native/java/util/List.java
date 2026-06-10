@@ -20,6 +20,7 @@ import static javaemul.internal.KtNativeUtils.ktNative;
 import java.util.function.UnaryOperator;
 import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtOut;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -32,7 +33,7 @@ import org.jspecify.annotations.Nullable;
     mutableName = "kotlin.collections.MutableList",
     bridgeName = "javaemul.lang.MutableListJvm")
 @NullMarked
-public interface List<E extends @Nullable Object> extends Collection<E> {
+public interface List<@KtOut E extends @Nullable Object> extends Collection<E> {
 
   void add(int index, E element);
 
