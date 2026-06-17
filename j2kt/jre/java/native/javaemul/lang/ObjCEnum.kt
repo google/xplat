@@ -16,3 +16,5 @@
 package javaemul.lang
 
 typealias ObjCEnum = kotlin.native.ObjCEnum
+
+typealias ObjCEnumEntryName = kotlin.native.ObjCEnum.EntryName

@@ -15,7 +15,12 @@
  */
 package javaemul.lang
 
+// TODO(b/459449613): Remove these workarounds
+
 @Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.BINARY)
-// TODO(b/459449613): Remove this workaround
-public annotation class ObjCEnum(val name: String = "", val swiftName: String = "")
+@Retention(AnnotationRetention.SOURCE)
+annotation class ObjCEnum(val name: String = "", val swiftName: String = "")
+
+@Target(AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.SOURCE)
+annotation class ObjCEnumEntryName(val name: String = "", val swiftName: String = "")
