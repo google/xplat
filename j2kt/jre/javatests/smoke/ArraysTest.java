@@ -25,10 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public class ArraysTest {
 
   private static final float EPSILON = 1E-6f;

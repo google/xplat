@@ -42,10 +42,7 @@ import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.Random;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public class IoTest {
 
   @Test

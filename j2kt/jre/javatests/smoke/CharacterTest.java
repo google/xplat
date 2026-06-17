@@ -21,11 +21,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /** Smoke test for Character. */
-@RunWith(JUnit4.class)
 public final class CharacterTest {
 
   @Test

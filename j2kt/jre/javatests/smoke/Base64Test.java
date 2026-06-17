@@ -26,10 +26,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Base64;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public class Base64Test {
   private static final byte[] BYTES_0_255 = new byte[256];
   private static final String ENCODED_0_255 =

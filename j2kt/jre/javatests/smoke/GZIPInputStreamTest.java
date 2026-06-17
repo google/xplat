@@ -24,11 +24,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import org.jspecify.annotations.NullMarked;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 @NullMarked
-@RunWith(JUnit4.class)
 public class GZIPInputStreamTest {
 
   @Test

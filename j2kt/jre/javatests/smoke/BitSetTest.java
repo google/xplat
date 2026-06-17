@@ -20,11 +20,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.BitSet;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /** Smoke test for BitSet. */
-@RunWith(JUnit4.class)
 public final class BitSetTest {
 
   @Test

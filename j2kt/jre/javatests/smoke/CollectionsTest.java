@@ -60,14 +60,11 @@ import java.util.stream.Stream;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 @SuppressWarnings({
   "CollectionIncompatibleType", // To test runtime behavior for incompatible types
   "nullness:toarray.nullable.elements.not.newarray" // Great warning. Bad when testing toArray.
 })
-@RunWith(JUnit4.class)
 public class CollectionsTest {
 
   @Test

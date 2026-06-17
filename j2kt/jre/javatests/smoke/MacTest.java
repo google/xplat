@@ -23,14 +23,16 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public class MacTest {
 
+  @SuppressWarnings("nullness:initialization.field.uninitialized")
   private Mac mac1;
+
+  @SuppressWarnings("nullness:initialization.field.uninitialized")
   private Mac mac2;
+
+  @SuppressWarnings("nullness:initialization.field.uninitialized")
   private SecretKeySpec keySpec;
 
   // Precomputed HMAC-SHA256 hash of "message" with key "key".
