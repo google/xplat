@@ -34,8 +34,191 @@ import kotlin.collections.Map as KotlinMap
 interface Map<K, V> : MutableMap<K, V> {
 
   companion object {
-    fun <K : Any, V : Any> entry(k: K, v: V): MutableMap.MutableEntry<K, V> =
+    fun <K : Any, V : Any> entry(k: K, v: V): KotlinMap.Entry<K, V> =
       AbstractMap.SimpleImmutableEntry(k, v)
+
+    fun <K, V> of(): KotlinMap<K, V> = createInternal<K, V>()
+
+    fun <K : Any, V : Any> of(k1: K, v1: V): KotlinMap<K, V> = createInternal(k1, v1)
+
+    fun <K : Any, V : Any> of(k1: K, v1: V, k2: K, v2: V): KotlinMap<K, V> =
+      createInternal(k1, v1, k2, v2)
+
+    fun <K : Any, V : Any> of(k1: K, v1: V, k2: K, v2: V, k3: K, v3: V): KotlinMap<K, V> =
+      createInternal(k1, v1, k2, v2, k3, v3)
+
+    fun <K : Any, V : Any> of(
+      k1: K,
+      v1: V,
+      k2: K,
+      v2: V,
+      k3: K,
+      v3: V,
+      k4: K,
+      v4: V,
+    ): KotlinMap<K, V> = createInternal(k1, v1, k2, v2, k3, v3, k4, v4)
+
+    fun <K : Any, V : Any> of(
+      k1: K,
+      v1: V,
+      k2: K,
+      v2: V,
+      k3: K,
+      v3: V,
+      k4: K,
+      v4: V,
+      k5: K,
+      v5: V,
+    ): KotlinMap<K, V> = createInternal(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5)
+
+    fun <K : Any, V : Any> of(
+      k1: K,
+      v1: V,
+      k2: K,
+      v2: V,
+      k3: K,
+      v3: V,
+      k4: K,
+      v4: V,
+      k5: K,
+      v5: V,
+      k6: K,
+      v6: V,
+    ): KotlinMap<K, V> = createInternal(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6)
+
+    fun <K : Any, V : Any> of(
+      k1: K,
+      v1: V,
+      k2: K,
+      v2: V,
+      k3: K,
+      v3: V,
+      k4: K,
+      v4: V,
+      k5: K,
+      v5: V,
+      k6: K,
+      v6: V,
+      k7: K,
+      v7: V,
+    ): KotlinMap<K, V> = createInternal(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7)
+
+    fun <K : Any, V : Any> of(
+      k1: K,
+      v1: V,
+      k2: K,
+      v2: V,
+      k3: K,
+      v3: V,
+      k4: K,
+      v4: V,
+      k5: K,
+      v5: V,
+      k6: K,
+      v6: V,
+      k7: K,
+      v7: V,
+      k8: K,
+      v8: V,
+    ): KotlinMap<K, V> =
+      createInternal(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8)
+
+    fun <K : Any, V : Any> of(
+      k1: K,
+      v1: V,
+      k2: K,
+      v2: V,
+      k3: K,
+      v3: V,
+      k4: K,
+      v4: V,
+      k5: K,
+      v5: V,
+      k6: K,
+      v6: V,
+      k7: K,
+      v7: V,
+      k8: K,
+      v8: V,
+      k9: K,
+      v9: V,
+    ): KotlinMap<K, V> =
+      createInternal(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9)
+
+    fun <K : Any, V : Any> of(
+      k1: K,
+      v1: V,
+      k2: K,
+      v2: V,
+      k3: K,
+      v3: V,
+      k4: K,
+      v4: V,
+      k5: K,
+      v5: V,
+      k6: K,
+      v6: V,
+      k7: K,
+      v7: V,
+      k8: K,
+      v8: V,
+      k9: K,
+      v9: V,
+      k10: K,
+      v10: V,
+    ): KotlinMap<K, V> =
+      createInternal(
+        k1,
+        v1,
+        k2,
+        v2,
+        k3,
+        v3,
+        k4,
+        v4,
+        k5,
+        v5,
+        k6,
+        v6,
+        k7,
+        v7,
+        k8,
+        v8,
+        k9,
+        v9,
+        k10,
+        v10,
+      )
+
+    fun <K : Any, V : Any> ofEntries(vararg entries: KotlinMap.Entry<K, V>): KotlinMap<K, V> =
+      buildMap {
+        for (entry in entries) {
+          val k = Objects.requireNonNull(entry.key)
+          val v = Objects.requireNonNull(entry.value)
+          if (put(k, v) != null) {
+            throw IllegalArgumentException("Duplicate key: $k")
+          }
+        }
+      }
+
+    fun <K : Any, V : Any> copyOf(map: KotlinMap<out K, V>): KotlinMap<K, V> = buildMap {
+      for (entry in map.entries) {
+        val k = Objects.requireNonNull(entry.key)
+        val v = Objects.requireNonNull(entry.value)
+        put(k, v)
+      }
+    }
+
+    private fun <K, V> createInternal(vararg elements: Any): KotlinMap<K, V> = buildMap {
+      var i = 0
+      while (i < elements.size) {
+        val k = elements[i++] as K
+        val v = elements[i++] as V
+        if (put(k, v) != null) {
+          throw IllegalArgumentException("Duplicate key: $k")
+        }
+      }
+    }
   }
 
   fun compute(key: K, remappingFunction: BiFunction<in K, in V?, out V?>): V? =

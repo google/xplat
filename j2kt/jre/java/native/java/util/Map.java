@@ -39,6 +39,114 @@ import org.jspecify.annotations.Nullable;
     companionName = "java.util.Map")
 @NullMarked
 public interface Map<K extends @Nullable Object, @KtOut V extends @Nullable Object> {
+  static <K, V> Map<K, V> copyOf(Map<? extends K, ? extends V> map) {
+    return ktNative();
+  }
+
+  static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> of() {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(K k1, V v1) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return ktNative();
+  }
+
+  static <K, V> Map<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return ktNative();
+  }
+
+  @SafeVarargs
+  static <K, V> Map<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    return ktNative();
+  }
 
   /** Represents an individual map entry. */
   @KtNative(

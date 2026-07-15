@@ -74,5 +74,5 @@ public class HashMap<K extends @Nullable Object, V extends @Nullable Object>
   public native Set<Entry<K, V>> entrySet();
 
   @Override
-  public native Object clone() throws CloneNotSupportedException;
+  public native Object clone();
 }

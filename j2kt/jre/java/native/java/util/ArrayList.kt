@@ -35,4 +35,8 @@ open class ArrayList<T> private constructor(private val ktArrayList: KotlinArray
   fun ensureCapacity(capacity: Int) = ktArrayList.ensureCapacity(capacity)
 
   override fun clone(): Any = ArrayList<T>(KotlinArrayList<T>(ktArrayList))
+
+  override fun removeRange(fromIndex: Int, toIndex: Int) {
+    ktArrayList.subList(fromIndex, toIndex).clear()
+  }
 }

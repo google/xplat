@@ -31,9 +31,62 @@ import org.jspecify.annotations.Nullable;
 @KtNative(
     name = "kotlin.collections.List",
     mutableName = "kotlin.collections.MutableList",
-    bridgeName = "javaemul.lang.MutableListJvm")
+    bridgeName = "javaemul.lang.MutableListJvm",
+    companionName = "java.util.List")
 @NullMarked
 public interface List<@KtOut E extends @Nullable Object> extends Collection<E> {
+  static <E> List<E> copyOf(Collection<? extends E> coll) {
+    return ktNative();
+  }
+
+  static <E extends @Nullable Object> List<E> of() {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3, E e4) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3, E e4, E e5) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3, E e4, E e5, E e6) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9) {
+    return ktNative();
+  }
+
+  static <E> List<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10) {
+    return ktNative();
+  }
+
+  @SafeVarargs
+  static <E> List<E> of(E... elements) {
+    return ktNative();
+  }
 
   void add(int index, E element);
 
