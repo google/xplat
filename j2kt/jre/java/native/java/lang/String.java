@@ -64,8 +64,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public String(String toCopy) {}
 
-  // TODO(b/224969395): Add once StringBuffer is available
-  // public String(StringBuffer stringBuffer) {}
+  public String(StringBuffer stringBuffer) {}
 
   public String(int[] codePoints, int offset, int count) {}
 
@@ -199,8 +198,7 @@ public final class String implements Comparable<String>, CharSequence {
 
   public static native String valueOf(boolean value);
 
-  // TODO(b/224969395): Add once StringBuffer is available
-  // public native boolean contentEquals(StringBuffer strbuf);
+  public native boolean contentEquals(StringBuffer strbuf);
 
   public native boolean contentEquals(CharSequence cs);
 

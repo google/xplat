@@ -53,9 +53,53 @@ public final class StringBuffer implements CharSequence, Appendable {
     return stringBuilder.subSequence(start, end);
   }
 
+  public synchronized String substring(int start) {
+    return stringBuilder.substring(start);
+  }
+
+  public synchronized String substring(int start, int end) {
+    return stringBuilder.substring(start, end);
+  }
+
+  public synchronized void getChars(int start, int end, char[] buffer, int index) {
+    stringBuilder.getChars(start, end, buffer, index);
+  }
+
+  public synchronized int indexOf(String str) {
+    return stringBuilder.indexOf(str);
+  }
+
+  public synchronized int indexOf(String str, int fromIndex) {
+    return stringBuilder.indexOf(str, fromIndex);
+  }
+
+  public synchronized int lastIndexOf(String str) {
+    return stringBuilder.lastIndexOf(str);
+  }
+
+  public synchronized int lastIndexOf(String str, int fromIndex) {
+    return stringBuilder.lastIndexOf(str, fromIndex);
+  }
+
   @Override
   public synchronized int length() {
     return stringBuilder.length();
+  }
+
+  public synchronized void setLength(int newLength) {
+    stringBuilder.setLength(newLength);
+  }
+
+  public synchronized int capacity() {
+    return stringBuilder.capacity();
+  }
+
+  public synchronized void ensureCapacity(int minimumCapacity) {
+    stringBuilder.ensureCapacity(minimumCapacity);
+  }
+
+  public synchronized void trimToSize() {
+    stringBuilder.trimToSize();
   }
 
   @Override
@@ -215,5 +259,13 @@ public final class StringBuffer implements CharSequence, Appendable {
   public synchronized StringBuffer reverse() {
     stringBuilder.reverse();
     return this;
+  }
+
+  synchronized StringBuilder internalAppendToStringBuilder(StringBuilder sb) {
+    return sb.append(stringBuilder);
+  }
+
+  synchronized boolean internalContentEquals(String s) {
+    return s.contentEquals(stringBuilder);
   }
 }

@@ -51,8 +51,7 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
 
   public native StringBuilder append(@Nullable String str);
 
-  // TODO(b/224969395): Add once StringBuffer is available
-  // public native StringBuilder append(@Nullable StringBuffer sb);
+  public native StringBuilder append(@Nullable StringBuffer sb);
 
   public native StringBuilder append(char[] chars);
 
@@ -79,6 +78,8 @@ public final class StringBuilder implements Appendable, CharSequence, Serializab
   public native StringBuilder deleteCharAt(int index);
 
   public native void ensureCapacity(int minimumCapacity);
+
+  public native void getChars(int start, int end, char[] buffer, int index);
 
   public native StringBuilder insert(int offset, boolean b);
 

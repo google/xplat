@@ -17,6 +17,7 @@
  */
 package javaemul.lang
 
+import java.lang.StringBuffer
 import java.nio.charset.Charset
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
@@ -67,3 +68,6 @@ inline operator fun String.Companion.invoke(s: String) = java.lang.String(s) as 
 
 @HiddenFromObjC
 inline operator fun String.Companion.invoke(sb: StringBuilder) = java.lang.String(sb) as String
+
+@HiddenFromObjC
+inline operator fun String.Companion.invoke(sb: StringBuffer) = java.lang.String(sb) as String

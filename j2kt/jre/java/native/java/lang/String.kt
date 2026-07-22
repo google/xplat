@@ -43,6 +43,8 @@ object String {
 
   @HiddenFromObjC operator fun invoke(sb: StringBuilder): kotlin.String = sb.toString()
 
+  @HiddenFromObjC operator fun invoke(sb: StringBuffer): kotlin.String = sb.toString()
+
   operator fun invoke(a: CharArray, offset: Int, len: Int): kotlin.String = valueOf(a, offset, len)
 
   operator fun invoke(a: ByteArray) = a.decodeToString(throwOnInvalidSequence = false)

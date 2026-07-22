@@ -19,6 +19,7 @@ package javaemul.lang
 
 import java.io.UnsupportedEncodingException
 import java.lang.Character
+import java.lang.StringBuffer
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
@@ -110,10 +111,7 @@ fun String.getBytes(charset: Charset): ByteArray =
 
 @HiddenFromObjC
 fun String.getChars(start: Int, end: Int, buffer: CharArray, index: Int) {
-  var bufferIndex = index
-  for (srcIndex in start until end) {
-    buffer[bufferIndex++] = this[srcIndex]
-  }
+  toCharArray(buffer, index, start, end)
 }
 
 @HiddenFromObjC
@@ -245,6 +243,9 @@ private fun computeOutdent(lines: List<String>): Int {
   }
   return minWhitespace
 }
+
+@HiddenFromObjC
+fun String.contentEquals(sb: StringBuffer): Boolean = sb.internalContentEquals_pp_java_lang(this)
 
 @HiddenFromObjC
 fun String.java_lines(): Stream<String> {

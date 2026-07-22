@@ -75,6 +75,14 @@ public class StringTest {
     "abcde".getChars(1, 4, dstCharArray, 0);
     assertEquals("bcd", new String(dstCharArray));
 
+    char[] dstCharArray2 = new char[3];
+    new StringBuilder("abcde").getChars(1, 4, dstCharArray2, 0);
+    assertEquals("bcd", new String(dstCharArray2));
+
+    char[] dstCharArray3 = new char[3];
+    new StringBuffer("abcde").getChars(1, 4, dstCharArray3, 0);
+    assertEquals("bcd", new String(dstCharArray3));
+
     assertEquals("cabc", "aaabaa".replace(/* target= */ "aa", /* replacement= */ "c"));
     assertEquals(
         "1<br>2<br>3<br><br>4",
