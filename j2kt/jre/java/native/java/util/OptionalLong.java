@@ -20,6 +20,7 @@ import static javaemul.internal.InternalPreconditions.checkCriticalElement;
 import java.util.function.LongConsumer;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
+import java.util.stream.LongStream;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -97,6 +98,14 @@ public final class OptionalLong {
       return ref;
     }
     throw exceptionSupplier.get();
+  }
+
+  public LongStream stream() {
+    if (present) {
+      return LongStream.of(ref);
+    } else {
+      return LongStream.empty();
+    }
   }
 
   @Override

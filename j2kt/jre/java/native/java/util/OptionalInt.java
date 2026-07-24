@@ -20,6 +20,7 @@ import static javaemul.internal.InternalPreconditions.checkCriticalElement;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -97,6 +98,14 @@ public final class OptionalInt {
       return ref;
     }
     throw exceptionSupplier.get();
+  }
+
+  public IntStream stream() {
+    if (present) {
+      return IntStream.of(ref);
+    } else {
+      return IntStream.empty();
+    }
   }
 
   @Override

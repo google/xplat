@@ -127,6 +127,21 @@ public final class Objects {
     return obj;
   }
 
+  public static <T> T requireNonNullElse(@Nullable T obj, T defaultValue) {
+    if (obj == null) {
+      return requireNonNull(defaultValue, "defaultObj");
+    }
+    return obj;
+  }
+
+  public static <T> T requireNonNullElseGet(
+      @Nullable T obj, Supplier<? extends T> defaultValueSupplier) {
+    if (obj == null) {
+      return requireNonNull(defaultValueSupplier.get());
+    }
+    return obj;
+  }
+
   public static String toString(@Nullable Object o) {
     return String.valueOf(o);
   }

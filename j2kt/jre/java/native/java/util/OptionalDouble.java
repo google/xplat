@@ -20,6 +20,7 @@ import static javaemul.internal.InternalPreconditions.checkCriticalElement;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import java.util.stream.DoubleStream;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -97,6 +98,14 @@ public final class OptionalDouble {
       return ref;
     }
     throw exceptionSupplier.get();
+  }
+
+  public DoubleStream stream() {
+    if (present) {
+      return DoubleStream.of(ref);
+    } else {
+      return DoubleStream.empty();
+    }
   }
 
   @Override
