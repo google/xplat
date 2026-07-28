@@ -127,7 +127,7 @@ public final class Objects {
     return obj;
   }
 
-  public static <T> T requireNonNullElse(@Nullable T obj, T defaultValue) {
+  public static <T> T requireNonNullElse(@Nullable T obj, @Nullable T defaultValue) {
     if (obj == null) {
       return requireNonNull(defaultValue, "defaultObj");
     }

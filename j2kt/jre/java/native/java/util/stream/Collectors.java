@@ -392,7 +392,7 @@ public final class Collectors {
     return toCollection(ArrayList::new);
   }
 
-  public static <T extends @Nullable Object> Collector<T, ?, List<T>> toUnmodifiableList() {
+  public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
     Collector<T, ?, List<T>> mapping = mapping(Objects::requireNonNull, toList());
     return collectingAndThen(mapping, Collections::unmodifiableList);
   }
@@ -464,7 +464,7 @@ public final class Collectors {
     );
   }
 
-  public static <T extends @Nullable Object> Collector<T, ?, Set<T>> toUnmodifiableSet() {
+  public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
     Collector<T, ?, Set<T>> mapping = mapping(Objects::requireNonNull, toSet());
     return collectingAndThen(mapping, Collections::unmodifiableSet);
   }
