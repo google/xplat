@@ -793,7 +793,7 @@ public class HttpCookieTest extends TestCase {
     assertTrue(cookie.getSecure());
 
     // Check expire
-    list = HttpCookie.parse("Set-Cookie:name=test;expires=2006-10-23");
+    list = HttpCookie.parse("Set-Cookie:name=test;expires=Wed, 21 Oct 2015 07:28:00 GMT");
     cookie = list.get(0);
     assertEquals(0, cookie.getMaxAge());
     assertTrue(cookie.hasExpired());

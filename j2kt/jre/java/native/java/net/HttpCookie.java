@@ -582,7 +582,8 @@ public final class HttpCookie implements Cloneable {
   }
 
   private void setExpires(Date expires) {
-    maxAge = (expires.getTime() - System.currentTimeMillis()) / 1000;
+    long delta = (expires.getTime() - System.currentTimeMillis()) / 1000;
+    maxAge = delta < 0 ? 0 : delta;
   }
 
   /**
