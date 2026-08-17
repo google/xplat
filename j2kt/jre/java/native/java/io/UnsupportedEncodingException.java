@@ -16,6 +16,7 @@
 package java.io;
 
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A character encoding is not supported - <a
@@ -27,7 +28,7 @@ public class UnsupportedEncodingException extends IOException {
 
   public UnsupportedEncodingException() {}
 
-  public UnsupportedEncodingException(String msg) {
+  public UnsupportedEncodingException(@Nullable String msg) {
     super(msg);
   }
 }

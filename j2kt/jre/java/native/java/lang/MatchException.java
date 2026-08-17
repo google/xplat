@@ -16,6 +16,7 @@
 package java.lang;
 
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * See <a
@@ -27,7 +28,7 @@ public class MatchException extends RuntimeException {
 
   public MatchException() {}
 
-  public MatchException(String message, Throwable cause) {
+  public MatchException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
 }
