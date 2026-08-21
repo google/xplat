@@ -57,12 +57,12 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
 
   @Override
   public final long[] array() {
-    return protectedArray();
+    return internalArray();
   }
 
   @Override
   public final int arrayOffset() {
-    return protectedArrayOffset();
+    return internalArrayOffset();
   }
 
   public abstract LongBuffer asReadOnlyBuffer();
@@ -139,7 +139,7 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
 
   @Override
   public final boolean hasArray() {
-    return protectedHasArray();
+    return internalHasArray();
   }
 
   @Override
@@ -159,11 +159,11 @@ public abstract class LongBuffer extends Buffer implements Comparable<LongBuffer
 
   public abstract ByteOrder order();
 
-  abstract long[] protectedArray();
+  abstract long[] internalArray();
 
-  abstract int protectedArrayOffset();
+  abstract int internalArrayOffset();
 
-  abstract boolean protectedHasArray();
+  abstract boolean internalHasArray();
 
   public abstract LongBuffer put(long l);
 

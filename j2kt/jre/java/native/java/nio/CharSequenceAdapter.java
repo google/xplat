@@ -100,17 +100,17 @@ final class CharSequenceAdapter extends CharBuffer {
   }
 
   @Override
-  protected char[] protectedArray() {
+  char[] internalArray() {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  protected int protectedArrayOffset() {
+  int internalArrayOffset() {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  protected boolean protectedHasArray() {
+  boolean internalHasArray() {
     return false;
   }
 

@@ -72,17 +72,17 @@ final class ReadWriteIntArrayBuffer extends IntArrayBuffer {
   }
 
   @Override
-  protected int[] protectedArray() {
+  int[] internalArray() {
     return backingArray;
   }
 
   @Override
-  protected int protectedArrayOffset() {
+  int internalArrayOffset() {
     return offset;
   }
 
   @Override
-  protected boolean protectedHasArray() {
+  boolean internalHasArray() {
     return true;
   }
 

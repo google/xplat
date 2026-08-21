@@ -72,17 +72,17 @@ final class ReadWriteShortArrayBuffer extends ShortArrayBuffer {
   }
 
   @Override
-  protected short[] protectedArray() {
+  short[] internalArray() {
     return backingArray;
   }
 
   @Override
-  protected int protectedArrayOffset() {
+  int internalArrayOffset() {
     return offset;
   }
 
   @Override
-  protected boolean protectedHasArray() {
+  boolean internalHasArray() {
     return true;
   }
 

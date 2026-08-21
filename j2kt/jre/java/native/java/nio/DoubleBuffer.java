@@ -55,12 +55,12 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
 
   @Override
   public final double[] array() {
-    return protectedArray();
+    return internalArray();
   }
 
   @Override
   public final int arrayOffset() {
-    return protectedArrayOffset();
+    return internalArrayOffset();
   }
 
   public abstract DoubleBuffer asReadOnlyBuffer();
@@ -141,7 +141,7 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
 
   @Override
   public final boolean hasArray() {
-    return protectedHasArray();
+    return internalHasArray();
   }
 
   @Override
@@ -161,11 +161,11 @@ public abstract class DoubleBuffer extends Buffer implements Comparable<DoubleBu
 
   public abstract ByteOrder order();
 
-  abstract double[] protectedArray();
+  abstract double[] internalArray();
 
-  abstract int protectedArrayOffset();
+  abstract int internalArrayOffset();
 
-  abstract boolean protectedHasArray();
+  abstract boolean internalHasArray();
 
   public abstract DoubleBuffer put(double d);
 

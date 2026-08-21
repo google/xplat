@@ -57,12 +57,12 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
 
   @Override
   public final short[] array() {
-    return protectedArray();
+    return internalArray();
   }
 
   @Override
   public final int arrayOffset() {
-    return protectedArrayOffset();
+    return internalArrayOffset();
   }
 
   public abstract ShortBuffer asReadOnlyBuffer();
@@ -136,7 +136,7 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
 
   @Override
   public final boolean hasArray() {
-    return protectedHasArray();
+    return internalHasArray();
   }
 
   @Override
@@ -154,11 +154,11 @@ public abstract class ShortBuffer extends Buffer implements Comparable<ShortBuff
 
   public abstract ByteOrder order();
 
-  abstract short[] protectedArray();
+  abstract short[] internalArray();
 
-  abstract int protectedArrayOffset();
+  abstract int internalArrayOffset();
 
-  abstract boolean protectedHasArray();
+  abstract boolean internalHasArray();
 
   public abstract ShortBuffer put(short s);
 

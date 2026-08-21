@@ -57,12 +57,12 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
 
   @Override
   public final int[] array() {
-    return protectedArray();
+    return internalArray();
   }
 
   @Override
   public final int arrayOffset() {
-    return protectedArrayOffset();
+    return internalArrayOffset();
   }
 
   public abstract IntBuffer asReadOnlyBuffer();
@@ -138,7 +138,7 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
 
   @Override
   public final boolean hasArray() {
-    return protectedHasArray();
+    return internalHasArray();
   }
 
   @Override
@@ -156,11 +156,11 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
 
   public abstract ByteOrder order();
 
-  abstract int[] protectedArray();
+  abstract int[] internalArray();
 
-  abstract int protectedArrayOffset();
+  abstract int internalArrayOffset();
 
-  abstract boolean protectedHasArray();
+  abstract boolean internalHasArray();
 
   public abstract IntBuffer put(int i);
 

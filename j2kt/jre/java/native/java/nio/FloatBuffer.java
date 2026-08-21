@@ -57,12 +57,12 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
 
   @Override
   public final float[] array() {
-    return protectedArray();
+    return internalArray();
   }
 
   @Override
   public final int arrayOffset() {
-    return protectedArrayOffset();
+    return internalArrayOffset();
   }
 
   public abstract FloatBuffer asReadOnlyBuffer();
@@ -142,7 +142,7 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
 
   @Override
   public final boolean hasArray() {
-    return protectedHasArray();
+    return internalHasArray();
   }
 
   @Override
@@ -160,11 +160,11 @@ public abstract class FloatBuffer extends Buffer implements Comparable<FloatBuff
 
   public abstract ByteOrder order();
 
-  abstract float[] protectedArray();
+  abstract float[] internalArray();
 
-  abstract int protectedArrayOffset();
+  abstract int internalArrayOffset();
 
-  abstract boolean protectedHasArray();
+  abstract boolean internalHasArray();
 
   public abstract FloatBuffer put(float f);
 

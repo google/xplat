@@ -62,12 +62,12 @@ public abstract class ByteBuffer extends Buffer implements Comparable<ByteBuffer
 
   @Override
   public final byte[] array() {
-    return protectedArray();
+    return internalArray();
   }
 
   @Override
   public final int arrayOffset() {
-    return protectedArrayOffset();
+    return internalArrayOffset();
   }
 
   public abstract CharBuffer asCharBuffer();
@@ -178,7 +178,7 @@ public abstract class ByteBuffer extends Buffer implements Comparable<ByteBuffer
 
   @Override
   public final boolean hasArray() {
-    return protectedHasArray();
+    return internalHasArray();
   }
 
   @Override
@@ -210,11 +210,11 @@ public abstract class ByteBuffer extends Buffer implements Comparable<ByteBuffer
     return this;
   }
 
-  abstract byte[] protectedArray();
+  abstract byte[] internalArray();
 
-  abstract int protectedArrayOffset();
+  abstract int internalArrayOffset();
 
-  abstract boolean protectedHasArray();
+  abstract boolean internalHasArray();
 
   public abstract ByteBuffer put(byte b);
 

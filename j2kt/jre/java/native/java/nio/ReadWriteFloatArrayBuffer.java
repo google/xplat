@@ -72,17 +72,17 @@ final class ReadWriteFloatArrayBuffer extends FloatArrayBuffer {
   }
 
   @Override
-  protected float[] protectedArray() {
+  float[] internalArray() {
     return backingArray;
   }
 
   @Override
-  protected int protectedArrayOffset() {
+  int internalArrayOffset() {
     return offset;
   }
 
   @Override
-  protected boolean protectedHasArray() {
+  boolean internalHasArray() {
     return true;
   }
 

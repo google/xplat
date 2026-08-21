@@ -76,12 +76,12 @@ public abstract class CharBuffer extends Buffer
 
   @Override
   public final char[] array() {
-    return protectedArray();
+    return internalArray();
   }
 
   @Override
   public final int arrayOffset() {
-    return protectedArrayOffset();
+    return internalArrayOffset();
   }
 
   public abstract CharBuffer asReadOnlyBuffer();
@@ -163,7 +163,7 @@ public abstract class CharBuffer extends Buffer
 
   @Override
   public final boolean hasArray() {
-    return protectedHasArray();
+    return internalHasArray();
   }
 
   @Override
@@ -185,11 +185,11 @@ public abstract class CharBuffer extends Buffer
 
   public abstract ByteOrder order();
 
-  abstract char[] protectedArray();
+  abstract char[] internalArray();
 
-  abstract int protectedArrayOffset();
+  abstract int internalArrayOffset();
 
-  abstract boolean protectedHasArray();
+  abstract boolean internalHasArray();
 
   public abstract CharBuffer put(char c);
 
