@@ -15,7 +15,6 @@
  */
 package java.util.regex
 
-import kotlin.math.max
 import kotlin.text.Regex
 
 /** Kotlin Pattern implementation backed by kotlin.text.Regex. */
@@ -53,14 +52,27 @@ class Pattern private constructor(pattern: String, private val flags: Int) {
   fun matcher(input: CharSequence): Matcher = Matcher(this, input)
 
   fun split(input: CharSequence, limit: Int = 0): Array<String> {
-    val split = regex.split(input, max(0, limit))
-    if (limit != 0 || input.isEmpty() || !split.last().isEmpty()) {
-      return split.toTypedArray()
+    if (limit == 1) {
+      return arrayOf(input.toString())
     }
+    // Kotlin's Regex.split follows JDK 7 semantics, including a leading empty
+    // string when matching zero-width at index 0 (e.g. "abc".split("")).
+    // JDK 8+ discards that leading empty match.
+    val match = regex.find(input)
+    val dropLeading = match != null && match.range.first == 0 && match.value.isEmpty()
+    val adjustedLimit = if (limit > 0) limit + (if (dropLeading) 1 else 0) else 0
+
+    var split = regex.split(input, adjustedLimit)
+    if (dropLeading) {
+      split = split.drop(1)
+    }
+
     // For limit == 0, trim trailing empty strings (unless the input was empty itself)
-    var newSize = split.size - 1 // We have aleady checked the last element above.
-    while (newSize > 0 && split[newSize - 1].isEmpty()) {
-      newSize--
+    var newSize = split.size
+    if (limit == 0 && input.isNotEmpty()) {
+      while (newSize > 0 && split[newSize - 1].isEmpty()) {
+        newSize--
+      }
     }
     return split.subList(0, newSize).toTypedArray()
   }

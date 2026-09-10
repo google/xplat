@@ -86,6 +86,26 @@ public class RegexTest {
   }
 
   @Test
+  public void testSplit_zeroWidth() {
+    Pattern empty = Pattern.compile("");
+    assertArrayEquals(new String[] {"a", "b", "c"}, empty.split("abc"));
+    assertArrayEquals(new String[] {"a", "b", "c", ""}, empty.split("abc", -1));
+    assertArrayEquals(new String[] {"a", "b", "c"}, empty.split("abc", 3));
+    assertArrayEquals(new String[] {"a", "bc"}, empty.split("abc", 2));
+    assertArrayEquals(new String[] {""}, empty.split(""));
+    assertArrayEquals(new String[] {""}, empty.split("", -1));
+    assertArrayEquals(new String[] {""}, empty.split("", 2));
+
+    Pattern wordBoundary = Pattern.compile("\\b");
+    assertArrayEquals(new String[] {"a", " ", "b"}, wordBoundary.split("a b"));
+
+    Pattern zeroWidthQuantifier = Pattern.compile("b*");
+    assertArrayEquals(new String[] {"a", "", "a"}, zeroWidthQuantifier.split("aba"));
+    assertArrayEquals(new String[] {"a", ""}, zeroWidthQuantifier.split("a", -1));
+    assertArrayEquals(new String[] {"a"}, zeroWidthQuantifier.split("a", 0));
+  }
+
+  @Test
   public void testMatcherGroups() {
     Pattern pattern = Pattern.compile("(cat)|(dog)");
     Matcher matcher = pattern.matcher("The cat.");
