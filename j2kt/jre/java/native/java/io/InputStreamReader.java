@@ -168,6 +168,7 @@ public class InputStreamReader extends Reader {
       if (!isOpen()) {
         throw new IOException("InputStreamReader is closed");
       }
+      // TODO(b/560294233): Handle surrogate pairs correctly.
       char[] buf = new char[1];
       return read(buf, 0, 1) != -1 ? buf[0] : -1;
     }
@@ -233,11 +234,16 @@ public class InputStreamReader extends Reader {
         result = decoder.decode(bytes, out, false);
 
         if (result.isUnderflow()) {
-          // compact the buffer if no space left
-          if (bytes.limit() == bytes.capacity()) {
-            bytes.compact();
-            bytes.limit(bytes.position());
+          // If the buffer is empty, reset pointers to index 0 without memory copying.
+          if (!bytes.hasRemaining()) {
             bytes.position(0);
+            bytes.limit(0);
+            // Alternatively, if the buffer is full but not empty, shift the undecoded bytes to the
+            // start of the buffer.
+          } else if (bytes.limit() == bytes.capacity()) {
+            // UTF-8 character straddles buffer boundary, shift to start of buffer.
+            bytes.compact();
+            bytes.flip();
           }
           needInput = true;
         } else {

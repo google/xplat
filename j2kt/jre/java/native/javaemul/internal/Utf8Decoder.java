@@ -101,9 +101,31 @@ final class Utf8Decoder extends CharsetDecoder {
     // Delegate the actual text conversion to the standard system runtime
     String decoded = new String(bytes, UTF_8);
 
-    // Ensure the output CharBuffer has enough remaining capacity to receive the parsed string
+    // If the output CharBuffer cannot fit the entire decoded string, write as many
+    // complete characters as will fit without splitting a surrogate pair.
     if (out.remaining() < decoded.length()) {
-      in.position(in.position() - safeLen);
+      int maxChars = out.remaining();
+      if (maxChars == 0) {
+        in.position(in.position() - safeLen);
+        return CoderResult.OVERFLOW;
+      }
+
+      // If the last character that fits is a high surrogate (start of a 2-char emoji),
+      // back up by 1 to avoid writing an incomplete surrogate pair.
+      if (Character.isHighSurrogate(decoded.charAt(maxChars - 1))) {
+        maxChars--;
+      }
+      if (maxChars == 0) {
+        in.position(in.position() - safeLen);
+        return CoderResult.OVERFLOW;
+      }
+
+      // Calculate the exact number of UTF-8 input bytes for the first maxChars characters
+      int consumedBytes = getUtf8ByteCount(decoded, maxChars);
+
+      // Rewind the unconsumed trailing bytes so they can be processed on the next pass
+      in.position(in.position() - safeLen + consumedBytes);
+      out.put(decoded, 0, maxChars);
       return CoderResult.OVERFLOW;
     }
 
@@ -111,5 +133,27 @@ final class Utf8Decoder extends CharsetDecoder {
 
     // Inform the reader that all safe bytes were successfully processed
     return CoderResult.UNDERFLOW;
+  }
+
+  /**
+   * Calculates the exact number of UTF-8 encoded bytes for the first {@code charCount} characters
+   * of {@code s}.
+   */
+  private static int getUtf8ByteCount(String s, int charCount) {
+    int byteCount = 0;
+    for (int i = 0; i < charCount; i++) {
+      char c = s.charAt(i);
+      if (c < 0x80) {
+        byteCount += 1;
+      } else if (c < 0x800) {
+        byteCount += 2;
+      } else if (Character.isHighSurrogate(c)) {
+        byteCount += 4;
+        i++; // Skip the corresponding low surrogate
+      } else {
+        byteCount += 3;
+      }
+    }
+    return byteCount;
   }
 }

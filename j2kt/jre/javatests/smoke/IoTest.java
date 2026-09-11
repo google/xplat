@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -66,6 +67,93 @@ public class IoTest {
     int count = reader.read(buf);
     assertEquals(12, count);
     assertEquals("Hello, World", String.valueOf(buf, 0, count));
+  }
+
+  @Test
+  public void testInputStreamReaderLargeStreamWithUnicodeTerminating() throws Exception {
+    StringBuilder expected = new StringBuilder();
+    for (int i = 0; i < 2000; i++) {
+      expected.append("Line ").append(i).append(": some unicode data \u20ac\n");
+    }
+    byte[] utf8Bytes = expected.toString().getBytes(UTF_8);
+    assertTrue(utf8Bytes.length > 8192);
+    ByteArrayInputStream is = new ByteArrayInputStream(utf8Bytes);
+    InputStreamReader reader = new InputStreamReader(is, UTF_8);
+
+    StringBuilder actual = new StringBuilder();
+    char[] buf = new char[512];
+    int read;
+    while ((read = reader.read(buf, 0, buf.length)) != -1) {
+      actual.append(buf, 0, read);
+    }
+    assertEquals(expected.length(), actual.length());
+    assertEquals(expected.toString(), actual.toString());
+  }
+
+  @Test
+  public void testInputStreamReaderChunkedStreamWithUnicode() throws Exception {
+    StringBuilder expected = new StringBuilder();
+    for (int i = 0; i < 5000; i++) {
+      expected.append("Chunk ").append(i).append(" test \u00e9\u00e0\u00f4\n");
+    }
+    byte[] utf8Bytes = expected.toString().getBytes(UTF_8);
+
+    // An InputStream that returns at most 37 bytes per read to force many buffer refills
+    InputStream chunkedIs =
+        new InputStream() {
+          private int pos = 0;
+
+          @Override
+          public int read() {
+            if (pos >= utf8Bytes.length) {
+              return -1;
+            }
+            return utf8Bytes[pos++] & 0xFF;
+          }
+
+          @Override
+          public int read(byte[] b, int off, int len) {
+            if (pos >= utf8Bytes.length) {
+              return -1;
+            }
+            int toRead = Math.min(len, Math.min(37, utf8Bytes.length - pos));
+            System.arraycopy(utf8Bytes, pos, b, off, toRead);
+            pos += toRead;
+            return toRead;
+          }
+        };
+
+    InputStreamReader reader = new InputStreamReader(chunkedIs, UTF_8);
+    StringBuilder actual = new StringBuilder();
+    char[] buf = new char[100];
+    int read;
+    while ((read = reader.read(buf, 0, buf.length)) != -1) {
+      actual.append(buf, 0, read);
+    }
+    assertEquals(expected.toString(), actual.toString());
+  }
+
+  /** Tests exact multiples of the 8192-byte internal buffer size with small-buffer reads. */
+  @Test
+  public void testInputStreamReader_exactBufferBoundaries_drainsAndRefillsWithoutStalling()
+      throws Exception {
+    int bufferSize = 8192;
+    int totalBytes = bufferSize * 3; // 24,576 bytes (exact 3x multiple)
+    byte[] testData = new byte[totalBytes];
+    for (int i = 0; i < totalBytes; i++) {
+      testData[i] = (byte) ('a' + (i % 26));
+    }
+    ByteArrayInputStream is = new ByteArrayInputStream(testData);
+    InputStreamReader reader = new InputStreamReader(is, UTF_8);
+
+    StringBuilder actual = new StringBuilder();
+    char[] buf = new char[7]; // Odd prime size to force crossing all buffer boundaries
+    int read;
+    while ((read = reader.read(buf, 0, buf.length)) != -1) {
+      actual.append(buf, 0, read);
+    }
+    assertEquals(totalBytes, actual.length());
+    assertEquals(new String(testData, UTF_8), actual.toString());
   }
 
   @Test
