@@ -156,6 +156,145 @@ public class IoTest {
     assertEquals(new String(testData, UTF_8), actual.toString());
   }
 
+  /**
+   * Tests single-character read() calls on multi-byte UTF-8 sequences and surrogate pairs (emojis).
+   */
+  @Test
+  public void testInputStreamReader_singleCharacterReads_withSurrogatePairsAndMultibyteChars()
+      throws Exception {
+    String testString = "Hello 🚀 World! 🌍 \u20ac \u00e9\u00e8\u00e0 \ud83d\ude00 End";
+    byte[] utf8Bytes = testString.getBytes(UTF_8);
+    ByteArrayInputStream is = new ByteArrayInputStream(utf8Bytes);
+    InputStreamReader reader = new InputStreamReader(is, UTF_8);
+
+    StringBuilder actual = new StringBuilder();
+    int ch;
+    while ((ch = reader.read()) != -1) {
+      actual.append((char) ch);
+    }
+    assertEquals(testString, actual.toString());
+  }
+
+  /**
+   * Tests that reading with a 1-char buffer across surrogate pairs (emojis) correctly preserves
+   * both halves of the surrogate pair without corrupting or skipping.
+   */
+  @Test
+  public void testInputStreamReader_charBufferOfLengthOne_withSurrogatePairs() throws Exception {
+    String emojiString = "\ud83d\ude80\ud83d\ude0a\ud83c\udf89";
+    byte[] utf8Bytes = emojiString.getBytes(UTF_8);
+    ByteArrayInputStream is = new ByteArrayInputStream(utf8Bytes);
+    InputStreamReader reader = new InputStreamReader(is, UTF_8);
+
+    StringBuilder actual = new StringBuilder();
+    char[] buf = new char[1];
+    int read;
+    while ((read = reader.read(buf, 0, 1)) != -1) {
+      actual.append(buf[0]);
+    }
+    assertEquals(emojiString, actual.toString());
+  }
+
+  @Test
+  public void testInputStreamReaderSplitMultiByte() throws Exception {
+    // 4-byte emoji 🚀 (\uD83D\uDE80) repeated across 1-byte deliveries
+    String emojiString = "\ud83d\ude80\ud83d\ude80\ud83d\ude80";
+    byte[] bytes = emojiString.getBytes(UTF_8);
+
+    InputStream oneByteStream =
+        new InputStream() {
+          private int pos = 0;
+
+          @Override
+          public int read() {
+            if (pos >= bytes.length) {
+              return -1;
+            }
+            return bytes[pos++] & 0xFF;
+          }
+
+          @Override
+          public int read(byte[] b, int off, int len) {
+            if (pos >= bytes.length) {
+              return -1;
+            }
+            b[off] = bytes[pos++];
+            return 1;
+          }
+        };
+
+    InputStreamReader reader = new InputStreamReader(oneByteStream, UTF_8);
+    StringBuilder actual = new StringBuilder();
+    char[] buf = new char[2];
+    int read;
+    while ((read = reader.read(buf, 0, buf.length)) != -1) {
+      actual.append(buf, 0, read);
+    }
+    assertEquals(emojiString, actual.toString());
+  }
+
+  /**
+   * Tests mixed read operations (single-char read(), 1-char buffer read, and multi-char buffer
+   * reads) over a stream containing surrogate pairs to ensure residual character buffering works
+   * consistently across different read methods.
+   */
+  @Test
+  public void testInputStreamReader_mixedReadSizes_withSurrogatePairs() throws Exception {
+    String text = "A \ud83d\ude80 BC \ud83d\ude00 DEF \ud83c\udf89 GHI";
+    byte[] bytes = text.getBytes(UTF_8);
+    ByteArrayInputStream is = new ByteArrayInputStream(bytes);
+    InputStreamReader reader = new InputStreamReader(is, UTF_8);
+
+    StringBuilder actual = new StringBuilder();
+    // 1. Single character read()
+    int c = reader.read();
+    assertEquals('A', c);
+    actual.append((char) c);
+
+    // 2. read(buf, 0, 1) for space
+    char[] buf1 = new char[1];
+    assertEquals(1, reader.read(buf1, 0, 1));
+    actual.append(buf1[0]);
+
+    // 3. read(buf, 0, 1) for high surrogate of rocket emoji
+    assertEquals(1, reader.read(buf1, 0, 1));
+    actual.append(buf1[0]);
+
+    // 4. read() for low surrogate of rocket emoji (from residual)
+    c = reader.read();
+    actual.append((char) c);
+
+    // 5. Read remaining with 3-char buffer
+    char[] buf3 = new char[3];
+    int read;
+    while ((read = reader.read(buf3, 0, buf3.length)) != -1) {
+      actual.append(buf3, 0, read);
+    }
+    assertEquals(text, actual.toString());
+  }
+
+  /** Tests ready() method behavior when residual is buffered. */
+  @Test
+  public void testInputStreamReader_ready_reflectsResidualAndBufferedState() throws Exception {
+    String emojiString = "\ud83d\ude80"; // 🚀 high surrogate + low surrogate
+    ByteArrayInputStream is = new ByteArrayInputStream(emojiString.getBytes(UTF_8));
+    InputStreamReader reader = new InputStreamReader(is, UTF_8);
+
+    assertTrue(reader.ready());
+    // Read 1 char into 1-slot buffer -> consumes high surrogate and leaves low surrogate in
+    // residual
+    char[] buf = new char[1];
+    assertEquals(1, reader.read(buf, 0, 1));
+    assertEquals(emojiString.charAt(0), buf[0]);
+
+    // reader.ready() must return true because residual is available
+    assertTrue(reader.ready());
+
+    // Read low surrogate
+    assertEquals(1, reader.read(buf, 0, 1));
+    assertEquals(emojiString.charAt(1), buf[0]);
+  }
+
   @Test
   public void testUsAsciiDecoder() throws Exception {
     ByteArrayInputStream is = new ByteArrayInputStream("Hello ASCII".getBytes(US_ASCII));

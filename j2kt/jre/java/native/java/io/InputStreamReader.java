@@ -43,9 +43,14 @@ public class InputStreamReader extends Reader {
 
   private boolean endOfInput = false;
 
+  // If true, the codePointBuffer contains a residual character from the previous read.
+  private boolean hasResidual = false;
+
   private @Nullable CharsetDecoder decoder;
 
   private final ByteBuffer bytes = ByteBuffer.allocate(8192);
+  // Internal buffer to handle reading single characters to account for surrogate pairs (2 chars).
+  private final char[] codePointBuffer = new char[2];
 
   /**
    * Constructs a new {@code InputStreamReader} on the {@link InputStream} {@code in}. This
@@ -130,6 +135,7 @@ public class InputStreamReader extends Reader {
   @Override
   public void close() throws IOException {
     synchronized (lock) {
+      hasResidual = false;
       if (decoder != null) {
         decoder.reset();
       }
@@ -168,9 +174,22 @@ public class InputStreamReader extends Reader {
       if (!isOpen()) {
         throw new IOException("InputStreamReader is closed");
       }
-      // TODO(b/560294233): Handle surrogate pairs correctly.
-      char[] buf = new char[1];
-      return read(buf, 0, 1) != -1 ? buf[0] : -1;
+      if (hasResidual) {
+        hasResidual = false;
+        return codePointBuffer[1];
+      }
+      // Read up to 2 characters to accommodate a complete Unicode code point.
+      switch (read(codePointBuffer, 0, 2)) {
+        // A 2-char surrogate pair or 2 simple characters. Shelve the second char for the next read.
+        case 2:
+          hasResidual = true;
+          return codePointBuffer[0];
+        // Final character before EOF, or a single BMP character preceding a surrogate pair.
+        case 1:
+          return codePointBuffer[0];
+        default:
+          return -1;
+      }
     }
   }
 
@@ -195,6 +214,30 @@ public class InputStreamReader extends Reader {
       checkCriticalArrayBounds(offset, offset + count, buffer.length);
       if (count == 0) {
         return 0;
+      }
+      // Defer to read() to account for surrogate Pairs. Then copy the result from the internal
+      // buffer to the caller-provided buffer
+      if (buffer.length == 1 && count == 1) {
+        int result = read();
+        switch (result) {
+          case -1:
+            return -1;
+          default:
+            buffer[offset] = (char) result;
+            return 1;
+        }
+      }
+
+      int originalOffset = offset;
+      // Check for residual char from previous read.
+      if (hasResidual) {
+        buffer[offset] = codePointBuffer[1];
+        hasResidual = false;
+        offset++;
+        // Check if we're done.
+        if (--count == 0) {
+          return 1;
+        }
       }
 
       CharBuffer out = CharBuffer.wrap(buffer, offset, count);
@@ -260,7 +303,7 @@ public class InputStreamReader extends Reader {
         result.throwException();
       }
 
-      return out.position() - offset == 0 ? -1 : out.position() - offset;
+      return out.position() - originalOffset == 0 ? -1 : out.position() - originalOffset;
     }
   }
 
@@ -285,7 +328,7 @@ public class InputStreamReader extends Reader {
         throw new IOException("InputStreamReader is closed");
       }
       try {
-        return bytes.hasRemaining() || in.available() > 0;
+        return hasResidual || bytes.hasRemaining() || in.available() > 0;
       } catch (IOException e) {
         return false;
       }
