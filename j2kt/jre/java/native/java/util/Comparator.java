@@ -27,7 +27,8 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * An interface used a basis for implementing custom ordering. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Comparator.html">[Sun docs]</a>
+ * href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html">[official
+ * Java API docs]</a>
  *
  * @param <T> the type to be compared.
  */

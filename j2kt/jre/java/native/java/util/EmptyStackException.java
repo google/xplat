@@ -18,7 +18,8 @@ package java.util;
 import org.jspecify.annotations.NullMarked;
 
 /**
- * See <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/EmptyStackException.html">the
+ * See <a
+ * href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/EmptyStackException.html">the
  * official Java API doc</a> for details.
  */
 @NullMarked

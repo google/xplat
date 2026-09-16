@@ -20,7 +20,8 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * A set known to be in ascending order. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/SortedSet.html">[Sun docs]</a>
+ * href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/SortedSet.html">[official
+ * Java API docs]</a>
  *
  * @param <E> element type.
  */

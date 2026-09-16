@@ -20,8 +20,8 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * An implementation of java.sql.Timestame. Derived from
- * http://java.sun.com/j2se/1.5.0/docs/api/java/sql/Timestamp.html. This is basically just regular
- * Date decorated with a nanoseconds field.
+ * https://docs.oracle.com/en/java/javase/27/docs/api/java.sql/java/sql/Timestamp.html. This is
+ * basically just regular Date decorated with a nanoseconds field.
  */
 @NullMarked
 public class Timestamp extends java.util.Date {

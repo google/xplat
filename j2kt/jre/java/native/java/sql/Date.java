@@ -19,7 +19,7 @@ import org.jspecify.annotations.NullMarked;
 
 /**
  * An implementation of java.sql.Date. Derived from
- * http://java.sun.com/j2se/1.5.0/docs/api/java/sql/Date.html
+ * https://docs.oracle.com/en/java/javase/27/docs/api/java.sql/java/sql/Date.html
  */
 @NullMarked
 public class Date extends java.util.Date {

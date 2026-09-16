@@ -19,8 +19,8 @@ import org.jspecify.annotations.NullMarked;
 
 /**
  * Enumerates annotation retention policies <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/RetentionPolicy.html">[Sun
- * docs]</a>.
+ * href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/annotation/RetentionPolicy.html">[official
+ * Java API docs]</a>.
  */
 @NullMarked
 public enum RetentionPolicy {

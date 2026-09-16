@@ -25,7 +25,8 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Skeletal implementation of the Queue interface. <a
- * href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/AbstractQueue.html">[Sun docs]</a>
+ * href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/AbstractQueue.html">[official
+ * Java API docs]</a>
  *
  * @param <E> element type.
  */
