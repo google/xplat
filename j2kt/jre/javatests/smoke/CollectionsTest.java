@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -43,6 +44,8 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.Spliterator;
@@ -971,5 +974,50 @@ public class CollectionsTest {
 
     assertThrows(NullPointerException.class, () -> Map.entry(null, "world"));
     assertThrows(NullPointerException.class, () -> Map.entry("hello", null));
+  }
+
+  @Test
+  public void testPriorityQueue_equalElementsNotSwapped() {
+    Comparator<String> byFirstChar = Comparator.comparingInt(s -> s.charAt(0));
+
+    // 1. addAll with 2 equal-priority elements preserves order and matches offer().
+    PriorityQueue<String> addAllQueue = new PriorityQueue<>(byFirstChar);
+    addAllQueue.addAll(Arrays.asList("a1", "a2"));
+
+    PriorityQueue<String> offerQueue = new PriorityQueue<>(byFirstChar);
+    offerQueue.offer("a1");
+    offerQueue.offer("a2");
+
+    assertEquals("a1", addAllQueue.poll());
+    assertEquals("a2", addAllQueue.poll());
+    assertEquals("a1", offerQueue.poll());
+    assertEquals("a2", offerQueue.poll());
+
+    // 2. addAll with 3 equal-priority elements keeps the first element at root during makeHeap.
+    PriorityQueue<String> threeEqualQueue = new PriorityQueue<>(byFirstChar);
+    threeEqualQueue.addAll(Arrays.asList("a1", "a2", "a3"));
+    assertEquals("a1", threeEqualQueue.peek());
+
+    // 3. Sift-down during poll() does not needlessly swap equal elements down the tree.
+    // Build heap: index 0="a1", index 1="b1", index 2="c1", index 3="b2", index 4="b3".
+    PriorityQueue<String> pollSiftDownQueue = new PriorityQueue<>(byFirstChar);
+    for (String item : Arrays.asList("a1", "b1", "c1", "b2", "b3")) {
+      pollSiftDownQueue.offer(item);
+    }
+    // Removing "a1" moves the last element ("b3") to index 0. Because compare("b3", "b1") == 0,
+    // mergeHeaps(0) should stop immediately without swapping "b3" with "b1" or "b2".
+    assertEquals("a1", pollSiftDownQueue.poll());
+    assertEquals("b3", pollSiftDownQueue.peek());
+
+    // 4. Draining mixed priorities with ties preserves valid non-decreasing priority order.
+    PriorityQueue<String> mixedQueue = new PriorityQueue<>(byFirstChar);
+    mixedQueue.addAll(Arrays.asList("c1", "a1", "b1", "a2", "c2", "b2"));
+    assertEquals('a', Objects.requireNonNull(mixedQueue.poll()).charAt(0));
+    assertEquals('a', Objects.requireNonNull(mixedQueue.poll()).charAt(0));
+    assertEquals('b', Objects.requireNonNull(mixedQueue.poll()).charAt(0));
+    assertEquals('b', Objects.requireNonNull(mixedQueue.poll()).charAt(0));
+    assertEquals('c', Objects.requireNonNull(mixedQueue.poll()).charAt(0));
+    assertEquals('c', Objects.requireNonNull(mixedQueue.poll()).charAt(0));
+    assertTrue(mixedQueue.isEmpty());
   }
 }
