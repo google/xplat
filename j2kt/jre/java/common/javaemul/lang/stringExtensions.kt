@@ -22,8 +22,6 @@ import java.nio.charset.Charset
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
-// The CharArray constructors are deliberately using nullable CharArray parameters to avoid
-// triggering a compiler diagnostic that forbids use of these deprecated constructors in Kotlin 🤞.
 /**
  * Pseudo-constructor for emulated java.lang.String.
  *
@@ -31,10 +29,18 @@ import kotlin.native.HiddenFromObjC
  *
  * See regular JRE API documentation for other methods in this file.
  */
-inline operator fun String.Companion.invoke(a: CharArray?): String = java.lang.String(a!!) as String
+// Provide both top-level `fun String` (to shadow deprecated `kotlin.text.String(CharArray)` via
+// explicit star import `import javaemul.lang.*` on unqualified calls) and `String.Companion.invoke`
+// (to support qualified `kotlin.String(...)` calls emitted when `String` is shadowed).
+inline fun String(a: CharArray): String = java.lang.String(a) as String
 
-inline operator fun String.Companion.invoke(a: CharArray?, offset: Int, len: Int): String =
-  java.lang.String(a!!, offset, len) as String
+inline fun String(a: CharArray, offset: Int, len: Int): String =
+  java.lang.String(a, offset, len) as String
+
+inline operator fun String.Companion.invoke(a: CharArray): String = java.lang.String(a) as String
+
+inline operator fun String.Companion.invoke(a: CharArray, offset: Int, len: Int): String =
+  java.lang.String(a, offset, len) as String
 
 inline operator fun String.Companion.invoke(a: ByteArray) = java.lang.String(a) as String
 
