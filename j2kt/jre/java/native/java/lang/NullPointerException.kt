@@ -18,9 +18,13 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class NullPointerException(message: kotlin.String? = null) :
+open class NullPointerException(message: kotlin.String?) :
   kotlin.NullPointerException(message), InitCauseCapable {
+
   override val causeHolder = CauseHolder()
+
   override val cause
     get() = causeHolder.cause
+
+  constructor() : this(message = null)
 }

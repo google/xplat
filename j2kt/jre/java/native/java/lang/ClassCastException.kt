@@ -18,9 +18,13 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class ClassCastException(message: kotlin.String? = null) :
+open class ClassCastException(message: kotlin.String?) :
   kotlin.ClassCastException(message), InitCauseCapable {
+
   override val causeHolder = CauseHolder()
+
   override val cause
     get() = causeHolder.cause
+
+  constructor() : this(message = null)
 }

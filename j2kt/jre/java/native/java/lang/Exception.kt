@@ -18,7 +18,7 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class Exception(message: kotlin.String? = null) : kotlin.Exception(message), InitCauseCapable {
+open class Exception(message: kotlin.String?) : kotlin.Exception(message), InitCauseCapable {
   /**
    * Kotlin throwables do not support [initCause] for initializing the cause outside of the
    * constructor. The readonly [cause] property however is `open` so we override it to let
@@ -30,6 +30,8 @@ open class Exception(message: kotlin.String? = null) : kotlin.Exception(message)
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
+
+  constructor() : this(message = null)
 
   constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)

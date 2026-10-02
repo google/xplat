@@ -18,11 +18,14 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class AssertionError(message: kotlin.String? = null) :
+open class AssertionError(message: kotlin.String?) :
   kotlin.AssertionError(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
+
   override val cause
     get() = causeHolder.cause
+
+  constructor() : this(message = null)
 
   constructor(
     message: Any?
@@ -33,4 +36,16 @@ open class AssertionError(message: kotlin.String? = null) :
   constructor(message: kotlin.String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
   }
+
+  constructor(detailMessage: kotlin.Boolean) : this(detailMessage.toString())
+
+  constructor(detailMessage: kotlin.Char) : this(detailMessage.toString())
+
+  constructor(detailMessage: kotlin.Int) : this(detailMessage.toString())
+
+  constructor(detailMessage: kotlin.Long) : this(detailMessage.toString())
+
+  constructor(detailMessage: kotlin.Float) : this(detailMessage.toString())
+
+  constructor(detailMessage: kotlin.Double) : this(detailMessage.toString())
 }

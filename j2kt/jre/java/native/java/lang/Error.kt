@@ -18,8 +18,9 @@ package java.lang
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class Error(message: kotlin.String? = null) : kotlin.Error(message), InitCauseCapable {
+open class Error(message: kotlin.String?) : kotlin.Error(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
+
   override val cause
     get() = causeHolder.cause
 

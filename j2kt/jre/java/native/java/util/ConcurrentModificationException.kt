@@ -18,11 +18,13 @@ package java.util
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 
-open class ConcurrentModificationException(message: String? = null) :
+open class ConcurrentModificationException(message: String?) :
   kotlin.ConcurrentModificationException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause
     get() = causeHolder.cause
+
+  constructor() : this(message = null)
 
   constructor(message: String?, cause: kotlin.Throwable?) : this(message) {
     initCause(cause)
