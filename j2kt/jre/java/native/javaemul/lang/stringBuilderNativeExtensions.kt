@@ -29,7 +29,7 @@ fun StringBuilder.appendCodePoint(codePoint: Int) =
 
 @HiddenFromObjC
 fun StringBuilder.append(b: StringBuffer?) =
-  b?.internalAppendToStringBuilder_pp_java_lang(this) ?: this.append(null)
+  b?.internalAppendToStringBuilder(this) ?: this.append(null)
 
 @HiddenFromObjC
 fun StringBuilder.getChars(start: Int, end: Int, buffer: CharArray, index: Int) {

@@ -244,8 +244,7 @@ private fun computeOutdent(lines: List<String>): Int {
   return minWhitespace
 }
 
-@HiddenFromObjC
-fun String.contentEquals(sb: StringBuffer): Boolean = sb.internalContentEquals_pp_java_lang(this)
+@HiddenFromObjC fun String.contentEquals(sb: StringBuffer): Boolean = sb.internalContentEquals(this)
 
 @HiddenFromObjC
 fun String.java_lines(): Stream<String> {
