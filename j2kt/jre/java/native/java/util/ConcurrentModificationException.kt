@@ -17,7 +17,10 @@ package java.util
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaUtilConcurrentModificationException", exact = true)
 open class ConcurrentModificationException(message: String?) :
   kotlin.ConcurrentModificationException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()

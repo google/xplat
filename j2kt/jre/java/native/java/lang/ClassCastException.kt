@@ -17,7 +17,10 @@ package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangClassCastException", exact = true)
 open class ClassCastException(message: kotlin.String?) :
   kotlin.ClassCastException(message), InitCauseCapable {
 

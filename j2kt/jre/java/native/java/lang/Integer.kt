@@ -16,10 +16,13 @@
 package java.lang
 
 import javaemul.internal.decodeNumberString
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 import kotlin.math.sign
 
 /** java.lang.Integer static method emulations */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangInteger", exact = true)
 class Integer {
   companion object {
     operator fun invoke(i: Int): Int = i

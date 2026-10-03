@@ -17,7 +17,10 @@ package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangNumberFormatException", exact = true)
 open class NumberFormatException(message: kotlin.String?) :
   kotlin.NumberFormatException(message), InitCauseCapable {
 

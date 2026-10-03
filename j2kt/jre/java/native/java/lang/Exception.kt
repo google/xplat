@@ -17,7 +17,10 @@ package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangException", exact = true)
 open class Exception(message: kotlin.String?) : kotlin.Exception(message), InitCauseCapable {
   /**
    * Kotlin throwables do not support [initCause] for initializing the cause outside of the

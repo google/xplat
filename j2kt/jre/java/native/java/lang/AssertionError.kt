@@ -17,7 +17,10 @@ package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangAssertionError", exact = true)
 open class AssertionError(message: kotlin.String?) :
   kotlin.AssertionError(message), InitCauseCapable {
   override val causeHolder = CauseHolder()

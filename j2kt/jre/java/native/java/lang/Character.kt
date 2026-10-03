@@ -16,9 +16,12 @@
 package java.lang
 
 import javaemul.lang.codePointAt
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Character static method emulations */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangCharacter", exact = true)
 class Character {
   companion object {
     operator fun invoke(c: Char): Char = c

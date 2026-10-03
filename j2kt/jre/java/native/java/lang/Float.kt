@@ -15,9 +15,12 @@
  */
 package java.lang
 
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Float static method emulations */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangFloat", exact = true)
 class Float {
   companion object {
     operator fun invoke(f: kotlin.Float): kotlin.Float = f

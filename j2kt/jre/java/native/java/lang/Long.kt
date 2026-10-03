@@ -16,10 +16,13 @@
 package java.lang
 
 import javaemul.internal.decodeNumberString
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 import kotlin.math.sign
 
 /** java.lang.Long static method emulations */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangLong", exact = true)
 class Long {
   companion object {
     operator fun invoke(l: kotlin.Long): kotlin.Long = l

@@ -15,9 +15,12 @@
  */
 package java.lang
 
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Double static method emulations */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangDouble", exact = true)
 class Double {
   companion object {
     operator fun invoke(d: kotlin.Double): kotlin.Double = d

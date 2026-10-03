@@ -17,7 +17,10 @@ package java.util
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaUtilNoSuchElementException", exact = true)
 open class NoSuchElementException(message: String?) :
   kotlin.NoSuchElementException(message), InitCauseCapable {
 

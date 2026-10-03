@@ -15,11 +15,13 @@
  */
 package java.lang
 
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Boolean static method emulations */
-@OptIn(ExperimentalObjCRefinement::class)
+@OptIn(ExperimentalObjCName::class, ExperimentalObjCRefinement::class)
+@ObjCName("J2ktJavaLangBoolean", exact = true)
 class Boolean {
   companion object {
     operator fun invoke(b: kotlin.Boolean): kotlin.Boolean = b

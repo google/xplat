@@ -17,7 +17,10 @@ package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangIndexOutOfBoundsException", exact = true)
 open class IndexOutOfBoundsException(message: kotlin.String?) :
   kotlin.IndexOutOfBoundsException(message), InitCauseCapable {
   override val causeHolder = CauseHolder()

@@ -17,7 +17,10 @@ package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangArithmeticException", exact = true)
 open class ArithmeticException(message: kotlin.String?) :
   kotlin.ArithmeticException(message), InitCauseCapable {
 

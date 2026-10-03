@@ -16,9 +16,12 @@
 package java.lang
 
 import javaemul.internal.decodeNumberString
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Byte static method emulations */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangByte", exact = true)
 class Byte {
   companion object {
     operator fun invoke(b: kotlin.Byte): kotlin.Byte = b

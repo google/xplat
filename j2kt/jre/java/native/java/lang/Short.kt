@@ -16,9 +16,12 @@
 package java.lang
 
 import javaemul.internal.decodeNumberString
+import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
 
 /** java.lang.Short static method emulations */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangShort", exact = true)
 class Short {
   companion object {
     operator fun invoke(s: kotlin.Short): kotlin.Short = s

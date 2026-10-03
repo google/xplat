@@ -21,7 +21,10 @@ import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
 import kotlin.String as KotlinString
 import kotlin.Throwable as KotlinThrowable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangThrowable", exact = true)
 open class Throwable(message: KotlinString?) : KotlinThrowable(message), InitCauseCapable {
   override val causeHolder = CauseHolder()
   override val cause

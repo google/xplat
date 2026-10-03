@@ -17,7 +17,10 @@ package java.lang
 
 import javaemul.lang.CauseHolder
 import javaemul.lang.InitCauseCapable
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangNullPointerException", exact = true)
 open class NullPointerException(message: kotlin.String?) :
   kotlin.NullPointerException(message), InitCauseCapable {
 
