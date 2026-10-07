@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalObjCRefinement::class)
-
 /*
  * Copyright 2022 Google Inc.
  *
@@ -18,8 +16,6 @@
 package javaemul.lang
 
 import java.lang.Short as JavaShort
-import kotlin.experimental.ExperimentalObjCRefinement
-import kotlin.native.HiddenFromObjC
 
 /**
  * Pseudo-constructor for emulated java.lang.Short.
@@ -29,22 +25,3 @@ import kotlin.native.HiddenFromObjC
 operator fun Short.Companion.invoke(s: Short): Short = JavaShort(s) as Short
 
 operator fun Short.Companion.invoke(s: String): Short = JavaShort(s) as Short
-
-@HiddenFromObjC
-fun Short.shl(pos: Int): Int {
-  val intVal = this.toInt()
-  return intVal.shl(pos)
-}
-
-@HiddenFromObjC
-fun Short.shr(pos: Int): Int {
-  val intVal = this.toInt()
-  return intVal.shr(pos)
-}
-
-@HiddenFromObjC
-fun Short.and(other: Short): Int {
-  val intVal = this.toInt()
-  val otherIntVal = other.toInt()
-  return intVal.and(otherIntVal)
-}

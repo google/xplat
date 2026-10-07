@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalObjCRefinement::class)
-
 /*
  * Copyright 2022 Google Inc.
  *
@@ -18,8 +16,6 @@
 package javaemul.lang
 
 import java.lang.Character as JavaCharacter
-import kotlin.experimental.ExperimentalObjCRefinement
-import kotlin.native.HiddenFromObjC
 
 /**
  * Pseudo-constructor for emulated java.lang.Character.
@@ -27,9 +23,3 @@ import kotlin.native.HiddenFromObjC
  * See regular JRE API documentation for other methods in this file.
  */
 operator fun Char.Companion.invoke(c: Char): Char = JavaCharacter(c) as Char
-
-@HiddenFromObjC fun Char.shr(pos: Int): Int = code.shr(pos)
-
-@HiddenFromObjC fun Char.ushr(pos: Int): Int = code.ushr(pos)
-
-@HiddenFromObjC operator fun Char.unaryMinus(): Int = code.unaryMinus()
