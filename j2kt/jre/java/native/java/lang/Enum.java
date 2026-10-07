@@ -16,6 +16,7 @@
 
 package java.lang;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import javaemul.internal.annotations.KtProperty;
 import org.jspecify.annotations.NullMarked;
@@ -26,6 +27,7 @@ import org.jspecify.annotations.Nullable;
 public abstract class Enum<E extends Enum<E>> implements Comparable<E> {
 
   /** Exists solely to make javac happy. */
+  @HiddenFromObjC
   public static final class EnumDesc<E extends Enum<E>> {
     public static <E extends Enum<E>> Enum.EnumDesc<E> of(Object... args) {
       throw new UnsupportedOperationException();
@@ -56,5 +58,6 @@ public abstract class Enum<E extends Enum<E>> implements Comparable<E> {
 
   public final native Class<E> getDeclaringClass();
 
+  @HiddenFromObjC
   public static native <T extends Enum<T>> T valueOf(Class<T> enumType, String name);
 }

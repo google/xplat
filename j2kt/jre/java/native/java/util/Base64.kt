@@ -22,48 +22,52 @@ import kotlin.io.encoding.Base64 as KBase64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 @OptIn(ExperimentalEncodingApi::class)
-object Base64 {
+class Base64 private constructor() {
+  companion object {
+    private val decoder = Decoder()
+    private val encoder = Encoder()
 
-  private val decoder = Decoder()
-  private val encoder = Encoder()
+    fun getDecoder(): Decoder = decoder
 
-  fun getDecoder(): Decoder = decoder
+    fun getEncoder(): Encoder = encoder
 
-  fun getEncoder(): Encoder = encoder
+    fun getUrlEncoder(): Encoder = Encoder(isUrl = true)
 
-  fun getUrlEncoder(): Encoder = Encoder(isUrl = true)
+    fun getUrlDecoder(): Decoder = Decoder(isUrl = true)
 
-  fun getUrlDecoder(): Decoder = Decoder(isUrl = true)
+    fun getMimeEncoder(): Encoder =
+      Encoder(isMime = true, newline = CRLF, linemax = MIME_DEFAULT_LINE_MAX)
 
-  fun getMimeEncoder(): Encoder =
-    Encoder(isMime = true, newline = CRLF, linemax = MIME_DEFAULT_LINE_MAX)
+    fun getMimeDecoder(): Decoder = Decoder(isMime = true)
 
-  fun getMimeDecoder(): Decoder = Decoder(isMime = true)
-
-  fun getMimeEncoder(lineLength: Int, lineSeparator: ByteArray): Encoder {
-    lineSeparator.forEach { b ->
-      if (isBase64(b)) {
-        throw IllegalArgumentException(
-          "Illegal base64 line separator character 0x${b.toString(16)}"
-        )
+    fun getMimeEncoder(lineLength: Int, lineSeparator: ByteArray): Encoder {
+      lineSeparator.forEach { b ->
+        if (isBase64(b)) {
+          throw IllegalArgumentException(
+            "Illegal base64 line separator character 0x${b.toString(16)}"
+          )
+        }
       }
+      // round down to nearest multiple of 4
+      val actualLineLength = (lineLength / 4) * 4
+      if (actualLineLength <= 0) return encoder
+      return Encoder(isMime = true, newline = lineSeparator, linemax = actualLineLength)
     }
-    // round down to nearest multiple of 4
-    val actualLineLength = (lineLength / 4) * 4
-    if (actualLineLength <= 0) return encoder
-    return Encoder(isMime = true, newline = lineSeparator, linemax = actualLineLength)
-  }
 
-  private fun isBase64(b: Byte): Boolean {
-    val c = (b.toInt() and 0xFF).toChar()
-    return c in 'A'..'Z' ||
-      c in 'a'..'z' ||
-      c in '0'..'9' ||
-      c == '+' ||
-      c == '/' ||
-      c == '-' ||
-      c == '_' ||
-      c == '='
+    private fun isBase64(b: Byte): Boolean {
+      val c = (b.toInt() and 0xFF).toChar()
+      return c in 'A'..'Z' ||
+        c in 'a'..'z' ||
+        c in '0'..'9' ||
+        c == '+' ||
+        c == '/' ||
+        c == '-' ||
+        c == '_' ||
+        c == '='
+    }
+
+    private const val MIME_DEFAULT_LINE_MAX = 76
+    private val CRLF = byteArrayOf('\r'.code.toByte(), '\n'.code.toByte())
   }
 
   class Decoder
@@ -127,9 +131,6 @@ object Base64 {
     fun withoutPadding(): Encoder =
       if (!doPadding) this else Encoder(isUrl, isMime, newline, linemax, false)
   }
-
-  private const val MIME_DEFAULT_LINE_MAX = 76
-  private val CRLF = byteArrayOf('\r'.code.toByte(), '\n'.code.toByte())
 
   private class EncOutputStream(
     private val out: OutputStream,

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalObjCRefinement::class)
+
 /*
  * Copyright 2022 Google Inc.
  *
@@ -15,8 +17,12 @@
  */
 package java.lang
 
+import kotlin.experimental.ExperimentalObjCRefinement
+import kotlin.native.HiddenFromObjC
+
 object Enum {
   // Not supported in J2KT Native
+  @HiddenFromObjC
   fun <T : kotlin.Enum<T>> valueOf(enumType: Class<T>, name: kotlin.String): T {
     throw UnsupportedOperationException()
   }
