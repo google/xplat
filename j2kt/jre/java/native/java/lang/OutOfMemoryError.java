@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
  * official Java API doc</a> for details.
  */
 @NullMarked
-@KtNative
+@KtNative(name = "kotlin.OutOfMemoryError", bridgeName = "java.lang.OutOfMemoryError")
 public class OutOfMemoryError extends Error /* VirtualMachineError */ {
 
   public OutOfMemoryError() {}

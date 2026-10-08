@@ -15,4 +15,18 @@
  */
 package java.lang
 
-typealias OutOfMemoryError = kotlin.OutOfMemoryError
+import kotlin.experimental.ExperimentalObjCName
+
+/**
+ * Bridge for `kotlin.OutOfMemoryError`.
+ *
+ * This trivial-looking subclass is needed for ObjC interop: Kotlin/Native only exports stdlib
+ * classes to ObjC if they are referenced from exported API, so without it,
+ * `GKOTKotlinOutOfMemoryError` would typically not be exported and ObjC code referring to
+ * `JavaLangOutOfMemoryError` would fail to link. It also provides J2ObjC-compatible initializers.
+ */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("J2ktJavaLangOutOfMemoryError", exact = true)
+open class OutOfMemoryError(message: kotlin.String?) : kotlin.OutOfMemoryError(message) {
+  constructor() : this(message = null)
+}
