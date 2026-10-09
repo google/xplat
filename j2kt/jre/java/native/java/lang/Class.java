@@ -21,7 +21,10 @@ import org.jspecify.annotations.Nullable;
 // On Kotlin JVM, the native class is part of the JDK. On Kotlin Native, J2KT provides an
 // implementation of java.lang.Class.
 /** Minimal stub for {@code Class}. */
-@KtNative
+// The seemingly redundant name is needed to generate the right J2ObjC compatibility header name:
+// without it, the ObjC name falls back to the J2ObjC-mapped name `IOSClass` instead of the ObjC
+// name of the native Kotlin class.
+@KtNative(name = "java.lang.Class")
 @NullMarked
 public final class Class<T> implements Type {
 
