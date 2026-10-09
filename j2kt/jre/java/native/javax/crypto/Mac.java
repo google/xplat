@@ -32,6 +32,8 @@ import org.jspecify.annotations.NullMarked;
 @KtNative
 @NullMarked
 public class Mac implements Cloneable {
+  private Mac() {}
+
   /**
    * Returns the name of the MAC algorithm.
    *
