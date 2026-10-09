@@ -15,115 +15,53 @@
  */
 package java.util;
 
-import static javaemul.internal.InternalPreconditions.checkArgument;
-import static javaemul.internal.InternalPreconditions.checkElement;
-import static javaemul.internal.InternalPreconditions.checkNotNull;
-import static javaemul.internal.InternalPreconditions.checkState;
-
+import com.google.j2kt.annotations.HiddenFromObjC;
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * J2CL compatible implementation of EnumSet. Notably, some methods are unsupported since
- * Enum#getDeclaringClass is unsupported for code size reasons.
+ * See <a href="https://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html">the official Java
+ * API doc</a> for details.
+ *
+ * <p>Notably, some methods are unsupported since Enum#getDeclaringClass is unsupported for code
+ * size reasons.
  */
+@KtNative
 @NullMarked
 public class EnumSet<E extends Enum<E>> extends AbstractSet<E> implements Cloneable {
-  private HashSet<E> set = new HashSet<>();
 
   EnumSet() {}
 
   @Override
-  public boolean add(E e) {
-    checkNotNull(e);
-    return set.add(e);
-  }
+  public native boolean add(E e);
 
   @Override
-  public boolean remove(@Nullable Object o) {
-    return set.remove(o);
-  }
+  public native boolean remove(@Nullable Object o);
 
   @Override
-  public boolean contains(@Nullable Object o) {
-    return set.contains(o);
-  }
+  public native boolean contains(@Nullable Object o);
 
   @Override
-  public int size() {
-    return set.size();
-  }
+  public native int size();
 
   @Override
-  public void clear() {
-    set.clear();
-  }
+  public native void clear();
 
   @Override
-  public Iterator<E> iterator() {
-    List<E> sortedEnums = new ArrayList<>(this.set);
-    Collections.sort(sortedEnums);
-    return new Iterator<E>() {
-      int i = 0, last = -1;
+  public native Iterator<E> iterator();
 
-      @Override
-      public boolean hasNext() {
-        return i < sortedEnums.size();
-      }
+  public static native <E extends Enum<E>> EnumSet<E> of(E first);
 
-      @Override
-      public E next() {
-        checkElement(hasNext());
+  public static native <E extends Enum<E>> EnumSet<E> of(E first, E... rest);
 
-        last = i++;
-        return sortedEnums.get(last);
-      }
+  public static native <E extends Enum<E>> EnumSet<E> copyOf(Collection<E> c);
 
-      @Override
-      public void remove() {
-        checkState(last != -1);
+  public static native <E extends Enum<E>> EnumSet<E> noneOf(Class<E> elementType);
 
-        EnumSet.this.remove(sortedEnums.get(last));
-        last = -1;
-      }
-    };
-  }
-
-  public static <E extends Enum<E>> EnumSet<E> of(E first) {
-    EnumSet<E> enumSet = new EnumSet();
-    enumSet.add(first);
-    return enumSet;
-  }
-
-  public static <E extends Enum<E>> EnumSet<E> of(E first, E... rest) {
-    EnumSet<E> enumSet = new EnumSet();
-    enumSet.add(first);
-    for (E e : rest) {
-      enumSet.add(e);
-    }
-    return enumSet;
-  }
-
-  public static <E extends Enum<E>> EnumSet<E> copyOf(Collection<E> c) {
-    checkArgument(c instanceof EnumSet || !c.isEmpty(), "Collection is empty");
-    EnumSet<E> enumSet = new EnumSet();
-    for (E e : c) {
-      enumSet.add(e);
-    }
-    return enumSet;
-  }
-
-  public static <E extends Enum<E>> EnumSet<E> noneOf(Class<E> elementType) {
-    return new EnumSet();
-  }
+  @HiddenFromObjC
+  public static native <E extends Enum<E>> EnumSet<E> allOf(Class<E> elementType);
 
   @Override
-  public EnumSet<E> clone() {
-    return EnumSet.copyOf(this);
-  }
-
-  // Used in EnumMap.
-  int capacity() {
-    return size();
-  }
+  public native EnumSet<E> clone();
 }

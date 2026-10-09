@@ -758,6 +758,31 @@ public class CollectionsTest {
   }
 
   @Test
+  public void testEnumSet_allOf() {
+    EnumSet<Fruit> enumSet = EnumSet.allOf(Fruit.class);
+    assertEquals(2, enumSet.size());
+    assertTrue(enumSet.contains(Fruit.APPLE));
+    assertTrue(enumSet.contains(Fruit.ORANGE));
+    assertArrayEquals(new Fruit[] {Fruit.APPLE, Fruit.ORANGE}, enumSet.toArray());
+  }
+
+  @Test
+  public void testEnumSet_noneOf() {
+    EnumSet<Fruit> enumSet = EnumSet.noneOf(Fruit.class);
+    assertTrue(enumSet.isEmpty());
+    assertTrue(enumSet.add(Fruit.ORANGE));
+    assertFalse(enumSet.add(Fruit.ORANGE));
+    assertEquals(1, enumSet.size());
+  }
+
+  @Test
+  public void testEnumSet_copyOf() {
+    EnumSet<Fruit> enumSet = EnumSet.copyOf(EnumSet.of(Fruit.ORANGE, Fruit.APPLE));
+    assertArrayEquals(new Fruit[] {Fruit.APPLE, Fruit.ORANGE}, enumSet.toArray());
+    assertEquals(enumSet, enumSet.clone());
+  }
+
+  @Test
   public void testEnumMap() {
     EnumMap<Fruit, String> enumMap = new EnumMap<>(Fruit.class);
     enumMap.put(Fruit.APPLE, "apple");
