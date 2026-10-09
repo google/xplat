@@ -15,6 +15,7 @@
  */
 package java.lang;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -24,6 +25,9 @@ import org.jspecify.annotations.Nullable;
  * href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/StringIndexOutOfBoundsException.html">the
  * official Java API doc</a> for details.
  */
+// Hidden from ObjC, as it shares the native Kotlin type and bridge with IndexOutOfBoundsException
+// and has no dedicated ObjC class.
+@HiddenFromObjC
 @KtNative(
     name = "kotlin.IndexOutOfBoundsException",
     bridgeName = "java.lang.IndexOutOfBoundsException")
