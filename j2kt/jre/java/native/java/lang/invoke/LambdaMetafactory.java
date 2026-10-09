@@ -13,11 +13,14 @@
  */
 package java.lang.invoke;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 /** Exists solely to make javac happy. */
 @NullMarked
+// Hidden from ObjC, as there is no corresponding ObjC class for a J2ObjC compat header.
+@HiddenFromObjC
 @KtNative
 public class LambdaMetafactory {
   public static native CallSite metafactory(

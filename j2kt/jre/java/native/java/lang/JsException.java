@@ -15,10 +15,13 @@
  */
 package java.lang;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 
 /** Emulation of JsException class defined in the J2CL JRE. */
+// Hidden from ObjC, as there is no corresponding ObjC class for a J2ObjC compat header.
+@HiddenFromObjC
 @KtNative // Can only be used in J2CL.
 @NullMarked
 public class JsException extends RuntimeException {}

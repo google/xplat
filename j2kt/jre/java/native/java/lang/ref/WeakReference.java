@@ -18,6 +18,7 @@ package java.lang.ref;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -28,6 +29,8 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Contains only the subset functionality offered by the native WeakReference implementation.
  */
+// Hidden from ObjC, as there is no corresponding ObjC class for a J2ObjC compat header.
+@HiddenFromObjC
 @KtNative
 @NullMarked
 public class WeakReference<T> {

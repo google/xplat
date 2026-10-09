@@ -18,6 +18,7 @@ package java.lang.ref;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -46,6 +47,8 @@ import org.jspecify.annotations.Nullable;
  */
 // TODO: b/493215315 - Revisit the decision of replacing java.lang.ref.SoftReference with
 // WeakReference.
+// Hidden from ObjC, as there is no corresponding ObjC class for a J2ObjC compat header.
+@HiddenFromObjC
 @KtNative
 @NullMarked
 public class SoftReference<T> {
