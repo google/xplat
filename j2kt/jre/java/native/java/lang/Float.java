@@ -20,7 +20,6 @@ package java.lang;
 import static javaemul.internal.KtNativeUtils.ktNative;
 
 import com.google.j2kt.annotations.HiddenFromObjC;
-import javaemul.internal.annotations.KtName;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -60,7 +59,6 @@ public final class Float extends Number implements Comparable<Float> {
   @Override
   public native int compareTo(Float object);
 
-  @KtName("toInt_toByte")
   @Override
   public native byte byteValue();
 
@@ -106,7 +104,6 @@ public final class Float extends Number implements Comparable<Float> {
 
   public static native float parseFloat(String string) throws NumberFormatException;
 
-  @KtName("toInt_toShort")
   @Override
   public native short shortValue();
 
