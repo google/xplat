@@ -22,6 +22,6 @@ import org.jspecify.annotations.NullMarked;
 /** Helper class for ByteOrder compilation */
 @KtNative(name = "kotlin.native.Platform")
 @NullMarked
-public final class KotlinNativePlatform {
+final class KotlinNativePlatform {
   public static boolean isLittleEndian;
 }
