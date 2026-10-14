@@ -15,6 +15,8 @@
  */
 package android.util;
 
+import static java.util.Objects.requireNonNull;
+
 import com.android.internal.util.StringPool;
 import java.io.Closeable;
 import java.io.EOFException;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reads a JSON (<a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoded value as a
@@ -203,18 +206,21 @@ public final class JsonReader implements Closeable {
   {
     push(JsonScope.EMPTY_DOCUMENT);
   }
+
   /**
    * The type of the next token to be returned by {@link #peek} and {@link #advance}. If null,
    * peek() will assign a value.
    */
-  private JsonToken token;
+  private @Nullable JsonToken token;
+
   /** The text of the next name. */
-  private String name;
+  private @Nullable String name;
+
   /*
    * For the next literal value, we may have the text value, or the position
    * and length in the buffer.
    */
-  private String value;
+  private @Nullable String value;
   private int valuePos;
   private int valueLength;
   /** True if we're currently handling a skipValue() call. */
@@ -281,16 +287,16 @@ public final class JsonReader implements Closeable {
   }
   /** Consumes {@code expected}. */
   private void expect(JsonToken expected) throws IOException {
-    peek();
-    if (token != expected) {
-      throw new IllegalStateException("Expected " + expected + " but was " + peek());
+    JsonToken nextToken = peek();
+    if (nextToken != expected) {
+      throw new IllegalStateException("Expected " + expected + " but was " + nextToken);
     }
     advance();
   }
   /** Returns true if the current array or object has another element. */
   public boolean hasNext() throws IOException {
-    peek();
-    return token != JsonToken.END_OBJECT && token != JsonToken.END_ARRAY;
+    JsonToken nextToken = peek();
+    return nextToken != JsonToken.END_OBJECT && nextToken != JsonToken.END_ARRAY;
   }
   /** Returns the type of the next token without consuming it. */
   public JsonToken peek() throws IOException {
@@ -331,10 +337,10 @@ public final class JsonReader implements Closeable {
         throw new AssertionError();
     }
   }
+
   /** Advances the cursor in the JSON stream to the next token. */
   private JsonToken advance() throws IOException {
-    peek();
-    JsonToken result = token;
+    JsonToken result = peek();
     token = null;
     value = null;
     name = null;
@@ -346,11 +352,11 @@ public final class JsonReader implements Closeable {
    * @throws IOException if the next token in the stream is not a property name.
    */
   public String nextName() throws IOException {
-    peek();
-    if (token != JsonToken.NAME) {
-      throw new IllegalStateException("Expected a name but was " + peek());
+    JsonToken nextToken = peek();
+    if (nextToken != JsonToken.NAME) {
+      throw new IllegalStateException("Expected a name but was " + nextToken);
     }
-    String result = name;
+    String result = requireNonNull(name);
     advance();
     return result;
   }
@@ -361,11 +367,11 @@ public final class JsonReader implements Closeable {
    * @throws IllegalStateException if the next token is not a string or if this reader is closed.
    */
   public String nextString() throws IOException {
-    peek();
-    if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
-      throw new IllegalStateException("Expected a string but was " + peek());
+    JsonToken nextToken = peek();
+    if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
+      throw new IllegalStateException("Expected a string but was " + nextToken);
     }
-    String result = value;
+    String result = requireNonNull(value);
     advance();
     return result;
   }
@@ -375,9 +381,9 @@ public final class JsonReader implements Closeable {
    * @throws IllegalStateException if the next token is not a boolean or if this reader is closed.
    */
   public boolean nextBoolean() throws IOException {
-    peek();
-    if (token != JsonToken.BOOLEAN) {
-      throw new IllegalStateException("Expected a boolean but was " + token);
+    JsonToken nextToken = peek();
+    if (nextToken != JsonToken.BOOLEAN) {
+      throw new IllegalStateException("Expected a boolean but was " + nextToken);
     }
     boolean result = (value == TRUE);
     advance();
@@ -389,9 +395,9 @@ public final class JsonReader implements Closeable {
    * @throws IllegalStateException if the next token is not null or if this reader is closed.
    */
   public void nextNull() throws IOException {
-    peek();
-    if (token != JsonToken.NULL) {
-      throw new IllegalStateException("Expected null but was " + token);
+    JsonToken nextToken = peek();
+    if (nextToken != JsonToken.NULL) {
+      throw new IllegalStateException("Expected null but was " + nextToken);
     }
     advance();
   }
@@ -403,11 +409,11 @@ public final class JsonReader implements Closeable {
    * @throws IllegalStateException if the next token is not a literal value.
    */
   public double nextDouble() throws IOException {
-    peek();
-    if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
-      throw new IllegalStateException("Expected a double but was " + token);
+    JsonToken nextToken = peek();
+    if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
+      throw new IllegalStateException("Expected a double but was " + nextToken);
     }
-    double result = Double.parseDouble(value);
+    double result = Double.parseDouble(requireNonNull(value));
     advance();
     return result;
   }
@@ -421,18 +427,19 @@ public final class JsonReader implements Closeable {
    *     exactly represented as a long.
    */
   public long nextLong() throws IOException {
-    peek();
-    if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
-      throw new IllegalStateException("Expected a long but was " + token);
+    JsonToken nextToken = peek();
+    if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
+      throw new IllegalStateException("Expected a long but was " + nextToken);
     }
+    String peekedValue = requireNonNull(value);
     long result;
     try {
-      result = Long.parseLong(value);
+      result = Long.parseLong(peekedValue);
     } catch (NumberFormatException ignored) {
-      double asDouble = Double.parseDouble(value); // don't catch this NumberFormatException
+      double asDouble = Double.parseDouble(peekedValue); // don't catch this NumberFormatException
       result = (long) asDouble;
       if ((double) result != asDouble) {
-        throw new NumberFormatException(value);
+        throw new NumberFormatException(peekedValue);
       }
     }
     advance();
@@ -448,18 +455,19 @@ public final class JsonReader implements Closeable {
    *     exactly represented as an int.
    */
   public int nextInt() throws IOException {
-    peek();
-    if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
-      throw new IllegalStateException("Expected an int but was " + token);
+    JsonToken nextToken = peek();
+    if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
+      throw new IllegalStateException("Expected an int but was " + nextToken);
     }
+    String peekedValue = requireNonNull(value);
     int result;
     try {
-      result = Integer.parseInt(value);
+      result = Integer.parseInt(peekedValue);
     } catch (NumberFormatException ignored) {
-      double asDouble = Double.parseDouble(value); // don't catch this NumberFormatException
+      double asDouble = Double.parseDouble(peekedValue); // don't catch this NumberFormatException
       result = (int) asDouble;
       if ((double) result != asDouble) {
-        throw new NumberFormatException(value);
+        throw new NumberFormatException(peekedValue);
       }
     }
     advance();
@@ -589,10 +597,11 @@ public final class JsonReader implements Closeable {
       default:
         checkLenient();
         pos--;
-        name = nextLiteral(false);
-        if (name.isEmpty()) {
+        String literalName = nextLiteral(false);
+        if (literalName == null || literalName.isEmpty()) {
           throw syntaxError("Expected name");
         }
+        name = literalName;
     }
     replaceTop(JsonScope.DANGLING_NAME);
     return token = JsonToken.NAME;
@@ -814,6 +823,7 @@ public final class JsonReader implements Closeable {
     } while (fillBuffer(1));
     throw syntaxError("Unterminated string");
   }
+
   /**
    * Reads the value up to but not including any delimiter characters. This does not consume the
    * delimiter character.
@@ -822,7 +832,7 @@ public final class JsonReader implements Closeable {
    *     and return a null result. This only works if the literal is short; a string is returned
    *     otherwise.
    */
-  private String nextLiteral(boolean assignOffsetsOnly) throws IOException {
+  private @Nullable String nextLiteral(boolean assignOffsetsOnly) throws IOException {
     StringBuilder builder = null;
     valuePos = -1;
     valueLength = 0;

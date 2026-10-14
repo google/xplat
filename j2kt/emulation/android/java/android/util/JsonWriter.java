@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Writes a JSON (<a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoded value to a
@@ -131,11 +132,13 @@ public final class JsonWriter implements Closeable {
   {
     stack.add(JsonScope.EMPTY_DOCUMENT);
   }
+
   /**
    * A string containing a full set of spaces for a single level of indentation, or null for no
    * pretty printing.
    */
-  private String indent;
+  private @Nullable String indent;
+
   /** The name/value separator; either ":" or ": ". */
   private String separator = ":";
 
@@ -262,13 +265,14 @@ public final class JsonWriter implements Closeable {
     string(name);
     return this;
   }
+
   /**
    * Encodes {@code value}.
    *
    * @param value the literal string value, or null to encode a null literal.
    * @return this writer.
    */
-  public JsonWriter value(String value) throws IOException {
+  public JsonWriter value(@Nullable String value) throws IOException {
     if (value == null) {
       return nullValue();
     }
@@ -321,6 +325,7 @@ public final class JsonWriter implements Closeable {
     out.write(Long.toString(value));
     return this;
   }
+
   /**
    * Encodes {@code value}.
    *
@@ -328,7 +333,7 @@ public final class JsonWriter implements Closeable {
    *     Double#isInfinite() infinities} unless this writer is lenient.
    * @return this writer.
    */
-  public JsonWriter value(Number value) throws IOException {
+  public JsonWriter value(@Nullable Number value) throws IOException {
     if (value == null) {
       return nullValue();
     }
