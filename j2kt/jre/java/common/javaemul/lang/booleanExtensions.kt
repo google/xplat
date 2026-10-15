@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalObjCRefinement::class)
-
 /*
  * Copyright 2022 Google Inc.
  *
@@ -18,8 +16,6 @@
 package javaemul.lang
 
 import java.lang.Boolean as JavaBoolean
-import kotlin.experimental.ExperimentalObjCRefinement
-import kotlin.native.HiddenFromObjC
 
 /**
  * Pseudo-constructor for emulated java.lang.Boolean.
@@ -32,4 +28,3 @@ operator fun Boolean.Companion.invoke(b: Boolean): Boolean =
 
 operator fun Boolean.Companion.invoke(s: String?): Boolean = JavaBoolean(s) as Boolean
 
-@HiddenFromObjC fun Boolean.booleanValue(): Boolean = this

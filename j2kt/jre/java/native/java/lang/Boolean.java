@@ -38,6 +38,8 @@ public final class Boolean implements Comparable<Boolean> {
 
   public Boolean(boolean value) {}
 
+  // J2KT: Not implemented in Kotlin, since unboxing is a no-op there. The transpiler replaces all
+  // calls with casts (see NormalizePrimitiveConversionsJ2kt).
   public native boolean booleanValue();
 
   @Override
