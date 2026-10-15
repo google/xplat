@@ -18,6 +18,7 @@ package smoke;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -40,5 +41,19 @@ public final class CharacterTest {
 
     assertTrue(Character.isDefined((int) 'a'));
     assertFalse(Character.isDefined(0x110000)); // Outside Unicode range
+  }
+
+  @Test
+  public void testToChars() {
+    char[] chars = new char[2];
+    assertEquals(2, Character.toChars(0x10000, chars, 0));
+    assertEquals('\uD800', chars[0]);
+    assertEquals('\uDC00', chars[1]);
+
+    assertEquals(1, Character.toChars('a', chars, 0));
+    assertEquals('a', chars[0]);
+
+    assertThrows(IllegalArgumentException.class, () -> Character.toChars(-1, chars, 0));
+    assertThrows(IllegalArgumentException.class, () -> Character.toChars(0x110000, chars, 0));
   }
 }

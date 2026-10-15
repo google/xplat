@@ -15,6 +15,7 @@
  */
 package java.lang
 
+import javaemul.internal.InternalPreconditions.Companion.checkCriticalArgument
 import javaemul.lang.codePointAt
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.jvm.javaPrimitiveType
@@ -281,8 +282,7 @@ class Character {
       else charArrayOf(codePoint.toChar())
 
     fun toChars(codePoint: Int, dst: CharArray, dstIndex: Int): Int {
-      // TODO(b/228304843): Add InternalPreconditions for Kotlin.
-      // checkCriticalArgument(Char.isValidCodePoint(codePoint));
+      checkCriticalArgument(isValidCodePoint(codePoint))
 
       if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) {
         dst[dstIndex] = highSurrogate(codePoint)
