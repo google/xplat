@@ -18,6 +18,10 @@ package javaemul.internal
 import kotlinx.cinterop.ExperimentalForeignApi
 import third_party.java_src.xplat.j2kt.jre.java_debug_define.DEBUG_MODE
 
-object DebugDefine {
-  @OptIn(ExperimentalForeignApi::class) const val value: Boolean = DEBUG_MODE != 0
+// A class with a companion object rather than an object, to match the J2ObjC compat header, which
+// accesses static members via the companion.
+class DebugDefine private constructor() {
+  companion object {
+    @OptIn(ExperimentalForeignApi::class) const val value: Boolean = DEBUG_MODE != 0
+  }
 }

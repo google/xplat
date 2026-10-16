@@ -16,6 +16,7 @@
 
 package java.util.concurrent.atomic;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -25,6 +26,9 @@ import org.jspecify.annotations.Nullable;
  *
  * @param <V> The type of object referred to by this reference
  */
+// Hidden from ObjC, as the Kotlin class emulates the no-arg constructor with a companion
+// `invoke()`, so there is no ObjC initializer for a J2ObjC compat header.
+@HiddenFromObjC
 @KtNative
 @NullMarked
 public class AtomicReference<V extends @Nullable Object> {

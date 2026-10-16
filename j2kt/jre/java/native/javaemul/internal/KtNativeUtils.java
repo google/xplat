@@ -15,10 +15,14 @@
  */
 package javaemul.internal;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
+// Hidden from ObjC, as there is no corresponding Kotlin class: `ktNative()` is only used as the
+// body of native methods in `@KtNative` types.
+@HiddenFromObjC
 @KtNative
 @NullMarked
 public final class KtNativeUtils {

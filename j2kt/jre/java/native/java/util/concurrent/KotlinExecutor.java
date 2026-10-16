@@ -16,6 +16,7 @@
 
 package java.util.concurrent;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import java.util.Collection;
 import java.util.List;
 import javaemul.internal.annotations.KtNative;
@@ -25,6 +26,9 @@ import org.jspecify.annotations.NullMarked;
  * Simple Java wrapper for the Kotlin implementation of the same name. See the Kotlin implementation
  * for more details.
  */
+// Hidden from ObjC, as the Kotlin class has neither a J2ObjC-compatible initializer nor companion
+// for a J2ObjC compat header.
+@HiddenFromObjC
 @NullMarked
 @KtNative
 public class KotlinExecutor implements ScheduledExecutorService {
