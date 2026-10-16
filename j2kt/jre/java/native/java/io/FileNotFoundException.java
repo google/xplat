@@ -19,11 +19,15 @@ package java.io;
 
 import static javaemul.internal.KtNativeUtils.ktNative;
 
+import com.google.j2kt.annotations.HiddenFromObjC;
 import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Thrown when a file specified by a program cannot be found. */
+// Hidden from ObjC, as this is a Kotlin typealias for `kotlinx.io.files.FileNotFoundException`, so
+// the transpiler doesn't know the name of the corresponding ObjC class for a J2ObjC compat header.
+@HiddenFromObjC
 @NullMarked
 @KtNative
 public class FileNotFoundException extends IOException {
