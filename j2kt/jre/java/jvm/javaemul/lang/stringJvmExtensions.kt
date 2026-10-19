@@ -70,4 +70,6 @@ fun String.java_isBlank(): Boolean = asJavaString().isBlank()
 
 fun String.java_lines(): Stream<String> = asJavaString().lines()
 
+fun String.strip(): String = asJavaString().strip()
+
 private fun String.asJavaString(): java.lang.String = this as java.lang.String
