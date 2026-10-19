@@ -366,7 +366,9 @@ public final class JsonWriter implements Closeable {
 
   private void string(String value) throws IOException {
     out.write("\"");
-    for (int i = 0, length = value.length(); i < length; i++) {
+    int last = 0;
+    int length = value.length();
+    for (int i = 0; i < length; i++) {
       char c = value.charAt(i);
       /*
        * From RFC 4627, "All Unicode characters may be placed within the
@@ -379,54 +381,67 @@ public final class JsonWriter implements Closeable {
        * syntax error.
        * http://code.google.com/p/google-gson/issues/detail?id=341
        */
+      String replacement;
       switch (c) {
         case '"':
+          replacement = "\\\"";
+          break;
         case '\\':
-          out.write('\\');
-          out.write(c);
+          replacement = "\\\\";
           break;
         case '\t':
-          out.write("\\t");
+          replacement = "\\t";
           break;
         case '\b':
-          out.write("\\b");
+          replacement = "\\b";
           break;
         case '\n':
-          out.write("\\n");
+          replacement = "\\n";
           break;
         case '\r':
-          out.write("\\r");
+          replacement = "\\r";
           break;
         case '\f':
-          out.write("\\f");
+          replacement = "\\f";
           break;
         case '\u2028':
-          out.write("\\u2028");
+          replacement = "\\u2028";
           break;
         case '\u2029':
-          out.write("\\u2029");
+          replacement = "\\u2029";
           break;
         default:
           if (c <= 0x1F) {
+            if (last < i) {
+              out.write(value, last, i - last);
+            }
             out.write("\\u00");
             out.write(Character.forDigit(c / 16, 16));
             out.write(Character.forDigit(c % 16, 16));
-          } else {
-            out.write(c);
+            last = i + 1;
           }
-          break;
+          continue;
       }
+      if (last < i) {
+        out.write(value, last, i - last);
+      }
+      out.write(replacement);
+      last = i + 1;
+    }
+    if (last < length) {
+      out.write(value, last, length - last);
     }
     out.write("\"");
   }
 
   private void newline() throws IOException {
-    if (indent == null) {
+    String currentIndent = indent;
+    if (currentIndent == null) {
       return;
     }
     out.write("\n");
     for (int i = 1; i < stack.size(); i++) {
-      out.write(indent);
+      out.write(currentIndent);
     }
   }
   /**

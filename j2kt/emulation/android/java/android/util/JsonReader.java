@@ -17,7 +17,6 @@ package android.util;
 
 import static java.util.Objects.requireNonNull;
 
-import com.android.internal.util.StringPool;
 import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
@@ -182,17 +181,28 @@ import org.jspecify.annotations.Nullable;
 public final class JsonReader implements Closeable {
   private static final String TRUE = "true";
   private static final String FALSE = "false";
-  private final StringPool stringPool = new StringPool();
+
+  /**
+   * The minimum value for which multiplying by 10 is guaranteed not to overflow {@link
+   * Long#MIN_VALUE} when accumulating negative digits.
+   */
+  private static final long MIN_INCOMPLETE_INTEGER = Long.MIN_VALUE / 10;
+
   /** The input JSON. */
-  private final Reader in;
+  private final @Nullable Reader in;
+
+  /** The input JSON string when initialized directly from a String, or null when using a Reader. */
+  private final @Nullable String json;
+
   /** True to accept non-spec compliant JSON */
   private boolean lenient = false;
+
   /**
    * Use a manual buffer to easily read and unread upcoming characters, and also so we can create
    * strings without an intermediate StringBuilder. We decode literals directly out of this buffer,
    * so it must be at least as long as the longest token that can be reported as a number.
    */
-  private final char[] buffer = new char[1024];
+  private final char[] buffer;
 
   private int pos = 0;
   private int limit = 0;
@@ -202,10 +212,6 @@ public final class JsonReader implements Closeable {
   private int bufferStartLine = 1;
   private int bufferStartColumn = 1;
   private final List<JsonScope> stack = new ArrayList<JsonScope>();
-
-  {
-    push(JsonScope.EMPTY_DOCUMENT);
-  }
 
   /**
    * The type of the next token to be returned by {@link #peek} and {@link #advance}. If null,
@@ -223,6 +229,15 @@ public final class JsonReader implements Closeable {
   private @Nullable String value;
   private int valuePos;
   private int valueLength;
+  /*
+   * When decodeNumber() scans an unquoted integer literal that fits in a 64-bit signed long, it
+   * stores the parsed value in peekedLong and sets hasPeekedLong = true. This allows nextDouble(),
+   * nextLong(), and nextInt() to consume the numeric value directly without allocating a String via
+   * peekedValue() or re-parsing digits via Double.parseDouble / Long.parseLong / Integer.parseInt.
+   */
+  private long peekedLong;
+  private boolean hasPeekedLong;
+
   /** True if we're currently handling a skipValue() call. */
   private boolean skipping = false;
   /** Creates a new instance that reads a JSON-encoded stream from {@code in}. */
@@ -231,7 +246,30 @@ public final class JsonReader implements Closeable {
       throw new NullPointerException("in == null");
     }
     this.in = in;
+    this.json = null;
+    this.buffer = new char[1024];
+    push(JsonScope.EMPTY_DOCUMENT);
   }
+
+  /**
+   * Creates a new instance that reads a JSON-encoded string directly without {@link Reader}
+   * synchronization or chunking overhead.
+   */
+  public JsonReader(String json) {
+    this.in = null;
+    this.json = requireNonNull(json, "json == null");
+    int length = json.length();
+    // Allocate 1 extra char so nextLiteral can safely place a '\0' sentinel at buffer[limit].
+    this.buffer = new char[length + 1];
+    json.getChars(0, length, this.buffer, 0);
+    this.limit = length;
+    if (length > 0 && this.buffer[0] == '\ufeff') {
+      this.pos = 1;
+      this.bufferStartColumn = 0;
+    }
+    push(JsonScope.EMPTY_DOCUMENT);
+  }
+
   /**
    * Configure this parser to be be liberal in what it accepts. By default, this parser is strict
    * and only accepts JSON as specified by <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC
@@ -322,15 +360,16 @@ public final class JsonReader implements Closeable {
       case NONEMPTY_OBJECT:
         return nextInObject(false);
       case NONEMPTY_DOCUMENT:
-        try {
-          JsonToken token = nextValue();
-          if (lenient) {
-            return token;
-          }
-          throw syntaxError("Expected EOF");
-        } catch (EOFException e) {
-          return token = JsonToken.END_DOCUMENT; // TODO: avoid throwing here?
+        int nextChar = nextNonWhitespace(false);
+        if (nextChar == -1) {
+          token = JsonToken.END_DOCUMENT;
+          return token;
         }
+        pos--;
+        if (!lenient) {
+          throw syntaxError("Expected EOF");
+        }
+        return nextValue();
       case CLOSED:
         throw new IllegalStateException("JsonReader is closed");
       default:
@@ -344,8 +383,25 @@ public final class JsonReader implements Closeable {
     token = null;
     value = null;
     name = null;
+    hasPeekedLong = false;
     return result;
   }
+
+  private String createString(int offset, int length) {
+    return json != null
+        ? json.substring(offset, offset + length)
+        : new String(buffer, offset, length);
+  }
+
+  private String peekedValue() {
+    String result = value;
+    if (result == null) {
+      result = createString(valuePos, valueLength);
+      value = result;
+    }
+    return result;
+  }
+
   /**
    * Returns the next token, a {@link JsonToken#NAME property name}, and consumes it.
    *
@@ -371,7 +427,7 @@ public final class JsonReader implements Closeable {
     if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected a string but was " + nextToken);
     }
-    String result = requireNonNull(value);
+    String result = peekedValue();
     advance();
     return result;
   }
@@ -413,7 +469,7 @@ public final class JsonReader implements Closeable {
     if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected a double but was " + nextToken);
     }
-    double result = Double.parseDouble(requireNonNull(value));
+    double result = hasPeekedLong ? (double) peekedLong : Double.parseDouble(peekedValue());
     advance();
     return result;
   }
@@ -431,7 +487,12 @@ public final class JsonReader implements Closeable {
     if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected a long but was " + nextToken);
     }
-    String peekedValue = requireNonNull(value);
+    if (hasPeekedLong) {
+      long result = peekedLong;
+      advance();
+      return result;
+    }
+    String peekedValue = peekedValue();
     long result;
     try {
       result = Long.parseLong(peekedValue);
@@ -459,7 +520,15 @@ public final class JsonReader implements Closeable {
     if (nextToken != JsonToken.STRING && nextToken != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected an int but was " + nextToken);
     }
-    String peekedValue = requireNonNull(value);
+    if (hasPeekedLong) {
+      int result = (int) peekedLong;
+      if (result != peekedLong) {
+        throw new NumberFormatException(peekedValue());
+      }
+      advance();
+      return result;
+    }
+    String peekedValue = peekedValue();
     int result;
     try {
       result = Integer.parseInt(peekedValue);
@@ -473,13 +542,18 @@ public final class JsonReader implements Closeable {
     advance();
     return result;
   }
+
   /** Closes this JSON reader and the underlying {@link Reader}. */
+  @Override
   public void close() throws IOException {
     value = null;
     token = null;
+    hasPeekedLong = false;
     stack.clear();
     stack.add(JsonScope.CLOSED);
-    in.close();
+    if (in != null) {
+      in.close();
+    }
   }
   /**
    * Skips the next value recursively. If it is an object or array, all nested elements are skipped.
@@ -652,6 +726,9 @@ public final class JsonReader implements Closeable {
    * characters are available, this returns false.
    */
   private boolean fillBuffer(int minimum) throws IOException {
+    if (in == null) {
+      return false;
+    }
     // Before clobbering the old characters, update where buffer starts
     for (int i = 0; i < pos; i++) {
       if (buffer[i] == '\n') {
@@ -669,7 +746,7 @@ public final class JsonReader implements Closeable {
     }
     pos = 0;
     int total;
-    while ((total = in.read(buffer, limit, buffer.length - limit)) != -1) {
+    while ((total = in.read(buffer, limit, buffer.length - limit - 1)) != -1) {
       limit += total;
       // if this is the first read, consume an optional byte order mark (BOM) if it exists
       if (bufferStartLine == 1 && bufferStartColumn == 1 && limit > 0 && buffer[0] == '\ufeff') {
@@ -706,8 +783,23 @@ public final class JsonReader implements Closeable {
   }
 
   private int nextNonWhitespace() throws IOException {
-    while (pos < limit || fillBuffer(1)) {
-      int c = buffer[pos++];
+    return nextNonWhitespace(true);
+  }
+
+  private int nextNonWhitespace(boolean throwOnEof) throws IOException {
+    char[] buffer = this.buffer;
+    int currentPos = pos;
+    int currentLimit = limit;
+    while (true) {
+      if (currentPos == currentLimit) {
+        pos = currentPos;
+        if (!fillBuffer(1)) {
+          break;
+        }
+        currentPos = pos;
+        currentLimit = limit;
+      }
+      int c = buffer[currentPos++];
       switch (c) {
         case '\t':
         case ' ':
@@ -715,7 +807,8 @@ public final class JsonReader implements Closeable {
         case '\r':
           continue;
         case '/':
-          if (pos == limit && !fillBuffer(1)) {
+          pos = currentPos;
+          if (currentPos == currentLimit && !fillBuffer(1)) {
             return c;
           }
           checkLenient();
@@ -727,17 +820,21 @@ public final class JsonReader implements Closeable {
               if (!skipTo("*/")) {
                 throw syntaxError("Unterminated comment");
               }
-              pos += 2;
+              currentPos = pos + 2;
+              currentLimit = limit;
               continue;
             case '/':
               // skip a // end-of-line comment
               pos++;
               skipToEndOfLine();
+              currentPos = pos;
+              currentLimit = limit;
               continue;
             default:
               return c;
           }
         case '#':
+          pos = currentPos;
           /*
            * Skip a # hash end-of-line comment. The JSON RFC doesn't
            * specify this behaviour, but it's required to parse
@@ -745,12 +842,18 @@ public final class JsonReader implements Closeable {
            */
           checkLenient();
           skipToEndOfLine();
+          currentPos = pos;
+          currentLimit = limit;
           continue;
         default:
+          pos = currentPos;
           return c;
       }
     }
-    throw new EOFException("End of input");
+    if (throwOnEof) {
+      throw new EOFException("End of input");
+    }
+    return -1;
   }
 
   private void checkLenient() throws IOException {
@@ -792,34 +895,43 @@ public final class JsonReader implements Closeable {
    * @throws NumberFormatException if any unicode escape sequences are malformed.
    */
   private String nextString(char quote) throws IOException {
+    char[] buffer = this.buffer;
     StringBuilder builder = null;
     do {
+      int currentPos = pos;
+      int currentLimit = limit;
       /* the index of the first character not yet appended to the builder. */
-      int start = pos;
-      while (pos < limit) {
-        int c = buffer[pos++];
+      int start = currentPos;
+      while (currentPos < currentLimit) {
+        int c = buffer[currentPos++];
         if (c == quote) {
+          pos = currentPos;
           if (skipping) {
             return "skipped!";
           } else if (builder == null) {
-            return stringPool.get(buffer, start, pos - start - 1);
+            return createString(start, currentPos - start - 1);
           } else {
-            builder.append(buffer, start, pos - start - 1);
+            builder.append(buffer, start, currentPos - start - 1);
             return builder.toString();
           }
         } else if (c == '\\') {
+          pos = currentPos;
+          int unescapedLength = currentPos - start - 1;
           if (builder == null) {
-            builder = new StringBuilder();
+            builder = new StringBuilder(Math.max((unescapedLength + 1) * 2, 16));
           }
-          builder.append(buffer, start, pos - start - 1);
+          builder.append(buffer, start, unescapedLength);
           builder.append(readEscapeCharacter());
-          start = pos;
+          currentPos = pos;
+          currentLimit = limit;
+          start = currentPos;
         }
       }
       if (builder == null) {
-        builder = new StringBuilder();
+        builder = new StringBuilder(Math.max((currentPos - start) * 2, 16));
       }
-      builder.append(buffer, start, pos - start);
+      builder.append(buffer, start, currentPos - start);
+      pos = currentPos;
     } while (fillBuffer(1));
     throw syntaxError("Unterminated string");
   }
@@ -865,8 +977,13 @@ public final class JsonReader implements Closeable {
        * Attempt to load the entire literal into the buffer at once. If
        * we run out of input, add a non-literal character at the end so
        * that decoding doesn't need to do bounds checks.
+       *
+       * In String mode (in == null), the entire input is already in buffer
+       * with an extra slot allocated at buffer[limit] for the '\0' sentinel,
+       * so even a bare literal spanning the entire string (i == limit ==
+       * buffer.length - 1) fits in the buffer without falling back to StringBuilder.
        */
-      if (i < buffer.length) {
+      if (in == null || i < buffer.length - 1) {
         if (fillBuffer(i + 1)) {
           continue;
         } else {
@@ -893,7 +1010,7 @@ public final class JsonReader implements Closeable {
     } else if (skipping) {
       result = "skipped!";
     } else if (builder == null) {
-      result = stringPool.get(buffer, pos, i);
+      result = createString(pos, i);
     } else {
       builder.append(buffer, pos, i);
       result = builder.toString();
@@ -924,9 +1041,24 @@ public final class JsonReader implements Closeable {
         if (pos + 4 > limit && !fillBuffer(4)) {
           throw syntaxError("Unterminated escape sequence");
         }
-        String hex = stringPool.get(buffer, pos, 4);
+        // Decode the 4-digit hex escape inline to avoid allocating a 4-character String
+        // and calling Integer.parseInt(hex, 16) on every unicode escape sequence.
+        int result = 0;
+        for (int i = pos, end = i + 4; i < end; i++) {
+          char c = buffer[i];
+          result <<= 4;
+          if (c >= '0' && c <= '9') {
+            result += (c - '0');
+          } else if (c >= 'a' && c <= 'f') {
+            result += (c - 'a' + 10);
+          } else if (c >= 'A' && c <= 'F') {
+            result += (c - 'A' + 10);
+          } else {
+            throw new NumberFormatException("\\u" + new String(buffer, pos, 4));
+          }
+        }
         pos += 4;
-        return (char) Integer.parseInt(hex, 16);
+        return (char) result;
       case 't':
         return '\t';
       case 'b':
@@ -950,11 +1082,12 @@ public final class JsonReader implements Closeable {
     if (valueLength == 0) {
       throw syntaxError("Expected literal value");
     }
-    token = decodeLiteral();
-    if (token == JsonToken.STRING) {
+    JsonToken result = decodeLiteral();
+    token = result;
+    if (result == JsonToken.STRING) {
       checkLenient();
     }
-    return token;
+    return result;
   }
   /** Assigns {@code nextToken} based on the value of {@code nextValue}. */
   private JsonToken decodeLiteral() throws IOException {
@@ -984,7 +1117,6 @@ public final class JsonReader implements Closeable {
       value = FALSE;
       return JsonToken.BOOLEAN;
     } else {
-      value = stringPool.get(buffer, valuePos, valueLength);
       return decodeNumber(buffer, valuePos, valueLength);
     }
   }
@@ -996,26 +1128,47 @@ public final class JsonReader implements Closeable {
   private JsonToken decodeNumber(char[] chars, int offset, int length) {
     int i = offset;
     int c = chars[i];
+    boolean negative = false;
     if (c == '-') {
+      negative = true;
       c = chars[++i];
     }
+    // Accumulate digits as a negative long so Long.MIN_VALUE (-9223372036854775808L) can be
+    // represented without overflowing before the sign is applied.
+    long negatedValue = 0;
+    boolean fitsInLong = true;
     if (c == '0') {
       c = chars[++i];
+      if (negative) {
+        // Don't store -0 as a long; caller might read it as double -0.0
+        fitsInLong = false;
+      }
     } else if (c >= '1' && c <= '9') {
+      negatedValue = -(c - '0');
       c = chars[++i];
       while (c >= '0' && c <= '9') {
+        if (fitsInLong) {
+          long nextNegatedValue = negatedValue * 10 - (c - '0');
+          fitsInLong =
+              negatedValue > MIN_INCOMPLETE_INTEGER
+                  || (negatedValue == MIN_INCOMPLETE_INTEGER && nextNegatedValue < negatedValue);
+          negatedValue = nextNegatedValue;
+        }
         c = chars[++i];
       }
     } else {
       return JsonToken.STRING;
     }
+    boolean hasFractionOrExponent = false;
     if (c == '.') {
+      hasFractionOrExponent = true;
       c = chars[++i];
       while (c >= '0' && c <= '9') {
         c = chars[++i];
       }
     }
     if (c == 'e' || c == 'E') {
+      hasFractionOrExponent = true;
       c = chars[++i];
       if (c == '+' || c == '-') {
         c = chars[++i];
@@ -1030,6 +1183,12 @@ public final class JsonReader implements Closeable {
       }
     }
     if (i == offset + length) {
+      // A positive value of -Long.MIN_VALUE (+9223372036854775808) overflows Long.MAX_VALUE, so
+      // negatedValue == Long.MIN_VALUE is only valid when negative is true.
+      if (!hasFractionOrExponent && fitsInLong && (negatedValue != Long.MIN_VALUE || negative)) {
+        peekedLong = negative ? negatedValue : -negatedValue;
+        hasPeekedLong = true;
+      }
       return JsonToken.NUMBER;
     } else {
       return JsonToken.STRING;
