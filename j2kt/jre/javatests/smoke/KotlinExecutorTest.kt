@@ -342,6 +342,22 @@ class KotlinExecutorTest {
   }
 
   @Test
+  fun schedule_cancelledWithoutInterrupt_doesNotRun() = runTest {
+    val didRun: AtomicReference<Boolean> = AtomicReference(false)
+
+    val future: ScheduledFuture<*> =
+      executor.schedule({ didRun.getAndSet(true) }, 1000L, TimeUnit.MILLISECONDS)
+
+    assertThat(future.cancel(/* mayInterruptIfRunning= */ false)).isTrue()
+    assertThat(future.isCancelled()).isTrue()
+    assertThat(future.isDone()).isTrue()
+
+    scheduler.advanceTimeBy(2000L)
+
+    assertThat(didRun.value).isFalse()
+  }
+
+  @Test
   fun scheduleAtFixedRate_runsRegularlyAfterDelay() = runTest {
     val didRun: AtomicInt = AtomicInt(0)
 

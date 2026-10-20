@@ -43,9 +43,6 @@ internal open class KotlinFuture<T>(private val deferred: Deferred<T>) : Future<
     if (deferred.isCancelled || deferred.isCompleted || !deferred.isActive) {
       return false
     }
-    if (!mayInterruptIfRunning && deferred.isActive) {
-      return false
-    }
     deferred.cancel()
     return true
   }
@@ -57,7 +54,7 @@ internal open class KotlinFuture<T>(private val deferred: Deferred<T>) : Future<
   }
 
   override fun isDone(): Boolean {
-    return deferred.isCompleted || didCompleteExceptionally.value
+    return deferred.isCompleted || deferred.isCancelled || didCompleteExceptionally.value
   }
 
   override fun get(): T {

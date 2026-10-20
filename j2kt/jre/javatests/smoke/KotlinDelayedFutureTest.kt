@@ -105,7 +105,14 @@ class KotlinDelayedFutureTest {
   @Test
   fun cancel_isCancelled() {
     val future = executor.schedule({}, 1000L, TimeUnit.MILLISECONDS)
-    future.cancel(true)
+    assertThat(future.cancel(true)).isTrue()
+    assertThat(future.isCancelled()).isTrue()
+  }
+
+  @Test
+  fun cancel_withoutInterrupt_isCancelled() {
+    val future = executor.schedule({}, 1000L, TimeUnit.MILLISECONDS)
+    assertThat(future.cancel(false)).isTrue()
     assertThat(future.isCancelled()).isTrue()
   }
 
