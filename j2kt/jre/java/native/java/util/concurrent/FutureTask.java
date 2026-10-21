@@ -394,7 +394,7 @@ public class FutureTask<V extends @Nullable Object> implements RunnableFuture<V>
    * in case of an apparent race. This is slow when there are a lot of nodes, but we don't expect
    * lists to be long enough to outweigh higher-overhead schemes.
    */
-  private void removeWaiter(WaitNode node) {
+  private void removeWaiter(@Nullable WaitNode node) {
     if (node != null) {
       node.thread = null;
       retry:
