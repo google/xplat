@@ -13,66 +13,66 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalAtomicApi::class)
+
 package java.util.concurrent.atomic
 
 import java.util.function.IntBinaryOperator
 import java.util.function.IntUnaryOperator
-import kotlin.collections.contentToString
-import kotlinx.atomicfu.atomic
-import kotlinx.atomicfu.getAndUpdate
-import kotlinx.atomicfu.updateAndGet
+import kotlin.concurrent.atomics.AtomicIntArray
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.concurrent.atomics.fetchAndUpdateAt
+import kotlin.concurrent.atomics.updateAndFetchAt
 
-class AtomicIntegerArray private constructor(private val array: Array<kotlinx.atomicfu.AtomicInt>) {
+class AtomicIntegerArray private constructor(private val array: AtomicIntArray) {
 
-  constructor(
-    array: IntArray
-  ) : this(Array<kotlinx.atomicfu.AtomicInt>(array.size) { kotlinx.atomicfu.atomic(array[it]) })
+  constructor(array: IntArray) : this(AtomicIntArray(array))
 
-  constructor(
-    length: Int
-  ) : this(Array<kotlinx.atomicfu.AtomicInt>(length) { kotlinx.atomicfu.atomic(0) })
+  constructor(length: Int) : this(AtomicIntArray(length))
 
-  fun get(i: Int): Int = array[i].value
+  fun get(i: Int): Int = array.loadAt(i)
 
   fun getAndAccumulate(i: Int, x: Int, accumulatorFunction: IntBinaryOperator): Int =
-    array[i].getAndUpdate { accumulatorFunction.applyAsInt(x, it) }
+    array.fetchAndUpdateAt(i) { accumulatorFunction.applyAsInt(it, x) }
 
-  fun getAndAdd(i: Int, delta: Int): Int = array[i].getAndAdd(delta)
+  fun getAndAdd(i: Int, delta: Int): Int = array.fetchAndAddAt(i, delta)
 
-  fun getAndIncrement(i: Int): Int = array[i].getAndIncrement()
+  fun getAndIncrement(i: Int): Int = array.fetchAndAddAt(i, 1)
 
-  fun getAndDecrement(i: Int): Int = array[i].getAndDecrement()
+  fun getAndDecrement(i: Int): Int = array.fetchAndAddAt(i, -1)
 
-  fun getAndSet(i: Int, newValue: Int): Int = array[i].getAndSet(newValue)
+  fun getAndSet(i: Int, newValue: Int): Int = array.exchangeAt(i, newValue)
 
   fun getAndUpdate(i: Int, updateFunction: IntUnaryOperator): Int =
-    array[i].getAndUpdate { updateFunction.applyAsInt(it) }
+    array.fetchAndUpdateAt(i) { updateFunction.applyAsInt(it) }
 
   fun accumulateAndGet(i: Int, x: Int, accumulatorFunction: IntBinaryOperator): Int =
-    array[i].updateAndGet { accumulatorFunction.applyAsInt(x, it) }
+    array.updateAndFetchAt(i) { accumulatorFunction.applyAsInt(it, x) }
 
-  fun addAndGet(i: Int, delta: Int): Int = array[i].addAndGet(delta)
+  fun addAndGet(i: Int, delta: Int): Int = array.addAndFetchAt(i, delta)
 
-  fun incrementAndGet(i: Int): Int = array[i].incrementAndGet()
+  fun incrementAndGet(i: Int): Int = array.addAndFetchAt(i, 1)
 
-  fun decrementAndGet(i: Int): Int = array[i].decrementAndGet()
+  fun decrementAndGet(i: Int): Int = array.addAndFetchAt(i, -1)
 
   fun updateAndGet(i: Int, updateFunction: IntUnaryOperator): Int =
-    array[i].updateAndGet { updateFunction.applyAsInt(it) }
+    array.updateAndFetchAt(i) { updateFunction.applyAsInt(it) }
 
   fun compareAndSet(i: Int, expect: Int, update: Int): Boolean =
-    array[i].compareAndSet(expect, update)
+    array.compareAndSetAt(i, expect, update)
 
   fun weakCompareAndSet(i: Int, expect: Int, update: Int): Boolean =
     compareAndSet(i, expect, update)
 
   fun set(i: Int, newValue: Int) {
-    array[i].value = newValue
+    array.storeAt(i, newValue)
   }
 
-  fun lazySet(i: Int, newValue: Int) = array[i].lazySet(newValue)
+  fun lazySet(i: Int, newValue: Int) {
+    array.storeAt(i, newValue)
+  }
 
   fun length(): Int = array.size
 
-  override fun toString(): String = array.contentToString()
+  override fun toString(): String = array.toString()
 }

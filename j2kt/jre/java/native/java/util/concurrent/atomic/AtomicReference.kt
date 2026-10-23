@@ -13,37 +13,41 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalAtomicApi::class)
+
 package java.util.concurrent.atomic
 
-import kotlinx.atomicfu.AtomicRef
-import kotlinx.atomicfu.atomic
+import kotlin.concurrent.atomics.AtomicReference as KotlinAtomicReference
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
 /**
- * GWT emulation of AtomicReference.
+ * J2KT Native emulated version of `AtomicReference`.
  *
- * @param <V> The type of object referred to by this reference
+ * @param V the type of object referred to by this reference.
  */
-class AtomicReference<V> internal constructor(private val atomicValue: AtomicRef<V>) {
+class AtomicReference<V>(initialValue: V) {
+  private val atomicValue = KotlinAtomicReference<V>(initialValue)
 
-  constructor(initialValue: V) : this(atomic<V>(initialValue))
+  final fun compareAndSet(expect: V, update: V): Boolean = atomicValue.compareAndSet(expect, update)
 
-  final fun compareAndSet(expect: V, update: V) = atomicValue.compareAndSet(expect, update)
+  final fun get(): V = atomicValue.load()
 
-  final fun get(): V = atomicValue.value
+  final fun getAndSet(newValue: V): V = atomicValue.exchange(newValue)
 
-  final fun getAndSet(newValue: V): V = atomicValue.getAndSet(newValue)
-
-  final fun lazySet(newValue: V) = atomicValue.lazySet(newValue)
-
-  final fun set(newValue: V) {
-    atomicValue.value = newValue
+  final fun lazySet(newValue: V) {
+    atomicValue.store(newValue)
   }
 
-  final fun weakCompareAndSet(expect: V, update: V) = atomicValue.compareAndSet(expect, update)
+  final fun set(newValue: V) {
+    atomicValue.store(newValue)
+  }
 
-  override fun toString(): String = atomicValue.toString()
+  final fun weakCompareAndSet(expect: V, update: V): Boolean =
+    atomicValue.compareAndSet(expect, update)
+
+  override fun toString(): String = get().toString()
 
   companion object {
-    operator fun <V> invoke(): AtomicReference<V?> = AtomicReference<V?>(atomic<V?>(null))
+    operator fun <V> invoke(): AtomicReference<V?> = AtomicReference<V?>(null)
   }
 }

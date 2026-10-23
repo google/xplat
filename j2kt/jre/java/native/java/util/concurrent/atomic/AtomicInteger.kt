@@ -13,56 +13,61 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalAtomicApi::class)
+
 package java.util.concurrent.atomic
 
-open class AtomicInteger internal constructor(private val ktAtomicInt: kotlinx.atomicfu.AtomicInt) :
-  kotlin.Number() {
+import kotlin.concurrent.atomics.AtomicInt
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
-  constructor() : this(kotlinx.atomicfu.atomic(0))
+open class AtomicInteger(initialValue: Int) : kotlin.Number() {
+  private val ktAtomicInt = AtomicInt(initialValue)
 
-  constructor(initialValue: Int) : this(kotlinx.atomicfu.atomic(initialValue))
+  constructor() : this(0)
 
-  fun get(): Int = ktAtomicInt.value
+  fun get(): Int = ktAtomicInt.load()
 
   fun set(newValue: Int) {
-    ktAtomicInt.value = newValue
+    ktAtomicInt.store(newValue)
   }
 
-  fun lazySet(newValue: Int) = ktAtomicInt.lazySet(newValue)
+  fun lazySet(newValue: Int) {
+    ktAtomicInt.store(newValue)
+  }
 
-  fun getAndSet(newValue: Int): Int = ktAtomicInt.getAndSet(newValue)
+  fun getAndSet(newValue: Int): Int = ktAtomicInt.exchange(newValue)
 
   fun compareAndSet(expect: Int, update: Int): Boolean = ktAtomicInt.compareAndSet(expect, update)
 
-  fun getAndIncrement(): Int = ktAtomicInt.getAndIncrement()
+  fun getAndIncrement(): Int = ktAtomicInt.fetchAndAdd(1)
 
-  fun getAndDecrement(): Int = ktAtomicInt.getAndDecrement()
+  fun getAndDecrement(): Int = ktAtomicInt.fetchAndAdd(-1)
 
-  fun getAndAdd(delta: Int): Int = ktAtomicInt.getAndAdd(delta)
+  fun getAndAdd(delta: Int): Int = ktAtomicInt.fetchAndAdd(delta)
 
-  fun incrementAndGet(): Int = ktAtomicInt.incrementAndGet()
+  fun incrementAndGet(): Int = ktAtomicInt.addAndFetch(1)
 
-  fun decrementAndGet(): Int = ktAtomicInt.decrementAndGet()
+  fun decrementAndGet(): Int = ktAtomicInt.addAndFetch(-1)
 
-  fun addAndGet(delta: Int): Int = ktAtomicInt.addAndGet(delta)
+  fun addAndGet(delta: Int): Int = ktAtomicInt.addAndFetch(delta)
 
-  override fun toString(): String = ktAtomicInt.toString()
+  override fun toString(): String = get().toString()
 
-  override fun toInt(): Int = ktAtomicInt.value
+  override fun toInt(): Int = get()
 
-  override fun toLong(): Long = ktAtomicInt.value.toLong()
+  override fun toLong(): Long = get().toLong()
 
-  override fun toFloat(): Float = ktAtomicInt.value.toFloat()
+  override fun toFloat(): Float = get().toFloat()
 
-  override fun toDouble(): Double = ktAtomicInt.value.toDouble()
+  override fun toDouble(): Double = get().toDouble()
 
-  override fun toByte(): Byte = ktAtomicInt.value.toByte()
+  override fun toByte(): Byte = get().toByte()
 
   @Deprecated(
     "Direct conversion to Char is deprecated. Use toInt().toChar() or other conversions instead.",
     ReplaceWith("toInt().toChar()"),
   )
-  override fun toChar(): Char = ktAtomicInt.value.toChar()
+  override fun toChar(): Char = get().toChar()
 
-  override fun toShort(): Short = ktAtomicInt.value.toShort()
+  override fun toShort(): Short = get().toShort()
 }

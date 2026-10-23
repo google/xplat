@@ -15,32 +15,38 @@
  * limitations under the License.
  */
 // CHECKSTYLE_ON
+@file:OptIn(ExperimentalAtomicApi::class)
+
 package java.util.concurrent.atomic
 
-import kotlinx.atomicfu.AtomicRef
-import kotlinx.atomicfu.atomic
+import kotlin.concurrent.atomics.AtomicArray
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.concurrent.atomics.atomicArrayOfNulls
 
 /**
  * J2KT Native emulated version of `AtomicReferenceArray`.
  *
  * @param V the element type.
  */
-class AtomicReferenceArray<V> private constructor(private val array: Array<AtomicRef<V>>) {
+class AtomicReferenceArray<V> private constructor(private val array: AtomicArray<V>) {
 
-  constructor(array: Array<V>) : this(Array(array.size) { atomic<V>(array[it]) })
+  constructor(array: Array<V>) : this(AtomicArray(array))
 
-  fun compareAndSet(i: Int, expect: V, update: V) = array[i].compareAndSet(expect, update)
+  fun compareAndSet(i: Int, expect: V, update: V): Boolean =
+    array.compareAndSetAt(i, expect, update)
 
-  fun get(i: Int) = array[i].value
+  fun get(i: Int): V = array.loadAt(i)
 
-  fun getAndSet(i: Int, x: V) = array[i].getAndSet(x)
+  fun getAndSet(i: Int, x: V): V = array.exchangeAt(i, x)
 
-  fun lazySet(i: Int, x: V) = array[i].lazySet(x)
+  fun lazySet(i: Int, x: V) {
+    array.storeAt(i, x)
+  }
 
   fun length(): Int = array.size
 
   fun set(i: Int, x: V) {
-    array[i].value = x
+    array.storeAt(i, x)
   }
 
   fun weakCompareAndSet(i: Int, expect: V, update: V): Boolean = compareAndSet(i, expect, update)
@@ -48,7 +54,8 @@ class AtomicReferenceArray<V> private constructor(private val array: Array<Atomi
   override fun toString(): String = array.toString()
 
   companion object {
+    @Suppress("UNCHECKED_CAST")
     operator fun <V> invoke(length: Int): AtomicReferenceArray<V?> =
-      AtomicReferenceArray<V?>(Array(length) { atomic<V?>(null) })
+      AtomicReferenceArray<V?>(atomicArrayOfNulls<Any>(length) as AtomicArray<V?>)
   }
 }

@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 // CHECKSTYLE_ON
+@file:OptIn(ExperimentalAtomicApi::class)
+
 package java.util.concurrent.atomic
 
-import kotlinx.atomicfu.AtomicBoolean
-import kotlinx.atomicfu.atomic
+import kotlin.concurrent.atomics.AtomicBoolean as KotlinAtomicBoolean
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
-/** GWT emulation of AtomicBoolean. */
-class AtomicBoolean internal constructor(private val atomicBool: AtomicBoolean) :
-  java.io.Serializable {
-
-  constructor(initialValue: Boolean) : this(atomic(initialValue))
+/** J2KT Native emulated version of `AtomicBoolean`. */
+class AtomicBoolean(initialValue: Boolean) : java.io.Serializable {
+  private val atomicBool = KotlinAtomicBoolean(initialValue)
 
   constructor() : this(false)
 
-  final fun get(): Boolean = atomicBool.value
+  final fun get(): Boolean = atomicBool.load()
 
   final fun compareAndSet(expect: Boolean, update: Boolean): Boolean =
     atomicBool.compareAndSet(expect, update)
@@ -36,12 +36,14 @@ class AtomicBoolean internal constructor(private val atomicBool: AtomicBoolean) 
   fun weakCompareAndSet(expect: Boolean, update: Boolean): Boolean = compareAndSet(expect, update)
 
   final fun set(newValue: Boolean) {
-    atomicBool.value = newValue
+    atomicBool.store(newValue)
   }
 
-  final fun lazySet(newValue: Boolean) = atomicBool.lazySet(newValue)
+  final fun lazySet(newValue: Boolean) {
+    atomicBool.store(newValue)
+  }
 
-  final fun getAndSet(newValue: Boolean): Boolean = atomicBool.getAndSet(newValue)
+  final fun getAndSet(newValue: Boolean): Boolean = atomicBool.exchange(newValue)
 
-  override fun toString(): String = atomicBool.toString()
+  override fun toString(): String = get().toString()
 }

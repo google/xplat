@@ -13,66 +13,66 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+@file:OptIn(ExperimentalAtomicApi::class)
+
 package java.util.concurrent.atomic
 
 import java.util.function.LongBinaryOperator
 import java.util.function.LongUnaryOperator
-import kotlin.collections.contentToString
-import kotlinx.atomicfu.atomic
-import kotlinx.atomicfu.getAndUpdate
-import kotlinx.atomicfu.updateAndGet
+import kotlin.concurrent.atomics.AtomicLongArray as KotlinAtomicLongArray
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.concurrent.atomics.fetchAndUpdateAt
+import kotlin.concurrent.atomics.updateAndFetchAt
 
-class AtomicLongArray private constructor(private val array: Array<kotlinx.atomicfu.AtomicLong>) {
+class AtomicLongArray private constructor(private val array: KotlinAtomicLongArray) {
 
-  constructor(
-    array: LongArray
-  ) : this(Array<kotlinx.atomicfu.AtomicLong>(array.size) { kotlinx.atomicfu.atomic(array[it]) })
+  constructor(array: LongArray) : this(KotlinAtomicLongArray(array))
 
-  constructor(
-    length: Int
-  ) : this(Array<kotlinx.atomicfu.AtomicLong>(length) { kotlinx.atomicfu.atomic(0L) })
+  constructor(length: Int) : this(KotlinAtomicLongArray(length))
 
-  fun get(i: Int): Long = array[i].value
+  fun get(i: Int): Long = array.loadAt(i)
 
   fun getAndAccumulate(i: Int, x: Long, accumulatorFunction: LongBinaryOperator): Long =
-    array[i].getAndUpdate { accumulatorFunction.applyAsLong(x, it) }
+    array.fetchAndUpdateAt(i) { accumulatorFunction.applyAsLong(it, x) }
 
-  fun getAndAdd(i: Int, delta: Long): Long = array[i].getAndAdd(delta)
+  fun getAndAdd(i: Int, delta: Long): Long = array.fetchAndAddAt(i, delta)
 
-  fun getAndIncrement(i: Int): Long = array[i].getAndIncrement()
+  fun getAndIncrement(i: Int): Long = array.fetchAndAddAt(i, 1L)
 
-  fun getAndDecrement(i: Int): Long = array[i].getAndDecrement()
+  fun getAndDecrement(i: Int): Long = array.fetchAndAddAt(i, -1L)
 
-  fun getAndSet(i: Int, newValue: Long): Long = array[i].getAndSet(newValue)
+  fun getAndSet(i: Int, newValue: Long): Long = array.exchangeAt(i, newValue)
 
   fun getAndUpdate(i: Int, updateFunction: LongUnaryOperator): Long =
-    array[i].getAndUpdate { updateFunction.applyAsLong(it) }
+    array.fetchAndUpdateAt(i) { updateFunction.applyAsLong(it) }
 
   fun accumulateAndGet(i: Int, x: Long, accumulatorFunction: LongBinaryOperator): Long =
-    array[i].updateAndGet { accumulatorFunction.applyAsLong(x, it) }
+    array.updateAndFetchAt(i) { accumulatorFunction.applyAsLong(it, x) }
 
-  fun addAndGet(i: Int, delta: Long): Long = array[i].addAndGet(delta)
+  fun addAndGet(i: Int, delta: Long): Long = array.addAndFetchAt(i, delta)
 
-  fun incrementAndGet(i: Int): Long = array[i].incrementAndGet()
+  fun incrementAndGet(i: Int): Long = array.addAndFetchAt(i, 1L)
 
-  fun decrementAndGet(i: Int): Long = array[i].decrementAndGet()
+  fun decrementAndGet(i: Int): Long = array.addAndFetchAt(i, -1L)
 
   fun updateAndGet(i: Int, updateFunction: LongUnaryOperator): Long =
-    array[i].updateAndGet { updateFunction.applyAsLong(it) }
+    array.updateAndFetchAt(i) { updateFunction.applyAsLong(it) }
 
   fun compareAndSet(i: Int, expect: Long, update: Long): Boolean =
-    array[i].compareAndSet(expect, update)
+    array.compareAndSetAt(i, expect, update)
 
   fun weakCompareAndSet(i: Int, expect: Long, update: Long): Boolean =
     compareAndSet(i, expect, update)
 
   fun set(i: Int, newValue: Long) {
-    array[i].value = newValue
+    array.storeAt(i, newValue)
   }
 
-  fun lazySet(i: Int, newValue: Long) = array[i].lazySet(newValue)
+  fun lazySet(i: Int, newValue: Long) {
+    array.storeAt(i, newValue)
+  }
 
   fun length(): Int = array.size
 
-  override fun toString(): String = array.contentToString()
+  override fun toString(): String = array.toString()
 }
