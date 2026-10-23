@@ -692,7 +692,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
      * <p>Unlike other traversal methods, iterators need to handle both: - dequeued nodes (p.next ==
      * p) - (possibly multiple) interior removed nodes (p.item == null)
      */
-    private Node<E> nextNode(Node<E> p) {
+    private @Nullable Node<E> nextNode(Node<E> p) {
       for (; ; ) {
         Node<E> s = p.next;
         if (s == p) return head.next;
