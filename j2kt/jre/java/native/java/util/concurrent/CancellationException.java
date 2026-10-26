@@ -18,16 +18,18 @@
 
 package java.util.concurrent;
 
+import javaemul.internal.annotations.KtNative;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Emulation of CancellationException. */
+@KtNative(
+    name = "kotlin.coroutines.cancellation.CancellationException",
+    bridgeName = "java.util.concurrent.CancellationException")
 @NullMarked
 public class CancellationException extends IllegalStateException {
 
-  public CancellationException() { }
+  public CancellationException() {}
 
-  public CancellationException(@Nullable String message) {
-    super(message);
-  }
+  public CancellationException(@Nullable String message) {}
 }

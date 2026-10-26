@@ -15,6 +15,7 @@
  */
 package smoke;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -23,6 +24,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import org.jspecify.annotations.Nullable;
 import org.junit.Test;
 
@@ -41,6 +46,45 @@ public class ThrowableTest {
         "Calling initCause twice should not succeed",
         IllegalStateException.class,
         () -> nfe.initCause(new RuntimeException()));
+  }
+
+  private static class CustomCancellationException extends CancellationException {
+    CustomCancellationException(@Nullable String message) {
+      super(message);
+    }
+  }
+
+  @Test
+  public void testCancellationException() throws Exception {
+    CancellationException empty = new CancellationException();
+    assertNull(empty.getMessage());
+    assertNull(empty.getCause());
+    assertSame(empty, empty.initCause(null));
+    assertNull(empty.getCause());
+    assertThrows(
+        "Calling initCause after initCause(null) should not succeed",
+        IllegalStateException.class,
+        () -> empty.initCause(new RuntimeException()));
+
+    CancellationException withMessage = new CancellationException("Task was cancelled.");
+    assertEquals("Task was cancelled.", withMessage.getMessage());
+    RuntimeException theCause = new RuntimeException("boom");
+    assertSame(withMessage, withMessage.initCause(theCause));
+    assertSame(theCause, withMessage.getCause());
+
+    CustomCancellationException custom = new CustomCancellationException("custom");
+    assertEquals("custom", custom.getMessage());
+    assertSame(custom, custom.initCause(theCause));
+    assertSame(theCause, custom.getCause());
+
+    ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    try {
+      ScheduledFuture<?> future = executor.schedule(() -> {}, 10, SECONDS);
+      assertTrue(future.cancel(false));
+      assertThrows(CancellationException.class, future::get);
+    } finally {
+      executor.shutdownNow();
+    }
   }
 
   private static class TranspiledException extends Exception {

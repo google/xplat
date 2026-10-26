@@ -20,6 +20,7 @@ import java.lang.RuntimeException
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.ImmediateFuture
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -72,6 +73,12 @@ class ImmediateFutureTest {
     assertFalse(
       ImmediateFuture.immediateFailedFuture<String>(RuntimeException("test")).isCancelled()
     )
+  }
+
+  @Test
+  fun testCanceledGet() {
+    val canceledFuture = ImmediateFuture.immediateCanceledFuture<String>()
+    assertFailsWith<CancellationException> { canceledFuture.get() }
   }
 
   @Test

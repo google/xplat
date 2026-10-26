@@ -19,7 +19,6 @@ package smoke
 import com.google.common.truth.Truth.Companion.assertThat
 import com.google.common.truth.Truth.Companion.assertWithMessage
 import java.util.concurrent.Callable
-import java.util.concurrent.CancellationException
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.KotlinExecutor
 import java.util.concurrent.RejectedExecutionException
@@ -28,6 +27,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import kotlin.concurrent.AtomicInt
 import kotlin.concurrent.AtomicReference
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.fail
@@ -354,6 +354,7 @@ class KotlinExecutorTest {
 
     scheduler.advanceTimeBy(2000L)
 
+    assertFailsWith<CancellationException> { future.get() }
     assertThat(didRun.value).isFalse()
   }
 
@@ -620,6 +621,7 @@ class KotlinExecutorTest {
     // The task is canceled.
     assertWithMessage("Future is done").that(future.isDone()).isTrue()
     assertWithMessage("Future is cancelled").that(future.isCancelled()).isTrue()
+    assertFailsWith<CancellationException> { future.get() }
     assertWithMessage("Task was executed").that(didRun.value).isFalse()
   }
 }
