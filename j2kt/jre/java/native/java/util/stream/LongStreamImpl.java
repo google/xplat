@@ -425,7 +425,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
     }
 
     @Override
-    public Comparator<? super Long> getComparator() {
+    public @Nullable Comparator<? super Long> getComparator() {
       return original.getComparator();
     }
 
@@ -460,7 +460,7 @@ final class LongStreamImpl extends TerminatableStream<LongStreamImpl> implements
     }
 
     @Override
-    public Comparator<? super Long> getComparator() {
+    public @Nullable Comparator<? super Long> getComparator() {
       return original.getComparator();
     }
 

@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public class LogRecord implements Serializable {
   private Level level = Level.OFF;
-  private String loggerName = "";
+  private @Nullable String loggerName = "";
   private @Nullable String msg;
   private @Nullable Throwable thrown = null;
   private long millis;

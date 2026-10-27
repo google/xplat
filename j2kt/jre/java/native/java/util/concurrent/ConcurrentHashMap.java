@@ -602,7 +602,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
   private final AtomicInteger cellsBusy = new AtomicInteger();
 
   /** Table of counter cells. When non-null, size is a power of 2. */
-  private transient volatile CounterCell @Nullable [] counterCells;
+  private transient volatile @Nullable CounterCell @Nullable [] counterCells;
 
   // views
   private transient @Nullable KeySetView<K, V> keySet;
@@ -768,12 +768,12 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
    *     for {@code key}
    * @throws NullPointerException if the specified key or value is null
    */
-  public V put(K key, V value) {
+  public @Nullable V put(K key, V value) {
     return putVal(key, value, false);
   }
 
   /** Implementation for put and putIfAbsent */
-  final V putVal(K key, V value, boolean onlyIfAbsent) {
+  final @Nullable V putVal(K key, V value, boolean onlyIfAbsent) {
     if (key == null || value == null) throw new NullPointerException();
     int hash = spread(key.hashCode());
     int binCount = 0;
@@ -854,7 +854,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
    * Implementation for the four public remove/replace methods: Replaces node value with v,
    * conditional upon match of cv if non-null. If resulting value is null, delete.
    */
-  final V replaceNode(Object key, @Nullable V value, @Nullable Object cv) {
+  final @Nullable V replaceNode(Object key, @Nullable V value, @Nullable Object cv) {
     int hash = spread(key.hashCode());
     for (AtomicReferenceArray<@Nullable Node<K, V>> tab = table; ; ) {
       Node<K, V> f;
@@ -1330,7 +1330,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
    * @param check if <0, don't check resize, if <= 1 only check if uncontended
    */
   private final void addCount(long x, int check) {
-    CounterCell[] as;
+    @Nullable CounterCell[] as;
     long b, s;
     if ((as = counterCells) != null || !baseCount.compareAndSet(b = baseCount.get(), s = b + x)) {
       CounterHashCode hc;
@@ -1370,7 +1370,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
   }
 
   /** Helps transfer if a resize is in progress. */
-  final AtomicReferenceArray<@Nullable Node<K, V>> helpTransfer(
+  final @Nullable AtomicReferenceArray<@Nullable Node<K, V>> helpTransfer(
       AtomicReferenceArray<@Nullable Node<K, V>> tab, Node<K, V> f) {
     AtomicReferenceArray<@Nullable Node<K, V>> nextTab;
     int sc;
@@ -1592,7 +1592,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
   }
 
   /** Returns a list on non-TreeNodes replacing those in given list. */
-  static <K, V> Node<K, V> untreeify(Node<K, V> b) {
+  static <K, V> @Nullable Node<K, V> untreeify(@Nullable Node<K, V> b) {
     Node<K, V> hd = null, tl = null;
     for (Node<K, V> q = b; q != null; q = q.next) {
       Node<K, V> p = new Node<K, V>(q.hash, q.key, q.val, null);
@@ -2759,7 +2759,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
       new ThreadLocal<CounterHashCode>();
 
   final long sumCount() {
-    CounterCell[] as = counterCells;
+    @Nullable CounterCell[] as = counterCells;
     CounterCell a;
     long sum = baseCount.get();
     if (as != null) {
@@ -2771,7 +2771,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
   }
 
   // See LongAdder version for explanation
-  private final void fullAddCount(long x, CounterHashCode hc, boolean wasUncontended) {
+  private final void fullAddCount(long x, @Nullable CounterHashCode hc, boolean wasUncontended) {
     int h;
     if (hc == null) {
       hc = new CounterHashCode();
@@ -2781,7 +2781,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
     } else h = hc.code;
     boolean collide = false; // True if last slot nonempty
     for (; ; ) {
-      CounterCell[] as;
+      @Nullable CounterCell[] as;
       CounterCell a;
       int n;
       long v;
@@ -2792,7 +2792,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
             if (cellsBusy.get() == 0 && cellsBusy.compareAndSet(0, 1)) {
               boolean created = false;
               try { // Recheck under lock
-                CounterCell[] rs;
+                @Nullable CounterCell[] rs;
                 int m, j;
                 if ((rs = counterCells) != null
                     && (m = rs.length) > 0
@@ -2816,7 +2816,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
         else if (cellsBusy.get() == 0 && cellsBusy.compareAndSet(0, 1)) {
           try {
             if (counterCells == as) { // Expand table unless stale
-              CounterCell[] rs = new CounterCell[n << 1];
+              @Nullable CounterCell[] rs = new @Nullable CounterCell[n << 1];
               for (int i = 0; i < n; ++i) rs[i] = as[i];
               counterCells = rs;
             }
@@ -2833,7 +2833,7 @@ public class ConcurrentHashMap<K extends @Nullable Object, V extends @Nullable O
         boolean init = false;
         try { // Initialize table
           if (counterCells == as) {
-            CounterCell[] rs = new CounterCell[2];
+            @Nullable CounterCell[] rs = new @Nullable CounterCell[2];
             rs[h & 1] = new CounterCell(x);
             counterCells = rs;
             init = true;

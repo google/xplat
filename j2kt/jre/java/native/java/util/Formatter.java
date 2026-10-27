@@ -566,7 +566,7 @@ public final class Formatter implements Closeable, Flushable {
       return conversionType != '%' && conversionType != 'n';
     }
 
-    void checkFlags(Object arg) {
+    void checkFlags(@Nullable Object arg) {
       // Work out which flags are allowed.
       boolean allowComma = false;
       boolean allowMinus = true;

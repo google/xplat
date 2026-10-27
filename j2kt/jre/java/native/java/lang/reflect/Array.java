@@ -47,7 +47,7 @@ public final class Array {
       return getShortImpl(array, index);
     } else  {
       checkArgument(array instanceof Object[]);
-      Object[] typedArray = (Object[]) array;
+      @Nullable Object[] typedArray = (@Nullable Object[]) array;
       return typedArray[index];
     }
   }
@@ -155,7 +155,7 @@ public final class Array {
   public static int getLength(Object array) {
     checkNotNull(array);
     if (array instanceof Object[]) {
-      return ((Object[]) array).length;
+      return ((@Nullable Object[]) array).length;
     }
 
     if (array instanceof boolean[]) {
@@ -232,7 +232,7 @@ public final class Array {
 
   public static void set(Object array, int index, @Nullable Object value) {
     if (array instanceof Object[]) {
-      Object[] typedArray = (Object[]) array;
+      @Nullable Object[] typedArray = (@Nullable Object[]) array;
       typedArray[index] = value;
     } else {
       if (value instanceof Boolean) {
@@ -435,7 +435,7 @@ public final class Array {
     } else if (componentType == boolean.class) {
       return new boolean[length];
     } else {
-      return new Object[length];
+      return new @Nullable Object[length];
     }
   }
 

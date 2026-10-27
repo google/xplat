@@ -420,7 +420,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
     }
 
     @Override
-    public Comparator<? super Double> getComparator() {
+    public @Nullable Comparator<? super Double> getComparator() {
       return original.getComparator();
     }
 
@@ -455,7 +455,7 @@ final class DoubleStreamImpl extends TerminatableStream<DoubleStreamImpl> implem
     }
 
     @Override
-    public Comparator<? super Double> getComparator() {
+    public @Nullable Comparator<? super Double> getComparator() {
       return original.getComparator();
     }
 

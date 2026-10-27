@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -29,12 +29,13 @@ public abstract class Handler {
   private @Nullable Formatter formatter;
   private @Nullable Level level;
 
-  public abstract void close(); 
-  public abstract void flush(); 
-  
-  public Formatter getFormatter() {
+  public abstract void close();
+
+  public abstract void flush();
+
+  public @Nullable Formatter getFormatter() {
     return formatter;
-  } 
+  }
 
   public Level getLevel() {
     if (level != null) {
@@ -51,18 +52,18 @@ public abstract class Handler {
 
   public void setFormatter(Formatter newFormatter) {
     formatter = newFormatter;
-  }  
-  
+  }
+
   public void setLevel(Level newLevel) {
     level = newLevel;
   }
-  
+
   /* Not Implemented */
-  // public String getEncoding() {} 
-  // public ErrorManager getErrorManager() {}  
+  // public String getEncoding() {}
+  // public ErrorManager getErrorManager() {}
   // public Filter getFilter() {}
-  // public protected void reportError(String msg, Exception ex, int code) {}  
-  // public void setEncoding(String encoding) {} 
-  // public void setErrorManager(ErrorManager em) {}  
-  // public void setFilter(Filter newFilter) {} 
+  // public protected void reportError(String msg, Exception ex, int code) {}
+  // public void setEncoding(String encoding) {}
+  // public void setErrorManager(ErrorManager em) {}
+  // public void setFilter(Filter newFilter) {}
 }

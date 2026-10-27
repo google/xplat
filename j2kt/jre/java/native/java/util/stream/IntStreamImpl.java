@@ -433,7 +433,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
     }
 
     @Override
-    public Comparator<? super Integer> getComparator() {
+    public @Nullable Comparator<? super Integer> getComparator() {
       return original.getComparator();
     }
 
@@ -468,7 +468,7 @@ final class IntStreamImpl extends TerminatableStream<IntStreamImpl> implements I
     }
 
     @Override
-    public Comparator<? super Integer> getComparator() {
+    public @Nullable Comparator<? super Integer> getComparator() {
       return original.getComparator();
     }
 

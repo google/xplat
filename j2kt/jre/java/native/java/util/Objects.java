@@ -146,7 +146,7 @@ public final class Objects {
     return String.valueOf(o);
   }
 
-  public static String toString(@Nullable Object o, @Nullable String nullDefault) {
+  public static @Nullable String toString(@Nullable Object o, @Nullable String nullDefault) {
     return o != null ? o.toString() : nullDefault;
   }
 

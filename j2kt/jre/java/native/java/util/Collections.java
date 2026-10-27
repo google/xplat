@@ -802,7 +802,7 @@ public class Collections {
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return sortedMap.comparator();
     }
 
@@ -853,7 +853,7 @@ public class Collections {
     }
 
     @Override
-    public Comparator<? super E> comparator() {
+    public @Nullable Comparator<? super E> comparator() {
       return sortedSet.comparator();
     }
 

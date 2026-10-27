@@ -947,7 +947,7 @@ public final class URI implements Comparable<URI>, Serializable {
    *
    * @hide
    */
-  public static int getEffectivePort(String scheme, int specifiedPort) {
+  public static int getEffectivePort(@Nullable String scheme, int specifiedPort) {
     if (specifiedPort != -1) {
       return specifiedPort;
     }

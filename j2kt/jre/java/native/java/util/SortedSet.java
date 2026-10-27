@@ -46,7 +46,7 @@ public interface SortedSet<E extends @Nullable Object> extends Set<E> {
         this, Spliterator.DISTINCT | Spliterator.ORDERED | Spliterator.SORTED) {
 
       @Override
-      public Comparator<? super E> getComparator() {
+      public @Nullable Comparator<? super E> getComparator() {
         return SortedSet.this.comparator();
       }
     };

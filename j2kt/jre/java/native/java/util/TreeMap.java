@@ -648,7 +648,7 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     /** Returns the first node in this subtree. */
-    @Nullable Node<K, V> first() {
+    Node<K, V> first() {
       Node<K, V> node = this;
       Node<K, V> child = node.left;
       while (child != null) {
@@ -659,7 +659,7 @@ public class TreeMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     /** Returns the last node in this subtree. */
-    @Nullable Node<K, V> last() {
+    Node<K, V> last() {
       Node<K, V> node = this;
       Node<K, V> child = node.right;
       while (child != null) {
