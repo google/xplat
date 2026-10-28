@@ -18,6 +18,7 @@ package smoke;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Formatter;
+import java.util.Locale;
 import org.junit.Test;
 
 public final class FormatterTest {
@@ -25,5 +26,11 @@ public final class FormatterTest {
   @Test
   public void numberFormat0f_noDot() {
     assertEquals("11", new Formatter().format("%.0f", 11.0).toString());
+  }
+
+  @Test
+  @SuppressWarnings("nullness") // Testing a null Locale.
+  public void upperCaseConversion_nullLocale() {
+    assertEquals("ABC", new Formatter((Locale) null).format("%S", "abc").toString());
   }
 }

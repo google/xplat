@@ -319,7 +319,8 @@ public final class HttpCookie implements Cloneable {
       } else if (name.equals("expires")) {
         hasExpires = true;
         if (cookie.maxAge == -1L) {
-          Date date = HttpDate.parse(value);
+          // A missing date is treated like an unparsable one.
+          Date date = value != null ? HttpDate.parse(value) : null;
           if (date != null) {
             cookie.setExpires(date);
           } else {
@@ -328,6 +329,9 @@ public final class HttpCookie implements Cloneable {
         }
       } else if (name.equals("max-age") && cookie.maxAge == -1L) {
         hasMaxAge = true;
+        if (value == null) {
+          throw new IllegalArgumentException("Missing value for max-age attribute");
+        }
         cookie.maxAge = Long.parseLong(value);
       } else if (name.equals("path") && cookie.path == null) {
         cookie.path = value;
@@ -335,7 +339,8 @@ public final class HttpCookie implements Cloneable {
         cookie.portList = value != null ? value : "";
       } else if (name.equals("secure")) {
         cookie.secure = true;
-      } else if (name.equals("version") && !hasVersion) {
+      } else if (name.equals("version") && !hasVersion && value != null) {
+        // Like the RI, ignore a version attribute without a value.
         cookie.version = Integer.parseInt(value);
       }
     }

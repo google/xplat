@@ -140,9 +140,11 @@ public class InputStreamReader extends Reader {
         decoder.reset();
       }
       decoder = null;
+      InputStream in = this.in;
       if (in != null) {
+        // Like the RI, consider the reader closed even if closing the input stream fails.
+        this.in = null;
         in.close();
-        in = null;
       }
     }
   }
@@ -153,10 +155,13 @@ public class InputStreamReader extends Reader {
    * or Charset they passed in; this method may not return the same name.
    */
   public @Nullable String getEncoding() {
-    if (!isOpen()) {
-      return null;
+    synchronized (lock) {
+      CharsetDecoder decoder = this.decoder;
+      if (!isOpen() || decoder == null) {
+        return null;
+      }
+      return decoder.charset().name();
     }
-    return decoder.charset().name();
   }
 
   /**

@@ -20,6 +20,8 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
@@ -67,6 +69,23 @@ public class IoTest {
     int count = reader.read(buf);
     assertEquals(12, count);
     assertEquals("Hello, World", String.valueOf(buf, 0, count));
+  }
+
+  @Test
+  public void testInputStreamReader_closeThrows_readerIsClosed() throws Exception {
+    InputStream throwingOnClose =
+        new ByteArrayInputStream("Hello".getBytes(UTF_8)) {
+          @Override
+          public void close() throws IOException {
+            throw new IOException("close failed");
+          }
+        };
+    InputStreamReader reader = new InputStreamReader(throwingOnClose, UTF_8);
+    assertThrows(IOException.class, reader::close);
+
+    assertNull(reader.getEncoding());
+    assertThrows(IOException.class, reader::read);
+    assertThrows(IOException.class, () -> reader.read(new char[8], 0, 8));
   }
 
   @Test

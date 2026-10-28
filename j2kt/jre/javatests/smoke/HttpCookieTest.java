@@ -863,6 +863,25 @@ public class HttpCookieTest extends TestCase {
     }
   }
 
+  /** Attributes without a value ("expires", "max-age", "version") must not cause an NPE. */
+  public void test_Parse_attributesWithoutValue() {
+    // An expires attribute without a date is treated as an unparsable date, expiring the cookie.
+    HttpCookie cookie = HttpCookie.parse("Set-Cookie:name=test;expires").get(0);
+    assertEquals(0, cookie.getMaxAge());
+    assertTrue(cookie.hasExpired());
+
+    // A version attribute without a value is ignored.
+    cookie = HttpCookie.parse("Set-Cookie:name=test;version").get(0);
+    assertEquals("test", cookie.getValue());
+
+    // A max-age attribute without a value is rejected by some implementations (b/430690172).
+    try {
+      assertEquals(1, HttpCookie.parse("Set-Cookie:name=test;max-age").size());
+    } catch (IllegalArgumentException expected) {
+      // expected
+    }
+  }
+
   public void test_Parse_httpOnly() {
     // Default is !httpOnly.
     List<HttpCookie> list = HttpCookie.parse("Set-Cookie: SID=31d4d96e407aad42");
