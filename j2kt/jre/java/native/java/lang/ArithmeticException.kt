@@ -16,18 +16,18 @@
 package java.lang
 
 import javaemul.lang.CauseHolder
-import javaemul.lang.InitCauseCapable
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("J2ktJavaLangArithmeticException", exact = true)
-open class ArithmeticException(message: kotlin.String?) :
-  kotlin.ArithmeticException(message), InitCauseCapable {
+open class ArithmeticException(message: kotlin.String?) : kotlin.ArithmeticException(message) {
 
-  override val causeHolder = CauseHolder()
+  private val causeHolder = CauseHolder(this)
 
   override val cause
     get() = causeHolder.cause
 
   constructor() : this(message = null)
+
+  open fun initCause(cause: kotlin.Throwable?): kotlin.Throwable = causeHolder.initCause(cause)
 }

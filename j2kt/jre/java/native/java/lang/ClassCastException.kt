@@ -16,18 +16,18 @@
 package java.lang
 
 import javaemul.lang.CauseHolder
-import javaemul.lang.InitCauseCapable
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("J2ktJavaLangClassCastException", exact = true)
-open class ClassCastException(message: kotlin.String?) :
-  kotlin.ClassCastException(message), InitCauseCapable {
+open class ClassCastException(message: kotlin.String?) : kotlin.ClassCastException(message) {
 
-  override val causeHolder = CauseHolder()
+  private val causeHolder = CauseHolder(this)
 
   override val cause
     get() = causeHolder.cause
 
   constructor() : this(message = null)
+
+  open fun initCause(cause: kotlin.Throwable?): kotlin.Throwable = causeHolder.initCause(cause)
 }

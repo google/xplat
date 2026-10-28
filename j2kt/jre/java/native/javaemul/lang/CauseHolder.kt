@@ -15,18 +15,59 @@
  */
 package javaemul.lang
 
+import javaemul.internal.InternalPreconditions.Companion.checkCriticalArgument
 import javaemul.internal.InternalPreconditions.Companion.checkState
 
-class CauseHolder() {
-  // Holds the cause (a Throwable or null), or this, if no cause was set
-  private var thisOrCause: Any? = this
+internal class CauseHolder private constructor(private val throwable: Throwable) {
+  // LINT.IfChange
+  // The primary constructor is private to ensure new users have to add a constructor here which has
+  // the reminder to update the when-dispatch in throwableExtensions.kt.
+  constructor(throwable: java.lang.Throwable) : this(throwable as Throwable)
 
-  var cause: Throwable?
-    get() = if (hasCause()) thisOrCause as Throwable? else null
-    set(value: Throwable?) {
-      checkState(!hasCause(), "Can't overwrite cause")
-      thisOrCause = value
-    }
+  constructor(throwable: java.lang.Error) : this(throwable as Throwable)
 
-  private fun hasCause(): Boolean = thisOrCause !== this
+  constructor(throwable: java.lang.AssertionError) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.Exception) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.RuntimeException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.ArithmeticException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.ClassCastException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.IllegalArgumentException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.IllegalStateException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.IndexOutOfBoundsException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.NullPointerException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.NumberFormatException) : this(throwable as Throwable)
+
+  constructor(throwable: java.lang.UnsupportedOperationException) : this(throwable as Throwable)
+
+  constructor(throwable: java.util.ConcurrentModificationException) : this(throwable as Throwable)
+
+  constructor(throwable: java.util.NoSuchElementException) : this(throwable as Throwable)
+
+  constructor(throwable: java.util.concurrent.CancellationException) : this(throwable as Throwable)
+
+  // LINT.ThenChange(throwableExtensions.kt)
+
+  // Holds the cause (a Throwable or null), or `throwable`, if no cause was set.
+  private var throwableOrCause: Throwable? = throwable
+
+  val cause: Throwable?
+    get() = if (hasCause()) throwableOrCause else null
+
+  fun initCause(cause: Throwable?): Throwable {
+    checkCriticalArgument(cause !== throwable, "Self-causation not permitted")
+    checkState(!hasCause(), "Can't overwrite cause")
+    throwableOrCause = cause
+    return throwable
+  }
+
+  private fun hasCause(): Boolean = throwableOrCause !== throwable
 }

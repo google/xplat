@@ -18,15 +18,14 @@ package java.lang
 import java.io.PrintStream
 import java.io.PrintWriter
 import javaemul.lang.CauseHolder
-import javaemul.lang.InitCauseCapable
 import kotlin.String as KotlinString
 import kotlin.Throwable as KotlinThrowable
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("J2ktJavaLangThrowable", exact = true)
-open class Throwable(message: KotlinString?) : KotlinThrowable(message), InitCauseCapable {
-  override val causeHolder = CauseHolder()
+open class Throwable(message: KotlinString?) : KotlinThrowable(message) {
+  private val causeHolder = CauseHolder(this)
   override val cause
     get() = causeHolder.cause
 
@@ -49,8 +48,7 @@ open class Throwable(message: KotlinString?) : KotlinThrowable(message), InitCau
     initCause(cause)
   }
 
-  override fun initCause(cause: KotlinThrowable?): KotlinThrowable =
-    super<InitCauseCapable>.initCause(cause)
+  open fun initCause(cause: KotlinThrowable?): KotlinThrowable = causeHolder.initCause(cause)
 
   open fun printStackTrace(stream: PrintStream) {
     stream.print(stackTraceToString())

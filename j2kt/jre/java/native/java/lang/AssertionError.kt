@@ -16,14 +16,12 @@
 package java.lang
 
 import javaemul.lang.CauseHolder
-import javaemul.lang.InitCauseCapable
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("J2ktJavaLangAssertionError", exact = true)
-open class AssertionError(message: kotlin.String?) :
-  kotlin.AssertionError(message), InitCauseCapable {
-  override val causeHolder = CauseHolder()
+open class AssertionError(message: kotlin.String?) : kotlin.AssertionError(message) {
+  private val causeHolder = CauseHolder(this)
 
   override val cause
     get() = causeHolder.cause
@@ -51,4 +49,6 @@ open class AssertionError(message: kotlin.String?) :
   constructor(detailMessage: kotlin.Float) : this(detailMessage.toString())
 
   constructor(detailMessage: kotlin.Double) : this(detailMessage.toString())
+
+  open fun initCause(cause: kotlin.Throwable?): kotlin.Throwable = causeHolder.initCause(cause)
 }

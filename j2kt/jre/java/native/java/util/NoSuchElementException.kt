@@ -16,18 +16,16 @@
 package java.util
 
 import javaemul.lang.CauseHolder
-import javaemul.lang.InitCauseCapable
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("J2ktJavaUtilNoSuchElementException", exact = true)
-open class NoSuchElementException(message: String?) :
-  kotlin.NoSuchElementException(message), InitCauseCapable {
-
-  override val causeHolder = CauseHolder()
-
+open class NoSuchElementException(message: String?) : kotlin.NoSuchElementException(message) {
+  private val causeHolder = CauseHolder(this)
   override val cause
     get() = causeHolder.cause
 
   constructor() : this(message = null)
+
+  open fun initCause(cause: kotlin.Throwable?): kotlin.Throwable = causeHolder.initCause(cause)
 }

@@ -38,6 +38,12 @@ public class ThrowableTest {
     NumberFormatException nfe = new NumberFormatException(); // Native but bridged exception
     assertNull(nfe.getCause());
 
+    assertThrows(
+        "Self-causation should not be permitted",
+        IllegalArgumentException.class,
+        () -> nfe.initCause(nfe));
+    assertNull(nfe.getCause());
+
     RuntimeException theCause = new RuntimeException();
     assertSame(nfe, nfe.initCause(theCause));
     assertSame(theCause, nfe.getCause());
@@ -101,6 +107,12 @@ public class ThrowableTest {
   @Test
   public void testTranspiledException_initCause() throws Exception {
     Exception exception = new TranspiledException();
+    assertNull(exception.getCause());
+
+    assertThrows(
+        "Self-causation should not be permitted",
+        IllegalArgumentException.class,
+        () -> exception.initCause(exception));
     assertNull(exception.getCause());
 
     RuntimeException theCause = new RuntimeException();

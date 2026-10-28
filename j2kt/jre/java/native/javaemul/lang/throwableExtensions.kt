@@ -20,7 +20,6 @@ package javaemul.lang
 import java.io.PrintStream
 import java.io.PrintWriter
 import java.lang.StackTraceElement
-import java.lang.Throwable as JavaLangThrowable
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
@@ -31,31 +30,51 @@ val Throwable.suppressed: Array<Throwable>
 
 @HiddenFromObjC
 fun Throwable.initCause(cause: Throwable?): Throwable =
-  if (this is InitCauseCapable) initCause(cause) // Generic native bridge case
-  // initCause is generally called inside a constructor or right after calling one, so this
-  // restriction should not be too bad in practice:
-  else throw UnsupportedOperationException("Cannot initCause for native exception")
+  // LINT.IfChange
+  when (this) {
+    is java.lang.Throwable -> initCause(cause)
+    is java.lang.Error -> initCause(cause)
+    is java.lang.AssertionError -> initCause(cause)
+    is java.lang.Exception -> initCause(cause)
+    is java.lang.RuntimeException -> initCause(cause)
+    is java.lang.ArithmeticException -> initCause(cause)
+    is java.lang.ClassCastException -> initCause(cause)
+    is java.lang.IllegalArgumentException -> initCause(cause)
+    is java.lang.IllegalStateException -> initCause(cause)
+    is java.lang.IndexOutOfBoundsException -> initCause(cause)
+    is java.lang.NullPointerException -> initCause(cause)
+    is java.lang.NumberFormatException -> initCause(cause)
+    is java.lang.UnsupportedOperationException -> initCause(cause)
+    is java.util.ConcurrentModificationException -> initCause(cause)
+    is java.util.NoSuchElementException -> initCause(cause)
+    is java.util.concurrent.CancellationException -> initCause(cause)
+    // initCause is generally called inside a constructor or right after calling one, so this
+    // restriction should not be too bad in practice:
+    else -> throw UnsupportedOperationException("Cannot initCause for native exception")
+  }
+
+// LINT.ThenChange(CauseHolder.kt)
 
 @ObjCName("java_printStackTrace")
 fun Throwable.printStackTrace(@ObjCName("withJavaIoPrintStream") stream: PrintStream) =
-  if (this is JavaLangThrowable) printStackTrace(stream) else stream.print(stackTraceToString())
+  if (this is java.lang.Throwable) printStackTrace(stream) else stream.print(stackTraceToString())
 
 @ObjCName("java_printStackTrace")
 fun Throwable.printStackTrace(@ObjCName("withJavaIoPrintWriter") writer: PrintWriter) =
-  if (this is JavaLangThrowable) printStackTrace(writer) else writer.write(stackTraceToString())
+  if (this is java.lang.Throwable) printStackTrace(writer) else writer.write(stackTraceToString())
 
 @HiddenFromObjC
 fun Throwable.fillInStackTrace(): Throwable =
-  if (this is JavaLangThrowable) fillInStackTrace() else this
+  if (this is java.lang.Throwable) fillInStackTrace() else this
 
 @HiddenFromObjC
 val Throwable.stackTrace: Array<StackTraceElement>
-  get() = if (this is JavaLangThrowable) stackTrace else emptyArray<StackTraceElement>()
+  get() = if (this is java.lang.Throwable) stackTrace else emptyArray<StackTraceElement>()
 
 @HiddenFromObjC
 fun Throwable.setStackTrace(trace: Array<StackTraceElement>) =
-  if (this is JavaLangThrowable) setStackTrace(trace) else Unit
+  if (this is java.lang.Throwable) setStackTrace(trace) else Unit
 
 @HiddenFromObjC
 val Throwable.localizedMessage: String?
-  get() = if (this is JavaLangThrowable) localizedMessage else message
+  get() = if (this is java.lang.Throwable) localizedMessage else message

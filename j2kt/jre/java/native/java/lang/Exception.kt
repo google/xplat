@@ -16,12 +16,11 @@
 package java.lang
 
 import javaemul.lang.CauseHolder
-import javaemul.lang.InitCauseCapable
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("J2ktJavaLangException", exact = true)
-open class Exception(message: kotlin.String?) : kotlin.Exception(message), InitCauseCapable {
+open class Exception(message: kotlin.String?) : kotlin.Exception(message) {
   /**
    * Kotlin throwables do not support [initCause] for initializing the cause outside of the
    * constructor. The readonly [cause] property however is `open` so we override it to let
@@ -30,7 +29,7 @@ open class Exception(message: kotlin.String?) : kotlin.Exception(message), InitC
    * Kotlin code can only access `cause` through the property (the backing field is not exposed at
    * all), so we do not need to use the Kotlin [cause] constructor parameter.
    */
-  override val causeHolder = CauseHolder()
+  private val causeHolder = CauseHolder(this)
   override val cause
     get() = causeHolder.cause
 
@@ -41,4 +40,6 @@ open class Exception(message: kotlin.String?) : kotlin.Exception(message), InitC
   }
 
   constructor(cause: kotlin.Throwable?) : this(cause?.toString(), cause)
+
+  open fun initCause(cause: kotlin.Throwable?): kotlin.Throwable = causeHolder.initCause(cause)
 }
