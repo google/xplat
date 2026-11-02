@@ -34,6 +34,15 @@ public final class ThreadTest {
   }
 
   @Test
+  public void testToString() {
+    Thread currentThread = Thread.currentThread();
+    String string = currentThread.toString();
+    assertTrue(string, string.startsWith("Thread["));
+    assertTrue(string, string.contains(currentThread.getName() + ",5"));
+    assertTrue(string, string.endsWith("]"));
+  }
+
+  @Test
   public void testThreadLocal() {
     ThreadLocal<String> threadLocal = new ThreadLocal<>();
     assertNull(threadLocal.get());

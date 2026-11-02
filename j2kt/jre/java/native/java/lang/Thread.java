@@ -23,6 +23,8 @@ import org.jspecify.annotations.NullMarked;
 @KtNative
 public final class Thread {
 
+  public static final int NORM_PRIORITY = 5;
+
   public static native Thread currentThread();
 
   // J2KT threads do not support interruption, so this method always returns false.

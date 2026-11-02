@@ -23,6 +23,7 @@ import kotlin.concurrent.atomics.fetchAndIncrement
 import kotlin.native.ref.createCleaner
 import kotlinx.cinterop.Arena
 import kotlinx.cinterop.alloc
+import kotlinx.cinterop.autoreleasepool
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.nativeHeap
 import kotlinx.cinterop.ptr
@@ -56,8 +57,12 @@ private val nextId = AtomicLong(1)
 
 class Thread internal constructor(private val id: kotlin.Long) {
   private val name = run {
-    val osName = NSThread.currentThread.name
-    if (osName.isNullOrBlank()) "Thread-$id" else osName
+    val osName = autoreleasepool { NSThread.currentThread.name }
+    when {
+      !osName.isNullOrBlank() -> osName
+      NSThread.isMainThread -> "main"
+      else -> "Thread-$id"
+    }
   }
 
   internal val parking: Parking by lazy { Parking() }
@@ -72,7 +77,11 @@ class Thread internal constructor(private val id: kotlin.Long) {
 
   fun getName() = name
 
+  override fun toString(): kotlin.String = "Thread[$name,$NORM_PRIORITY]"
+
   companion object {
+    const val NORM_PRIORITY: kotlin.Int = 5
+
     fun currentThread(): Thread = curentThread
 
     // J2KT threads do not support interruption, so this method always returns false.
