@@ -15,10 +15,16 @@
  */
 package smoke
 
+import java.lang.System
 import java.lang.Thread
+import java.util.concurrent.TimeUnit.MICROSECONDS
+import java.util.concurrent.TimeUnit.MILLISECONDS
+import java.util.concurrent.TimeUnit.NANOSECONDS
+import javaemul.lang.J2ktMonitorWithNotification
 import kotlin.native.concurrent.ObsoleteWorkersApi
 import kotlin.native.concurrent.TransferMode
 import kotlin.native.concurrent.Worker
+import kotlin.synchronized
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -94,6 +100,21 @@ class ThreadInteropTest {
       assertEquals("Thread[custom-os-thread,5]", string)
     } finally {
       namedWorker.requestTermination().result
+    }
+  }
+
+  @Test
+  fun timeUnit_timedWait() {
+    val monitor = J2ktMonitorWithNotification()
+    MILLISECONDS.timedWait(monitor, 0)
+    MILLISECONDS.timedWait(monitor, -1)
+
+    synchronized(monitor) {
+      val startNanos = System.nanoTime()
+      MILLISECONDS.timedWait(monitor, 1)
+      assertTrue(System.nanoTime() > startNanos)
+      MICROSECONDS.timedWait(monitor, 500)
+      NANOSECONDS.timedWait(monitor, 500)
     }
   }
 }

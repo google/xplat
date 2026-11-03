@@ -15,6 +15,10 @@
  */
 package smoke;
 
+import static java.util.concurrent.TimeUnit.MICROSECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -64,6 +68,14 @@ public final class ThreadTest {
     long t0 = System.currentTimeMillis();
     Thread.sleep(1);
     assertTrue(System.currentTimeMillis() > t0);
+
+    long startNanos = System.nanoTime();
+    MILLISECONDS.sleep(1);
+    assertTrue(System.nanoTime() > startNanos);
+    MICROSECONDS.sleep(500);
+    NANOSECONDS.sleep(500);
+    SECONDS.sleep(0);
+    SECONDS.sleep(-1);
   }
 
   @Test
