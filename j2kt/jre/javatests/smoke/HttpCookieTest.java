@@ -865,10 +865,11 @@ public class HttpCookieTest extends TestCase {
 
   /** Attributes without a value ("expires", "max-age", "version") must not cause an NPE. */
   public void test_Parse_attributesWithoutValue() {
-    // An expires attribute without a date is treated as an unparsable date, expiring the cookie.
+    // An expires attribute without a date is treated as an unparsable date (expiring the cookie)
+    // or ignored (JDK 26+).
     HttpCookie cookie = HttpCookie.parse("Set-Cookie:name=test;expires").get(0);
-    assertEquals(0, cookie.getMaxAge());
-    assertTrue(cookie.hasExpired());
+    assertTrue(cookie.getMaxAge() <= 0);
+    assertEquals(cookie.getMaxAge() == 0, cookie.hasExpired());
 
     // A version attribute without a value is ignored.
     cookie = HttpCookie.parse("Set-Cookie:name=test;version").get(0);
