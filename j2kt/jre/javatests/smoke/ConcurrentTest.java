@@ -15,12 +15,21 @@
  */
 package smoke;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,6 +37,20 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public final class ConcurrentTest {
+
+  // Because its methods use `synchronized`, the J2KT transpiler makes CounterMonitor inherit from
+  // J2ktMonitor.
+  private static final class CounterMonitor {
+    private int count = 0;
+
+    synchronized void increment() {
+      count++;
+    }
+
+    synchronized int getCount() {
+      return count;
+    }
+  }
 
   @Test
   public void futureTask_smoke() {
@@ -92,5 +115,58 @@ public final class ConcurrentTest {
 
     assertTrue(keyIterator.hasNext());
     keyIterator.next();
+  }
+
+  @Test
+  public void synchronizedMonitor_lazyInitAndContention() throws Exception {
+    // Starts with monitor = null (no SynchronizedObject allocated yet).
+    CounterMonitor reentrantMonitor = new CounterMonitor();
+    // Outer synchronized block locks it for the first time, lazily creating its SynchronizedObject;
+    // calling increment() inside locks the same monitor a second time on the same thread to verify
+    // it reuses that SynchronizedObject instead of creating a new one or deadlocking.
+    synchronized (reentrantMonitor) {
+      reentrantMonitor.increment();
+    }
+    assertEquals(1, reentrantMonitor.getCount());
+
+    // Create 1,000 brand-new monitors (each with monitor = null): large enough (~1-3 ms) to
+    // outlast CountDownLatch's ~1 us wakeup head start so both threads genuinely overlap on
+    // uninitialized monitors, while keeping runtime tiny.
+    List<CounterMonitor> freshMonitors = new ArrayList<>(1_000);
+    for (int i = 0; i < 1_000; i++) {
+      freshMonitors.add(new CounterMonitor());
+    }
+    // Closed starting gate (counter starts at 1; opens when countDown() drops it to 0).
+    CountDownLatch startLatch = new CountDownLatch(1);
+    // Pool of 2 idle background threads waiting to be given work.
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
+    try {
+      // Instructions for each thread (does not run until submitted below): pause at startLatch (10s
+      // is just a safety timeout against hangs) until the gate opens, then add 1 to each monitor.
+      Callable<Integer> worker =
+          () -> {
+            assertTrue(startLatch.await(10, SECONDS));
+            for (CounterMonitor monitor : freshMonitors) {
+              monitor.increment();
+            }
+            return 0;
+          };
+      // Put Thread 1 and Thread 2 at the closed gate, then open it so both wake up together and
+      // loop through freshMonitors in parallel, racing to initialize `monitor` on each instance.
+      Future<Integer> f1 = executor.submit(worker);
+      Future<Integer> f2 = executor.submit(worker);
+      startLatch.countDown();
+      // Wait for both threads to finish (10s safety timeout) before checking final counts.
+      f1.get(10, SECONDS);
+      f2.get(10, SECONDS);
+    } finally {
+      executor.shutdownNow();
+    }
+    // Thread 1 added 1 and Thread 2 added 1, so regardless of what order the two threads lock each
+    // monitor, its count must be 2 (catches lost updates if racing first-locks ever created two
+    // separate SynchronizedObject instances on the same monitor).
+    for (CounterMonitor monitor : freshMonitors) {
+      assertEquals(2, monitor.getCount());
+    }
   }
 }

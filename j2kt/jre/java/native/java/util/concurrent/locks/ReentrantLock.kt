@@ -13,9 +13,9 @@
  */
 package java.util.concurrent.locks
 
-import javaemul.lang.J2ktMonitor
+import javaemul.lang.J2ktMonitorWithNotification
 
 /** Implementation of ReentrantLock used in Kotlin Native. */
-open class ReentrantLock : Lock, J2ktMonitor() {
+open class ReentrantLock : Lock, J2ktMonitorWithNotification() {
   override fun lockInterruptibly() = lock()
 }

@@ -28,6 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
   CharacterTest.class,
   ClassTest.class,
   CollectionsTest.class,
+  ConcurrentTest.class,
   DateTest.class,
   DeflaterTest.class,
   ErasureTest.class,

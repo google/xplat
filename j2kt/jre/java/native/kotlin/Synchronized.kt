@@ -17,6 +17,7 @@
 package kotlin
 
 import javaemul.lang.J2ktMonitor
+import javaemul.lang.J2ktMonitorWithNotification
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -27,6 +28,14 @@ import kotlin.native.HiddenFromObjC
 @OptIn(ExperimentalContracts::class, ExperimentalObjCRefinement::class)
 @HiddenFromObjC
 inline fun <R> synchronized(monitor: J2ktMonitor, block: () -> R): R {
+  contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+  return monitor.synchronizedImpl(block)
+}
+
+/** Kotlin native implementation of [java.lang.synchronized] for J2ktMonitorWithNotification. */
+@OptIn(ExperimentalContracts::class, ExperimentalObjCRefinement::class)
+@HiddenFromObjC
+inline fun <R> synchronized(monitor: J2ktMonitorWithNotification, block: () -> R): R {
   contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
   return monitor.synchronizedImpl(block)
 }
