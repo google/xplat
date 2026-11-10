@@ -104,6 +104,12 @@ public class ArraysTest {
     List<Integer> intList1 = Arrays.asList(integerArray);
     assertEquals((Integer) 1, intList1.get(0));
     assertEquals((Integer) 4, intList1.get(3));
+    assertEquals(0, intList1.indexOf(1));
+    assertEquals(2, intList1.indexOf(3));
+    assertEquals(-1, intList1.indexOf(5));
+    assertEquals(0, intList1.lastIndexOf(1));
+    assertEquals(2, intList1.lastIndexOf(3));
+    assertEquals(-1, intList1.lastIndexOf(5));
 
     List<Integer> intList2 = Arrays.asList(new Integer[] {1, 2, 3, 4});
     assertEquals((Integer) 1, intList2.get(0));
@@ -112,6 +118,14 @@ public class ArraysTest {
     List<Integer> intList3 = Arrays.asList(1, 2, 3, 4);
     assertEquals((Integer) 1, intList3.get(0));
     assertEquals((Integer) 4, intList3.get(3));
+
+    List<Integer> intListWithDuplicates = Arrays.asList(1, 2, 1, 3, 2);
+    assertEquals(0, intListWithDuplicates.indexOf(1));
+    assertEquals(2, intListWithDuplicates.lastIndexOf(1));
+    assertEquals(1, intListWithDuplicates.indexOf(2));
+    assertEquals(4, intListWithDuplicates.lastIndexOf(2));
+    assertEquals(-1, intListWithDuplicates.indexOf(99));
+    assertEquals(-1, intListWithDuplicates.lastIndexOf(99));
 
     // TODO(b/239034072): Add tests for set on lists after varargs are fixed
   }

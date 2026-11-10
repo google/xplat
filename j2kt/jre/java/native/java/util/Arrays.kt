@@ -53,9 +53,9 @@ class Arrays private constructor() {
 
         override fun get(index: Int): T = array[index]
 
-        override fun indexOf(element: T): Int = this.indexOf(element)
+        override fun indexOf(element: T): Int = array.indexOf(element)
 
-        override fun lastIndexOf(element: T): Int = this.lastIndexOf(element)
+        override fun lastIndexOf(element: T): Int = array.lastIndexOf(element)
 
         override fun set(index: Int, element: T): T {
           val prevValue = array[index]
