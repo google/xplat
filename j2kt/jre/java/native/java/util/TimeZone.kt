@@ -17,26 +17,27 @@ package java.util
 
 import java.io.Serializable
 import kotlin.Cloneable
-import kotlinx.datetime.TimeZone as KotlinTimeZone
+import platform.Foundation.NSTimeZone
+import platform.Foundation.defaultTimeZone as nsDefaultTimeZone
 
-/** Minimal j2kt emulation of TimeZone, backed by kotlinx.datetime.TimeZone. */
-open class TimeZone internal constructor(internal val timeZone: KotlinTimeZone) :
+/** Minimal j2kt emulation of TimeZone, backed by Foundation NSTimeZone. */
+open class TimeZone internal constructor(internal val timeZone: NSTimeZone) :
   Cloneable, Serializable {
 
-  public constructor() : this(KotlinTimeZone.currentSystemDefault())
+  public constructor() : this(NSTimeZone.nsDefaultTimeZone)
 
   /** Creates a copy of this TimeZone. */
   open override fun clone(): TimeZone = TimeZone(timeZone)
 
   /** Gets the ID of this time zone. */
-  fun getID(): String = timeZone.id
+  fun getID(): String = timeZone.name
 
   companion object {
 
-    private var defaultTimeZone: KotlinTimeZone? = null
+    private var defaultTimeZone: NSTimeZone? = null
 
     /** Gets the default TimeZone for this host. */
-    fun getDefault(): TimeZone = TimeZone(defaultTimeZone ?: KotlinTimeZone.currentSystemDefault())
+    fun getDefault(): TimeZone = TimeZone(defaultTimeZone ?: NSTimeZone.nsDefaultTimeZone)
 
     /** Sets the TimeZone that is returned by the getDefault method. */
     fun setDefault(dateTimeZone: TimeZone?) {

@@ -18,7 +18,7 @@ package java.util;
 import com.google.j2kt.annotations.KtNative;
 import java.io.Serializable;
 
-/** Minimal j2kt emulation of TimeZone, backed by kotlinx.datetime.TimeZone. */
+/** Minimal j2kt emulation of TimeZone, backed by Foundation NSTimeZone. */
 @KtNative
 public abstract class TimeZone implements Serializable, Cloneable {
 
