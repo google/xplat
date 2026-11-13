@@ -313,6 +313,9 @@ public class BitSet implements Cloneable {
     int last = wordIndex(toIndex);
     if (last >= array.length) {
       toIndex = length();
+      if (fromIndex >= toIndex) {
+        return;
+      }
       last = wordIndex(toIndex);
     }
 

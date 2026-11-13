@@ -16,6 +16,8 @@
 
 package smoke;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.BitSet;
@@ -34,5 +36,31 @@ public final class BitSetTest {
     assertTrue(!bitset.get(99));
 
     assertTrue(bitset instanceof Cloneable);
+  }
+
+  @Test
+  public void testClearRangeBeyondLength() {
+    BitSet bitset = new BitSet();
+    bitset.set(5);
+    bitset.set(200);
+    bitset.clear(200);
+    bitset.clear(64, 1000);
+    assertTrue(bitset.get(5));
+    assertEquals(1, bitset.cardinality());
+
+    BitSet presized = new BitSet(200);
+    presized.set(5);
+    presized.clear(64, 1000);
+    assertTrue(presized.get(5));
+    assertEquals(1, presized.cardinality());
+
+    presized.clear(10, 1000);
+    assertTrue(presized.get(5));
+    assertEquals(1, presized.cardinality());
+
+    BitSet empty = new BitSet(200);
+    empty.clear(64, 1000);
+    assertTrue(empty.isEmpty());
+    assertFalse(empty.get(5));
   }
 }
