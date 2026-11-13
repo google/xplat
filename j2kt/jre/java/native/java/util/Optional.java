@@ -122,7 +122,7 @@ public final class Optional<T> {
     return isPresent() ? ref : other;
   }
 
-  public T orElseGet(Supplier<? extends T> other) {
+  public @Nullable T orElseGet(Supplier<? extends @Nullable T> other) {
     return isPresent() ? ref : other.get();
   }
 
