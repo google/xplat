@@ -53,7 +53,7 @@ fun <V> MutableCollection<V>.java_remove(value: Any?): Boolean =
 @Suppress("UNCHECKED_CAST")
 @HiddenFromObjC
 fun <E> MutableCollection<E>.java_removeAll(c: Collection<*>): Boolean =
-  removeAll(c as MutableCollection<E>)
+  removeAll(c as Collection<E>)
 
 @HiddenFromObjC
 fun <E> MutableCollection<E>.removeIf(filter: Predicate<in E>): Boolean =

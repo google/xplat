@@ -16,6 +16,9 @@
 package interop.collections
 
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 /** Tests interop between Kotlin and J2KT-generated code. */
 class J2KtCollectionsInteropTest {
@@ -61,5 +64,18 @@ class J2KtCollectionsInteropTest {
     } catch (e: UnsupportedOperationException) {
       // Mutation is unsupported
     }
+  }
+
+  @Test
+  fun j2ktRemoveAll_acceptsReadonlyKotlinCollections() {
+    // The transpiled `from` parameter is typed as read-only `Collection`, but we explicitly pass a
+    // `MutableList` here because `removeAll` mutates it via `asMutableCollection()` (while
+    // `elements` exercises passing read-only Kotlin collections).
+    val target: MutableList<String> = mutableListOf("foo", "bar", "baz")
+    assertTrue(J2KtCollections.removeAll(from = target, elements = listOf("foo", "baz")))
+    assertEquals(listOf("bar"), target)
+    assertFalse(J2KtCollections.removeAll(from = target, elements = emptyList<String>()))
+    assertFalse(J2KtCollections.removeAll(from = target, elements = emptySet<String>()))
+    assertEquals(listOf("bar"), target)
   }
 }

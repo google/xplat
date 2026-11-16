@@ -19,6 +19,7 @@ import static java.util.Collections.unmodifiableList;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.jspecify.annotations.NullMarked;
 
@@ -28,6 +29,11 @@ public class J2KtCollections {
 
   /** Accepts any list. */
   public static <T> void accept(List<T> list) {}
+
+  /** Removes all {@code elements} from {@code from}. */
+  public static <T> boolean removeAll(Collection<T> from, Collection<?> elements) {
+    return from.removeAll(elements);
+  }
 
   /** Returns new list which is mutable. */
   public static <T> AbstractList<T> newMutableList() {
