@@ -27,14 +27,3 @@ fun <K, V> Map.Entry<K, V>.asMutableEntry(): MutableMap.MutableEntry<K, V> = asM
 @JvmName("alreadyMutableAsMutableEntry")
 @JvmSynthetic
 fun <K, V> MutableMap.MutableEntry<K, V>.asMutableEntry(): MutableMap.MutableEntry<K, V> = this
-
-@JvmSynthetic
-@Suppress("UNCHECKED_CAST")
-fun <K, V> Set<Map.Entry<K, V>>.asMutableEntrySet(): MutableSet<MutableMap.MutableEntry<K, V>> =
-  asMutable()
-
-@JvmName("alreadyMutableAsMutableEntrySet")
-@JvmSynthetic
-@Suppress("UNCHECKED_CAST")
-fun <K, V> MutableSet<Map.Entry<K, V>>.asMutableEntrySet():
-  MutableSet<MutableMap.MutableEntry<K, V>> = this as MutableSet<MutableMap.MutableEntry<K, V>>

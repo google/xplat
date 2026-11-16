@@ -194,13 +194,3 @@ fun <K, V> Map.Entry<K, V>.asMutableEntry(): MutableMap.MutableEntry<K, V> = asM
 
 @HiddenFromObjC
 fun <K, V> MutableMap.MutableEntry<K, V>.asMutableEntry(): MutableMap.MutableEntry<K, V> = this
-
-@HiddenFromObjC
-@Suppress("UNCHECKED_CAST")
-fun <K, V> Set<Map.Entry<K, V>>.asMutableEntrySet(): MutableSet<MutableMap.MutableEntry<K, V>> =
-  asMutable()
-
-@HiddenFromObjC
-@Suppress("UNCHECKED_CAST")
-fun <K, V> MutableSet<Map.Entry<K, V>>.asMutableEntrySet():
-  MutableSet<MutableMap.MutableEntry<K, V>> = this as MutableSet<MutableMap.MutableEntry<K, V>>
