@@ -19,6 +19,7 @@ package java.util;
 import static javaemul.internal.KtNativeUtils.ktNative;
 
 import javaemul.internal.annotations.KtNative;
+import javaemul.internal.annotations.KtOut;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -35,7 +36,7 @@ import org.jspecify.annotations.Nullable;
     mutableName = "kotlin.collections.MutableListIterator",
     bridgeName = "kotlin.collections.MutableListIterator")
 @NullMarked
-public interface ListIterator<E extends @Nullable Object> extends Iterator<E> {
+public interface ListIterator<@KtOut E extends @Nullable Object> extends Iterator<E> {
 
   void add(E e);
 
