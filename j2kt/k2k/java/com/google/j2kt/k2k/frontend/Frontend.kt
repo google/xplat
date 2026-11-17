@@ -19,13 +19,14 @@ import com.google.j2kt.k2k.model.CompilationUnit
 import com.google.j2kt.k2k.model.FileInfo
 import com.google.j2kt.k2k.model.Library
 import com.intellij.openapi.util.Disposer
+import java.io.File
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
 internal object Frontend {
-  fun parseLibrary(sources: List<FileInfo>): Library {
+  fun parseLibrary(sources: List<FileInfo>, classpath: List<File> = emptyList()): Library {
     val disposable = Disposer.newDisposable()
     try {
-      val environment = FrontendKotlinCoreEnvironment.create(disposable)
+      val environment = FrontendKotlinCoreEnvironment.create(disposable, classpath)
       val psiFactory = KtPsiFactory(environment.project)
       val compilationUnits = sources.map { fileInfo ->
         val content = fileInfo.inputPath.readText()

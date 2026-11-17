@@ -18,11 +18,12 @@ package com.google.j2kt.k2k
 import com.google.j2kt.k2k.frontend.Frontend
 import com.google.j2kt.k2k.model.FileInfo
 import com.google.j2kt.k2k.model.Library
+import java.io.File
 
 object Cleaner {
-  fun clean(sources: List<FileInfo>) {
+  fun clean(sources: List<FileInfo>, classpath: List<File> = emptyList()) {
     if (sources.isEmpty()) return
-    Frontend.parseLibrary(sources).use { library -> generateOutputs(library) }
+    Frontend.parseLibrary(sources, classpath).use { library -> generateOutputs(library) }
   }
 
   private fun generateOutputs(library: Library) {

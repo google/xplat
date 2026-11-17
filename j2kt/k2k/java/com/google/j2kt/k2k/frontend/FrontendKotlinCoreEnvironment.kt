@@ -16,22 +16,25 @@
 package com.google.j2kt.k2k.frontend
 
 import com.intellij.openapi.Disposable
+import java.io.File
 import org.jetbrains.kotlin.cli.extensionsStorage
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
+import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
 /** Factory for creating a standalone [KotlinCoreEnvironment]. */
 internal object FrontendKotlinCoreEnvironment {
-  fun create(disposable: Disposable): KotlinCoreEnvironment {
+  fun create(disposable: Disposable, classpath: List<File> = emptyList()): KotlinCoreEnvironment {
     // CompilerConfiguration(), MESSAGE_COLLECTOR_KEY, and ExtensionStorage() are guarded by
     // internal @RequiresOptIn annotations in kotlin-compiler for standalone CLI setup.
     @Suppress("OPT_IN_USAGE_ERROR")
     val configuration =
       CompilerConfiguration().apply {
         put(CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY, FrontendMessageCollector)
+        addJvmClasspathRoots(classpath)
         extensionsStorage = CompilerPluginRegistrar.ExtensionStorage()
       }
 

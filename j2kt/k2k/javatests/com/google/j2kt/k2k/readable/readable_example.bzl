@@ -7,16 +7,19 @@ load("//tools/build_defs/kotlin:rules.bzl", "kt_jvm_library")
 
 def readable_example(
         srcs,
+        deps = [],
         name = "readable"):
     """Cleans Kotlin sources and verifies readable golden outputs and compilability.
 
     Args:
       srcs: The Kotlin source files to clean.
+      deps: Dependencies required to compile the Kotlin sources.
       name: Base name for the generated library target.
     """
     k2k_clean(
         name = "cleaned",
         srcs = srcs,
+        deps = deps,
     )
 
     _golden_output(
@@ -39,6 +42,7 @@ def readable_example(
     kt_jvm_library(
         name = name,
         srcs = [":cleaned"],
+        deps = deps + ["//third_party/java_src/xplat/j2kt/jre/java:jre-j2kt-jvm"],
         tags = ["manual"],
     )
 

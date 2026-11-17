@@ -26,8 +26,18 @@ internal class Args {
 
   @Option(name = "-output", required = true, metaVar = "<path>") lateinit var output: File
 
+  @Option(name = "-classpath", metaVar = "<path>") var classpath: String = ""
+
   companion object {
     fun parse(rawArgs: Array<String>): Args =
-      Args().apply { CmdLineParser(this).parseArgument(*rawArgs) }
+      Args().apply { CmdLineParser(this).parseArgument(expandFlagFile(rawArgs)) }
+
+    private fun expandFlagFile(args: Array<String>): List<String> = args.flatMap { arg ->
+      if (arg.startsWith("@")) {
+        File(arg.substring(1)).readLines().filter { it.isNotEmpty() }
+      } else {
+        listOf(arg)
+      }
+    }
   }
 }
