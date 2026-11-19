@@ -18,10 +18,8 @@ package com.google.j2kt.k2k.model
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.Disposer
 
-internal class Library(
-  val compilationUnits: List<CompilationUnit>,
-  private val disposable: Disposable,
-) : AutoCloseable {
+class Library(val compilationUnits: List<CompilationUnit>, private val disposable: Disposable) :
+  AutoCloseable {
   override fun close() {
     Disposer.dispose(disposable)
   }

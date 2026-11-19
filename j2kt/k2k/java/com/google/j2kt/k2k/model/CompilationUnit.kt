@@ -17,4 +17,4 @@ package com.google.j2kt.k2k.model
 
 import org.jetbrains.kotlin.psi.KtFile
 
-internal class CompilationUnit(val fileInfo: FileInfo, val ktFile: KtFile)
+class CompilationUnit(val fileInfo: FileInfo, val ktFile: KtFile)

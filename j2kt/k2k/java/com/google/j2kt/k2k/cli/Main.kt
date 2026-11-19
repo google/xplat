@@ -13,8 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.google.j2kt.k2k
+package com.google.j2kt.k2k.cli
 
+import com.google.j2kt.k2k.Cleaner
 import com.google.j2kt.k2k.model.FileInfo
 import java.io.File
 

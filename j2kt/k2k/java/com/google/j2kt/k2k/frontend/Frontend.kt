@@ -22,7 +22,7 @@ import com.intellij.openapi.util.Disposer
 import java.io.File
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
-internal object Frontend {
+object Frontend {
   fun parseLibrary(sources: List<FileInfo>, classpath: List<File> = emptyList()): Library {
     val disposable = Disposer.newDisposable()
     try {

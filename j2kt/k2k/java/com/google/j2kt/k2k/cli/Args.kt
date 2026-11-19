@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.google.j2kt.k2k
+package com.google.j2kt.k2k.cli
 
 import java.io.File
 import org.kohsuke.args4j.Argument
