@@ -6,9 +6,9 @@ K2K is a Kotlin cleanup tool designed to post-process Kotlin code transpiled fro
 
 Readable tests are organized under `javatests/com/google/j2kt/k2k/readable/<name>/`:
 
-- **`BUILD`**: Declares a `readable_example` target that cleans input `.kt` files, verifies that the cleaned Kotlin compiles via `kt_jvm_library`, and compares the output against `output/`.
-- **`<file>.kt`**: Input Kotlin source produced by J2KT.
-- **`output/<file>.kt.txt`**: Expected cleaned golden output.
+- **`BUILD`**: Declares a `readable_example` target that cleans input `.kt` files (optionally generating readable `.kt.mappings` source maps), verifies that the cleaned Kotlin compiles via `kt_jvm_library`, and compares the output against `output/`.
+- **`<file>.kt`**: Input Kotlin source.
+- **`output/<file>.kt.txt`** (plus optional **`output/<file>.kt.mappings.txt`**): Expected cleaned golden outputs.
 
 ## Workflow
 

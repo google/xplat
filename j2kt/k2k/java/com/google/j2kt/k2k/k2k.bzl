@@ -3,10 +3,19 @@
 load("//third_party/bazel_rules/rules_java/java/common:java_info.bzl", "JavaInfo")
 
 def _k2k_clean_impl(ctx):
-    outputs = []
+    kt_outputs = []
+    map_outputs = []
+    readable_map_outputs = []
     for src in ctx.files.srcs:
         out = ctx.actions.declare_file(ctx.label.name + "/" + src.path)
-        outputs.append(out)
+        kt_outputs.append(out)
+        map_out = ctx.actions.declare_file(ctx.label.name + "/" + src.path + ".map")
+        map_outputs.append(map_out)
+        if ctx.attr.readable_source_maps:
+            readable_map_out = ctx.actions.declare_file(
+                ctx.label.name + "/" + src.path + ".mappings",
+            )
+            readable_map_outputs.append(readable_map_out)
 
     classpath_depset = depset(
         transitive = [
@@ -25,6 +34,8 @@ def _k2k_clean_impl(ctx):
     args.use_param_file("@%s", use_always = True)
     args.set_param_file_format("multiline")
     args.add("-output", output_dir)
+    if ctx.attr.readable_source_maps:
+        args.add("-readablesourcemaps")
     args.add_joined("-classpath", classpath_depset, join_with = ctx.configuration.host_path_separator)
     args.add_all(ctx.files.srcs)
 
@@ -33,26 +44,37 @@ def _k2k_clean_impl(ctx):
             direct = ctx.files.srcs,
             transitive = [classpath_depset],
         ),
-        outputs = outputs,
+        outputs = kt_outputs + map_outputs + readable_map_outputs,
         executable = ctx.executable._cleaner,
         arguments = [args],
         mnemonic = "K2kClean",
         progress_message = "Cleaning Kotlin sources: %{label}",
     )
 
-    return [DefaultInfo(files = depset(outputs))]
+    return [
+        DefaultInfo(files = depset(kt_outputs)),
+        OutputGroupInfo(
+            kt = depset(kt_outputs),
+            source_maps = depset(map_outputs),
+            readable_source_maps = depset(readable_map_outputs),
+        ),
+    ]
 
 k2k_clean = rule(
     implementation = _k2k_clean_impl,
     attrs = {
         "srcs": attr.label_list(
             mandatory = True,
-            allow_files = True,
+            allow_files = [".kt"],
             doc = "The list of Kotlin source files to clean.",
         ),
         "deps": attr.label_list(
             doc = "The list of compiled libraries / dependencies to put on the classpath.",
             providers = [JavaInfo],
+        ),
+        "readable_source_maps": attr.bool(
+            default = False,
+            doc = "Whether to generate human-readable .kt.mappings files.",
         ),
         "_cleaner": attr.label(
             default = Label("//third_party/java_src/xplat/j2kt/k2k/java/com/google/j2kt/k2k:cleaner"),

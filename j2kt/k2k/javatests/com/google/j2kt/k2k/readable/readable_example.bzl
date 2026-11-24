@@ -8,24 +8,28 @@ load("//tools/build_defs/kotlin:rules.bzl", "kt_jvm_library")
 def readable_example(
         srcs,
         deps = [],
+        generate_readable_source_maps = False,
         name = "readable"):
     """Cleans Kotlin sources and verifies readable golden outputs and compilability.
 
     Args:
       srcs: The Kotlin source files to clean.
       deps: Dependencies required to compile the Kotlin sources.
+      generate_readable_source_maps: Whether to include readable .kt.mappings files in the golden check.
       name: Base name for the generated library target.
     """
     k2k_clean(
         name = "cleaned",
         srcs = srcs,
         deps = deps,
+        readable_source_maps = generate_readable_source_maps,
     )
 
     _golden_output(
         testonly = 1,
         name = "readable_golden",
         target = ":cleaned",
+        include_readable_source_maps = generate_readable_source_maps,
     )
 
     sh_test(
@@ -56,14 +60,17 @@ def _golden_output_impl(ctx):
     output = ctx.actions.declare_directory(ctx.label.name)
     pkg = ctx.label.package + "/" if ctx.label.package else ""
     prefix = pkg + ctx.attr.target.label.name + "/" + pkg
+    files = list(ctx.files.target)
+    if ctx.attr.include_readable_source_maps:
+        files.extend(ctx.attr.target[OutputGroupInfo].readable_source_maps.to_list())
     args = ctx.actions.args()
     args.add(output.path)
-    for f in ctx.files.target:
+    for f in files:
         rel = f.short_path.removeprefix(prefix)
         args.add(f.path)
         args.add(rel + ".txt")
     ctx.actions.run_shell(
-        inputs = ctx.files.target,
+        inputs = files,
         outputs = [output],
         arguments = [args],
         mnemonic = "K2kGoldenOutputCopy",
@@ -78,6 +85,9 @@ _golden_output = rule(
         "target": attr.label(
             allow_files = True,
             mandatory = True,
+        ),
+        "include_readable_source_maps": attr.bool(
+            default = False,
         ),
     },
 )

@@ -23,7 +23,11 @@ import java.io.File
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
 object Frontend {
-  fun parseLibrary(sources: List<FileInfo>, classpath: List<File> = emptyList()): Library {
+  fun parseLibrary(
+    sources: List<FileInfo>,
+    classpath: List<File> = emptyList(),
+    captureOriginalText: Boolean = false,
+  ): Library {
     val disposable = Disposer.newDisposable()
     try {
       val environment = FrontendKotlinCoreEnvironment.create(disposable, classpath)
@@ -33,6 +37,7 @@ object Frontend {
         CompilationUnit(
           fileInfo = fileInfo,
           ktFile = psiFactory.createFile(fileInfo.inputPath.path, content),
+          captureOriginalText = captureOriginalText,
         )
       }
       return Library(compilationUnits, disposable)

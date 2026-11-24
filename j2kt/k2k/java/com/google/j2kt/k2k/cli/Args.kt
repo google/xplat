@@ -28,6 +28,8 @@ internal class Args {
 
   @Option(name = "-classpath", metaVar = "<path>") var classpath: String = ""
 
+  @Option(name = "-readablesourcemaps") var readableSourceMaps: Boolean = false
+
   companion object {
     fun parse(rawArgs: Array<String>): Args =
       Args().apply { CmdLineParser(this).parseArgument(expandFlagFile(rawArgs)) }

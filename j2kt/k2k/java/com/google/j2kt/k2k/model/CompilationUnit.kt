@@ -15,6 +15,38 @@
  */
 package com.google.j2kt.k2k.model
 
+import com.google.debugging.sourcemap.SourceMapGeneratorV3
 import org.jetbrains.kotlin.psi.KtFile
 
-class CompilationUnit(val fileInfo: FileInfo, val ktFile: KtFile)
+/** A compilation unit consisting of a Kotlin file and its captured pre-cleanup source positions. */
+class CompilationUnit(
+  val fileInfo: FileInfo,
+  val ktFile: KtFile,
+  captureOriginalText: Boolean = false,
+) {
+  private val originalText: String? = if (captureOriginalText) ktFile.text else null
+  private val trackedNodes: List<TrackedSourceNode> = captureOriginalSourcePositions(ktFile)
+
+  /** Generates a standalone SourceMap V3 JSON mapping original positions to the current AST. */
+  fun generateSourceMap(): String {
+    val generator = SourceMapGeneratorV3()
+    for (mapping in resolveSourceMappings(ktFile, trackedNodes)) {
+      generator.addMapping(
+        fileInfo.inputPath.name,
+        mapping.original.name,
+        mapping.original.start,
+        mapping.start,
+        mapping.end,
+      )
+    }
+    return buildString { generator.appendTo(this, fileInfo.outputPath.name) }
+  }
+
+  /** Generates J2CL-style human-readable `.kt.mappings` from original to current AST spans. */
+  fun generateReadableSourceMap(): String =
+    ReadableSourceMaps.generate(
+      checkNotNull(originalText) { "Original text was not captured for ${fileInfo.inputPath}" },
+      ktFile.text,
+      resolveSourceMappings(ktFile, trackedNodes),
+    )
+}

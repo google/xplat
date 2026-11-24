@@ -16,20 +16,40 @@
 package com.google.j2kt.k2k
 
 import com.google.j2kt.k2k.frontend.Frontend
+import com.google.j2kt.k2k.model.CompilationUnit
 import com.google.j2kt.k2k.model.FileInfo
 import com.google.j2kt.k2k.model.Library
 import java.io.File
 
 object Cleaner {
-  fun clean(sources: List<FileInfo>, classpath: List<File> = emptyList()) {
+  fun clean(
+    sources: List<FileInfo>,
+    classpath: List<File> = emptyList(),
+    readableSourceMaps: Boolean = false,
+  ) {
     if (sources.isEmpty()) return
-    Frontend.parseLibrary(sources, classpath).use { library -> generateOutputs(library) }
-  }
-
-  private fun generateOutputs(library: Library) {
-    for (unit in library.compilationUnits) {
-      unit.fileInfo.outputPath.parentFile?.mkdirs()
-      unit.fileInfo.outputPath.writeText(unit.ktFile.text)
+    Frontend.parseLibrary(sources, classpath, captureOriginalText = readableSourceMaps).use {
+      library ->
+      library.writeOutputs(readableSourceMaps)
     }
   }
+}
+
+private fun Library.writeOutputs(readableSourceMaps: Boolean) {
+  for (unit in compilationUnits) {
+    unit.writeOutputs(readableSourceMaps)
+  }
+}
+
+private fun CompilationUnit.writeOutputs(readableSourceMaps: Boolean) {
+  fileInfo.outputPath.writeOutput(ktFile.text)
+  File("${fileInfo.outputPath.path}.map").writeOutput(generateSourceMap())
+  if (readableSourceMaps) {
+    File("${fileInfo.outputPath.path}.mappings").writeOutput(generateReadableSourceMap())
+  }
+}
+
+private fun File.writeOutput(content: String) {
+  parentFile?.mkdirs()
+  writeText(content)
 }

@@ -28,6 +28,10 @@ object Main {
         FileInfo(inputPath = inFile, outputPath = File(args.output, inFile.path))
       }
     val classpath = args.classpath.split(File.pathSeparator).filter { it.isNotEmpty() }.map(::File)
-    Cleaner.clean(sources = sources, classpath = classpath)
+    Cleaner.clean(
+      sources = sources,
+      classpath = classpath,
+      readableSourceMaps = args.readableSourceMaps,
+    )
   }
 }
