@@ -42,4 +42,24 @@ public class PatternSyntaxException extends IllegalArgumentException {
   public String getDescription() {
     return description;
   }
+
+  @Override
+  public String getMessage() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(description);
+    if (index >= 0) {
+      sb.append(" near index ");
+      sb.append(index);
+    }
+    sb.append('\n');
+    sb.append(regex);
+    if (index >= 0 && regex != null && index < regex.length()) {
+      sb.append('\n');
+      for (int i = 0; i < index; i++) {
+        sb.append(regex.charAt(i) == '\t' ? '\t' : ' ');
+      }
+      sb.append('^');
+    }
+    return sb.toString();
+  }
 }

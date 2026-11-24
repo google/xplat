@@ -151,7 +151,7 @@ fun String.regionMatches(
       otherOffset + len <= other.length
   else regionMatches(thisOffset, other, otherOffset, len, ignoreCase = ignoreCase)
 
-@HiddenFromObjC fun String.java_matches(regex: String) = Regex(regex).matches(this)
+@HiddenFromObjC fun String.java_matches(regex: String) = Pattern.matches(regex, this)
 
 @HiddenFromObjC
 fun String.split(regularExpression: String): Array<String> =

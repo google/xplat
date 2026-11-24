@@ -18,7 +18,6 @@
 package java.util.regex
 
 import kotlin.experimental.ExperimentalObjCRefinement
-import kotlin.math.max
 
 /** The result of applying a `Pattern` to a given input. */
 class Matcher(private var pattern: Pattern, private var input: CharSequence) {
@@ -31,8 +30,13 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
   /** Holds the active region of the input. */
   private var region: String = input.toString()
 
-  /** Holds the position where the next find operation will take place. */
-  private var findPos = 0
+  /** Start index (within [region]) of the previous match, or -1 if no match is active. */
+  private var lastMatchStart = -1
+
+  /**
+   * End index (within [region]) of the previous match, used as the starting position for find().
+   */
+  private var lastMatchEnd = 0
 
   private var matchResult: kotlin.text.MatchResult? = null
 
@@ -54,9 +58,11 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    */
   @HiddenFromObjC
   fun appendReplacement(sb: StringBuilder, replacement: String): Matcher {
-    sb.append(region.subSequence(appendPosition, start()))
+    val matchStart = start()
+    val matchEnd = end()
+    sb.append(input.subSequence(appendPosition, matchStart))
     sb.append(replacement)
-    appendPosition = end()
+    appendPosition = matchEnd
     return this
   }
 
@@ -70,8 +76,8 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    */
   @HiddenFromObjC
   fun appendTail(sb: StringBuilder): StringBuilder {
-    sb.append(region.subSequence(appendPosition, region.length))
-    appendPosition = region.length
+    sb.append(input.subSequence(appendPosition, input.length))
+    appendPosition = input.length
     return sb
   }
 
@@ -113,11 +119,13 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
     if (start < 0 || end < 0 || start > input.length || end > input.length || start > end) {
       throw IndexOutOfBoundsException()
     }
-    this.input = input.toString()
+    this.input = input
     regionStart = start
-    region = input.substring(start, end)
+    region = input.subSequence(start, end).toString()
     matchResult = null
-    findPos = 0
+    lastMatchStart = -1
+    lastMatchEnd = 0
+    appendPosition = 0
     return this
   }
 
@@ -184,17 +192,20 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
   }
 
   /**
-   * Returns the next occurrence of the [Pattern] in the input. The method starts the search from
-   * the given character in the input.
+   * Resets this matcher and then attempts to find the next occurrence of the [Pattern] in the
+   * input, starting at the specified index.
    *
-   * @param start The index in the input at which the find operation is to begin. If this is less
-   *   than the start of the region, it is automatically adjusted to that value. If it is beyond the
-   *   end of the region, the method will fail.
+   * @param start The index in the input at which the find operation is to begin.
    * @return true if (and only if) a match has been found.
+   * @throws IndexOutOfBoundsException if [start] is less than zero or greater than the length of
+   *   the input sequence.
    */
   fun find(start: Int): Boolean {
-    findPos = max(start - regionStart, 0)
-    return find()
+    if (start < 0 || start > input.length) {
+      throw IndexOutOfBoundsException("Illegal start index")
+    }
+    reset()
+    return op { it.find(region, start) }
   }
 
   /** Performs a kotlin regex operation and maps the result to the corresponding state here. */
@@ -202,9 +213,11 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
     val result = op(pattern.regex)
     matchResult = result
     return if (result != null) {
-      findPos = result.range.endInclusive + 1
+      lastMatchStart = result.range.first
+      lastMatchEnd = result.range.last + 1
       true
     } else {
+      lastMatchStart = -1
       false
     }
   }
@@ -217,13 +230,18 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    * @return true if (and only if) a match has been found.
    */
   fun find(): Boolean {
-    if (findPos < 0) {
-      findPos = 0
-    } else if (findPos >= region.length) {
+    var nextSearchIndex = lastMatchEnd
+    if (nextSearchIndex == lastMatchStart) {
+      nextSearchIndex++
+    }
+    if (nextSearchIndex < 0) {
+      nextSearchIndex = 0
+    }
+    if (nextSearchIndex > region.length) {
       matchResult = null
       return false
     }
-    return op { it.find(region, findPos) }
+    return op { it.find(region, nextSearchIndex) }
   }
 
   /**
@@ -233,7 +251,7 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    *
    * @return true if (and only if) the `Pattern` matches.
    */
-  fun lookingAt() = op { it.matchAt(region, 0) }
+  fun lookingAt(): Boolean = op { it.matchAt(region, 0) }
 
   /**
    * Tries to match the [Pattern] against the entire region (or the entire input, if no region has
@@ -241,7 +259,7 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    *
    * @return true if (and only if) the `Pattern` matches the entire region.
    */
-  fun matches() = op { it.matchEntire(region) }
+  fun matches(): Boolean = op { it.matchEntire(region) }
 
   /**
    * Returns the index of the first character of the text that matched a given group.
