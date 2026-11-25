@@ -2,6 +2,11 @@
 
 load("//third_party/bazel_rules/rules_java/java/common:java_info.bzl", "JavaInfo")
 
+# Copied from _derive_module_name in //third_party/bazel_rules/rules_kotlin/kotlin/common.bzl
+# to match rules_kotlin's module naming without depending on its internal helper.
+def _derive_module_name(ctx):
+    return "_".join([p for p in [ctx.label.package, ctx.label.name] if p]).replace("/", ".")
+
 def _k2k_clean_impl(ctx):
     kt_outputs = []
     map_outputs = []
@@ -36,6 +41,8 @@ def _k2k_clean_impl(ctx):
     args.add("-output", output_dir)
     if ctx.attr.readable_source_maps:
         args.add("-readablesourcemaps")
+    kotlincopts = ["-module-name=" + _derive_module_name(ctx)] + ctx.attr.kotlincopts
+    args.add_all(kotlincopts, format_each = "-kotlincOptions=%s")
     args.add_joined("-classpath", classpath_depset, join_with = ctx.configuration.host_path_separator)
     args.add_all(ctx.files.srcs)
 
@@ -71,6 +78,9 @@ k2k_clean = rule(
         "deps": attr.label_list(
             doc = "The list of compiled libraries / dependencies to put on the classpath.",
             providers = [JavaInfo],
+        ),
+        "kotlincopts": attr.string_list(
+            doc = "Additional kotlinc flags passed to K2K FIR analysis.",
         ),
         "readable_source_maps": attr.bool(
             default = False,

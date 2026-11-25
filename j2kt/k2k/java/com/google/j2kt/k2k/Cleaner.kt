@@ -25,13 +25,20 @@ object Cleaner {
   fun clean(
     sources: List<FileInfo>,
     classpath: List<File> = emptyList(),
+    kotlincOptions: List<String> = emptyList(),
     readableSourceMaps: Boolean = false,
   ) {
     if (sources.isEmpty()) return
-    Frontend.parseLibrary(sources, classpath, captureOriginalText = readableSourceMaps).use {
-      library ->
-      library.writeOutputs(readableSourceMaps)
-    }
+    Frontend.parseLibrary(
+        sources,
+        classpath,
+        kotlincOptions = kotlincOptions,
+        captureOriginalText = readableSourceMaps,
+      )
+      .use { library ->
+        Frontend.resolveFir(library)
+        library.writeOutputs(readableSourceMaps)
+      }
   }
 }
 

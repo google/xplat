@@ -16,6 +16,7 @@
 package com.google.j2kt.k2k.model
 
 import com.google.debugging.sourcemap.SourceMapGeneratorV3
+import org.jetbrains.kotlin.fir.declarations.FirFile
 import org.jetbrains.kotlin.psi.KtFile
 
 /** A compilation unit consisting of a Kotlin file and its captured pre-cleanup source positions. */
@@ -23,6 +24,7 @@ class CompilationUnit(
   val fileInfo: FileInfo,
   val ktFile: KtFile,
   captureOriginalText: Boolean = false,
+  var firFile: FirFile? = null,
 ) {
   private val originalText: String? = if (captureOriginalText) ktFile.text else null
   private val trackedNodes: List<TrackedSourceNode> = captureOriginalSourcePositions(ktFile)

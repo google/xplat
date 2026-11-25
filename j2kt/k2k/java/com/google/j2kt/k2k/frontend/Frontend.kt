@@ -20,17 +20,21 @@ import com.google.j2kt.k2k.model.FileInfo
 import com.google.j2kt.k2k.model.Library
 import com.intellij.openapi.util.Disposer
 import java.io.File
+import org.jetbrains.kotlin.fir.declarations.FirFile
+import org.jetbrains.kotlin.fir.pipeline.buildFirFromKtFiles
+import org.jetbrains.kotlin.fir.pipeline.runResolution
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
 object Frontend {
   fun parseLibrary(
     sources: List<FileInfo>,
     classpath: List<File> = emptyList(),
+    kotlincOptions: List<String> = emptyList(),
     captureOriginalText: Boolean = false,
   ): Library {
     val disposable = Disposer.newDisposable()
     try {
-      val environment = FrontendKotlinCoreEnvironment.create(disposable, classpath)
+      val environment = FrontendKotlinCoreEnvironment.create(disposable, classpath, kotlincOptions)
       val psiFactory = KtPsiFactory(environment.project)
       val compilationUnits = sources.map { fileInfo ->
         val content = fileInfo.inputPath.readText()
@@ -40,10 +44,17 @@ object Frontend {
           captureOriginalText = captureOriginalText,
         )
       }
-      return Library(compilationUnits, disposable)
+      return Library(compilationUnits, environment, disposable)
     } catch (t: Throwable) {
       Disposer.dispose(disposable)
       throw t
     }
+  }
+
+  fun resolveFir(library: Library) {
+    val session = FrontendFirSession.create(library.environment, library.ktFiles)
+    val rawFirFiles: List<FirFile> = session.buildFirFromKtFiles(library.ktFiles)
+    val (scopeSession, resolvedFirFiles) = session.runResolution(rawFirFiles)
+    library.attachFir(scopeSession, resolvedFirFiles)
   }
 }

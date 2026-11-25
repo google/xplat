@@ -31,6 +31,7 @@ object Main {
     Cleaner.clean(
       sources = sources,
       classpath = classpath,
+      kotlincOptions = args.kotlincOptions,
       readableSourceMaps = args.readableSourceMaps,
     )
   }

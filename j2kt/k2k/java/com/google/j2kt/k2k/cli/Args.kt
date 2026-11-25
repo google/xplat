@@ -28,6 +28,9 @@ internal class Args {
 
   @Option(name = "-classpath", metaVar = "<path>") var classpath: String = ""
 
+  @Option(name = "-kotlincOptions", metaVar = "<option>")
+  var kotlincOptions: MutableList<String> = mutableListOf()
+
   @Option(name = "-readablesourcemaps") var readableSourceMaps: Boolean = false
 
   companion object {

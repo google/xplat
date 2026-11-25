@@ -17,25 +17,43 @@ package com.google.j2kt.k2k.frontend
 
 import com.intellij.openapi.Disposable
 import java.io.File
-import org.jetbrains.kotlin.cli.extensionsStorage
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.parseCommandLineArguments
+import org.jetbrains.kotlin.cli.common.arguments.validateArguments
+import org.jetbrains.kotlin.cli.common.diagnosticsCollector
+import org.jetbrains.kotlin.cli.common.setupCommonArguments
+import org.jetbrains.kotlin.cli.create
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.cli.jvm.config.addJvmClasspathRoots
-import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
-import org.jetbrains.kotlin.config.CommonConfigurationKeys
+import org.jetbrains.kotlin.cli.jvm.setupJvmSpecificArguments
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.config.moduleName
+import org.jetbrains.kotlin.metadata.deserialization.MetadataVersion
 
-/** Factory for creating a standalone [KotlinCoreEnvironment]. */
+/** Factory for creating a standalone [KotlinCoreEnvironment] configured for K2 FIR analysis. */
 internal object FrontendKotlinCoreEnvironment {
-  fun create(disposable: Disposable, classpath: List<File> = emptyList()): KotlinCoreEnvironment {
-    // CompilerConfiguration(), MESSAGE_COLLECTOR_KEY, and ExtensionStorage() are guarded by
-    // internal @RequiresOptIn annotations in kotlin-compiler for standalone CLI setup.
-    @Suppress("OPT_IN_USAGE_ERROR")
+  fun create(
+    disposable: Disposable,
+    classpath: List<File> = emptyList(),
+    kotlincOptions: List<String> = emptyList(),
+  ): KotlinCoreEnvironment {
     val configuration =
-      CompilerConfiguration().apply {
-        put(CommonConfigurationKeys.MESSAGE_COLLECTOR_KEY, FrontendMessageCollector)
+      CompilerConfiguration.create(messageCollector = FrontendMessageCollector).apply {
+        if (kotlincOptions.isNotEmpty()) {
+          val arguments = K2JVMCompilerArguments()
+          parseCommandLineArguments(kotlincOptions, arguments)
+          validateArguments(arguments.errors)?.let { error(it) }
+          setupCommonArguments(arguments) { versionArray -> MetadataVersion(*versionArray) }
+          setupJvmSpecificArguments(arguments)
+          arguments.moduleName?.let { moduleName = it }
+          check(!diagnosticsCollector.hasErrors) {
+            diagnosticsCollector.diagnostics
+              .filter { it.severity.isError }
+              .joinToString("\n") { it.renderMessage() }
+          }
+        }
         addJvmClasspathRoots(classpath)
-        extensionsStorage = CompilerPluginRegistrar.ExtensionStorage()
       }
 
     // KotlinCoreEnvironment.createForProduction is guarded by an internal @RequiresOptIn annotation
