@@ -21,99 +21,323 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public enum TimeUnit {
   NANOSECONDS {
-    public long toNanos(long d)   { return d; }
-    public long toMicros(long d)  { return d / C1_C0; }
-    public long toMillis(long d)  { return d / C2_C0; }
-    public long toSeconds(long d) { return d / C3_C0; }
-    public long toMinutes(long d) { return d / C4_C0; }
-    public long toHours(long d)   { return d / C5_C0; }
-    public long toDays(long d)    { return d / C6_C0; }
-    public long convert(long d, TimeUnit u) { return u.toNanos(d); }
+    @Override
+    public long toNanos(long d) {
+      return d;
+    }
 
+    @Override
+    public long toMicros(long d) {
+      return d / C1_C0;
+    }
+
+    @Override
+    public long toMillis(long d) {
+      return d / C2_C0;
+    }
+
+    @Override
+    public long toSeconds(long d) {
+      return d / C3_C0;
+    }
+
+    @Override
+    public long toMinutes(long d) {
+      return d / C4_C0;
+    }
+
+    @Override
+    public long toHours(long d) {
+      return d / C5_C0;
+    }
+
+    @Override
+    public long toDays(long d) {
+      return d / C6_C0;
+    }
+
+    @Override
+    public long convert(long d, TimeUnit u) {
+      return u.toNanos(d);
+    }
+
+    @Override
     int excessNanos(long d, long m) {
       return (int) (d - (m * C2));
     }
   },
   MICROSECONDS {
-    public long toNanos(long d)   { return x(d, C1_C0, MAX_C1_C0); }
-    public long toMicros(long d)  { return d; }
-    public long toMillis(long d)  { return d / C2_C1; }
-    public long toSeconds(long d) { return d / C3_C1; }
-    public long toMinutes(long d) { return d / C4_C1; }
-    public long toHours(long d)   { return d / C5_C1; }
-    public long toDays(long d)    { return d / C6_C1; }
-    public long convert(long d, TimeUnit u) { return u.toMicros(d); }
+    @Override
+    public long toNanos(long d) {
+      return x(d, C1_C0, MAX_C1_C0);
+    }
 
+    @Override
+    public long toMicros(long d) {
+      return d;
+    }
+
+    @Override
+    public long toMillis(long d) {
+      return d / C2_C1;
+    }
+
+    @Override
+    public long toSeconds(long d) {
+      return d / C3_C1;
+    }
+
+    @Override
+    public long toMinutes(long d) {
+      return d / C4_C1;
+    }
+
+    @Override
+    public long toHours(long d) {
+      return d / C5_C1;
+    }
+
+    @Override
+    public long toDays(long d) {
+      return d / C6_C1;
+    }
+
+    @Override
+    public long convert(long d, TimeUnit u) {
+      return u.toMicros(d);
+    }
+
+    @Override
     int excessNanos(long d, long m) {
       return (int) ((d * C1) - (m * C2));
     }
   },
   MILLISECONDS {
-    public long toNanos(long d)   { return x(d, C2_C0, MAX_C2_C0); }
-    public long toMicros(long d)  { return x(d, C2_C1, MAX_C2_C1); }
-    public long toMillis(long d)  { return d; }
-    public long toSeconds(long d) { return d / C3_C2; }
-    public long toMinutes(long d) { return d / C4_C2; }
-    public long toHours(long d)   { return d / C5_C2; }
-    public long toDays(long d)    { return d / C6_C2; }
-    public long convert(long d, TimeUnit u) { return u.toMillis(d); }
+    @Override
+    public long toNanos(long d) {
+      return x(d, C2_C0, MAX_C2_C0);
+    }
 
+    @Override
+    public long toMicros(long d) {
+      return x(d, C2_C1, MAX_C2_C1);
+    }
+
+    @Override
+    public long toMillis(long d) {
+      return d;
+    }
+
+    @Override
+    public long toSeconds(long d) {
+      return d / C3_C2;
+    }
+
+    @Override
+    public long toMinutes(long d) {
+      return d / C4_C2;
+    }
+
+    @Override
+    public long toHours(long d) {
+      return d / C5_C2;
+    }
+
+    @Override
+    public long toDays(long d) {
+      return d / C6_C2;
+    }
+
+    @Override
+    public long convert(long d, TimeUnit u) {
+      return u.toMillis(d);
+    }
+
+    @Override
     int excessNanos(long d, long m) {
       return 0;
     }
   },
   SECONDS {
-    public long toNanos(long d)   { return x(d, C3_C0, MAX_C3_C0); }
-    public long toMicros(long d)  { return x(d, C3_C1, MAX_C3_C1); }
-    public long toMillis(long d)  { return x(d, C3_C2, MAX_C3_C2); }
-    public long toSeconds(long d) { return d; }
-    public long toMinutes(long d) { return d / C4_C3; }
-    public long toHours(long d)   { return d / C5_C3; }
-    public long toDays(long d)    { return d / C6_C3; }
-    public long convert(long d, TimeUnit u) { return u.toSeconds(d); }
+    @Override
+    public long toNanos(long d) {
+      return x(d, C3_C0, MAX_C3_C0);
+    }
 
+    @Override
+    public long toMicros(long d) {
+      return x(d, C3_C1, MAX_C3_C1);
+    }
+
+    @Override
+    public long toMillis(long d) {
+      return x(d, C3_C2, MAX_C3_C2);
+    }
+
+    @Override
+    public long toSeconds(long d) {
+      return d;
+    }
+
+    @Override
+    public long toMinutes(long d) {
+      return d / C4_C3;
+    }
+
+    @Override
+    public long toHours(long d) {
+      return d / C5_C3;
+    }
+
+    @Override
+    public long toDays(long d) {
+      return d / C6_C3;
+    }
+
+    @Override
+    public long convert(long d, TimeUnit u) {
+      return u.toSeconds(d);
+    }
+
+    @Override
     int excessNanos(long d, long m) {
       return 0;
     }
   },
   MINUTES {
-    public long toNanos(long d)   { return x(d, C4_C0, MAX_C4_C0); }
-    public long toMicros(long d)  { return x(d, C4_C1, MAX_C4_C1); }
-    public long toMillis(long d)  { return x(d, C4_C2, MAX_C4_C2); }
-    public long toSeconds(long d) { return x(d, C4_C3, MAX_C4_C3); }
-    public long toMinutes(long d) { return d; }
-    public long toHours(long d)   { return d / C5_C4; }
-    public long toDays(long d)    { return d / C6_C4; }
-    public long convert(long d, TimeUnit u) { return u.toMinutes(d); }
+    @Override
+    public long toNanos(long d) {
+      return x(d, C4_C0, MAX_C4_C0);
+    }
 
+    @Override
+    public long toMicros(long d) {
+      return x(d, C4_C1, MAX_C4_C1);
+    }
+
+    @Override
+    public long toMillis(long d) {
+      return x(d, C4_C2, MAX_C4_C2);
+    }
+
+    @Override
+    public long toSeconds(long d) {
+      return x(d, C4_C3, MAX_C4_C3);
+    }
+
+    @Override
+    public long toMinutes(long d) {
+      return d;
+    }
+
+    @Override
+    public long toHours(long d) {
+      return d / C5_C4;
+    }
+
+    @Override
+    public long toDays(long d) {
+      return d / C6_C4;
+    }
+
+    @Override
+    public long convert(long d, TimeUnit u) {
+      return u.toMinutes(d);
+    }
+
+    @Override
     int excessNanos(long d, long m) {
       return 0;
     }
   },
   HOURS {
-    public long toNanos(long d)   { return x(d, C5_C0, MAX_C5_C0); }
-    public long toMicros(long d)  { return x(d, C5_C1, MAX_C5_C1); }
-    public long toMillis(long d)  { return x(d, C5_C2, MAX_C5_C2); }
-    public long toSeconds(long d) { return x(d, C5_C3, MAX_C5_C3); }
-    public long toMinutes(long d) { return x(d, C5_C4, MAX_C5_C4); }
-    public long toHours(long d)   { return d; }
-    public long toDays(long d)    { return d / C6_C5; }
-    public long convert(long d, TimeUnit u) { return u.toHours(d); }
+    @Override
+    public long toNanos(long d) {
+      return x(d, C5_C0, MAX_C5_C0);
+    }
 
+    @Override
+    public long toMicros(long d) {
+      return x(d, C5_C1, MAX_C5_C1);
+    }
+
+    @Override
+    public long toMillis(long d) {
+      return x(d, C5_C2, MAX_C5_C2);
+    }
+
+    @Override
+    public long toSeconds(long d) {
+      return x(d, C5_C3, MAX_C5_C3);
+    }
+
+    @Override
+    public long toMinutes(long d) {
+      return x(d, C5_C4, MAX_C5_C4);
+    }
+
+    @Override
+    public long toHours(long d) {
+      return d;
+    }
+
+    @Override
+    public long toDays(long d) {
+      return d / C6_C5;
+    }
+
+    @Override
+    public long convert(long d, TimeUnit u) {
+      return u.toHours(d);
+    }
+
+    @Override
     int excessNanos(long d, long m) {
       return 0;
     }
   },
   DAYS {
-    public long toNanos(long d)   { return x(d, C6_C0, MAX_C6_C0); }
-    public long toMicros(long d)  { return x(d, C6_C1, MAX_C6_C1); }
-    public long toMillis(long d)  { return x(d, C6_C2, MAX_C6_C2); }
-    public long toSeconds(long d) { return x(d, C6_C3, MAX_C6_C3); }
-    public long toMinutes(long d) { return x(d, C6_C4, MAX_C6_C4); }
-    public long toHours(long d)   { return x(d, C6_C5, MAX_C6_C5); }
-    public long toDays(long d)    { return d; }
-    public long convert(long d, TimeUnit u) { return u.toDays(d); }
+    @Override
+    public long toNanos(long d) {
+      return x(d, C6_C0, MAX_C6_C0);
+    }
 
+    @Override
+    public long toMicros(long d) {
+      return x(d, C6_C1, MAX_C6_C1);
+    }
+
+    @Override
+    public long toMillis(long d) {
+      return x(d, C6_C2, MAX_C6_C2);
+    }
+
+    @Override
+    public long toSeconds(long d) {
+      return x(d, C6_C3, MAX_C6_C3);
+    }
+
+    @Override
+    public long toMinutes(long d) {
+      return x(d, C6_C4, MAX_C6_C4);
+    }
+
+    @Override
+    public long toHours(long d) {
+      return x(d, C6_C5, MAX_C6_C5);
+    }
+
+    @Override
+    public long toDays(long d) {
+      return d;
+    }
+
+    @Override
+    public long convert(long d, TimeUnit u) {
+      return u.toDays(d);
+    }
+
+    @Override
     int excessNanos(long d, long m) {
       return 0;
     }
