@@ -140,6 +140,7 @@ public class RegexTest {
   public void testLiteralFlag() {
     Pattern literal = Pattern.compile("a.b[c]+(d)", Pattern.LITERAL);
     assertEquals("a.b[c]+(d)", literal.pattern());
+    assertEquals(0, literal.matcher("").groupCount());
     assertTrue(literal.matcher("a.b[c]+(d)").matches());
     assertFalse(literal.matcher("axbcd").matches());
 
@@ -329,6 +330,103 @@ public class RegexTest {
   }
 
   @Test
+  public void testNamedGroup() {
+    Pattern pattern = Pattern.compile("(?<word>[a-z]+)-(?<num>\\d+)(?<opt>!)?");
+    Matcher matcher = pattern.matcher("foo-42");
+    assertThrows(IllegalStateException.class, () -> matcher.group("word"));
+    assertTrue(matcher.matches());
+    assertEquals("foo", matcher.group("word"));
+    assertEquals("42", matcher.group("num"));
+    assertNull(matcher.group("opt"));
+    assertThrows(IllegalArgumentException.class, () -> matcher.group("missing"));
+  }
+
+  @Test
+  @SuppressWarnings("GoogleRegexCheck") // Intentionally tests java.util.regex group syntax.
+  public void testGroupCount_beforeMatch() {
+    assertEquals(0, Pattern.compile("").matcher("").groupCount());
+    assertEquals(2, Pattern.compile("(a)(b)").matcher("").groupCount());
+    assertEquals(2, Pattern.compile("(a)|(b)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("(a)\\1").matcher("").groupCount());
+    assertEquals(
+        1, Pattern.compile("(?:a)(?<named>b)(?=c)(?!d)(?<=e)(?<!f)(?>g)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("[(](a)[a-z&&[^()]]").matcher("").groupCount());
+    assertEquals(0, Pattern.compile("[]()]").matcher("").groupCount());
+    assertEquals(0, Pattern.compile("[^]()]").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("\\Q(a)(b)\\E(c)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("(a)\\Q(b)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("(a)\\Q\\").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("\\(a\\)(b)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("\\c[(a)").matcher("").groupCount());
+    assertEquals(0, Pattern.compile("\\c(").matcher("").groupCount());
+    assertEquals(
+        1, Pattern.compile("# (comment)\n(real)", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(
+        1, Pattern.compile("(real) # trailing comment", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(1, Pattern.compile("[a # [\n](b)", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(0, Pattern.compile("[a # ]\n(b)]", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(0, Pattern.compile("[ ]()]", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(0, Pattern.compile("[^ ]()]", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(1, Pattern.compile("(?x)a # (comment)\n(?-x)b#(real)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("(?x:a # (comment)\n)#(real)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("#(a)(?x)").matcher("").groupCount());
+    assertEquals(1, Pattern.compile("a#(b\n)(?x)").matcher("").groupCount());
+    assertEquals(
+        1,
+        Pattern.compile("# (comment)\n(?-x)b#(real)", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(0, Pattern.compile("# (\n(?-x)a", Pattern.COMMENTS).matcher("").groupCount());
+    assertEquals(1, Pattern.compile("(\u00e9)", Pattern.CANON_EQ).matcher("").groupCount());
+    assertEquals(1, Pattern.compile("\u0301(a)", Pattern.CANON_EQ).matcher("").groupCount());
+    assertEquals(0, Pattern.compile("(a)(b)", Pattern.LITERAL).matcher("").groupCount());
+
+    Matcher m = Pattern.compile("(a)(b)").matcher("ab");
+    assertEquals(2, m.groupCount());
+    assertTrue(m.matches());
+    assertEquals(2, m.groupCount());
+    m.reset("no match");
+    assertFalse(m.matches());
+    assertEquals(2, m.groupCount());
+  }
+
+  @Test
+  public void testAppendReplacement_groupReferencesAndEscapes() {
+    Matcher m = Pattern.compile("(?<k>\\w+)=(\\d+)(!)?").matcher("a=1 b=2!");
+    StringBuilder sb = new StringBuilder();
+    while (m.find()) {
+      m.appendReplacement(sb, "$2:${k}:$3:\\$\\\\[$0]");
+    }
+    m.appendTail(sb);
+    assertEquals("1:a::$\\[a=1] 2:b:!:$\\[b=2!]", sb.toString());
+
+    // Multi-digit group reference stops at largest valid group number.
+    Matcher multi = Pattern.compile("(a)(b)").matcher("ab");
+    assertTrue(multi.find());
+    StringBuilder multiSb = new StringBuilder();
+    multi.appendReplacement(multiSb, "$12-$21");
+    multi.appendTail(multiSb);
+    assertEquals("a2-b1", multiSb.toString());
+
+    // Invalid replacement syntax throws without consuming a fresh match or mutating sb.
+    Matcher invalid = Pattern.compile("(a)(b)").matcher("ab");
+    assertTrue(invalid.find());
+    StringBuilder invalidSb = new StringBuilder();
+    assertThrows(IllegalArgumentException.class, () -> invalid.appendReplacement(invalidSb, "\\"));
+    assertThrows(
+        IllegalArgumentException.class, () -> invalid.appendReplacement(invalidSb, "prefix-\\"));
+    assertThrows(IllegalArgumentException.class, () -> invalid.appendReplacement(invalidSb, "$"));
+    assertThrows(IllegalArgumentException.class, () -> invalid.appendReplacement(invalidSb, "$x"));
+    assertThrows(IndexOutOfBoundsException.class, () -> invalid.appendReplacement(invalidSb, "$3"));
+    assertThrows(
+        IllegalArgumentException.class, () -> invalid.appendReplacement(invalidSb, "${missing}"));
+    assertThrows(IllegalArgumentException.class, () -> invalid.appendReplacement(invalidSb, "${}"));
+    assertThrows(
+        IllegalArgumentException.class, () -> invalid.appendReplacement(invalidSb, "${unclosed"));
+    assertEquals("", invalidSb.toString());
+    invalid.appendReplacement(invalidSb, "$1");
+    assertEquals("a", invalidSb.toString());
+  }
+
+  @Test
   public void testAppendReplacement_withRegionAndReset() {
     Matcher m = Pattern.compile("cat").matcher("cat xxcatyy cat");
     m.region(4, 11);
@@ -346,6 +444,18 @@ public class RegexTest {
     }
     m.appendTail(afterReset);
     assertEquals("dog xxdogyy dog", afterReset.toString());
+  }
+
+  @Test
+  public void testReplaceAll_zeroWidthAndGroups() {
+    assertEquals("XX", Pattern.compile("a*").matcher("a").replaceAll("X"));
+    assertEquals("x", Pattern.compile("^$").matcher("").replaceAll("x"));
+    assertEquals("x", Pattern.compile("^(FALSE)?$").matcher("").replaceAll("x"));
+    assertEquals(
+        "1:a 2:b", Pattern.compile("(\\w+)=(\\d+)").matcher("a=1 b=2").replaceAll("$2:$1"));
+    assertEquals(
+        "1=a b=2",
+        Pattern.compile("(?<k>\\w+)=(?<v>\\d+)").matcher("a=1 b=2").replaceFirst("${v}=${k}"));
   }
 
   @Test

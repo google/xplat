@@ -15,11 +15,13 @@
  */
 package java.util.regex
 
+import kotlin.concurrent.Volatile
 import kotlin.text.Regex
 
 /** Kotlin Pattern implementation backed by kotlin.text.Regex. */
 class Pattern private constructor(private val pattern: String, private val flags: Int) {
   internal val regex: Regex
+  @Volatile private var cachedGroupCount = -1
 
   init {
     if (flags and ALL_FLAGS.inv() != 0) {
@@ -29,23 +31,29 @@ class Pattern private constructor(private val pattern: String, private val flags
       throw IllegalArgumentException("UNICODE_CHARACTER_CLASS flag not supported")
     }
     try {
-      val options = buildSet {
-        if (flags and CASE_INSENSITIVE != 0) add(RegexOption.IGNORE_CASE)
-        if (flags and MULTILINE != 0) add(RegexOption.MULTILINE)
-        if (flags and LITERAL != 0) {
-          add(RegexOption.LITERAL)
-        } else {
-          if (flags and CANON_EQ != 0) add(RegexOption.CANON_EQ)
-          if (flags and COMMENTS != 0) add(RegexOption.COMMENTS)
-          if (flags and DOTALL != 0) add(RegexOption.DOT_MATCHES_ALL)
-          if (flags and UNIX_LINES != 0) add(RegexOption.UNIX_LINES)
-        }
-        // UNICODE_CASE is already the default for RegexOption.IGNORE_CASE in Kotlin/Native.
-      }
-      regex = Regex(pattern, options)
+      regex = Regex(pattern, toRegexOptions(flags))
     } catch (e: RuntimeException) {
       throw PatternSyntaxException(e.message ?: "", pattern, -1)
     }
+  }
+
+  internal fun groupCount(): Int {
+    val cached = cachedGroupCount
+    if (cached >= 0) {
+      return cached
+    }
+    val count =
+      if (flags and LITERAL != 0) {
+        0
+      } else {
+        // Prepending "|" adds an empty leading alternative so matchEntire("") succeeds immediately
+        // without running pattern's NFA, while preserving all capturing groups and trailing syntax
+        // (such as COMMENTS or unclosed \Q). Use toRegexOptions(flags) rather than regex.options
+        // because top-level inline flags (e.g. (?x), (?-x)) mutate regex.options after compile.
+        Regex("|$pattern", toRegexOptions(flags)).matchEntire("")!!.groups.size - 1
+      }
+    cachedGroupCount = count
+    return count
   }
 
   fun flags() = flags
@@ -127,5 +135,19 @@ class Pattern private constructor(private val pattern: String, private val flags
     fun matches(regex: String, input: CharSequence) = compile(regex).matcher(input).matches()
 
     fun quote(s: String) = Regex.escape(s)
+
+    private fun toRegexOptions(flags: Int): Set<RegexOption> = buildSet {
+      if (flags and CASE_INSENSITIVE != 0) add(RegexOption.IGNORE_CASE)
+      if (flags and MULTILINE != 0) add(RegexOption.MULTILINE)
+      if (flags and LITERAL != 0) {
+        add(RegexOption.LITERAL)
+      } else {
+        if (flags and CANON_EQ != 0) add(RegexOption.CANON_EQ)
+        if (flags and COMMENTS != 0) add(RegexOption.COMMENTS)
+        if (flags and DOTALL != 0) add(RegexOption.DOT_MATCHES_ALL)
+        if (flags and UNIX_LINES != 0) add(RegexOption.UNIX_LINES)
+      }
+      // UNICODE_CASE is already the default for RegexOption.IGNORE_CASE in Kotlin/Native.
+    }
   }
 }

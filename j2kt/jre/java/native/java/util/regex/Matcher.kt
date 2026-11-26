@@ -58,10 +58,17 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    */
   @HiddenFromObjC
   fun appendReplacement(sb: StringBuilder, replacement: String): Matcher {
-    val matchStart = start()
-    val matchEnd = end()
-    sb.append(input.subSequence(appendPosition, matchStart))
-    sb.append(replacement)
+    val match = ensureMatch()
+    val matchStart = match.range.first + regionStart
+    val matchEnd = match.range.last + 1 + regionStart
+    val savedLength = sb.length
+    try {
+      sb.append(input, appendPosition, matchStart)
+      appendEvaluatedReplacement(sb, match, replacement)
+    } catch (e: RuntimeException) {
+      sb.setLength(savedLength)
+      throw e
+    }
     appendPosition = matchEnd
     return this
   }
@@ -76,9 +83,72 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
    */
   @HiddenFromObjC
   fun appendTail(sb: StringBuilder): StringBuilder {
-    sb.append(input.subSequence(appendPosition, input.length))
+    sb.append(input, appendPosition, input.length)
     appendPosition = input.length
     return sb
+  }
+
+  private fun appendEvaluatedReplacement(
+    result: StringBuilder,
+    match: kotlin.text.MatchResult,
+    replacement: String,
+  ) {
+    var i = 0
+    while (i < replacement.length) {
+      val c = replacement[i++]
+      if (c == '\\') {
+        require(i < replacement.length) { "character to be escaped is missing" }
+        result.append(replacement[i++])
+      } else if (c == '$') {
+        require(i < replacement.length) { "Illegal group reference: group index is missing" }
+        if (replacement[i] == '{') {
+          i++
+          val nameStart = i
+          require(i < replacement.length && isAsciiLetter(replacement[i])) {
+            "named capturing group has 0 length name or invalid start"
+          }
+          while (i < replacement.length && isAsciiAlphanumeric(replacement[i])) {
+            i++
+          }
+          require(i < replacement.length && replacement[i] == '}') {
+            "named capturing group is missing trailing '}'"
+          }
+          val groupName = replacement.substring(nameStart, i)
+          i++ // skip '}'
+          val group = match.groups[groupName]
+          if (group != null) {
+            result.append(group.value)
+          }
+        } else {
+          val firstDigit = replacement[i] - '0'
+          require(firstDigit in 0..9) { "Illegal group reference" }
+          var groupIndex = firstDigit
+          i++
+          val maxGroup = match.groups.size - 1
+          while (i < replacement.length) {
+            val nextDigit = replacement[i] - '0'
+            if (nextDigit < 0 || nextDigit > 9) {
+              break
+            }
+            val candidate = groupIndex * 10 + nextDigit
+            if (candidate < 0 || candidate > maxGroup) {
+              break
+            }
+            groupIndex = candidate
+            i++
+          }
+          if (groupIndex > maxGroup) {
+            throw IndexOutOfBoundsException("No group $groupIndex")
+          }
+          val group = match.groups[groupIndex]
+          if (group != null) {
+            result.append(group.value)
+          }
+        }
+      } else {
+        result.append(c)
+      }
+    }
   }
 
   /**
@@ -182,6 +252,15 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
   fun group(group: Int): String? = ensureMatch().groups[group]?.value
 
   /**
+   * Returns the input subsequence captured by the given named-capturing group during the previous
+   * match operation.
+   *
+   * @throws IllegalStateException if no successful match has been made.
+   * @throws IllegalArgumentException if there is no capturing group with the given name.
+   */
+  fun group(name: String): String? = ensureMatch().groups[name]?.value
+
+  /**
    * Returns the text that matched the whole regular expression.
    *
    * @return the text.
@@ -275,7 +354,7 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
   }
 
   /** Returns the number of capturing groups in this matcher's pattern. */
-  fun groupCount() = ensureMatch().groups.size - 1
+  fun groupCount(): Int = matchResult?.let { it.groups.size - 1 } ?: pattern.groupCount()
 
   /**
    * Returns the index of the first character following the text that matched a given group.
@@ -362,20 +441,40 @@ class Matcher(private var pattern: Pattern, private var input: CharSequence) {
   /**
    * Replaces the first subsequence of the input sequence that matches the pattern with the given
    * replacement string.
-   *
-   * Note that we don't try to emulate undocumented side effects of the original methods here.
    */
-  fun replaceFirst(replacement: String) = pattern.regex.replaceFirst(region, replacement)
+  fun replaceFirst(replacement: String): String {
+    reset()
+    if (!find()) {
+      return input.toString()
+    }
+    val sb = StringBuilder()
+    appendReplacement(sb, replacement)
+    appendTail(sb)
+    return sb.toString()
+  }
 
   /**
-   * Replaces all subsequence of the input sequence matching the pattern with the given replacement
+   * Replaces all subsequences of the input sequence matching the pattern with the given replacement
    * string.
-   *
-   * Note that we don't try to emulate undocumented side effects of the original methods here.
    */
-  fun replaceAll(replacement: String) = pattern.regex.replace(region, replacement)
+  fun replaceAll(replacement: String): String {
+    reset()
+    if (find()) {
+      val sb = StringBuilder()
+      do {
+        appendReplacement(sb, replacement)
+      } while (find())
+      appendTail(sb)
+      return sb.toString()
+    }
+    return input.toString()
+  }
 
   companion object {
+    private fun isAsciiLetter(c: Char): Boolean = c in 'a'..'z' || c in 'A'..'Z'
+
+    private fun isAsciiAlphanumeric(c: Char): Boolean = isAsciiLetter(c) || c in '0'..'9'
+
     /**
      * Returns a replacement string for the given one that has all backslashes and dollar signs
      * escaped.
