@@ -278,9 +278,13 @@ class SourcePositionsTest {
     val file = tempFolder.newFile("Greeting.kt")
     file.writeText(source)
     val sourceMapJson =
-      Frontend.parseLibrary(listOf(FileInfo(file, file))).use { library ->
-        library.compilationUnits.single().generateSourceMap()
-      }
+      Frontend.parseLibrary(
+          sources = listOf(FileInfo(file, file)),
+          classpath = emptyList(),
+          kotlincOptions = emptyList(),
+          captureOriginalText = false,
+        )
+        .use { library -> library.compilationUnits.single().generateSourceMap() }
 
     val consumer = SourceMapConsumerV3()
     consumer.parse(sourceMapJson)
@@ -306,9 +310,13 @@ class SourcePositionsTest {
   private fun withParsedFile(source: String, block: (KtFile) -> Unit) {
     val file = tempFolder.newFile("Test.kt")
     file.writeText(source)
-    Frontend.parseLibrary(listOf(FileInfo(file, file))).use { library ->
-      block(library.compilationUnits.single().ktFile)
-    }
+    Frontend.parseLibrary(
+        sources = listOf(FileInfo(file, file)),
+        classpath = emptyList(),
+        kotlincOptions = emptyList(),
+        captureOriginalText = false,
+      )
+      .use { library -> block(library.compilationUnits.single().ktFile) }
   }
 
   private fun extractText(text: String, start: FilePosition, end: FilePosition): String {

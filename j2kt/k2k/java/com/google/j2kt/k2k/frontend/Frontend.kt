@@ -28,9 +28,9 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
 object Frontend {
   fun parseLibrary(
     sources: List<FileInfo>,
-    classpath: List<File> = emptyList(),
-    kotlincOptions: List<String> = emptyList(),
-    captureOriginalText: Boolean = false,
+    classpath: List<File>,
+    kotlincOptions: List<String>,
+    captureOriginalText: Boolean,
   ): Library {
     val disposable = Disposer.newDisposable()
     try {
@@ -51,8 +51,8 @@ object Frontend {
     }
   }
 
-  fun resolveFir(library: Library) {
-    val session = FrontendFirSession.create(library.environment, library.ktFiles)
+  fun resolveFir(library: Library, klibs: List<File>) {
+    val session = FrontendFirSession.create(library.environment, library.ktFiles, klibs)
     val rawFirFiles: List<FirFile> = session.buildFirFromKtFiles(library.ktFiles)
     val (scopeSession, resolvedFirFiles) = session.runResolution(rawFirFiles)
     library.attachFir(scopeSession, resolvedFirFiles)

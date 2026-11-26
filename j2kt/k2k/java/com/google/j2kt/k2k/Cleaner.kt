@@ -24,9 +24,10 @@ import java.io.File
 object Cleaner {
   fun clean(
     sources: List<FileInfo>,
-    classpath: List<File> = emptyList(),
-    kotlincOptions: List<String> = emptyList(),
-    readableSourceMaps: Boolean = false,
+    classpath: List<File>,
+    klibs: List<File>,
+    kotlincOptions: List<String>,
+    readableSourceMaps: Boolean,
   ) {
     if (sources.isEmpty()) return
     Frontend.parseLibrary(
@@ -36,7 +37,7 @@ object Cleaner {
         captureOriginalText = readableSourceMaps,
       )
       .use { library ->
-        Frontend.resolveFir(library)
+        Frontend.resolveFir(library, klibs)
         library.writeOutputs(readableSourceMaps)
       }
   }

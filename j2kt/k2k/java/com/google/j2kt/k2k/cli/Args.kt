@@ -28,6 +28,8 @@ internal class Args {
 
   @Option(name = "-classpath", metaVar = "<path>") var classpath: String = ""
 
+  @Option(name = "-klibs", metaVar = "<path>") var klibs: String = ""
+
   @Option(name = "-kotlincOptions", metaVar = "<option>")
   var kotlincOptions: MutableList<String> = mutableListOf()
 
